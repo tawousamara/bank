@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_import_ocr_passif" model="ir.actions.act_window">
+        <field name="name">Import passif</field>
+        <field name="res_model">import.ocr.passif</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="import_ocr_passif_view_tree" model="ir.ui.view">
+        <field name="name">import.ocr.passif.view.tree</field>
+        <field name="model">import.ocr.passif</field>
+        <field name="arch" type="xml">
+            <tree string="Import passif">
+                <field name="name"/>
+                <field name="company"/>
+                <field name="annee"/>
+                <field name="date"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="import_ocr_passif_view_form" model="ir.ui.view">
+        <field name="name">import.ocr.passif.view.form</field>
+        <field name="model">import.ocr.passif</field>
+        <field name="arch" type="xml">
+            <form string="Import passif">
+                <header>
+                    <button name="extract_data" string="Extraire les informations"
+                            class="btn-primary" type="object"/>
+                    <button name="action_validation" string="Valider"
+                            class="btn-primary" type="object"/>
+                    <button name="action_annulation" string="Annuler la validation"
+                            class="btn-secondary" type="object"/>
+                    <field name="state" widget="statusbar" nolabel="1"/>
+                </header>
+                <sheet>
+                    <div>
+                        <group col="4">
+                            <field name="name" readonly="1"/>
+                            <field name="date"/>
+                            <field name="company" readonly="1"/>
+                        </group>
+                        <group col="2">
+                            <field name="annee" readonly="1"/>
+                        </group>
+
+                        <div class="row">
+                            <separator/>
+                            <field name="file_import_name" invisible="1"/>
+                            <field name="file_import" filename="file_import_name" type="base64" class="col-4"/>
+                        </div>
+                    </div>
+                    <notebook>
+                        <page string="passif">
+                            <p name="confirmation_lines">
+                                Vous devriez confirmer les valeurs suivantes:
+                                <br/>
+                                - Total I
+                                <br/>
+                                - Emprunts et dettes financières
+                                <br/>
+                                - Fournisseurs et comptes rattachés
+                                <br/>
+                                - Trésorerie passifs
+                                <br/>
+                                - Total III
+                                <br/>
+                                - Total General Passif (I+II+III)
+                                <br/>
+                            </p>
+                            <field name="passif_lines" readonly="state == 'valide'"
+                                   options="{'no_create': True, 'no_open': True}">
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                    <field name="rubrique" options="{'no_create': True, 'no_open': True}"/>
+                                    <field name="montant_n"/>
+                                    <field name="montant_n1"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>

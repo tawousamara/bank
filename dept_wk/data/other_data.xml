@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- List type credit -->
+        <record id="classif_1" model="wk.classification">
+            <field name="name">Platinium</field>
+        </record>
+        <record id="classif_2" model="wk.classification">
+            <field name="name">Gold</field>
+        </record>
+        <record id="classif_3" model="wk.classification">
+            <field name="name">Silver</field>
+        </record>
+        <record id="fin_bank_4" model="wk.fin.banque">
+            <field name="name">Découvert Mobilisable</field>
+        </record>
+        <record id="fin_bank_5" model="wk.fin.banque">
+            <field name="name">SPOT Pré/Refinancement</field>
+        </record>
+        <record id="fin_bank_6" model="wk.fin.banque">
+            <field name="name">CMT</field>
+        </record>
+        <record id="fin_bank_7" model="wk.fin.banque">
+            <field name="name">Financement Douane</field>
+        </record>
+        <record id="fin_bank8" model="wk.fin.banque">
+            <field name="name">LC</field>
+        </record>
+        <record id="fin_bank9" model="wk.fin.banque">
+            <field name="name">AS Marché</field>
+        </record>
+        <record id="fin_bank10" model="wk.fin.banque">
+            <field name="name">Caution Marché</field>
+        </record>
+        <record id="fin_bank11" model="wk.fin.banque">
+            <field name="name">Lease Back</field>
+        </record>
+        <record id="fin_bank12" model="wk.fin.banque">
+            <field name="name">Financement Saisonière</field>
+        </record>
+        <record id="fin_bank13" model="wk.fin.banque">
+            <field name="name">بيع أجل/ مرابحة محلية</field>
+        </record>
+        <record id="fin_bank14" model="wk.fin.banque">
+            <field name="name">سقف اعتمادات مستنديه/بوالص تحصيل موصول ببيع أجل</field>
+        </record>
+        <record id="fin_bank15" model="wk.fin.banque">
+            <field name="name">سقف اعتمادات مستنديه/بوالص تحصيل موصول بسلم</field>
+        </record>
+        <record id="fin_bank16" model="wk.fin.banque">
+            <field name="name">سقف اعتمادات مستنديه/بوالص تحصيل عند ورود المستندات</field>
+        </record>
+        <record id="fin_bank17" model="wk.fin.banque">
+            <field name="name">سلم</field>
+        </record>
+        <record id="fin_bank18" model="wk.fin.banque">
+            <field name="name">بيع وكالة</field>
+        </record>
+        <record id="fin_bank19" model="wk.fin.banque">
+            <field name="name">استصناع</field>
+        </record>
+        <record id="fin_bank20" model="wk.fin.banque">
+            <field name="name">مضاربة</field>
+        </record>
+        <record id="fin_bank21" model="wk.fin.banque">
+            <field name="name">مشاركة</field>
+        </record>
+        <record id="fin_bank22" model="wk.fin.banque">
+            <field name="name">مساقاة</field>
+        </record>
+        <record id="fin_bank23" model="wk.fin.banque">
+            <field name="name">تمويل إيجاري</field>
+        </record>
+        <record id="fin_bank24" model="wk.fin.banque">
+            <field name="name">بيع أجل/ مرابحة متوسط المدى</field>
+        </record>
+        <record id="fin_bank25" model="wk.fin.banque">
+            <field name="name">بيع أجل/ مرابحة متوسط المدى</field>
+        </record>
+    </data>
+    <data noupdate="1">
+        <!-- List type credit -->
+        <record id="nature_jur1" model="wk.nature.juridique">
+            <field name="name">ملكية الشركة</field>
+        </record>
+        <record id="nature_jur2" model="wk.nature.juridique">
+            <field name="name">ملكية الشركاء</field>
+        </record>
+        <record id="nature_jur3" model="wk.nature.juridique">
+            <field name="name">مقر مستاجر</field>
+        </record>
+        <record id="nature_jur4" model="wk.nature.juridique">
+            <field name="name">ايجار تمويلي</field>
+        </record>
+        <record id="nature_jur5" model="wk.nature.juridique">
+            <field name="name">Concession</field>
+        </record>
+
+        <record id="analyse_perf_1" model="wk.analyse.performence">
+            <field name="name">تحليل</field>
+        </record>
+    </data>
+</odoo>

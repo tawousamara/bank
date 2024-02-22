@@ -1,0 +1,195 @@
+.button_secondary {
+  background-color: white;
+  color: #005243;
+  border: 2px solid #005243;
+  border-radius: 5px;
+  width: 150px;
+}
+
+.button_secondary:hover {
+  background-color: #005243;
+  color: white;
+}
+
+.button_confirm  {
+  background-color: #4CAF50;
+  color: white;
+  border: 2px solid #4CAF50;
+  border-radius: 5px;
+}
+.button_confirm:hover  {
+  background-color: #4CAF50;
+  color: white;
+}
+/**.o_main_navbar {
+    background-color: #005243;
+    border: #005243;
+}**/
+.btn-primary{
+    background-color: #005243;
+    border: none;
+    box-shadow: 0;
+}
+.btn-primary:hover{
+    background-color: #005243;
+    border: #005243;
+    box-shadow: 0 2px 6px 0 rgba(0,0,0,0.24),0 7px 5px 0 rgba(0,0,0,0.19);
+}
+.btn-primary:active{
+    background-color: #005243;
+    border: #005243;
+    box-shadow: 0 2px 6px 0 rgba(0,0,0,0.24),0 7px 5px 0 rgba(0,0,0,0.19);
+}
+.btn-primary:focus{
+    background-color: #005243;
+    border: #005243;
+    box-shadow: 0 2px 6px 0 rgba(0,0,0,0.24),0 7px 5px 0 rgba(0,0,0,0.19);
+}
+.o_form_view .o_horizontal_separator {
+    color: #005243;
+    font-weight: bold;
+    font-size: 120%;
+}
+.o_form_button_save:active{
+    background-color: #005243;
+    border: #005243;
+    box-shadow: 0 2px 6px 0 rgba(0,0,0,0.24),0 7px 5px 0 rgba(0,0,0,0.19);
+}
+.o_main_navbar > a.o_menu_toggle.hasImage > svg.o_menu_toggle_icon{
+    fill: red;
+}
+.o_main_navbar {
+    background-color: rgb(24, 110, 100,0.5);
+    border-bottom: 0px;
+}
+.o_main_navbar .show .dropdown-toggle {
+    background-color: rgb(24, 110, 100,0.5);}
+.o_main_navbar > ul > li > a:hover, .o_main_navbar
+   > ul > li > label:hover {
+   background-color: rgb(24, 110, 100,0.5);}
+.o_main_navbar > a:hover, .o_main_navbar > a:focus, .o_main_navbar > a, .o_main_navbar
+   > button:hover, .o_main_navbar
+   > button:focus {
+   background-color: rgb(24, 110, 100,0.5);
+   color: inherit;}
+.o_main_navbar > a:hover, .o_main_navbar > a:focus, .o_main_navbar
+   > button:hover, .o_main_navbar
+   > button:focus {
+   background-color: rgb(24, 110, 100,0.5);
+   color: inherit;}
+
+.breadcrumb-item > a{
+    color: #005243;
+}
+.o_back_button > a{
+color: #005243;}
+
+.o_main_navbar > .o_menu_sections > a.dropdown-item.o_nav_entry{
+    background-color: rgb(24, 110, 100,0);
+}
+.o_main_navbar > .o_menu_sections > div.o-dropdown.dropdown.o-dropdown--no-caret > button.dropdown-toggle{
+    background-color: rgb(24, 110, 100,0);
+}
+
+a{
+color: #005243;}
+
+a.o_form_uri.o_field_widget{
+color: #005243;}
+
+a.o_form_uri.o_field_widget.o_quick_editable > span{
+color: #005243;}
+
+span.fa.fa-download::before {
+color: #005243;}
+
+
+.o_form_view .o_form_statusbar > .o_statusbar_status > .o_arrow_button.btn-primary.disabled {
+background-color: #005243;
+border-left-color: #005243;}
+
+.o_form_view .o_form_statusbar > .o_statusbar_status > .o_arrow_button.btn-primary.disabled::after {
+               border-left-color: #005243;
+            }
+.o_form_view .o_form_statusbar > .o_statusbar_status > .o_arrow_button.btn-primary.disabled::before {
+   border-left-color: #005243;
+}
+/**
+div.o_statusbar_status.o_field_widget > button.btn.o_arrow_button.btn-primary.disabled::after {
+background-color: #005243;
+border-color: #005243;}**/
+.swot_table {
+  width:100%;
+  display: flex;
+}
+.swot_element{
+  width:50%;
+  padding: 2px;
+}
+
+.button_grp {
+            background-color: white;
+            padding: 0px;
+            position: absolute;/* Place the container at the top of the page */
+            width: 100%;
+            top:0;
+            right: 0;
+            text-align: right;
+            border-bottom: 1px groove #D3D3D3;
+        }
+
+        /* Style for the button */
+.button_open {
+            background-color: white ;
+            color:  #005243;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            border-left: 1px groove #D3D3D3;
+            border-bottom: 1px groove #D3D3D3;
+            border-radius: 0px;
+            font-size: 14px;/* To create space between the button and the right edge of the container */
+        }
+.button_open:hover {
+            background-color: #005243;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;/* To create space between the button and the right edge of the container */
+        }
+
+.button_tracking {
+            background-color: white ;
+            color:  #005243;
+            border: none;
+            padding: 10px 10px;
+            margin-left: 0px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            border-left: 1px groove #D3D3D3;
+            border-bottom: 1px groove #D3D3D3;
+            border-radius: 0px;
+            font-size: 14px;/* To create space between the button and the right edge of the container */
+        }
+.button_tracking:hover {
+            background-color: #005243;
+            color: white;
+            border: none;
+            padding: 10px 10px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;/* To create space between the button and the right edge of the container */
+        }
+
+td.o_data_cell.cursor-pointer.o_field_cell.o_list_number{
+    direction: rtl;
+    right: auto;
+    left: 0;
+}

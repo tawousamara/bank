@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem name="Documents" id="documents_portal_management.menu_root"
+              groups="documents_portal_management.group_document_user"
+              web_icon="documents_portal_management,static/description/icon.png"/>9
+    <menuitem name="Documents" id="documents_portal_management.menu_documents"
+              parent="documents_portal_management.menu_root" groups="documents_portal_management.group_document_user"
+              sequence="1"/>
+    <menuitem name="الملفات" id="folder_branch" parent="documents_portal_management.menu_root"
+              groups="dept_wk.dept_wk_group_agent_agence" sequence="1" action="folder_branch_action"/>
+
+    <menuitem name="Configuration" id="documents_portal_management.configuration"
+              parent="documents_portal_management.menu_root"
+              groups="documents_portal_management.group_document_user" sequence="2"/>
+    <menuitem name="Folders" id="documents_portal_management.folder_menu"
+              parent="documents_portal_management.configuration" action="folder_action"
+              groups="documents_portal_management.group_document_manager" sequence="1"/>
+    <menuitem name="All Documents" id="documents_portal_management.menu_all_documents_action"
+              parent="documents_portal_management.menu_documents" action="view_attachment_action_all_documents"
+              groups="documents_portal_management.group_document_user" sequence="2"/>
+    <menuitem name="Personal Documents" id="documents_portal_management.menu_personal_documents_action"
+              parent="documents_portal_management.menu_documents" action="view_attachment_action_personal_documents"
+              groups="documents_portal_management.group_document_user" sequence="2"/>
+    <menuitem name="User Documents" id="documents_portal_management.menu_user_documents_action"
+              parent="documents_portal_management.menu_documents" action="view_attachment_action_user_documents"
+              groups="documents_portal_management.group_document_user" sequence="1"/>
+
+    <menuitem
+            name="Tags"
+            id="menu_tags_root"
+            parent="documents_portal_management.configuration"
+            action="action_documents_tags"
+            groups="documents_portal_management.group_document_user"
+            sequence="2"/>
+</odoo>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Liste des agences -->
+        <record id="agence_1" model="wk.agence">
+            <field name="name">00101</field>
+            <field name="wilaya">01</field>
+            <field name="commune">01</field>
+        </record>
+        <record id="agence_2" model="wk.agence">
+            <field name="name">00402</field>
+            <field name="wilaya">04</field>
+            <field name="commune">003</field>
+        </record>
+        <record id="agence_3" model="wk.agence">
+            <field name="name">00501</field>
+            <field name="wilaya">05</field>
+            <field name="commune">001</field>
+        </record>
+        <record id="agence_4" model="wk.agence">
+            <field name="name">00601</field>
+            <field name="wilaya">06</field>
+            <field name="commune">12</field>
+        </record>
+        <record id="agence_5" model="wk.agence">
+            <field name="name">00701</field>
+            <field name="wilaya">07</field>
+            <field name="commune">001</field>
+        </record>
+        <record id="agence_6" model="wk.agence">
+            <field name="name">00901</field>
+            <field name="wilaya">09</field>
+            <field name="commune">001</field>
+        </record>
+        <record id="agence_7" model="wk.agence">
+            <field name="name">01601</field>
+            <field name="wilaya">16</field>
+            <field name="commune">023</field>
+        </record>
+        <record id="agence_8" model="wk.agence">
+            <field name="name">01602</field>
+            <field name="wilaya">16</field>
+            <field name="commune">021</field>
+        </record>
+        <record id="agence_9" model="wk.agence">
+            <field name="name">01603</field>
+            <field name="wilaya">16</field>
+            <field name="commune">018</field>
+        </record>
+        <record id="agence_10" model="wk.agence">
+            <field name="name">01604</field>
+            <field name="wilaya">16</field>
+            <field name="commune">002</field>
+        </record>
+        <record id="agence_11" model="wk.agence">
+            <field name="name">01605</field>
+            <field name="wilaya">16</field>
+            <field name="commune">028</field>
+        </record>
+        <record id="agence_12" model="wk.agence">
+            <field name="name">01606</field>
+            <field name="wilaya">16</field>
+            <field name="commune">053</field>
+        </record>
+        <record id="agence_13" model="wk.agence">
+            <field name="name">01607</field>
+            <field name="wilaya">16</field>
+            <field name="commune">017</field>
+        </record>
+        <record id="agence_14" model="wk.agence">
+            <field name="name">01702</field>
+            <field name="wilaya">17</field>
+            <field name="commune">031</field>
+        </record>
+        <record id="agence_15" model="wk.agence">
+            <field name="name">01901</field>
+            <field name="wilaya">19</field>
+            <field name="commune">001</field>
+        </record>
+        <record id="agence_16" model="wk.agence">
+            <field name="name">02301</field>
+            <field name="wilaya">23</field>
+            <field name="commune">001</field>
+        </record>
+        <record id="agence_17" model="wk.agence">
+            <field name="name">02501</field>
+            <field name="wilaya">25</field>
+            <field name="commune">001</field>
+        </record>
+        <record id="agence_18" model="wk.agence">
+            <field name="name">02502</field>
+            <field name="wilaya">25</field>
+            <field name="commune">006</field>
+        </record>
+        <record id="agence_19" model="wk.agence">
+            <field name="name">02801</field>
+            <field name="wilaya">28</field>
+            <field name="commune">001</field>
+        </record>
+        <record id="agence_20" model="wk.agence">
+            <field name="name">03001</field>
+            <field name="wilaya">30</field>
+            <field name="commune">001</field>
+        </record>
+        <record id="agence_21" model="wk.agence">
+            <field name="name">03102</field>
+            <field name="wilaya">31</field>
+            <field name="commune">003</field>
+        </record>
+        <record id="agence_22" model="wk.agence">
+            <field name="name">03101</field>
+            <field name="wilaya">31</field>
+            <field name="commune">003</field>
+        </record>
+        <record id="agence_23" model="wk.agence">
+            <field name="name">03401</field>
+            <field name="wilaya">34</field>
+            <field name="commune">001</field>
+        </record>
+
+    </data>
+</odoo>

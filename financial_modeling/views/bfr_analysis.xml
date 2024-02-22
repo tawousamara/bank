@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="bfr_analysis_view_form" model="ir.ui.view">
+        <field name="name">bfr.analysis.view.form</field>
+        <field name="model">bfr.analysis</field>
+        <field name="arch" type="xml">
+            <form string="Analyse Besoins en Fonds de Roulement (BFR) historique">
+                <header>
+                    <button string="Recalcul"
+                            class="oe_highlight"
+                            name="action_recalcul"
+                            invisible="is_recalcul == True"
+                            type="object"/>
+
+                    <button string="Calcul BFR Historical"
+                            class="oe_highlight"
+                            name="count_bfr_historical"
+                            invisible="is_count_bfr_historical == True"
+                            type="object"/>
+
+                    <button string="Calcul BFR Forecast"
+                            class="oe_highlight"
+                            name="count_bfr_forecast"
+                            invisible="is_importer_ch_aff == False or is_count_bfr_historical == False or is_count_bfr_forecast == True"
+                            type="object"/>
+
+                </header>
+                <sheet>
+                    <group col="4">
+                        <field name="name" readonly="1"/>
+                        <field name="date"/>
+                        <field name="manual_forecast_id" required="1" options="{'no_open': True, 'no_create': True}"/>
+                    </group>
+                    <group>
+                        <field name="company_id" invisible="1"/>
+                        <field name="active" invisible="1"/>
+                        <field name="is_count_bfr_historical" invisible="1"/>
+                        <field name="is_count_bfr_forecast" invisible="1"/>
+                        <field name="is_importer_ch_aff" invisible="1"/>
+                        <field name="is_recalcul" invisible="1"/>
+                    </group>
+                    <group>
+                        <field name="name_fichier" invisible="1" />
+                        <field name="xls_file" filename="name_fichier" readonly="1"/>
+                    </group>
+                    <notebook>
+                        <page string="BFR Historique">
+                            <field name="bfr_historical_ids">
+                                <tree string="BFR Historique"  editable="bottom">
+
+                                    <!-- Invisible fields -->
+                                    <field name="company_id" invisible="1"/>
+                                    <field name="bfr_id" invisible="1"/>
+                                    <field name="active" invisible="1"/>
+
+                                    <!-- Visible fields -->
+                                    <field name="type_bfr"/>
+                                    <field name="amount_n3" readonly="type_bfr in ('5', '6')"/>
+                                    <field name="amount_n2" readonly="type_bfr in ('5', '6')"/>
+                                    <field name="amount_n1" readonly="type_bfr in ('5', '6')"/>
+                                    <field name="amount_n" readonly="type_bfr in ('5', '6')"/>
+                                </tree>
+
+                                <form string="BFR Historique">
+                                    <sheet>
+                                        <!-- Invisible fields -->
+                                        <field name="company_id" invisible="1"/>
+                                        <field name="bfr_id" invisible="1"/>
+                                        <field name="active" invisible="1"/>
+
+                                        <!-- Visible fields -->
+                                        <group col="4">
+                                            <field name="type_bfr"/>
+                                            <field name="amount_n3" readonly="type_bfr in ('5', '6')"/>
+                                            <field name="amount_n2" readonly="type_bfr in ('5', '6')"/>
+                                            <field name="amount_n1" readonly="type_bfr in ('5', '6')"/>
+                                            <field name="amount_n" readonly="type_bfr in ('5', '6')"/>
+                                        </group>
+                                    </sheet>
+                                </form>
+
+                            </field>
+                            <field name="graph_historical" type="base64" widget="image" />
+                            <group>
+                                <field name="year_prec" class="col-lg-2" />
+                            </group>
+                            <field name="pie_graph_prec" type="base64" widget="image"  />
+                        </page>
+                        <page string="BFR Prévisionnel">
+
+                            <button string="Importer Chiffre d`affaire"
+                                    class="oe_highlight"
+                                    name="action_import_chiffre_affaire"
+                                    invisible="is_importer_ch_aff == True"
+                                    type="object"/>
+                            <separator/>
+                            <field name="bfr_forecast_ids">
+                                <tree string="BFR Prévisionnel"  editable="bottom">
+
+                                    <!-- Invisible fields -->
+                                    <field name="company_id" invisible="1"/>
+                                    <field name="bfr_id" invisible="1"/>
+                                    <field name="active" invisible="1"/>
+
+                                    <!-- Visible fields -->
+                                    <field name="type_bfr"/>
+                                    <field name="augment_hypothesis_n1" readonly="type_bfr in ('5', '6')"/>
+                                    <field name="amount_n1" readonly="1"/>
+                                    <field name="augment_hypothesis_n2" readonly="type_bfr in ('5', '6')"/>
+                                    <field name="amount_n2" readonly="1"/>
+                                    <field name="augment_hypothesis_n3" readonly="type_bfr in ('5', '6')"/>
+                                    <field name="amount_n3" readonly="1"/>
+                                    <field name="augment_hypothesis_n4" readonly="type_bfr in ('5', '6')"/>
+                                    <field name="amount_n4" readonly="1"/>
+                                    <field name="augment_hypothesis_n5" readonly="type_bfr in ('5', '6')"/>
+                                    <field name="amount_n5" readonly="1"/>
+                                </tree>
+
+                                <form string="BFR Prévisionnel">
+                                    <sheet>
+                                        <!-- Invisible fields -->
+                                        <field name="company_id" invisible="1"/>
+                                        <field name="bfr_id" invisible="1"/>
+                                        <field name="active" invisible="1"/>
+
+                                        <!-- Visible fields -->
+                                        <group col="4">
+                                            <field name="type_bfr"/>
+                                            <field name="augment_hypothesis_n1" readonly="type_bfr in ('5', '6')"/>
+                                            <field name="amount_n1" readonly="1"/>
+                                            <field name="augment_hypothesis_n2" readonly="type_bfr in ('5', '6')"/>
+                                            <field name="amount_n2" readonly="1"/>
+                                            <field name="augment_hypothesis_n3" readonly="type_bfr in ('5', '6')"/>
+                                            <field name="amount_n3" readonly="1"/>
+                                            <field name="augment_hypothesis_n4" readonly="type_bfr in ('5', '6')"/>
+                                            <field name="amount_n4" readonly="1"/>
+                                            <field name="augment_hypothesis_n5" readonly="type_bfr in ('5', '6')"/>
+                                            <field name="amount_n5" readonly="1"/>
+                                        </group>
+                                    </sheet>
+                                </form>
+
+                            </field>
+                        </page>
+
+                        <page string="Tableau Recap. BFR prévisionnel ">
+                            <field name="bfr_forecast_table_ids" readonly="1">
+                                <tree string="Tableau Recap. BFR prévisionnel"  editable="bottom">
+
+                                    <!-- Invisible fields -->
+                                    <field name="company_id" invisible="1"/>
+                                    <field name="bfr_id" invisible="1"/>
+                                    <field name="active" invisible="1"/>
+
+                                    <!-- Visible fields -->
+                                    <field name="type_bfr"/>
+                                    <field name="amount_n1" readonly="type_bfr in ('5', '6')"/>
+                                    <field name="amount_n2" readonly="type_bfr in ('5', '6')"/>
+                                    <field name="amount_n3" readonly="type_bfr in ('5', '6')"/>
+                                    <field name="amount_n4" readonly="type_bfr in ('5', '6')"/>
+                                    <field name="amount_n5" readonly="type_bfr in ('5', '6')"/>
+
+
+                                </tree>
+
+                                <form string="Tableau Recap. BFR prévisionnel">
+                                    <sheet>
+                                        <!-- Invisible fields -->
+                                        <field name="company_id" invisible="1"/>
+                                        <field name="bfr_id" invisible="1"/>
+                                        <field name="active" invisible="1"/>
+
+                                        <!-- Visible fields -->
+                                        <group col="4">
+                                            <field name="type_bfr"/>
+                                            <field name="amount_n1" readonly="type_bfr in ('5', '6')"/>
+                                            <field name="amount_n2" readonly="type_bfr in ('5', '6')"/>
+                                            <field name="amount_n3" readonly="type_bfr in ('5', '6')"/>
+                                            <field name="amount_n4" readonly="type_bfr in ('5', '6')"/>
+                                            <field name="amount_n5" readonly="type_bfr in ('5', '6')"/>
+                                        </group>
+                                    </sheet>
+                                </form>
+
+                            </field>
+                            <field name="graph_recap" type="base64" widget="image"  />
+                            <group>
+                                <field name="year_suiv" class="col-lg-2"/>
+                            </group>
+                            <field name="pie_graph_suiv" type="base64" widget="image" />
+                        </page>
+
+                    </notebook>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="bfr_analysis_view_tree" model="ir.ui.view">
+        <field name="name">bfr.analysis.view.tree</field>
+        <field name="model">bfr.analysis</field>
+        <field name="arch" type="xml">
+            <tree string="Analyse Besoins en Fonds de Roulement (BFR) historique">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="company_id" invisible="1"/>
+                <field name="active" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_bfr_analysis_clients" model="ir.actions.act_window">
+        <field name="name">Analyse Besoins en Fonds de Roulement (BFR) historique</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">bfr.analysis</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+
+</odoo>

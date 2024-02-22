@@ -1,0 +1,874 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="wk_etape_action" model="ir.actions.act_window">
+        <field name="name">المديرية</field>
+        <field name="res_model">wk.etape</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record id="view_wk_etape_form" model="ir.ui.view">
+        <field name="name">wk.etape.form</field>
+        <field name="model">wk.etape</field>
+        <field name="arch" type="xml">
+            <form create="0">
+                <header>
+                    <field name="state_branch" widget="statusbar"
+                           statusbar_visible="branch_1,branch_2,branch_3,branch_4,branch_5" invisible="sequence != 1"/>
+                    <field name="state_finance" widget="statusbar"
+                           statusbar_visible="finance_1,finance_2,finance_3,finance_4" invisible="sequence != 2"/>
+                    <field name="state_commercial" widget="statusbar"
+                           statusbar_visible="commercial_1,commercial_2,commercial_3,commercial_4"
+                           invisible="sequence != 3"/>
+                    <field name="state_risque" widget="statusbar"
+                           statusbar_visible="risque_1,risque_2" invisible="sequence != 4"/>
+                    <field name="state_vice" widget="statusbar"
+                           statusbar_visible="vice_1,vice_2" invisible="sequence != 5"/>
+                    <field name="state_comite" widget="statusbar"
+                           statusbar_visible="comite_1,comite_2" invisible="sequence != 6"/>
+                    <button name="revoir_action" type="object" string="للمراجعة"
+                            invisible="state_branch in ['branch_1','branch_rejected']"
+                            class="btn-secondary"/>
+                    <button name="reject_request" type="object" string="رفض الطلب"
+                            class="btn-secondary"/>
+                    <button name="verrouiller_dossier" type="object" string="ملف مقبول" groups="dept_wk.dept_wk_group_analyste"
+                            invisible="state_finance != 'finance_1'"
+                            class="btn-primary"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="open_tracking"
+                                type="object"
+                                icon="fa-history" />
+                        <button name="open_messages"
+                                type="object"
+                                icon="fa-regular fa-envelope"/>
+                        <button name="open_revision_branch"
+                                type="object"
+                                class="oe_stat_button" invisible="sequence != 2"
+                        >مراجعة بيانات الفرع
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <div>
+                        <field name="sequence" invisible="1"/>
+                    </div>
+                    <div invisible="sequence not in [1,5,6,8]">
+                        <group invisible="sequence != 1">
+                            <field name="assigned_to_agence" options="{'no_create': True, 'no_open': True}"/>
+                        </group>
+                        <group col="1">
+                            <group>
+                                <field name="nom_client" readonly="state_branch != 'branch_1' and sequence != 8"
+                                       context="{'default_is_client':True}"
+                                       domain="[('is_client', '=', True)]"/>
+                                <field name="num_compte" readonly="1"/>
+                                <field name="date_ouverture_compte" readonly="1"/>
+                                <field name="branche" readonly="1"/>
+                                <field name="demande" readonly="state_branch != 'branch_1' and sequence != 8"
+                                       options="{'no_create': True, 'no_open': True}"/>
+                                <field name="doc_checked_vis" invisible="1"/>
+                                <field name="state_compute" invisible="1"/>
+                            </group>
+                        </group>
+                        <div invisible="sequence not in [1,8]">
+                            <div class="oe_title">
+                                <h1>
+                                    الوثائق المرفقة مع الطلب الحالي
+                                </h1>
+                            </div>
+                            <field name="documents" nolabel="1"
+                                   readonly="state_branch not in ['branch_1','branch_2', 'branch_3']">
+                                <tree editable="bottom">
+                                    <field name="list_document"/>
+                                    <field name="document" widget="binary" filename="filename"
+                                           readonly="checked == True"/>
+                                    <field name="answer" readonly="checked == True"/>
+                                    <field name="note" readonly="checked == True"/>
+                                    <field name="checked" column_invisible="True"/>
+                                    <field name="filename" column_invisible="True"/>
+                                </tree>
+                            </field>
+                        </div>
+                        <group string="تقرير الزيارة" col="2" invisible="sequence not in [1,8]">
+                            <group>
+                                <field name="classification" readonly="1"/>
+                                <field name="adress_siege" readonly="1"/>
+                                <field name="wilaya" readonly="1"/>
+                                <field name="nif" readonly="1"/>
+                                <field name="num_registre_commerce" readonly="1"/>
+                                <field name="date_inscription" readonly="1"/>
+                                <field name="date_debut_activite" readonly="1"/>
+                                <field name="activite" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="activity_code" readonly="1"/>
+                                <field name="activity_description" readonly="1"/>
+                                <field name="phone" readonly="1"/>
+                                <field name="email" readonly="1"/>
+                                <field name="siteweb" readonly="1"/>
+                                <field name="gerant" readonly="state_branch != 'branch_1' and sequence != 8"
+                                       context="{'default_parent_id': nom_client, 'default_is_client':True}"/>
+                                <field name="phone_gerant" readonly="1"/>
+                                <field name="email_gerant" readonly="1"/>
+                                <field name="email_to" invisible="1"/>
+                                <field name="forme_jur" readonly="1"/>
+                                <field name="currency_id" invisible="1"/>
+                                <field name="chiffre_affaire"
+                                       readonly="1"
+                                       widget="monetary"
+                                       options="{'currency_field': 'currency_id'}"/>
+                            </group>
+                        </group>
+                        <notebook string="معرفة عميلك"
+                                  invisible="state_branch not in ['branch_3', 'branch_4','branch_rejected','branch_5'] and sequence not in [5,8]">
+                            <page string="توزيع راس مال الشركة">
+                                <field name="apropos" readonly="state_branch != 'branch_3' and sequence != 8">
+                                    <tree editable="bottom">
+                                        <field name="nom_partenaire"/>
+                                        <field name="age"/>
+                                        <field name="statut_partenaire"/>
+                                        <field name="nationalite"/>
+                                        <field name="pourcentage" sum="Total"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page name="اعرف عميلك KYC">
+                                <field name="kyc" readonly="state_branch != 'branch_3' and sequence != 8">
+                                    <tree create="0" delete="0" editable="bottom">
+                                        <field name="info" style="text-align: center"/>
+                                        <field name="answer"/>
+                                        <field name="detail"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="فريق التسيير">
+                                <group>
+                                    <field name="gestion" readonly="state_branch != 'branch_3' and sequence != 8">
+                                        <tree editable="bottom">
+                                            <field name="name"/>
+                                            <field name="job"/>
+                                            <field name="niveau_etude"/>
+                                            <field name="age"/>
+                                            <field name="experience"/>
+                                        </tree>
+                                    </field>
+                                    <field name="employees" readonly="state_branch != 'branch_3' and sequence != 8">
+                                        <tree create="0" delete="0" editable="bottom">
+                                            <field name="name"/>
+                                            <field name="poste_permanent"/>
+                                            <field name="poste_non_permanent"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                            <page string="مقرات تابعة للشركة">
+                                <field name="sieges" readonly="state_branch != 'branch_3' and sequence != 8">
+                                    <tree create="0" delete="0" editable="bottom">
+                                        <field name="name"/>
+                                        <field name="adresse"/>
+                                        <field name="nature"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="حجم و هيكل التمويلات المطلوبة">
+                                <field name="tailles" readonly="state_branch != 'branch_3' and sequence != 8">
+                                    <tree editable="bottom">
+                                        <field name="type_demande"/>
+                                        <field name="montant" sum="Total"/>
+                                        <field name="raison"/>
+                                        <field name="garanties" widget="many2many_tags"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="الوضعية المالية">
+                                <group>
+                                    <field name="situations" readonly="state_branch != 'branch_3' and sequence != 8">
+                                        <tree editable="bottom">
+                                            <field name="banque"/>
+                                            <field name="type_fin"/>
+                                            <field name="montant"/>
+                                            <field name="garanties"/>
+                                        </tree>
+                                    </field>
+                                    <field name="situations_fin"
+                                           readonly="state_branch != 'branch_3' and sequence != 8">
+                                        <tree editable="bottom">
+                                            <field name="type" readonly="sequence == 0"
+                                                   decoration-bf="sequence == 0"/>
+                                            <field name="year1" readonly="sequence == 0"
+                                                   decoration-bf="sequence == 0"/>
+                                            <field name="year2" readonly="sequence == 0"
+                                                   decoration-bf="sequence == 0"/>
+                                            <field name="year3" readonly="sequence == 0"
+                                                   decoration-bf="sequence == 0"/>
+                                            <field name="sequence" column_invisible="True"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                            <page string="الموردون و الزبائن">
+                                <group>
+                                    <field name="fournisseur" readonly="state_branch != 'branch_3' and sequence != 8">
+                                        <tree editable="bottom">
+                                            <field name="name"/>
+                                            <field name="country"/>
+                                            <field name="type_payment" widget="many2many_tags"/>
+                                        </tree>
+                                    </field>
+                                    <field name="client" readonly="state_branch != 'branch_3' and sequence != 8">
+                                        <tree editable="bottom">
+                                            <field name="name"/>
+                                            <field name="country"/>
+                                            <field name="type_payment" widget="many2many_tags"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                        </notebook>
+                        <group col="2" string="نبذة عن نشاط الشركة"
+                               invisible="state_branch not in ['branch_3', 'branch_4','branch_rejected','branch_5'] and sequence not in [5,8]">
+                            <field name="unit_prod" readonly="state_branch != 'branch_3' and sequence != 8"/>
+                            <field name="stock" readonly="state_branch != 'branch_3' and sequence != 8"/>
+                            <field name="prod_company" readonly="state_branch != 'branch_3' and sequence != 8"/>
+                            <field name="politique_comm" readonly="state_branch != 'branch_3' and sequence != 8"/>
+                            <field name="cycle_exploit" readonly="state_branch != 'branch_3' and sequence != 8"/>
+                            <field name="concurrence" readonly="state_branch != 'branch_3' and sequence != 8"/>
+                        </group>
+                        <group invisible="state_branch not in ['branch_3', 'branch_4','branch_rejected','branch_5'] and sequence not in [5,8]">
+                            <field name="program_invest" readonly="state_branch != 'branch_3' and sequence != 8"/>
+                            <field name="result_visit" readonly="state_branch != 'branch_3' and sequence != 8"/>
+                            <field name="images" readonly="state_branch != 'branch_3' and sequence != 8">
+                                <tree editable="bottom">
+                                    <field name="picture" widget="binary" filename="name"/>
+                                    <field name="name" column_invisible="1"/>
+                                </tree>
+                            </field>
+                        </group>
+                        <button name="action_create_risk" type="object" string="ملأ بطاقة المعايير النوعية"
+                                class="button_secondary"
+                                invisible="risk_scoring != False or state_branch not in ['branch_3', 'branch_4','branch_rejected','branch_5']"/>
+                        <group>
+                            <field name="risk_scoring"
+                                   invisible="risk_scoring == False or state_branch not in ['branch_3', 'branch_4','branch_rejected','branch_5']"
+                                   readonly="1"/>
+                        </group>
+                        <group invisible="state_branch not in ['branch_3', 'branch_4','branch_rejected','branch_5'] and sequence not in [5,6,8]">
+                            <field name="recommendation_visit" readonly="state_branch != 'branch_3' and sequence != 8"/>
+                            <field name="recommendation_responsable_agence"
+                                   readonly="state_branch != 'branch_4' and sequence != 8"/>
+                        </group>
+                    </div>
+                    <div invisible="sequence not in [2,5,6]">
+                        <field name="documents" nolabel="1" readonly="1" invisible="sequence != 2">
+                            <tree>
+                                <field name="document" widget="binary" filename="filename"/>
+                                <field name="answer"/>
+                                <field name="note"/>
+                                <field name="filename" column_invisible="True"/>
+                            </tree>
+                        </field>
+                        <group>
+                            <field name="assigned_to_finance" options="{'no_create': True, 'no_open': True}"
+                                   invisible="sequence != 2"
+                                   readonly="state_finance != 'finance_1'"/>
+                        </group>
+                        <group invisible="state_finance == 'finance_1' or sequence != 2">
+                            <field name="taux_change"/>
+                            <field name="annee_fiscal"/>
+                        </group>
+                        <notebook invisible="state_finance == 'finance_1' or sequence != 2">
+                            <page string="تفاصيل التسهيلات الممنوحة (بالمليون دج)">
+                                <field name="facilite_accorde" readonly="state_finance != 'finance_2'">
+                                    <tree editable="bottom">
+                                        <field name="type_facilite"/>
+                                        <field name="date"/>
+                                        <field name="montant_da_actuel"/>
+                                        <field name="montant_dollar_actuel" optional="hide"/>
+                                        <field name="montant_da_demande"/>
+                                        <field name="montant_dollar_demande" optional="hide"/>
+                                        <field name="montant_da_total"/>
+                                        <field name="montant_dollar_total" optional="hide"/>
+                                        <field name="garantie_montant"/>
+                                        <field name="remarques"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="تفاصيل الضمانات">
+                                <h6>الضمانات العقارية الحالية</h6>
+                                <field name="detail_garantie_actuel_ids"
+                                       readonly="state_finance != 'finance_2'">
+                                    <tree editable="bottom">
+                                        <field name="type_garantie"/>
+                                        <field name="type_contrat"/>
+                                        <field name="montant"/>
+                                        <field name="date"/>
+                                        <field name="recouvrement"/>
+                                        <field name="niveau"/>
+                                    </tree>
+                                </field>
+                                <group>
+                                    <field name="garantie_actuel_comment"/>
+                                </group>
+                                <h6>الضمانات العقارية المقترحة</h6>
+                                <field name="detail_garantie_propose_ids"
+                                       readonly="state_finance != 'finance_2'">
+                                    <tree editable="bottom">
+                                        <field name="type_garant"/>
+                                        <field name="type_contrat"/>
+                                        <field name="montant"/>
+                                        <field name="date"/>
+                                        <field name="recouvrement"/>
+                                        <field name="niveau"/>
+                                    </tree>
+                                </field>
+                                <group>
+                                    <field name="garantie_propose_comment" />
+                                </group>
+                            </page>
+                            <page string='الشروط السابقة/المقترحة و الموافق عليها من لجان التمويل'>
+                                <field name="garantie_conf"
+                                       readonly="state_finance != 'finance_2'">
+                                    <tree editable="bottom">
+                                        <field name="info"/>
+                                        <field name="answer"/>
+                                        <field name="detail"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string='الشروط المالية'>
+                                <field name="garantie_fin"
+                                       readonly="state_finance != 'finance_2'">
+                                    <tree editable="bottom">
+                                        <field name="info"/>
+                                        <field name="answer"/>
+                                        <field name="detail"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string='الشروط الاخرى'>
+                                <field name="garantie_autres"
+                                       readonly="state_finance != 'finance_2'">
+                                    <tree editable="bottom">
+                                        <field name="info"/>
+                                        <field name="answer"/>
+                                        <field name="detail"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                        <notebook invisible="state_finance == 'finance_1' or sequence != 2">
+                            <page string="مركزية المخاطر">
+                                <group>
+                                    <group>
+                                        <field name="risque_date" readonly="state_finance != 'finance_2'"/>
+                                    </group>
+                                    <group>
+                                        <field name="nbr_banque" readonly="state_finance != 'finance_2'"/>
+                                    </group>
+                                </group>
+                                <field name="risque_central"
+                                       readonly="state_finance != 'finance_2'">
+                                    <tree editable="bottom"> <!-- a ajouter la fonctionnalité de suppression pour bloque le total-->
+                                        <field name="declaration"/>
+                                        <field name="montant_esalam_dz_donne"/>
+                                        <field name="montant_esalam_dollar_donne" optional="hide"/>
+                                        <field name="montant_esalam_dz_used"/>
+                                        <field name="montant_esalam_dollar_used" optional="hide"/>
+                                        <field name="montant_other_dz_donne"/>
+                                        <field name="montant_other_dollar_donne" optional="hide"/>
+                                        <field name="montant_other_dz_used"/>
+                                        <field name="montant_other_dollar_used" optional="hide"/>
+                                        <field name="montant_total_dz_donne"/>
+                                        <field name="montant_total_dollar_donne" optional="hide"/>
+                                        <field name="montant_total_dz_used"/>
+                                        <field name="montant_total_dollar_used" optional="hide"/>
+                                    </tree>
+                                </field>
+                                <group>
+                                    <field name="comment_risk_central"/>
+                                    <field name="capture_filename" invisible="1"/>
+                                    <field name="risk_capture" filename="capture_filename" class="col-6"/>
+                                </group>
+                            </page>
+                            <page string="الوضعية الجبائية وشبه الجبائية">
+                                <field name="position_tax" readonly="state_finance != 'finance_2'">
+                                    <tree editable="bottom" create="0" delete="0">
+                                        <field name="name"/>
+                                        <field name="adversite"/>
+                                        <field name="non_adversite"/>
+                                        <field name="remarks" widget="many2many_tags"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="الحركة والأعمال الجانبية للحساب مع مصرف السلام الجزائر (بالمليون دج)">
+                                <field name="mouvement" readonly="state_finance != 'finance_2'">
+                                    <tree create="0" delete="0" editable="bottom">
+                                        <field name="mouvement" decoration-bf="sequence == 0" readonly="sequence == 0"/>
+                                        <field name="n3_dz" decoration-bf="sequence == 0" readonly="sequence == 0"/>
+                                        <field name="n3_dollar" optional="hide" readonly="sequence == 0"/>
+                                        <field name="n2_dz" decoration-bf="sequence == 0" readonly="sequence == 0"/>
+                                        <field name="n2_dollar" optional="hide" readonly="sequence == 0"/>
+                                        <field name="n1_dz" decoration-bf="sequence == 0" readonly="sequence == 0"/>
+                                        <field name="n1_dollar" optional="hide" readonly="sequence == 0"/>
+                                        <field name="n_dz" decoration-bf="sequence == 0" readonly="sequence == 0"/>
+                                        <field name="n_dollar" optional="hide" readonly="sequence == 0"/>
+                                        <field name="remarques" readonly="sequence == 0"/>
+                                        <field name="sequence" column_invisible="True"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                        <notebook invisible="state_finance == 'finance_1' or sequence != 2">
+                            <page string="معلومات حول الشركات ذات الصلة">
+                                <field name="companies" readonly="state_finance != 'finance_2'">
+                                    <tree editable="bottom">
+                                        <field name="name"/>
+                                        <field name="date_creation"/>
+                                        <field name="activite"/>
+                                        <field name="chiffre_affaire"/>
+                                        <field name="n1_num_affaire"/>
+                                        <field name="n_num_affaire"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="البيانات المالية الموجزة للشركات ذات الصلة">
+                                <group col="3">
+                                    <group>
+                                        <button name="create_tcr_group" type="object" string="اضف TCR"
+                                                class="button_secondary" invisible="tcr_group != False"/>
+                                        <field name="tcr_group" invisible="tcr_group == False"/>
+                                    </group>
+                                    <group>
+                                        <button name="create_actif_group" type="object"
+                                                string="اضف Actif"
+                                                class="button_secondary" invisible="actif_group != False"/>
+                                        <field name="actif_group" invisible="actif_group == False"/>
+                                    </group>
+                                    <group>
+                                        <button name="create_passif_group" type="object"
+                                                string="اضف Passif"
+                                                class="button_secondary"
+                                                invisible="passif_group != False"/>
+                                        <field name="passif_group" invisible="passif_group == False"/>
+                                    </group>
+                                    <button name="import_data_group" type="object"
+                                            string="حمل البيانات"
+                                            class="button_secondary"/>
+                                </group>
+                                <field name="companies_fisc" readonly="state_finance != 'finance_2'">
+                                    <tree editable="bottom" create="0" delete="0">
+                                        <field name="declaration" readonly="sequence == 0"
+                                               decoration-bf="sequence == 0"/>
+                                        <field name="year_3" readonly="sequence == 0" decoration-bf="sequence == 0"/>
+                                        <field name="year_4" readonly="sequence == 0" decoration-bf="sequence == 0"/>
+                                        <field name="sequence" column_invisible="True"/>
+                                    </tree>
+                                </field>
+                                <group>
+                                    <field name="comment_fisc"/>
+                                </group>
+                                <button name="create_viz3" type="object" string="انشاء بيان"
+                                        class="button_secondary"/>
+                                <field name="visualisation2" type="base64" widget="image"
+                                       invisible="visualisation2 == False"/>
+
+                            </page>
+                            <page string="التسهيلات القائمة مع المصرف">
+                                <field name="facitlite_existante" readonly="state_finance != 'finance_2'">
+                                    <tree editable="bottom">
+                                        <field name="company"/>
+                                        <field name="facilite"/>
+                                        <field name="brut_da" sum="Total facilities"/>
+                                        <field name="brut_dollar" sum="Total facilities" optional="hide"/>
+                                        <field name="net_da" sum="Total facilities"/>
+                                        <field name="net_dollar" sum="Total facilities" optional="hide"/>
+                                        <field name="garanties" widget="many2many_tags"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="الحركة والأعمال الجانبية للمجموعة مع مصرف السلام الجزائر (بالمليون دج)">
+                                <field name="mouvement_group" readonly="state_finance != 'finance_2'">
+                                    <tree editable="bottom">
+                                        <field name="company" readonly="'السنة' == company"/>
+                                        <field name="n2_dz" readonly="'السنة' == company"/>
+                                        <field name="n2_dollar" optional="hide" readonly="'السنة' == company"/>
+                                        <field name="n1_dz" readonly="'السنة' == company"/>
+                                        <field name="n1_dollar" optional="hide" readonly="'السنة' == company"/>
+                                        <field name="n_dz" readonly="'السنة' == company"/>
+                                        <field name="n_dollar" optional="hide" readonly="'السنة' == company"/>
+                                        <field name="remarques" readonly="'السنة' == company"/>
+                                        <field name="sequence" column_invisible="True"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                        <group col="3" invisible="state_finance == 'finance_1' or sequence != 2">
+                            <group>
+                                <button name="action_create_tcr" type="object" string="اضف TCR للعام N و N-1"
+                                        class="button_secondary" invisible="tcr_id != False"/>
+                                <field name="tcr_id" invisible="tcr_id == False"/>
+                            </group>
+                            <group>
+                                <button name="action_create_actif" type="object"
+                                        string="اضف Actif للعام N و N-1"
+                                        class="button_secondary" invisible="actif_id != False"/>
+                                <field name="actif_id" invisible="actif_id == False"/>
+                            </group>
+                            <group>
+                                <button name="action_create_passif" type="object"
+                                        string="اضف Passif للعام N و N-1"
+                                        class="button_secondary"
+                                        invisible="passif_id != False"/>
+                                <field name="passif_id" invisible="passif_id == False"/>
+                            </group>
+                        </group>
+                        <group col="3" invisible="state_finance == 'finance_1' or sequence != 2">
+                            <group>
+                                <button name="action_create_tcr1" type="object" string="اضف TCR للعام 2-N و N-3"
+                                        class="button_secondary" invisible="tcr1_id != False"/>
+                                <field name="tcr1_id" invisible="tcr1_id == False"/>
+                            </group>
+                            <group>
+                                <button name="action_create_actif1" type="object"
+                                        string="اضف Actif للعام 2-N و N-3"
+                                        class="button_secondary"
+                                        invisible="actif1_id != False"/>
+                                <field name="actif1_id" invisible="actif1_id == False"/>
+                            </group>
+                            <group>
+                                <button name="action_create_passif1" type="object"
+                                        string="اضف Passif للعام 2-N و N-3"
+                                        class="button_secondary"
+                                        invisible="passif1_id != False"/>
+                                <field name="passif1_id" invisible="passif1_id == False"/>
+                            </group>
+                        </group>
+                        <button name="import_data" type="object" string="حمل البيانات"
+                                class="button_secondary" invisible="state_finance == 'finance_1' or sequence != 2"/>
+                        <notebook invisible="state_finance == 'finance_1' or sequence != 2">
+                            <page string="البيانات المالية للشركة">
+                                <group string="مؤشرات البنية المالية">
+                                    <field name="bilan1_id">
+                                        <tree editable="bottom" create="0" delete="0">
+                                            <field name="declaration" readonly="1"
+                                                   decoration-bf="sequence == 0"/>
+                                            <field name="year_1" readonly="1"
+                                                   decoration-bf="sequence == 0" decoration-danger="is_null_1 == True"/>
+                                            <field name="year_2" readonly="1"
+                                                   decoration-bf="sequence == 0" decoration-danger="is_null_2 == True"/>
+                                            <field name="year_3" readonly="1"
+                                                   decoration-bf="sequence == 0" decoration-danger="is_null_3 == True"/>
+                                            <field name="year_4" readonly="1"
+                                                   decoration-bf="sequence == 0" decoration-danger="is_null_4 == True"/>
+                                            <field name="variante" readonly="sequence == 0" widget="percentage"
+                                                   decoration-bf="sequence == 0" invisible="sequence == 0"/>
+                                            <field name="sequence" column_invisible="True"/>
+                                            <field name="compute_field" column_invisible="True"/>
+                                            <field name="is_null_1" column_invisible="True"/>
+                                            <field name="is_null_2" column_invisible="True"/>
+                                            <field name="is_null_3" column_invisible="True"/>
+                                            <field name="is_null_4" column_invisible="True"/>
+                                        </tree>
+                                    </field>
+                                    <group>
+                                        <field name="comment_cat1"/>
+                                    </group>
+                                </group>
+                                <group string="مؤشرات المديونية">
+                                    <field name="bilan2_id">
+                                        <tree editable="bottom" create="0" delete="0">
+                                            <field name="declaration" readonly="1"
+                                                   decoration-bf="sequence == 0"/>
+                                            <field name="year_1" readonly="1"
+                                                   decoration-bf="sequence == 0" decoration-danger="is_null_1 == True"/>
+                                            <field name="year_2" readonly="1"
+                                                   decoration-bf="sequence == 0" decoration-danger="is_null_2 == True"/>
+                                            <field name="year_3" readonly="1"
+                                                   decoration-bf="sequence == 0" decoration-danger="is_null_3 == True"/>
+                                            <field name="year_4" readonly="1"
+                                                   decoration-bf="sequence == 0" decoration-danger="is_null_4 == True"/>
+                                            <field name="variante" readonly="sequence == 0" widget="percentage"
+                                                   decoration-bf="sequence == 0" invisible="sequence == 0"/>
+                                            <field name="sequence" column_invisible="True"/>
+                                            <field name="compute_field" column_invisible="True"/>
+                                            <field name="is_null_1" column_invisible="True"/>
+                                            <field name="is_null_2" column_invisible="True"/>
+                                            <field name="is_null_3" column_invisible="True"/>
+                                            <field name="is_null_4" column_invisible="True"/>
+                                        </tree>
+                                    </field>
+                                    <group>
+                                        <field name="comment_cat2"/>
+                                    </group>
+                                </group>
+                                <group string="مؤشرات المردودية">
+                                    <field name="bilan3_id">
+                                        <tree editable="bottom" create="0" delete="0">
+                                            <field name="declaration" readonly="1"
+                                                   decoration-bf="sequence == 0"/>
+                                            <field name="year_1" readonly="1"
+                                                   decoration-bf="sequence == 0" decoration-danger="is_null_1 == True"/>
+                                            <field name="year_2" readonly="1"
+                                                   decoration-bf="sequence == 0" decoration-danger="is_null_2 == True"/>
+                                            <field name="year_3" readonly="1"
+                                                   decoration-bf="sequence == 0" decoration-danger="is_null_3 == True"/>
+                                            <field name="year_4" readonly="1"
+                                                   decoration-bf="sequence == 0" decoration-danger="is_null_4 == True"/>
+                                            <field name="variante" readonly="sequence == 0" widget="percentage"
+                                                   decoration-bf="sequence == 0" invisible="sequence == 0"/>
+                                            <field name="sequence" column_invisible="True"/>
+                                            <field name="compute_field" column_invisible="True"/>
+                                            <field name="is_null_1" column_invisible="True"/>
+                                            <field name="is_null_2" column_invisible="True"/>
+                                            <field name="is_null_3" column_invisible="True"/>
+                                            <field name="is_null_4" column_invisible="True"/>
+                                        </tree>
+                                    </field>
+                                    <group>
+                                        <field name="comment_cat3"/>
+                                    </group>
+                                </group>
+                                <group string="مؤشرات السيولة">
+                                    <field name="bilan4_id">
+                                        <tree editable="bottom" create="0" delete="0">
+                                            <field name="declaration" readonly="1"
+                                                   decoration-bf="sequence == 0"/>
+                                            <field name="year_1" readonly="1"
+                                                   decoration-bf="sequence == 0" decoration-danger="is_null_1 == True"/>
+                                            <field name="year_2" readonly="1"
+                                                   decoration-bf="sequence == 0" decoration-danger="is_null_2 == True"/>
+                                            <field name="year_3" readonly="1"
+                                                   decoration-bf="sequence == 0" decoration-danger="is_null_3 == True"/>
+                                            <field name="year_4" readonly="1"
+                                                   decoration-bf="sequence == 0" decoration-danger="is_null_4 == True"/>
+                                            <field name="variante" readonly="sequence == 0" widget="percentage"
+                                                   decoration-bf="sequence == 0" invisible="sequence == 0"/>
+                                            <field name="sequence" column_invisible="True"/>
+                                            <field name="compute_field" column_invisible="True"/>
+                                            <field name="is_null_1" column_invisible="True"/>
+                                            <field name="is_null_2" column_invisible="True"/>
+                                            <field name="is_null_3" column_invisible="True"/>
+                                            <field name="is_null_4" column_invisible="True"/>
+                                        </tree>
+                                    </field>
+                                    <group>
+                                        <field name="comment_cat4"/>
+                                    </group>
+                                </group>
+                                <group string="مؤشرات النشاط">
+                                    <field name="bilan5_id">
+                                        <tree editable="bottom" create="0" delete="0">
+                                            <field name="declaration" readonly="1"
+                                                   decoration-bf="sequence == 0"/>
+                                            <field name="year_1" readonly="1"
+                                                   decoration-bf="sequence == 0" decoration-danger="is_null_1 == True"/>
+                                            <field name="year_2" readonly="1"
+                                                   decoration-bf="sequence == 0" decoration-danger="is_null_2 == True"/>
+                                            <field name="year_3" readonly="1"
+                                                   decoration-bf="sequence == 0" decoration-danger="is_null_3 == True"/>
+                                            <field name="year_4" readonly="1"
+                                                   decoration-bf="sequence == 0" decoration-danger="is_null_4 == True"/>
+                                            <field name="variante" readonly="sequence == 0" widget="percentage"
+                                                   decoration-bf="sequence == 0" invisible="sequence == 0"/>
+                                            <field name="sequence" column_invisible="True"/>
+                                            <field name="is_null_1" column_invisible="True"/>
+                                            <field name="is_null_2" column_invisible="True"/>
+                                            <field name="is_null_3" column_invisible="True"/>
+                                            <field name="is_null_4" column_invisible="True"/>
+                                            <field name="compute_field" column_invisible="True"/>
+                                        </tree>
+                                    </field>
+                                    <group>
+                                        <field name="comment_cat5"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="ملخص للبيانات">
+                                <div col="2" class="swot_table">
+                                    <field name="var_ids" readonly="1" class="swot_element">
+                                        <tree editable="bottom" create="0" delete="0">
+                                            <field name="var"/>
+                                            <field name="montant"/>
+                                        </tree>
+                                    </field>
+                                    <field name="recap_ids" readonly="state_finance != 'finance_2'"
+                                           class="swot_element">
+                                        <tree editable="bottom" create="0" delete="0">
+                                            <field name="declaration" readonly="1"/>
+                                            <field name="montant"/>
+                                        </tree>
+                                    </field>
+                                </div>
+                            </page>
+                            <page string="الوضعية المحاسبية">
+                                <group>
+                                    <field name="date_situation_comptable"/>
+                                    <field name="file_tcr" filename="file_tcr_name"/>
+                                    <field name="file_tcr_name" invisible="1"/>
+                                </group>
+
+                                <button name="action_situation" type="object" string="اضافة البيانات"
+                                        class="button_secondary"/>
+                                <notebook>
+                                    <page string="TCR">
+                                        <field name="tcr_situation">
+                                            <tree create="0" editable="bottom">
+                                                <field name="name_ar"/>
+                                                <field name="valeur"/>
+                                            </tree>
+                                        </field>
+                                    </page>
+                                    <page string="Actif">
+                                        <field name="actif_situation">
+                                            <tree create="0" editable="bottom">
+                                                <field name="name_ar"/>
+                                                <field name="valeur"/>
+                                            </tree>
+                                        </field>
+                                    </page>
+                                    <page string="Passif">
+                                        <field name="passif_situation">
+                                            <tree create="0" editable="bottom">
+                                                <field name="name_ar"/>
+                                                <field name="valeur"/>
+                                            </tree>
+                                        </field>
+                                    </page>
+                                </notebook>
+                                <field name="visualisation_situation" invisible="visualisation_situation == False"
+                                       widget="image"/>
+                                <group>
+                                    <field name="commentaire_situation"/>
+                                </group>
+                            </page>
+                        </notebook>
+                        <button name="create_viz2" type="object" string="إنشاء البيان"
+                                class="button_secondary" invisible="state_finance == 'finance_1' or sequence != 2"/>
+                        <field name="visualisation1" type="base64" widget="image"
+                               invisible="visualisation1 == False or state_finance == 'finance_1' or sequence != 2"/>
+                        <h6 invisible="state_finance == 'finance_1' or sequence != 2">SWOT</h6>
+                        <br/>
+                        <div class="swot_table" invisible="state_finance == 'finance_1' or sequence != 2">
+                            <field name="weakness_ids" style="background-color: #F4A460;" class="swot_element">
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                </tree>
+                            </field>
+                            <field name="strength_ids" style="background-color: #90EE90;" class="swot_element">
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                </tree>
+                            </field>
+                        </div>
+                        <div class="swot_table" invisible="state_finance == 'finance_1' or sequence != 2">
+                            <field name="opportunitie_ids" style="background-color: #87CEFA;" class="swot_element">
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                </tree>
+                            </field>
+                            <field name="threat_ids" style="background-color: #CD5C5C;" class="swot_element">
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                </tree>
+                            </field>
+                        </div>
+
+                        <h3 invisible="state_finance == 'finance_1' or sequence != 2">المشروع الاستثماري</h3>
+                        <group invisible="state_finance == 'finance_1' or sequence != 2">
+                            <field name="description_prjt_invest" readonly="state_finance != 'finance_2'"/>
+                            <field name="actif_invest" readonly="state_finance != 'finance_2'"/>
+                            <field name="pays_prod" readonly="state_finance != 'finance_2'" widget="many2many_tags"/>
+                            <field name="valeur_total" readonly="state_finance != 'finance_2'"/>
+                            <field name="auto_financement" readonly="state_finance != 'finance_2'"/>
+                            <field name="financement_demande" readonly="state_finance != 'finance_2'"/>
+                            <field name="duree_financement" readonly="state_finance != 'finance_2'"/>
+                        </group>
+                        <group>
+                            <field name="invest_id" readonly="1"
+                                   invisible="state_finance == 'finance_1' or sequence != 2"/>
+                        </group>
+                        <button name="action_create_invest" type="object" string="دراسة المشروع الاستثماري"
+                                class="button_secondary"
+                                invisible="invest_id != False or sequence != 2 or state_finance == 'finance_1'"/>
+                        <group>
+                            <field name="avis_invest" readonly="state_finance != 'finance_2'"
+                                   invisible="state_finance == 'finance_1' or sequence != 2"/>
+                        </group>
+                        <h3 invisible="state_finance == 'finance_1'">توصية المحلل المالي</h3>
+                        <group invisible="state_finance == 'finance_1'">
+                            <field name="recommandation_analyste_fin" readonly="state_finance != 'finance_2'"/>
+                            <field name="facilite_propose" readonly="state_finance != 'finance_2'">
+                                <tree editable="bottom">
+                                    <field name="type_facilite"/>
+                                    <field name="montant_dz" sum="Total"/>
+                                    <field name="montant_dollar" sum="Total"/>
+                                    <field name="condition"/>
+                                </tree>
+                            </field>
+                            <field name="garantie_ids" widget="many2many_tags" readonly="state_finance != 'finance_2'"/>
+                            <field name="exception_ids" widget="many2many_tags" readonly="state_finance != 'finance_2'"/>
+                            <field name="comite" options="{'no_create': True, 'no_open': True}"
+                                   readonly="state_finance != 'finance_2'"/>
+                            <field name="recommandation_dir_fin" readonly="state_finance != 'finance_3'"/>
+                        </group>
+                    </div>
+                    <div invisible="sequence not in [3,5,6]">
+                        <button type="object" name="create_viz" class="button_secondary" string="انشاء بيان"
+                                invisible="sequence != 3"/>
+                        <group>
+                            <field name="visualisation" type="base64" widget="image"
+                                   invisible="visualisation == False or sequence != 3"/>
+                        </group>
+                        <group>
+                            <field name="assigned_to_commercial" invisible="sequence != 3"
+                                   readonly="state_commercial != 'commercial_1'"/>
+                            <field name="analyse_secteur_act" readonly="state_commercial != 'commercial_2'"
+                                   invisible="sequence not in [3,5]"/>
+                            <field name="analyse_concurrence" readonly="state_commercial != 'commercial_2'"
+                                   invisible="sequence not in [3,5]"/>
+                            <field name="ampleur_benefice" readonly="state_commercial != 'commercial_2'"
+                                   invisible="sequence not in [3,5]"/>
+                            <field name="analyse_relation" readonly="state_commercial != 'commercial_2'"
+                                   invisible="sequence not in [3,5]"/>
+                            <field name="recommendation_commercial" readonly="state_commercial != 'commercial_2'"/>
+                        </group>
+                        <group>
+                            <field name="recommendation_dir_commercial" readonly="state_commercial != 'commercial_3'"/>
+                        </group>
+                    </div>
+                    <div invisible="sequence not in [4,5,6]">
+                        <group>
+                            <field name="assigned_to_risque" readonly="state_risque != 'risque_1'"
+                                   invisible="sequence not in [4,5]"/>
+                            <field name="risk_scoring" readonly="1" invisible="sequence not in [4,5]"/>
+                            <field name="resultat_scoring" invisible="sequence not in [4,5]"/>
+                            <field name="recommandation_dir_risque" readonly="state_risque != 'risque_1'"/>
+                        </group>
+                    </div>
+                    <div invisible="sequence not in [5,6]">
+                        <group>
+                            <field name="recommandation_tresorerie" readonly="state_vice != 'vice_1'"/>
+                            <field name="recommandation_vice_dir_fin" readonly="state_vice != 'vice_1'"/>
+                        </group>
+                    </div>
+                    <div invisible="sequence != 6">
+                        <group>
+                            <field name="recommandation_fin_comite" readonly="state_comite != 'comite_1'"/>
+                        </group>
+                    </div>
+                    <button type="object" name="validate_information" string="تأكيد المعلومات"
+                            invisible="state_branch in ['branch_rejected', 'branch_5'] or state_finance in ['finance_4', 'finance_rejected'] or state_risque in ['risque_2'] or state_commercial in ['commercial_4'] or state_commercial in ['vice_2']"
+                            class="button_confirm"/>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+</odoo>

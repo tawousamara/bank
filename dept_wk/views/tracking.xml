@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="wk_tracking_action" model="ir.actions.act_window">
+        <field name="name">Tracking</field>
+        <field name="res_model">wk.tracking</field>
+        <field name="view_mode">tree</field>
+    </record>
+    <record id="view_wk_tracking_tree" model="ir.ui.view">
+        <field name="name">wk.tracking.tree</field>
+        <field name="model">wk.tracking</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="date_debut"/>
+                <field name="date_fin"/>
+                <field name="date_difference" decoration-danger="depasse == True" decoration-success="depasse == False"/>
+                <field name="time" />
+                <field name="state"/>
+                <field name="state1" column_invisible="1"/>
+                <field name="is_revision" column_invisible="1"/>
+                <field name="depasse" column_invisible="1"/>
+                <field name="comment" decoration-danger="is_revision == True" decoration-success="is_revision == False"/>
+            </tree>
+        </field>
+    </record>
+</odoo>

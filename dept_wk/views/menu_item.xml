@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <menuitem id="dept_wk_menu"
+                  name="Workflow"
+                  web_icon="dept_wk,static/description/icon.png"
+                  sequence="0">
+            <menuitem id="wk_workflow_dashboard_menu"
+                      name="طلبات التمويل"
+                      sequence="1"
+                      action="wk_workflow_dashboard_action"/>
+            <menuitem
+                    name="Dashboard"
+                    action="open_simple_dashboard_action"
+                    sequence="2"
+                    id="dashboard_menu"
+            />
+            <menuitem id="wk_contact_menu"
+                      name="جهات الاتصال"
+                      sequence="3"
+                      action="contacts.action_contacts"/>
+            <menuitem id="wk_reporting_menu"
+                      name="Reporting"
+                      sequence="4"
+                      action="wk_analyse_performence_action"/>
+
+            <menuitem id="wk_configuration_menu"
+                      name="Configuration"
+                      groups="dept_wk.dept_wk_group_administration"
+                      sequence="10">
+                <menuitem id="wk_agence_menu"
+                          name="الفروع"
+                          action="wk_agence_action"
+                          sequence="1"/>
+                <menuitem id="wk_forme_jur_menu"
+                          name="الشكل القانوني"
+                          action="wk_forme_jur_action"
+                          sequence="2"/>
+                <menuitem id="wk_activite_menu"
+                          name="النشاط الرئيسئ"
+                          action="wk_activite_action"
+                          sequence="3"/>
+                <menuitem id="wk_secteur_menu"
+                          name="النشاط الثانوي"
+                          action="wk_secteur_action"
+                          sequence="4"/>
+                <menuitem id="wk_type_demande_menu"
+                          name="نوع الطلب"
+                          action="wk_type_demande_action"
+                          sequence="6"/>
+                <menuitem id="wk_decision_cell_menu"
+                          name="سلطة القرار"
+                          action="wk_decision_cell_action"
+                          sequence="7"/>
+                <menuitem id="wk_product_menu"
+                          name="منتجات المصرف"
+                          action="wk_product_action"
+                          sequence="8"/>
+                <menuitem id="wk_classification_menu"
+                          name="تصنيف الشركة"
+                          action="wk_classification_action"
+                          sequence="9"/>
+                <menuitem id="wk_nature_menu"
+                          name="الطبيعة القانونية للمقرات"
+                          action="wk_nature_juridique_action"
+                          sequence="10"/>
+                <menuitem id="wk_fin_type_menu"
+                          name="نوع التمويل"
+                          action="wk_type_fin_action"
+                          sequence="11"/>
+                <menuitem id="wk_wilaya_menu"
+                          name="الولايات"
+                          action="wk_wilaya_action"
+                          sequence="12"/>
+                <menuitem id="wk_garanties_menu"
+                          name="الضمانات"
+                          action="wk_garanties_action"
+                          sequence="13"/>
+                <menuitem id="wk_exceptions_menu"
+                          name="الاستثناءات"
+                          action="wk_exceptions_action"
+                          sequence="14"/>
+                <menuitem id="wk_comite_menu"
+                          name="صلاحيات اللجان"
+                          action="wk_comite_action"
+                          sequence="15"/>
+                <menuitem id="wk_wk_state_menu"
+                          name="Etapes"
+                          action="wk_wk_state_action"
+                          sequence="18"/>
+                <menuitem id="wk_wk_payment_menu"
+                          name="طريقة السداد"
+                          action="wk_type_payment_action"
+                          sequence="18"/>
+                <menuitem id="wk_time_menu"
+                          name="الاوقات اللازمة"
+                          action="wk_time_action"
+                          sequence="50"/>
+            </menuitem>
+
+        </menuitem>
+    </data>
+</odoo>

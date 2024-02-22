@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_tcr_analysis" model="ir.actions.act_window">
+        <field name="name">Analyse TCR</field>
+        <field name="res_model">tcr.analysis.import</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record id="tcr_analysis_import_view_form" model="ir.ui.view">
+        <field name="name">tcr.analysis.import.view.form</field>
+        <field name="model">tcr.analysis.import</field>
+        <field name="arch" type="xml">
+            <form string="Analyse TCR">
+                <header>
+                    <!---<button id="button_count_ratio" name="action_count_ratio_hist" string="Calcul Ratio"
+                            class="btn-primary"
+                            type="object"/>-->
+                    <button id="button_count_prev" name="action_count_prev" string="Calcul Prev."
+                            class="btn-primary"
+                            type="object"/>
+                </header>
+                <sheet>
+                    <group col="4">
+                        <field name="name" readonly="1"/>
+                        <field name="date"/>
+                    </group>
+                    <group>
+                        <field name="company_id" invisible="1"/>
+                        <field name="file_tester" invisible="1"/>
+                    </group>
+
+
+                    <notebook>
+                        <page string="تحميل البيانات المالية">
+                            <div class="row">
+                                <button id="button_Set_Data" name="action_set_data" string="Saisir manuellement"
+                                        class="btn-primary"
+                                        invisible="file_import_data != False"
+                                        type="object"/>
+                                <separator/>
+                                <button id="button_Import_Data" name="action_import_data" string="importer au tableau"
+                                        class="btn-primary"
+                                        invisible="file_import_data == False"
+                                        type="object"/>
+                                <separator/>
+                                <field name="file_import_name" invisible="1"/>
+                                <field name="file_import_data" filename="file_import_name" type="base64"/>
+                            </div>
+                            <field name="line_ids">
+                                <tree string="Prévisions" create="0" editable="bottom">
+                                    <!-- Invisible fields -->
+                                    <field name="company_id" column_invisible="True"/>
+                                    <field name="tcr_analysis_id" column_invisible="True"/>
+
+                                    <!-- Visible fields -->
+                                    <field name="poste_comptable" column_invisible="True"
+                                           decoration-bf="poste_comptable in ('1', '6', '7', '8', '11', '15', '17', '19')"
+                                           readonly="1"/>
+                                    <field name="poste_arabe"
+                                           decoration-bf="poste_comptable in ('1', '6', '7', '8', '11', '15', '17', '19')"
+                                           readonly="1"/>
+                                    <field name="amount_n"/>
+                                    <field name="amount_n1"/>
+                                    <field name="amount_n2"/>
+                                    <field name="amount_n3"/>
+                                    <field name="amount_n4"/>
+                                </tree>
+                                <form string="Prévisions">
+                                    <sheet>
+                                        <!-- Invisible fields -->
+                                        <field name="company_id" culumn_invisible="True"/>
+                                        <field name="tcr_analysis_id" column_invisible="True"/>
+
+                                        <!-- Visible fields -->
+                                        <group col="4">
+                                            <field name="poste_comptable"/>
+                                            <field name="amount_n"/>
+                                            <field name="amount_n1" readonly="1"/>
+                                            <field name="amount_n2" readonly="1"/>
+                                            <field name="amount_n3" readonly="1"/>
+                                            <field name="amount_n4" readonly="1"/>
+                                        </group>
+                                    </sheet>
+                                </form>
+                            </field>
+                            <button id="button_validation" name="action_validate" string="Valider"
+                                    class="btn-primary"
+                                    type="object"/>
+                            <separator/>
+                            <div col="2" invisible="file_tester == False">
+                                <h3>Visualisation Graphique</h3>
+                                <separator/>
+                                <field name="graph_historical_bar" type="base64" widget="image" readonly="1"
+                                       class="col-6"/>
+                                <field name="graph_historical_bar_emp" type="base64" widget="image" readonly="1"
+                                       class="col-6"/>
+
+                                <separator/>
+                                <group>
+                                    <field name="year_prec"/>
+                                </group>
+                                <separator/>
+                                <field name="graph_historical_pie_ca_by_exercise" type="base64" widget="image"
+                                       readonly="1" class="col-6"/>
+                            </div>
+                            <div class="row justify-content-end">
+                                <field name="file_template_name" invisible="1"/>
+                                <field name="file_template" filename="file_template_name" readonly="1"/>
+                            </div>
+                        </page>
+                        <!--<page string="Ratios Historique">
+                            <field name="ratio_ids">
+                                <tree string="Ratio" create="0">
+                                    <field name="company_id" column_invisible="True"/>
+                                    <field name="tcr_analysis_id" column_invisible="True"/>
+
+                                    <field name="ratio"/>
+                                    <field name="amount_n"/>
+                                    <field name="amount_n1"/>
+                                    <field name="amount_n2"/>
+                                    <field name="amount_n3"/>
+                                    <field name="amount_n4"/>
+                                    <field name="graph" widget="image" type="base64"/>
+
+
+                                </tree>
+                            </field>
+                        </page>-->
+                        <page string="فرضيات اختبار التحمل">
+                            <field name="tcr_prev_ids">
+                                <tree create="0" editable="bottom">
+
+                                    <!-- Invisible fields
+                                    <field name="rating_last_image" string="Rating" widget="image" options='{"size": [20, 20]}'/>-->
+
+                                    <!-- Visible fields -->
+                                    <field name="poste_comptable" column_invisible="True"
+                                           decoration-bf="poste_comptable in ('1', '6', '7', '8', '11', '15', '17', '19')"
+                                           readonly="1"/>
+                                    <field name="poste_arabe"
+                                           decoration-bf="poste_comptable in ('1', '6', '7', '8', '11', '15', '17', '19')"
+                                           readonly="1"/>
+                                    <field name="augment_hypothesis_n1"
+                                           readonly="poste_comptable in ('1', '8', '11', '15', '17', '19')"/>
+                                    <field name="amount_n" readonly="1"
+                                           decoration-bf="poste_comptable in ('1','8', '11', '15', '17', '19')"/>
+                                    <field name="augment_hypothesis_n2"
+                                           readonly="poste_comptable in ('1', '8', '11', '15', '17', '19')"/>
+                                    <field name="amount_n1" readonly="1"
+                                           decoration-bf="poste_comptable in ('1', '6', '7', '8', '11', '15', '17', '19')"/>
+                                     <field name="augment_hypothesis_n3"
+                                           readonly="poste_comptable in ('1', '8', '11', '15', '17', '19')"/>
+                                    <field name="amount_n2" readonly="1"
+                                           decoration-bf="poste_comptable in ('1', '6', '7', '8', '11', '15', '17', '19')"/>
+                                    <field name="augment_hypothesis_n4"
+                                           readonly="poste_comptable in ('1', '8', '11', '15', '17', '19')"/>
+                                    <field name="amount_n3" readonly="1"
+                                           decoration-bf="poste_comptable in ('1', '6', '7', '8', '11', '15', '17', '19')"/>
+                                    <field name="augment_hypothesis_n5"
+                                           readonly="poste_comptable in ('1', '8', '11', '15', '17', '19')"/>
+                                    <field name="amount_n4" readonly="1"
+                                           decoration-bf="poste_comptable in ('1', '6', '7', '8', '11', '15', '17', '19')"/>
+                                    <!--<field name="amount_n5" readonly="1"
+                                           decoration-bf="poste_comptable in ('1', '6', '7', '8', '11', '15', '17', '19')"/>-->
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="خلاصة اختبار التحمل">
+                            <field name="recap_tcr_prev_ids">
+                                <tree create="0" editable="bottom">
+
+                                    <!-- Invisible fields
+                                    <field name="rating_last_image" string="Rating" widget="image" options='{"size": [20, 20]}'/>-->
+
+                                    <!-- Visible fields -->
+                                    <field name="poste_comptable" column_invisible="True"
+                                           decoration-bf="poste_comptable in ('1', '6', '7', '8', '11', '15', '17', '19')"
+                                           readonly="1"/>
+                                    <field name="poste_arabe"
+                                           decoration-bf="poste_comptable in ('1', '6', '7', '8', '11', '15', '17', '19')"
+                                           readonly="1"/>
+                                    <field name="amount_n" readonly="1"/>
+                                    <field name="amount_n1" readonly="1"/>
+                                    <field name="amount_n2" readonly="1"/>
+                                    <field name="amount_n3" readonly="1"/>
+                                    <field name="amount_n4" readonly="1"/>
+                                    <!--<field name="amount_n5" readonly="1"/>-->
+                                </tree>
+                            </field>
+                            <separator/>
+                            <div col="2">
+                                <h3>Visualisation Graphique</h3>
+                                <separator/>
+                                <field name="graph_prev_bar" type="base64" widget="image" readonly="1" class="col-6"/>
+                                <field name="graph_prev_bar_emp" type="base64" widget="image" readonly="1"
+                                       class="col-6"/>
+
+                                <separator/>
+                                <group>
+                                    <field name="year_suiv"/>
+                                </group>
+                                <separator/>
+                                <field name="graph_prev_pie_ca_by_exercise" type="base64" widget="image" readonly="1"
+                                       class="col-6"/>
+                            </div>
+                        </page>
+                        <page string="المؤشرات المالية المسقبلية">
+                            <field name="tcr_prev_ratio_ids">
+                                <tree create="0" editable="bottom">
+                                    <!-- Invisible fields
+                                    <field name="rating_last_image" string="Rating" widget="image" options='{"size": [20, 20]}'/>-->
+                                    <!-- Visible fields -->
+                                    <field name="ratio_ar" readonly="1"/>
+                                    <field name="amount_n" readonly="1"/>
+                                    <field name="amount_n1" readonly="1"/>
+                                    <field name="amount_n2" readonly="1"/>
+                                    <field name="amount_n3" readonly="1"/>
+                                    <field name="amount_n4" readonly="1"/>
+                                    <!--<field name="amount_n5" readonly="1"/>-->
+                                    <!--<field name="graph" widget="image" type="base64"/>-->
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="جدول السداد">
+                            <group>
+                                <field name="capital"/>
+                                <field name="capital_differe" readonly="1"/>
+                                <field name="taux" widget="percentage"/>
+                                <field name="tva" widget="percentage"/>
+                                <field name="periodicite"/>
+                                <field name="nbr_echeance"/>
+                                <field name="amort" readonly="1"/>
+                                <field name="differe"/>
+                                <field name="duree_differe"/>
+                                <field name="date_debut"/>
+                                <field name="date_differe"/>
+                                <field name="date_fin"/>
+                            </group>
+                            <button id="button_echeance" name="calcul_echeance_action" string="Calcul Echeance"
+                                    class="btn-primary"
+                                    type="object"/>
+                            <field name="echeance_ids" readonly="1">
+                                <tree limit="300">
+                                    <field name="date"/>
+                                    <field name="name"/>
+                                    <field name="capital"/>
+                                    <field name="principal" sum="Total"/>
+                                    <field name="marge" sum="Total"/>
+                                    <field name="tva" sum="Total"/>
+                                    <field name="total" sum="Total"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="التدفقات النقدية">
+                            <button id="button_cashflow" name="calcul_cashflow" string="Calcul Cash-flow"
+                                    class="btn-primary"
+                                    type="object"/>
+                            <field name="cashflow_ids" options="{'no_open': True, 'no_create': True}">
+                                <tree limit="300" create="0" delete="0" editable="bottom">
+                                    <field name="name" decoration-bf="bilan in (1, 3, 7, 13)" readonly="1"/>
+                                    <field name="bilan" column_invisible="True"/>
+                                    <field name="amount_n" decoration-bf="bilan in (1, 3, 7, 13)"
+                                           readonly="bilan != 11"/>
+                                    <field name="amount_n_dollar" optional="hide" decoration-bf="bilan in (1, 3, 7, 13)"
+                                           readonly="bilan != 11"/>
+                                    <field name="amount_n1" decoration-bf="bilan in (1, 3, 7, 13)"
+                                           readonly="bilan != 11"/>
+                                    <field name="amount_n1_dollar" optional="hide"
+                                           decoration-bf="bilan in (1, 3, 7, 13)" readonly="bilan != 11"/>
+                                    <field name="amount_n2" decoration-bf="bilan in (1, 3, 7, 13)"
+                                           readonly="bilan != 11"/>
+                                    <field name="amount_n2_dollar" optional="hide"
+                                           decoration-bf="bilan in (1, 3, 7, 13)" readonly="bilan != 11"/>
+                                    <field name="amount_n3" decoration-bf="bilan in (1, 3, 7, 13)"
+                                           readonly="bilan != 11"/>
+                                    <field name="amount_n3_dollar" optional="hide"
+                                           decoration-bf="bilan in (1, 3, 7, 13)" readonly="bilan != 11"/>
+                                    <field name="amount_n4" decoration-bf="bilan in (1, 3, 7, 13)"
+                                           readonly="bilan != 11"/>
+                                    <field name="amount_n4_dollar" optional="hide"
+                                           decoration-bf="bilan in (1, 3, 7, 13)" readonly="bilan != 11"/>
+                                    <!--<field name="amount_n5" decoration-bf="bilan in (1, 3, 7, 13)"
+                                           readonly="bilan != 11"/>
+                                    <field name="amount_n5_dollar" optional="hide"
+                                           decoration-bf="bilan in (1, 3, 7, 13)" readonly="bilan != 11"/>-->
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="تقييم المشروع">
+                            <field name="evaluation_ids" options="{'no_open': True, 'no_create': True}">
+                                <tree limit="300" create="0" delete="0" editable="bottom">
+                                    <field name="name" decoration-bf="sequence == 4" readonly="1"/>
+                                    <field name="sequence" column_invisible="True"/>
+                                    <field name="computed" column_invisible="True"/>
+                                    <field name="amount_n" decoration-bf="sequence == 4" readonly="sequence == 4"/>
+                                    <field name="amount_n1" decoration-bf="sequence == 4" readonly="sequence == 4"/>
+                                    <field name="amount_n2" decoration-bf="sequence == 4" readonly="sequence == 4"/>
+                                    <field name="amount_n3" decoration-bf="sequence == 4" readonly="sequence == 4"/>
+                                    <field name="amount_n4" decoration-bf="sequence == 4" readonly="sequence == 4"/>
+                                    <field name="amount_n5" decoration-bf="sequence == 4" readonly="sequence == 4"/>
+                                </tree>
+                            </field>
+                            <group col="2" class="col-6">
+                                <field name="taux_rend" widget="percentage" />
+                            </group>
+                            <button id="button_evaluation" name="calcul_evaluation" string="Calcul"
+                                    class="btn-primary"
+                                    type="object"/>
+                            <field name="evaluation_line_ids" options="{'no_open': True, 'no_create': True}" readonly="1">
+                                <tree limit="300" create="0" delete="0" editable="bottom">
+                                    <field name="name" decoration-bf="sequence == 5" />
+                                    <field name="sequence" column_invisible="True"/>
+                                    <field name="amount_n1" decoration-bf="sequence == 5" />
+                                    <field name="amount_n2" decoration-bf="sequence == 5" />
+                                    <field name="amount_n3" decoration-bf="sequence == 5" />
+                                    <field name="amount_n4" decoration-bf="sequence == 5" />
+                                    <field name="amount_n5" decoration-bf="sequence == 5" />
+                                </tree>
+                            </field>
+                            <group col="2" class="col-6">
+                                <field name="van" />
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="tcr_analysis_import_view_tree" model="ir.ui.view">
+        <field name="name">tcr.analysis.import.view.tree</field>
+        <field name="model">tcr.analysis.import</field>
+        <field name="arch" type="xml">
+            <tree string="Import TCR">
+                <field name="name"/>
+                <field name="date"/>
+            </tree>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="val_multiple_ebe_view_form" model="ir.ui.view">
+        <field name="name">val.multiple.ebe.view.form</field>
+        <field name="model">val.multiple.ebe</field>
+        <field name="arch" type="xml">
+            <form string="Valorisation d'entreprise par multiple d'EBE">
+                <sheet>
+                    <group col="4">
+                        <field name="name" readonly="1"/>
+                        <field name="date"/>
+                    </group>
+                    <group col="4">
+                        <field name="multiple"/>
+                        <field name="amount_average_ebe"/>
+                        <field name="amount_ve"/>
+                    </group>
+                    <group>
+                        <field name="company_id" invisible="1"/>
+                        <field name="active" invisible="1"/>
+                    </group>
+                    <notebook>
+                        <page string="Year">
+                            <field name="line_ids">
+                                <tree string="Year"  editable="bottom">
+                                    <!-- Invisible fields -->
+                                    <field name="company_id" invisible="1"/>
+                                    <field name="active" invisible="1"/>
+
+                                    <!-- Visible fields -->
+                                    <field name="year"/>
+                                    <field name="amount"/>
+                                </tree>
+                                <form string="Year">
+                                    <sheet>
+                                        <!-- Invisible fields -->
+                                        <field name="company_id" invisible="1"/>
+                                        <field name="active" invisible="1"/>
+
+                                        <!-- Visible fields -->
+                                        <group col="4">
+                                            <field name="year"/>
+                                            <field name="amount"/>
+                                        </group>
+                                    </sheet>
+                                </form>
+
+                            </field>
+
+                        </page>
+                    </notebook>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="val_multiple_ebe_view_tree" model="ir.ui.view">
+        <field name="name">val.multiple.ebe.view.tree</field>
+        <field name="model">val.multiple.ebe</field>
+        <field name="arch" type="xml">
+            <tree string="Valorisation d'entreprise par multiple d'EBE">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="multiple"/>
+                <field name="amount_average_ebe"/>
+                <field name="amount_ve"/>
+                <field name="company_id" invisible="1"/>
+                <field name="active" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_val_multiple_ebe" model="ir.actions.act_window">
+        <field name="name">Par multiple d'EBE</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">val.multiple.ebe</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+
+</odoo>

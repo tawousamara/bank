@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="financial_modeling_root"
+              name="Financial Modeling"
+              groups="financial_modeling_group_administration"
+              web_icon="financial_modeling,static/description/icon.png"
+              sequence="10"/>
+
+    <!-- **************************************** -->
+
+    <menuitem id="menuitem_financial_modeling_detailed"
+              name="Analyse Détaillée"
+              parent="financial_modeling_root"
+              sequence="3"/>
+
+    <menuitem id="menu_tcr"
+              action="action_tcr_analysis"
+              parent="menuitem_financial_modeling_detailed"
+              sequence="5"/>
+
+    <menuitem id="menuitem_financial_modeling_scoring"
+              name="Analyse Scoring"
+              parent="financial_modeling_root"
+              sequence="4"/>
+    <menuitem id="menuitem_financial_modeling_import"
+              name="Importation Bilan OCR"
+              parent="menuitem_financial_modeling_scoring"
+              sequence="4"/>
+    <menuitem id="menuitem_financial_modeling_import_tcr"
+              name="Bilan TCR"
+              parent="menuitem_financial_modeling_import"
+              action="action_import_ocr_tcr"
+              sequence="1"/>
+    <menuitem id="menuitem_financial_modeling_import_actif"
+              name="Bilan Actif"
+              parent="menuitem_financial_modeling_import"
+              action="action_import_ocr_actif"
+              sequence="2"/>
+
+    <menuitem id="menuitem_financial_modeling_import_passif"
+              name="Bilan Passif"
+              parent="menuitem_financial_modeling_import"
+              action="action_import_ocr_passif"
+              sequence="3"/>
+    <menuitem id="menuitem_financial_modeling_scoring_analyse"
+              name="Scoring"
+              parent="menuitem_financial_modeling_scoring"
+              sequence="4"/>
+    <menuitem id="menuitem_financial_modeling_scoring_kpi"
+              name="Analyse"
+              parent="menuitem_financial_modeling_scoring_analyse"
+              action="action_scoring_kpi"
+              sequence="1"/>
+    <menuitem id="menuitem_financial_modeling_scoring_configuration"
+              name="Configuration"
+              parent="menuitem_financial_modeling_scoring"
+              sequence="5"/>
+    <menuitem id="menuitem_financial_modeling_scoring_config"
+              name="Valorisation Data Cumulée"
+              parent="menuitem_financial_modeling_scoring_configuration"
+              action="action_scoring_kpi_cumule"
+              sequence="1"/>
+</odoo>

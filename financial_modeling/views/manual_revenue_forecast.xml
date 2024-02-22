@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="manual_revenue_forecast_view_form" model="ir.ui.view">
+        <field name="name">manual.revenue.forecast.view.form</field>
+        <field name="model">manual.revenue.forecast</field>
+        <field name="arch" type="xml">
+            <form string="Prévisions de chiffre d'affaire manuelle">
+                <header>
+                    <button string="Calcul EBE"
+                            class="oe_highlight"
+                            name="action_count_ebe"
+                            type="object"/>
+                </header>
+
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" type="object" name="open_dossier_credit" icon="fa-solid fa-folder-open"/>
+                    </div>
+                    <group col="4">
+                        <field name="name" readonly="1"/>
+                        <field name="date"/>
+                        <field name="chiffre_affaire"/>
+                    </group>
+                    <group>
+                        <field name="company_id" invisible="1"/>
+                        <field name="active" invisible="1"/>
+                    </group>
+                    <group>
+                        <field name="name_fichier" invisible="1" />
+                        <field name="xls_file" filename="name_fichier" readonly="1"/>
+                    </group>
+                    <notebook>
+                        <page string="Prévisions">
+                            <field name="line_ids">
+                                <tree string="Prévisions"  editable="bottom">
+
+                                    <!-- Invisible fields -->
+                                    <field name="company_id" invisible="1"/>
+                                    <field name="manual_forecast_id" invisible="1"/>
+                                    <field name="active" invisible="1"/>
+
+                                    <!-- Visible fields -->
+                                    <field name="type_forecast" readonly="type_forecast in ('5', '6')"/>
+                                    <field name="amount_n" readonly="type_forecast in ('5', '6')"/>
+                                    <field name="augment_hypothesis_n1" readonly="type_forecast in ('5', '6')"/>
+                                    <field name="amount_n1" readonly="1"/>
+                                    <field name="augment_hypothesis_n2" readonly="type_forecast in ('5', '6')"/>
+                                    <field name="amount_n2" readonly="1"/>
+                                    <field name="augment_hypothesis_n3" readonly="type_forecast in ('5', '6')"/>
+                                    <field name="amount_n3" readonly="1"/>
+                                    <field name="augment_hypothesis_n4" readonly="type_forecast in ('5', '6')"/>
+                                    <field name="amount_n4" readonly="1"/>
+                                    <field name="augment_hypothesis_n5" readonly="type_forecast in ('5', '6')"/>
+                                    <field name="amount_n5" readonly="1"/>
+                                </tree>
+
+                                <form string="Prévisions">
+                                    <sheet>
+                                        <!-- Invisible fields -->
+                                        <field name="company_id" invisible="1"/>
+                                        <field name="manual_forecast_id" invisible="1"/>
+                                        <field name="active" invisible="1"/>
+
+                                        <!-- Visible fields -->
+                                        <group col="4">
+                                            <field name="type_forecast" readonly="type_forecast in ('5', '6')"/>
+                                            <field name="amount_n" readonly="type_forecast in ('5', '6')"/>
+                                            <field name="augment_hypothesis_n1" readonly="type_forecast in ('5', '6')"/>
+                                            <field name="amount_n1" readonly="1"/>
+                                            <field name="augment_hypothesis_n2" readonly="type_forecast in ('5', '6')"/>
+                                            <field name="amount_n2" readonly="1"/>
+                                            <field name="augment_hypothesis_n3" readonly="type_forecast in ('5', '6')"/>
+                                            <field name="amount_n3" readonly="1"/>
+                                            <field name="augment_hypothesis_n4" readonly="type_forecast in ('5', '6')"/>
+                                            <field name="amount_n4" readonly="1"/>
+                                            <field name="augment_hypothesis_n5" readonly="type_forecast in ('5', '6')"/>
+                                            <field name="amount_n5" readonly="1"/>
+                                        </group>
+                                    </sheet>
+                                </form>
+
+                            </field>
+                            <field name="graph" type="base64" widget="image" />
+                        </page>
+                    </notebook>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="manual_revenue_forecast_view_tree" model="ir.ui.view">
+        <field name="name">manual.revenue.forecast.view.tree</field>
+        <field name="model">manual.revenue.forecast</field>
+        <field name="arch" type="xml">
+            <tree string="Prévisions de chiffre d'affaire manuelle">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="chiffre_affaire"/>
+                <field name="company_id" invisible="1"/>
+                <field name="active" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_manual_revenue_forecast_clients" model="ir.actions.act_window">
+        <field name="name">Prévisions de chiffre d'affaire manuelle</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">manual.revenue.forecast</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+
+</odoo>

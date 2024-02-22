@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="seq_automatic_revenue_forecast_facture" model="ir.sequence">
+        <field name="name">Prévisions de chiffre d`affaire automatique - Facture</field>
+        <field name="code">automatic.revenue.forecast.facture</field>
+        <field name="padding">3</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <record id="seq_automatic_revenue_forecast_crm" model="ir.sequence">
+        <field name="name">Prévisions de chiffre d`affaire automatique - CRM</field>
+        <field name="code">automatic.revenue.forecast.crm</field>
+        <field name="padding">3</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <record id="seq_manual_revenue_forecast" model="ir.sequence">
+        <field name="name">Prévisions de chiffre d`affaire manuelle</field>
+        <field name="code">manual.revenue.forecast.seq</field>
+        <field name="padding">3</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <record id="seq_bfr_analysis" model="ir.sequence">
+        <field name="name">BFR Analysis</field>
+        <field name="code">bfr.analysis.seq</field>
+        <field name="padding">3</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <record id="seq_stress_testing" model="ir.sequence">
+        <field name="name">Stress Testing</field>
+        <field name="code">stress.testing.seq</field>
+        <field name="padding">3</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <record id="seq_val_multiple_ebe" model="ir.sequence">
+        <field name="name">Val Multiple EBE</field>
+        <field name="code">val.multiple.ebe.seq</field>
+        <field name="padding">3</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <record id="seq_tcr_analysis" model="ir.sequence">
+        <field name="name">TCR Analysis</field>
+        <field name="code">tcr.analysis.seq</field>
+        <field name="padding">3</field>
+        <field name="company_id" eval="False"/>
+    </record>
+    <record id="seq_bilan_general" model="ir.sequence">
+        <field name="name">Bilan general</field>
+        <field name="code">bilan.general.seq</field>
+        <field name="padding">3</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <record id="seq_import_ocr_tcr" model="ir.sequence">
+        <field name="name">Import TCR</field>
+        <field name="code">import.ocr.tcr.seq</field>
+        <field name="prefix">TCR/</field>
+        <field name="padding">3</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <record id="seq_import_ocr_actif" model="ir.sequence">
+        <field name="name">Import Actif</field>
+        <field name="code">import.ocr.actif.seq</field>
+        <field name="prefix">Actif/</field>
+        <field name="padding">3</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <record id="seq_import_ocr_passif" model="ir.sequence">
+        <field name="name">Import Passif</field>
+        <field name="code">import.ocr.passif.seq</field>
+        <field name="prefix">Passif/</field>
+        <field name="padding">3</field>
+        <field name="company_id" eval="False"/>
+    </record>
+    <record id="seq_scoring_kpi" model="ir.sequence">
+        <field name="name">Scoring</field>
+        <field name="code">scoring.kpi.seq</field>
+        <field name="prefix">Sc/</field>
+        <field name="padding">3</field>
+        <field name="company_id" eval="False"/>
+    </record>
+</odoo>

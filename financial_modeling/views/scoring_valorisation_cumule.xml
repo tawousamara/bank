@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_scoring_kpi_cumule" model="ir.actions.act_window">
+        <field name="name">Valorisation</field>
+        <field name="res_model">scoring.configuration.data</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record id="scoring_configuration_data_view_tree" model="ir.ui.view">
+        <field name="name">scoring.configuration.data.view.tree</field>
+        <field name="model">scoring.configuration.data</field>
+        <field name="arch" type="xml">
+            <tree string="Valorisation cumule">
+                <field name="name"/>
+                <field name="nbr_records"/>
+            </tree>
+        </field>
+    </record>
+    <record id="scoring_configuration_data_view_form" model="ir.ui.view">
+        <field name="name">scoring.configuration.data.view.form</field>
+        <field name="model">scoring.configuration.data</field>
+        <field name="arch" type="xml">
+            <form string="Scoring">
+                <sheet>
+                    <div>
+                        <group >
+                            <field name="name"/>
+                            <field name="nbr_records"/>
+                            <field name="norme">
+                                <tree create="0" editable="bottom" delete="0">
+                                        <field name="kpi" readonly="1"/>
+                                        <field name="valeur" />
+                                        <field name="valeur_suggested"/>
+                                    </tree>
+                            </field>
+                        </group>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

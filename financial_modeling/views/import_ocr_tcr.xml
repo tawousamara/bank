@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_import_ocr_tcr" model="ir.actions.act_window">
+        <field name="name">Import TCR</field>
+        <field name="res_model">import.ocr.tcr</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="import_ocr_tcr_view_tree" model="ir.ui.view">
+        <field name="name">import.ocr.tcr.view.tree</field>
+        <field name="model">import.ocr.tcr</field>
+        <field name="arch" type="xml">
+            <tree string="Import TCR">
+                <field name="name"/>
+                <field name="company"/>
+                <field name="annee"/>
+                <field name="date"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="import_ocr_tcr_view_form" model="ir.ui.view">
+        <field name="name">import.ocr.tcr.view.form</field>
+        <field name="model">import.ocr.tcr</field>
+        <field name="arch" type="xml">
+            <form string="Import Tcr">
+                <header>
+                    <button name="extract_data" string="Extraire les informations"
+                            class="btn-primary" type="object"/>
+                    <button name="action_validation" string="Valider"
+                            class="btn-primary" type="object"/>
+                    <button name="action_annulation" string="Annuler la validation"
+                            class="btn-secondary" type="object"/>
+                    <field name="state" widget="statusbar" nolabel="1"/>
+                </header>
+                <sheet>
+                    <div>
+                        <group col="4">
+                            <field name="name" readonly="1"/>
+                            <field name="date"/>
+                            <field name="company" readonly="1"/>
+                        </group>
+                        <group col="2">
+                            <field name="annee" readonly="1"/>
+                        </group>
+
+                        <div class="row">
+                            <separator/>
+                            <field name="file_import_name" invisible="1"/>
+                            <field name="file_import" filename="file_import_name" type="base64" class="col-4"/>
+                        </div>
+
+                    </div>
+                    <notebook>
+                        <page string="TCR">
+                            <p name="confirmation_lines">
+                                Vous devriez confirmer les valeurs et rubriques suivantes:
+                                <br/>
+                                - Chiffre d'affaires net des rabais, Remises, Ristournes
+                                <br/>
+                                - Achats de marchandises vendues
+                                <br/>
+                                - Matières premieres
+                                <br/>
+                                - Excédent brut de l'exploitation
+                                <br/>
+                                - Résultat net de l'exercice
+                                <br/>
+                            </p>
+
+                            <field name="tcr_lines" readonly="state == 'valide'"
+                                   options="{'no_create': True, 'no_open': True}">
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                    <field name="rubrique" options="{'no_create': True, 'no_open': True}"/>
+                                    <field name="montant_n"/>
+                                    <field name="montant_n1"/>
+
+                                </tree>
+                            </field>
+                        </page>
+
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

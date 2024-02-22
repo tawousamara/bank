@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="risk_scoring_action" model="ir.actions.act_window">
+        <field name="name">Risk Scoring</field>
+        <field name="res_model">risk.scoring</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record id="view_risk_scoring_tree" model="ir.ui.view">
+        <field name="name">risk.scoring.tree</field>
+        <field name="model">risk.scoring</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="date"/>
+                <field name="partner_id"/>
+                <field name="annee_fiscal"/>
+                <field name="secteur"/>
+                <field name="groupe"/>
+                <field name="max_limit"/>
+                <field name="resultat_scoring"/>
+                <field name="classif"/>
+                <field name="niveau_risque"/>
+                <field name="chiffre_affaire"/>
+            </tree>
+        </field>
+    </record>
+    <record id="view_risk_scoring_form" model="ir.ui.view">
+        <field name="name">risk.scoring.form</field>
+        <field name="model">risk.scoring</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="calcul_scoring" string="Calcul le scoring"
+                            class="btn-primary" type="object" groups="dept_wk.dept_wk_group_responsable_credit"/>
+                    <button name="%(scoring_report)d" string="Imprimer le rapport" class="btn-primary" type="action"
+                            groups="dept_wk.dept_wk_group_responsable_credit"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="date"/>
+                        <field name="critere_qual"/>
+                        <field name="critere_quant"/>
+                        <field name="tcr_id" readonly="1" groups="dept_wk.dept_wk_group_responsable_credit"/>
+                        <field name="passif_id" readonly="1" groups="dept_wk.dept_wk_group_responsable_credit"/>
+                        <field name="actif_id" readonly="1" groups="dept_wk.dept_wk_group_responsable_credit"/>
+                    </group>
+                    <notebook>
+                        <page string="المعايير النوعية">
+                            <group col="2">
+                                <field name="original_capital" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="actionnariat" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="forme_jur" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="remp_succession" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="competence" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="experience" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="soutien_etatic" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="activite" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="influence_tech" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="anciennete" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="concurrence" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="source_appro" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="produit" options="{'no_create': True, 'no_open': True}"/>
+                            </group>
+                            <group>
+                                <field name="flexibilite" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="sollicitude" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="situation" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="mouvement" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="garanties" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="incident" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="conduite" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="dette_fisc" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="dette_parafisc" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="position_admin" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="source_remb" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="part_profil" options="{'no_create': True, 'no_open': True}"/>
+                            </group>
+                        </page>
+                        <page string="المعايير الكمية" groups="dept_wk.dept_wk_group_responsable_credit">
+                            <group string="مؤشرات الهيكل المال">
+                                <group>
+                                    <field name="quant_1" readonly="1"/>
+                                    <field name="res_quant_1" readonly="1"/>
+                                </group>
+                                <group>
+                                    <field name="quant_2" readonly="1"/>
+                                    <field name="res_quant_2" readonly="1"/>
+                                </group>
+                                <group>
+                                    <field name="quant_3" readonly="1"/>
+                                    <field name="res_quant_3" readonly="1"/>
+                                </group>
+                                <group>
+                                    <field name="quant_4" readonly="1"/>
+                                    <field name="res_quant_4" readonly="1"/>
+                                </group>
+
+                                <field name="vis1" widget="image" invisible="vis1 == False"/>
+                            </group>
+                            <group string="مؤشرات السيولة">
+                                <group>
+                                    <field name="quant_5" readonly="1"/>
+                                    <field name="res_quant_5" readonly="1"/>
+                                </group>
+                                <group>
+                                    <field name="quant_6" readonly="1"/>
+                                    <field name="res_quant_6" readonly="1"/>
+                                </group>
+                                <field name="vis2" widget="image" invisible="vis2 == False"/>
+                            </group>
+                            <group string="مؤشرات النشاط">
+                                <group>
+                                    <field name="quant_7" readonly="1"/>
+                                    <field name="res_quant_7" readonly="1"/>
+                                </group>
+                                <group>
+                                    <field name="quant_8" readonly="1"/>
+                                    <field name="res_quant_8" readonly="1"/>
+                                </group>
+                                <group>
+                                    <field name="quant_9" readonly="1"/>
+                                    <field name="res_quant_9" readonly="1"/>
+                                </group>
+                                <group>
+                                    <field name="quant_10" readonly="1"/>
+                                    <field name="res_quant_10" readonly="1"/>
+                                </group>
+                                <group>
+                                    <field name="quant_11" readonly="1"/>
+                                    <field name="res_quant_11" readonly="1"/>
+                                </group>
+                                <field name="vis3" widget="image" invisible="vis3 == False"/>
+                            </group>
+                            <group string="مؤشرات المردودية">
+                                <group>
+                                    <field name="quant_12" readonly="1"/>
+                                    <field name="res_quant_12" readonly="1"/>
+                                </group>
+                                <group>
+                                    <field name="quant_13" readonly="1"/>
+                                    <field name="res_quant_13" readonly="1"/>
+                                </group>
+                                <group>
+                                    <field name="quant_14" readonly="1"/>
+                                    <field name="res_quant_14" readonly="1"/>
+                                </group>
+                                <group>
+                                    <field name="quant_15" readonly="1"/>
+                                    <field name="res_quant_15" readonly="1"/>
+                                </group>
+                                <group>
+                                    <field name="quant_16" readonly="1"/>
+                                    <field name="res_quant_16" readonly="1"/>
+                                </group>
+                                <field name="vis4" widget="image" invisible="vis4 == False"/>
+                            </group>
+                            <group>
+                                <field name="critere_ids" options="{'no_create': True, 'no_open': True}">
+                                    <tree editable="bottom" create="0" delete="0">
+                                        <field name="name" readonly="1"/>
+                                        <field name="critere" readonly="1"/>
+                                        <field name="resultat" readonly="1"/>
+                                        <field name="computed_total" column_invisible="True"/>
+                                    </tree>
+                                </field>
+                            </group>
+                            <field name="vis5" widget="image" invisible="vis5 == False"/>
+                        </page>
+                        <page string="تنقيط" groups="dept_wk.dept_wk_group_responsable_credit">
+                            <button name="calcul_limit" string="Calculer la limite" class="btn-primary" type="object"/>
+                            <group>
+                                <field name="ca_banque"/>
+                                <field name="limit_25" readonly="1"/>
+                                <field name="resultat_scoring" readonly="1"/>
+                                <field name="max_limit" readonly="1"/>
+                                <field name="case_25" readonly="1"/>
+                            </group>
+
+                        </page>
+                    </notebook>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_risk_scoring_search" model="ir.ui.view">
+        <field name="name">risk.scoring.search</field>
+        <field name="model">risk.scoring</field>
+        <field name="arch" type="xml">
+            <search>
+                <group expand="0" name="group_by" string="Group By">
+                    <filter name="client" string="العميل" domain="[]" context="{'group_by' : 'partner_id'}"/>
+                    <filter name="secteur" string="النشاط" context="{'group_by': 'secteur'}"/>
+                    <filter name="groupe_partner" string="المجموعة" context="{'group_by': 'groupe'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+</odoo>

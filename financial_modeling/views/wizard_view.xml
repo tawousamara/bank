@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="confirmation_wizard_form">
+            <field name="name">confirmation.wizard.form</field>
+            <field name="model">import.ocr.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    Pour effectuer l'opération, vous devriez cliquez par Confirmer
+                    <footer>
+                        <button name="confirm" type="object" string="Confirmer" class="btn-primary"/>
+                        <button name="cancel" type="object" string="Annuler" class="btn-secondary"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

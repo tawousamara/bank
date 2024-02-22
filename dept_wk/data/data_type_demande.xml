@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- List type credit -->
+        <record id="type_demande_1" model="wk.type.demande">
+            <field name="name">تسهيلات جديدة</field>
+        </record>
+        <record id="type_demande_2" model="wk.type.demande">
+            <field name="name">تجديد التسهيلات</field>
+        </record>
+        <record id="type_demande_3" model="wk.type.demande">
+            <field name="name">تعديل التسهيلات</field>
+        </record>
+    </data>
+</odoo>

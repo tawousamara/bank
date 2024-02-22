@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="val_dcf_view_form" model="ir.ui.view">
+        <field name="name">val.discouted.cash.flow.view.form</field>
+        <field name="model">val.discouted.cash.flow</field>
+        <field name="arch" type="xml">
+            <form string="Valorisation d`entreprise par le Discouted Cash-Flow">
+                <header>
+                    <button string="Import EBE"
+                            class="oe_highlight"
+                            name="action_import_ebe"
+                            type="object"/>
+
+                    <button string="Import BFR"
+                            class="oe_highlight"
+                            name="action_import_bfr"
+                            type="object"/>
+
+                    <button string="Calculer"
+                            class="oe_highlight"
+                            name="actio_calcul"
+                            type="object"/>
+                </header>
+                <sheet>
+                    <group col="4">
+                        <field name="name" readonly="1"/>
+                        <field name="date"/>
+                    </group>
+                    <group col="4">
+                        <field name="ebe_id"/>
+                        <field name="bfr_id"/>
+                        <field name="tri"/>
+                        <field name="amount_ve" readonly="1"/>
+                    </group>
+                    <group>
+                        <field name="company_id" invisible="1"/>
+                        <field name="active" invisible="1"/>
+                    </group>
+                    <notebook>
+                        <page string="Line">
+                            <field name="line_ids">
+                                <tree string="Line"  editable="bottom">
+                                    <!-- Invisible fields -->
+                                    <field name="company_id" invisible="1"/>
+                                    <field name="active" invisible="1"/>
+                                    <field name="val_id" invisible="1"/>
+
+                                    <!-- Visible fields -->
+                                    <field name="type"/>
+                                    <field name="amount_n1"/>
+                                    <field name="amount_n2"/>
+                                    <field name="amount_n3"/>
+                                    <field name="amount_n4"/>
+                                    <field name="amount_n5"/>
+                                </tree>
+                                <form string="Line">
+                                    <sheet>
+                                        <!-- Invisible fields -->
+                                        <field name="company_id" invisible="1"/>
+                                        <field name="active" invisible="1"/>
+                                        <field name="val_id" invisible="1"/>
+
+                                        <!-- Visible fields -->
+                                        <group col="4">
+                                            <field name="type"/>
+                                            <field name="amount_n1"/>
+                                            <field name="amount_n2"/>
+                                            <field name="amount_n3"/>
+                                            <field name="amount_n4"/>
+                                            <field name="amount_n5"/>
+                                        </group>
+                                    </sheet>
+                                </form>
+
+                            </field>
+
+                            <field name="graph" type="base64" widget="image" readonly="1" class="col-6"/>
+                        </page>
+                    </notebook>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="val_dcf_view_tree" model="ir.ui.view">
+        <field name="name">val.discouted.cash.flow.view.tree</field>
+        <field name="model">val.discouted.cash.flow</field>
+        <field name="arch" type="xml">
+            <tree string="Valorisation d`entreprise par le Discouted Cash-Flow">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="tri"/>
+                <field name="amount_ve"/>
+                <field name="company_id" invisible="1"/>
+                <field name="active" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_val_dcf" model="ir.actions.act_window">
+        <field name="name">Par le Discouted Cash-Flow</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">val.discouted.cash.flow</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+
+</odoo>

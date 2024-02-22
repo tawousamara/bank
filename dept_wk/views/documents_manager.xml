@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="wk_documents_action" model="ir.actions.act_window">
+        <field name="name">Images</field>
+        <field name="res_model">wk.documents</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record id="view_wk_documents_tree" model="ir.ui.view">
+        <field name="name">wk.documents.tree</field>
+        <field name="model">wk.documents</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="picture"/>
+            </tree>
+        </field>
+    </record>
+    <record id="view_wk_documents_form" model="ir.ui.view">
+        <field name="name">wk.documents.form</field>
+        <field name="model">wk.documents</field>
+        <field name="arch" type="xml">
+            <form create="0">
+
+                <sheet>
+                    <group>
+                        <field name="picture"/>
+                    </group>
+                </sheet>
+
+            </form>
+        </field>
+    </record>
+</odoo>

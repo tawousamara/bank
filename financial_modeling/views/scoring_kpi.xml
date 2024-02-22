@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_scoring_kpi" model="ir.actions.act_window">
+        <field name="name">Scoring</field>
+        <field name="res_model">scoring.kpi</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record id="scoring_kpi_view_tree" model="ir.ui.view">
+        <field name="name">scoring.kpi.view.tree</field>
+        <field name="model">scoring.kpi</field>
+        <field name="arch" type="xml">
+            <tree string="Scoring">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="tcr_id"/>
+                <field name="actif_id"/>
+                <field name="passif_id"/>
+                <field name="secteur"/>
+                <field name="domaine"/>
+            </tree>
+        </field>
+    </record>
+    <record id="scoring_kpi_view_form" model="ir.ui.view">
+        <field name="name">scoring.kpi.view.form</field>
+        <field name="model">scoring.kpi</field>
+        <field name="arch" type="xml">
+            <form string="Scoring">
+                <header>
+                    <button name="action_calcul_ratio" string="Calcul Ratio"
+                            class="btn-primary" type="object"/>
+                    <button name="action_calcul_score" string="Calcul Score"
+                            class="btn-primary" type="object"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <div>
+                        <group col="4">
+                            <field name="date"/>
+                            <field name="tcr_id"/>
+                            <field name="actif_id"/>
+                            <field name="passif_id"/>
+                            <field name="secteur"/>
+                            <field name="domaine" domain="[('secteur','=',secteur)]"/>
+                        </group>
+                        <notebook>
+                            <page string="KPI Finance Normes">
+                                <button name="import_values" string="Importer les valeurs par secteur"
+                            class="btn-primary" type="object"/>
+                                <button name="import_suggested_values" string="Importer les valeurs suggérées"
+                            class="btn-primary" type="object"/>
+                                <separator/>
+                                <field name="norme_ids" class="col-6">
+                                    <tree create="0" editable="bottom" delete="0">
+                                        <field name="kpi" readonly="1"/>
+                                        <field name="valeur"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Calcul Ratios">
+                                <field name="ratio_ids" readonly="1">
+                                    <tree>
+                                        <field name="kpi" readonly="1"/>
+                                        <field name="n_norme"/>
+                                        <field name="n_reel"/>
+                                        <field name="n_ecart"/>
+                                        <field name="n1_norme"/>
+                                        <field name="n1_reel"/>
+                                        <field name="n1_ecart"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Visualisation">
+                                <div col="2">
+                                    <field name="graph_pie1_n" type="base64" widget="image" readonly="1" class="col-6"/>
+
+                                    <field name="graph_pie1_n1" type="base64" widget="image" readonly="1" class="col-6"/>
+                                </div>
+                            </page>
+                            <page string="KPI Score Normes">
+                                <field name="ponderation_ids" class="col-6">
+                                    <tree create="0" editable="bottom" delete="0">
+                                        <field name="kpi" readonly="1"/>
+                                        <field name="valeur" readonly="1"/>
+                                        <field name="ponderation" sum="Total"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Calcul de Score">
+                                <field name="score_ids" readonly="1">
+                                    <tree create="0" editable="bottom" delete="0">
+                                        <field name="kpi" readonly="1"/>
+                                        <field name="n_norme"/>
+                                        <field name="n_reel"/>
+                                        <field name="n_ponderation" sum="Total"/>
+                                        <field name="n_ecart" widget="percentage"/>
+                                        <field name="n_score" sum="Resultat N"/>
+                                        <field name="n1_norme"/>
+                                        <field name="n1_reel"/>
+                                        <field name="n1_ponderation"/>
+                                        <field name="n1_ecart" widget="percentage"/>
+                                        <field name="n1_score" sum="Resultat N-1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

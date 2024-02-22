@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_bilan_general" model="ir.actions.act_window">
+        <field name="name">Bilan Actif Passif</field>
+        <field name="res_model">bilan.general</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="bilan_general_view_tree" model="ir.ui.view">
+        <field name="name">bilan.general.view.tree</field>
+        <field name="model">bilan.general</field>
+        <field name="arch" type="xml">
+            <tree string="Bilan Actif Passif">
+                <field name="name"/>
+                <field name="date"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="bilan_general_view_form" model="ir.ui.view">
+        <field name="name">bilan.general.view.form</field>
+        <field name="model">bilan.general</field>
+        <field name="arch" type="xml">
+            <form string="Bilan Actif Passif">
+                <header>
+                    <button id="button_count_ratio" name="action_count_ratio" string="Calcul Ratio"
+                                    class="btn-primary"
+                                    type="object"/>
+                </header>
+                <sheet>
+                    <group col="4">
+                        <field name="name" readonly="1"/>
+                        <field name="date"/>
+                    </group>
+                    <group>
+                        <field name="tcr_id" options="{'no_open': True, 'no_create': True}"/>
+                    </group>
+                    <div class="row">
+                    <button id="button_Import_Data" name="action_import_data" string="importer au tableau"
+                        class="btn-primary"
+                            invisible="file_import_data == False"
+                        type="object"/>
+                    <separator/>
+                    <field name="file_import_name" invisible="1" />
+                    <field name="file_import_data" filename="file_import_name" type="base64" class="col-4" />
+                    </div>
+                    <div class="row justify-content-end" >
+                        <field name="file_template_name" invisible="1" />
+                        <field name="file_template" filename="file_template_name" readonly="1" />
+                    </div>
+                    <notebook>
+                        <page string="Actif">
+
+                            <field name="line_actif_ids">
+                                <tree create="0" editable="bottom">
+                                    <!-- Invisible fields -->
+                                    <field name="company_id" invisible="1"/>
+                                    <field name="bilan_id" invisible="1"/>
+                                    <!-- Visible fields -->
+                                    <field name="poste_comptable" decoration-bf="poste_comptable in ('2', '8', '14', '16', '21', '24', '25')" readonly="1"/>
+                                    <field name="amount_n3" />
+                                    <field name="amount_n2" />
+                                    <field name="amount_n1" />
+                                    <field name="amount_n"  />
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Passif">
+                            <field name="line_passif_ids">
+                                <tree create="0" editable="bottom">
+                                    <!-- Invisible fields -->
+                                    <field name="company_id" invisible="1"/>
+                                    <field name="bilan_id" invisible="1"/>
+                                    <!-- Visible fields -->
+                                    <field name="poste_comptable" decoration-bf="poste_comptable in ('8', '13', '18', '19')" readonly="1"/>
+                                    <field name="amount_n3" />
+                                    <field name="amount_n2" />
+                                    <field name="amount_n1" />
+                                    <field name="amount_n"  />
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Ratio">
+
+                            <field name="line_ratio_ids">
+                                <tree create="0" editable="bottom">
+                                    <field name="poste_comptable" readonly="1"/>
+                                    <field name="amount_n3" readonly="1" />
+                                    <field name="amount_n2" readonly="1"/>
+                                    <field name="amount_n1" readonly="1"/>
+                                    <field name="amount_n" readonly="1"/>
+                                </tree>
+                            </field>
+                            <separator/>
+                            <div col="2" invisible="line_ratio_ids == False" >
+                                <h3>Visualisation Graphique</h3>
+                                <separator/>
+                                <group col="2">
+                                    <field name="graph_bar" type="base64" widget="image" readonly="1" class="col-6"/>
+                                    <group>
+                                        <group>
+                                        <field name="year_prec" />
+                                        </group>
+                                        <separator/>
+                                        <field name="graph_pie" type="base64" widget="image" readonly="1" />
+                                    </group>
+                                </group>
+
+
+                            </div>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="stress_testing_view_form" model="ir.ui.view">
+        <field name="name">stress.testing.view.form</field>
+        <field name="model">stress.testing</field>
+        <field name="arch" type="xml">
+            <form string="Stress Testing">
+                <header>
+                    <button string="Cas Réel"
+                            class="oe_highlight"
+                            name="action_real_case"
+                            type="object"/>
+
+                    <button string="Cas -10% CA"
+                            class="oe_highlight"
+                            name="action_10_case"
+                            type="object"/>
+
+                    <button string="Cas -20% CA"
+                            class="oe_highlight"
+                            name="action_20_case"
+                            type="object"/>
+                </header>
+
+                <sheet>
+                    <group col="4">
+                        <field name="name" readonly="1"/>
+                        <field name="date"/>
+                    </group>
+
+                    <group col="4">
+                        <field name="manual_forecast_id" required="1" options="{'no_open': True, 'no_create': True}"/>
+                        <field name="bfr_analysis_id" required="1" options="{'no_open': True, 'no_create': True}"/>
+                    </group>
+                    <group>
+                        <field name="company_id" invisible="1"/>
+                        <field name="active" invisible="1"/>
+                    </group>
+                    <group>
+                        <field name="name_fichier" invisible="1" />
+                        <field name="xls_file" filename="name_fichier" readonly="1"/>
+                    </group>
+                    <notebook>
+                        <page string="Stress Testing">
+                            <field name="line_ids">
+                                <tree string="Stress Testing"  editable="bottom">
+
+                                    <!-- Invisible fields -->
+                                    <field name="company_id" invisible="1"/>
+                                    <field name="stress_id" invisible="1"/>
+                                    <field name="active" invisible="1"/>
+                                    <field name="sequence" invisible="1"/>
+
+                                    <!-- Visible fields -->
+
+                                    <field name="type_forecast" readonly="type_forecast in ('5', '6')"/>
+                                    <field name="amount_n1" readonly="1"/>
+                                    <field name="amount_n2" readonly="1"/>
+                                    <field name="amount_n3" readonly="1"/>
+                                    <field name="amount_n4" readonly="1"/>
+                                    <field name="amount_n5" readonly="1"/>
+                                </tree>
+
+                                <form string="Prévisions">
+                                    <sheet>
+                                        <!-- Invisible fields -->
+                                        <field name="company_id" invisible="1"/>
+                                        <field name="stress_id" invisible="1"/>
+                                        <field name="active" invisible="1"/>
+
+                                        <!-- Visible fields -->
+                                        <group col="4">
+                                            <field name="type_forecast" readonly="type_forecast in ('5', '6')"/>
+                                            <field name="amount_n1" readonly="1"/>
+                                            <field name="amount_n2" readonly="1"/>
+                                            <field name="amount_n3" readonly="1"/>
+                                            <field name="amount_n4" readonly="1"/>
+                                            <field name="amount_n5" readonly="1"/>
+                                        </group>
+                                    </sheet>
+                                </form>
+
+                            </field>
+
+                            <field name="graph" type="base64" widget="image" />
+                        </page>
+                    </notebook>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="stress_testing_view_tree" model="ir.ui.view">
+        <field name="name">stress.testing.view.tree</field>
+        <field name="model">stress.testing</field>
+        <field name="arch" type="xml">
+            <tree string="Stress Testing">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="company_id" invisible="1"/>
+                <field name="active" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_stress_testing" model="ir.actions.act_window">
+        <field name="name">Stress Testing</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">stress.testing</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+
+</odoo>

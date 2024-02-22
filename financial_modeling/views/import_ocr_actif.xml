@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_import_ocr_actif" model="ir.actions.act_window">
+        <field name="name">Import actif</field>
+        <field name="res_model">import.ocr.actif</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="import_ocr_actif_view_tree" model="ir.ui.view">
+        <field name="name">import.ocr.actif.view.tree</field>
+        <field name="model">import.ocr.actif</field>
+        <field name="arch" type="xml">
+            <tree string="Import actif">
+                <field name="name"/>
+                <field name="company"/>
+                <field name="annee"/>
+                <field name="date"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="import_ocr_actif_view_form" model="ir.ui.view">
+        <field name="name">import.ocr.actif.view.form</field>
+        <field name="model">import.ocr.actif</field>
+        <field name="arch" type="xml">
+            <form string="Import actif">
+                <header>
+                    <button name="extract_data" string="Extraire les informations"
+                            class="btn-primary" type="object"/>
+                    <button name="action_validation" string="Valider"
+                            class="btn-primary" type="object"/>
+                    <button name="action_annulation" string="Annuler la validation"
+                            class="btn-secondary" type="object"/>
+                    <field name="state" widget="statusbar" nolabel="1"/>
+                </header>
+                <sheet>
+                    <div>
+                        <group col="4">
+                            <field name="name" readonly="1"/>
+                            <field name="date"/>
+                            <field name="company" readonly="1"/>
+                        </group>
+                        <group col="2">
+                            <field name="annee" readonly="1"/>
+                        </group>
+
+                        <div class="row">
+                            <separator/>
+                            <field name="file_import_name" invisible="1"/>
+                            <field name="file_import" filename="file_import_name" type="base64" class="col-4"/>
+                        </div>
+                    </div>
+                    <notebook>
+                        <page string="Actif">
+                            <p name="confirmation_lines">
+                                Vous devriez confirmer les valeurs suivantes:
+                                <br/>
+                                - Immobilisations corporelles
+                                <br/>
+                                - Autres immobilisations corporelles
+                                <br/>
+                                - Total actif non courant
+                                <br/>
+                                - Total Actif courant
+                                <br/>
+                                - Stocks et encours
+                                <br/>
+                                - Créances et emplois assimilés
+                                <br/>
+                                - Disponibilité et assimilés
+                                <br/>
+                                - Trésorerie
+                                <br/>
+                                - Clients
+                                <br/>
+                            </p>
+
+                            <field name="actif_lines" readonly="state == 'valide'"
+                                   options="{'no_create': True, 'no_open': True}">
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                    <field name="rubrique" options="{'no_create': True, 'no_open': True}"/>
+                                    <field name="montant_1n"/>
+                                    <field name="montant_2n"/>
+                                    <field name="montant_n"/>
+                                    <field name="montant_n1"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>
