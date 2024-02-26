@@ -137,20 +137,20 @@ class TCRAnalysis(models.Model):
     year_prec = fields.Selection([('0', 'N+1'), ('1', 'N+2'), ('2', 'N+3'), ('3', 'N+4'), ('4', 'N+5')], string='Année')
     year_suiv = fields.Selection([('0', 'N+1'), ('1', 'N+2'), ('2', 'N+3'), ('3', 'N+4'), ('4', 'N+5')], string='Année')
 
-    capital = fields.Float(string='CAPITAL BRUT')
-    capital_differe = fields.Float(string='DIFFERE CAPITALISE')
-    taux = fields.Float(string='TAUX')
-    tva = fields.Float(string='TVA')
+    capital = fields.Float(string='CAPITAL BRUT' , default=0)
+    capital_differe = fields.Float(string='DIFFERE CAPITALISE', readonly=True)
+    taux = fields.Float(string='TAUX', default=0)
+    tva = fields.Float(string='TVA', default=0)
     periodicite = fields.Selection([('m', 'MENSUEL'),
                                     ('a', 'ANNUEL'),
                                     ('s', 'SEMESTRIEL'),
                                     ('t', 'TRIMESTRIEL'),
                                     ], string='PERODICITE', default='m')
-    nbr_echeance = fields.Integer(string='NOMBRE ECHEANCE', )
-    amort = fields.Float(string='ANNUITE', readonly=True)
+    nbr_echeance = fields.Integer(string='NOMBRE ECHEANCE', default=0)
+    amort = fields.Float(string='ANNUITE', readonly=True, default=0)
     differe = fields.Selection([('oui', 'Oui'),
                                 ('non', 'Non')], string='DIFFERE')
-    duree_differe = fields.Integer(string='DUREE DIFFERE (en mois)')
+    duree_differe = fields.Integer(string='DUREE DIFFERE (en mois)', default=0)
     date_debut = fields.Date(string='DATE DEBUT')
     date_differe = fields.Date(string='DATE FIN DIFFERE')
     date_fin = fields.Date(string='DATE FIN', readonly=True)
@@ -176,26 +176,36 @@ class TCRAnalysis(models.Model):
 
     def calcul_echeance_action(self):
         for rec in self:
-            rec.amort = rec.capital / rec.nbr_echeance if rec.nbr_echeance != 0 else 0
+            annuite = 0
+            rec.capital_differe = rec.capital + (rec.capital * rec.duree_differe * rec.taux * (1 + rec.tva)) / 12 if rec.differe == 'oui' else rec.capital
             nbr_mois = periode = taux = 0
             if rec.periodicite == 'm':
                 nbr_mois = rec.nbr_echeance - 1
                 periode = 1
                 taux = 12
+                annuite = rec.capital_differe * ((rec.taux * (1 + rec.tva)) / taux) / (1 - (1 + ((rec.taux * (1 + rec.tva))/ taux) - rec.nbr_echeance))
+                valeur = ((rec.taux * (1 + rec.tva)) / taux) / (1 - (1 + ((rec.taux * (1 + rec.tva))/ taux) - rec.nbr_echeance))
+                print(annuite)
+                print(valeur)
             elif rec.periodicite == 't':
                 nbr_mois = rec.nbr_echeance * 3 - 1
                 periode = 3
                 taux = 4
+                annuite = rec.capital_differe * (((rec.taux * (1 + rec.tva)) / taux) / (1 - (1 + (rec.taux * (1 + rec.tva)) ** periode) - rec.nbr_echeance))
             elif rec.periodicite == 's':
                 nbr_mois = rec.nbr_echeance * 6 - 1
                 periode = 6
                 taux = 2
+                annuite = rec.capital_differe * ((rec.taux * (1 + rec.tva)) / (1 - (1 + (rec.taux * (1 + rec.tva)) ** periode) - rec.nbr_echeance))
             elif rec.periodicite == 'a':
                 nbr_mois = rec.nbr_echeance * 12 - 1
                 periode = 12
                 taux = 1
+                annuite = rec.capital_differe * ((rec.taux * (1 + rec.tva)) / (1 - (1 + (rec.taux * (1 + rec.tva)) ** periode) - rec.nbr_echeance))
             start_date = rec.date_debut
+            rec.amort = annuite
             end_date = start_date + relativedelta(months=nbr_mois)
+            rec.date_differe = end_date.strftime('%Y-%m-%d')
             rec.date_fin = end_date.strftime('%Y-%m-%d')
             capital = rec.capital
             rec.echeance_ids.unlink()
@@ -206,7 +216,8 @@ class TCRAnalysis(models.Model):
                     'name': i+1,
                     'date': rec.date_debut + relativedelta(months=periode * i),
                     'capital': capital,
-                    'principal': rec.amort,
+                    'total': rec.amort,
+                    'principal': rec.amort - marge - (marge * rec.tva),
                     'marge': marge,
                     'tva': marge * rec.tva,
                 }
