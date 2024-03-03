@@ -756,6 +756,7 @@ class Etape(models.Model):
             rec.montant_demande = montant
             rec.workflow.montant_demande = montant
             etape2 = rec.workflow.states.filtered(lambda l: l.sequence == 2)
+            rec.dossier_verouiller = etape2.dossier_verouiller
             if rec.workflow.state == '7':
                 last_track = self.env['wk.tracking'].search([('workflow_id', '=', rec.workflow.id)])[-1]
                 rec.workflow.date_fin = last_track.date_fin
@@ -808,9 +809,9 @@ class Etape(models.Model):
                             folder_branch = self.env['documents.folders'].create({'branch': rec.branche.id,
                                                                                   'name': rec.branche.ref})
                         folder = self.env['documents.folders'].create({'branch': rec.branche.id,
-                                                                                  'name': rec.num_compte,
-                                                                                  'parent_folder_id': folder_branch.id,
-                                                                                  'client': rec.nom_client.id})
+                                                                      'name': rec.num_compte,
+                                                                      'parent_folder_id': folder_branch.id,
+                                                                      'client': rec.nom_client.id})
                     etape_created = rec.workflow.states.filtered(lambda l: l.etape.sequence == 2)
                     if not etape_created:
                         etape = self.env['wk.etape'].create({'workflow': rec.workflow.id,
