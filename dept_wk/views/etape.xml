@@ -25,7 +25,7 @@
                     <field name="state_comite" widget="statusbar"
                            statusbar_visible="comite_1,comite_2" invisible="sequence != 6"/>
                     <button name="revoir_action" type="object" string="للمراجعة"
-                            invisible="state_branch in ['branch_1','branch_rejected'] or dossier_verouiller"
+                            invisible="state_branch in ['branch_1','branch_rejected'] or (dossier_verouiller and state_commercial == 'commercial_1') or (dossier_verouiller and state_risque == 'risque_1')"
                             class="btn-secondary"/>
                     <button name="reject_request" type="object" string="رفض الطلب"
                             class="btn-secondary"/>
