@@ -45,10 +45,12 @@
                     </span>
                     <br/>
                     <span>المتعامل:
-                        <t t-esc="doc.nom_client.name"/></span>
+                        <t t-esc="doc.nom_client.name"/>
+                    </span>
                     <br/>
                     <span>رقم الحساب:
-                        <t t-esc="doc.nom_client.name"/></span>
+                        <t t-esc="doc.nom_client.name"/>
+                    </span>
                     <br/>
                     <div t-if="report_type == 'pdf'" class="text-muted" style="font-size: 10px;color: #a0a0a0">
                         الصفحة:
@@ -144,8 +146,8 @@
                                         <t t-esc="doc.name"/>
                                     </h3>
                                     <br/>
-                                    <h6>
-                                       <t t-esc="doc.date"/> بتاريخ:
+                                    <h6>بتاريخ:
+                                        <t t-esc="doc.date"/>
                                     </h6>
                                 </div>
                             </center>
