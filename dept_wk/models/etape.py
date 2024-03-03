@@ -283,9 +283,9 @@ class Etape(models.Model):
                              domain="[('parent_id', '=', nom_client),('is_company', '=', False)]")
     phone_gerant = fields.Char(string='الهاتف', related='gerant.mobile')
     email_gerant = fields.Char(string='البريد الإلكتروني', related='gerant.email')
-    email_to = fields.Char(string='البريد الإلكتروني',)
-    email_from = fields.Char(string='البريد الإلكتروني', related='user_id.partner_id.email')
-    author_id = fields.Many2one('res.partner', related='user_id.partner_id')
+    email_to = fields.Char(string='البريد الإلكتروني', store=True)
+    email_from = fields.Char(string='البريد الإلكتروني', related='user_id.partner_id.email', store=True)
+    author_id = fields.Many2one('res.partner', related='user_id.partner_id', store=True)
 
     unit_prod = fields.Text(string='وحدات الانتاج')
     stock = fields.Text(string='المخازن')
