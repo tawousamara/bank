@@ -124,7 +124,7 @@
                             </group>
                         </group>
                         <notebook string="معرفة عميلك"
-                                  invisible="state_branch not in ['branch_3', 'branch_4','branch_rejected','branch_5'] and sequence not in [5,8]">
+                                  invisible="state_branch not in ['branch_3', 'branch_4','branch_rejected','branch_5'] and sequence not in [3,5,8]">
                             <page string="توزيع راس مال الشركة">
                                 <field name="apropos" readonly="state_branch != 'branch_3' and sequence != 8">
                                     <tree editable="bottom">
@@ -230,7 +230,7 @@
                             </page>
                         </notebook>
                         <group col="2" string="نبذة عن نشاط الشركة"
-                               invisible="state_branch not in ['branch_3', 'branch_4','branch_rejected','branch_5'] and sequence not in [5,8]">
+                               invisible="state_branch not in ['branch_3', 'branch_4','branch_rejected','branch_5'] and sequence not in [3,5,8]">
                             <field name="unit_prod" readonly="state_branch != 'branch_3' and sequence != 8"/>
                             <field name="stock" readonly="state_branch != 'branch_3' and sequence != 8"/>
                             <field name="prod_company" readonly="state_branch != 'branch_3' and sequence != 8"/>
@@ -238,7 +238,7 @@
                             <field name="cycle_exploit" readonly="state_branch != 'branch_3' and sequence != 8"/>
                             <field name="concurrence" readonly="state_branch != 'branch_3' and sequence != 8"/>
                         </group>
-                        <group invisible="state_branch not in ['branch_3', 'branch_4','branch_rejected','branch_5'] and sequence not in [5,8]">
+                        <group invisible="state_branch not in ['branch_3', 'branch_4','branch_rejected','branch_5'] and sequence not in [3,5,8]">
                             <field name="program_invest" readonly="state_branch != 'branch_3' and sequence != 8"/>
                             <field name="result_visit" readonly="state_branch != 'branch_3' and sequence != 8"/>
                             <field name="images" readonly="state_branch != 'branch_3' and sequence != 8">
