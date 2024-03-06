@@ -1273,6 +1273,7 @@ class Etape(models.Model):
                     else:
                         rec.workflow.state = '6'
                         etape_comm = rec.workflow.states.filtered(lambda l: l.etape.sequence == 3)
+                        etape_risk = rec.workflow.states.filtered(lambda l: l.etape.sequence == 4)
                         etape_1 = rec.workflow.states.filtered(lambda l: l.etape.sequence == 1)
                         etape = rec.workflow.states.filtered(lambda l: l.etape.sequence == 6)
                         vals = {'workflow': rec.workflow.id,
@@ -1284,6 +1285,8 @@ class Etape(models.Model):
                                                              'recommendation_responsable_agence': etape_1.recommendation_responsable_agence,
                                                              'recommendation_dir_commercial': etape_comm.recommendation_dir_commercial,
                                                              'recommendation_commercial': etape_comm.recommendation_commercial,
+                                                             'resultat_scoring': etape_risk.resultat_scoring,
+                                                             'recommandation_dir_risque': etape_risk.recommandation_dir_risque,
                                                              'recommandation_analyste_fin': rec.recommandation_analyste_fin,
                                                              'garantie_ids': rec.garantie_ids.ids,
                                                              'comite': rec.comite.id,
