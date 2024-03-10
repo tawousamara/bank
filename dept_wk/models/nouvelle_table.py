@@ -73,6 +73,7 @@ class SituationBancaire(models.Model):
     banque = fields.Many2one('wk.banque', string='البنك')
     type_fin = fields.Many2one('wk.fin.banque', string='نوع التمويل')
     montant = fields.Float(string='المبلغ بالمليون دج')
+    encours = fields.Float(string='المبلغ المستغل')
     garanties = fields.Text(string='الضمانات الممنوحة')
     etape_id = fields.Many2one('wk.etape')
 

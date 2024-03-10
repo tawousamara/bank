@@ -191,6 +191,7 @@
                                             <field name="banque"/>
                                             <field name="type_fin"/>
                                             <field name="montant"/>
+                                            <field name="encours"/>
                                             <field name="garanties"/>
                                         </tree>
                                     </field>
