@@ -303,7 +303,7 @@
                                        readonly="state_finance != 'finance_2'">
                                     <tree editable="bottom">
                                         <field name="type_garantie"/>
-                                        <!--<field name="type_contrat"/>-->
+                                        <field name="type_contrat"/>
                                         <field name="montant"/>
                                         <field name="date"/>
                                         <field name="recouvrement" widget="percentage"/>
@@ -321,7 +321,7 @@
                                         <field name="type_contrat"/>
                                         <field name="montant"/>
                                         <field name="date"/>
-                                        <field name="recouvrement"/>
+                                        <field name="recouvrement" widget="percentage"/>
                                         <field name="niveau"/>
                                     </tree>
                                 </field>
