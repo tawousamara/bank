@@ -22,9 +22,9 @@ class Scoring(models.Model):
     name = fields.Char(related='parent_id.name', string='Reference')
     date = fields.Date(string='تاريخ', default=datetime.today())
     parent_id = fields.Many2one('wk.workflow.dashboard', default=lambda self: self._context.get('parent_id'))
-    partner_id = fields.Many2one('res.partner', related='parent_id.nom_client', store=True)
+    partner_id = fields.Many2one('res.partner',  store=True, string='العميل')
     secteur = fields.Many2one('wk.activite', related='partner_id.activite', store=True)
-    groupe = fields.Many2one('res.partner', related='partner_id.groupe', store=True)
+    groupe = fields.Many2one('res.partner', related='partner_id.groupe', store=True , string='المجموعة')
     critere_qual = fields.Many2one('risk.critere.qualitatif', string='Critères Qualitatifs', default=1)
     critere_quant = fields.Many2one('risk.critere.quantitatif', string='Critères Quantitatifs', default=1)
 
@@ -110,6 +110,8 @@ class Scoring(models.Model):
     vis5 = fields.Binary(string='Vis')
 
     company_id = fields.Many2one('res.company', default=lambda self: self.env.company)
+    scoring_group_ids = fields.One2many('risk.scoring', 'scoring_id', string='بطاقات المغايير النوعية')
+    scoring_id = fields.Many2one('risk.scoring',)
 
     def compute_annee(self):
         for rec in self:
@@ -131,6 +133,7 @@ class Scoring(models.Model):
             res.actif_id = self.env.context.get('actif_id')
             res.tcr_id = self.env.context.get('tcr_id')
             res.parent_id = self.env.context.get('parent_id')
+            res.partner_id = res.parent_id.nom_client.id
             print(self.env.context.get('parent_id'))
             res.parent_id.risk_scoring = res.id
             etape_1 = res.parent_id.states.filtered(lambda l: l.etape.sequence == 1)

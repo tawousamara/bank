@@ -39,8 +39,12 @@
                     <group>
                         <field name="name"/>
                         <field name="date"/>
+                        <field name="partner_id"/>
+                        <field name="groupe"/>
+                        <field name="date"/>
                         <field name="critere_qual"/>
                         <field name="critere_quant"/>
+                        <field name="groupe" invisible="1"/>
                         <field name="tcr_id" readonly="1" groups="dept_wk.dept_wk_group_responsable_credit"/>
                         <field name="passif_id" readonly="1" groups="dept_wk.dept_wk_group_responsable_credit"/>
                         <field name="actif_id" readonly="1" groups="dept_wk.dept_wk_group_responsable_credit"/>
@@ -76,6 +80,108 @@
                                 <field name="source_remb" options="{'no_create': True, 'no_open': True}"/>
                                 <field name="part_profil" options="{'no_create': True, 'no_open': True}"/>
                             </group>
+                        </page>
+                        <page string="المعايير النوعية للشركات التابعة للمجموعة">
+                            <field name="scoring_group_ids" mode="kanban"
+                                   context="{'default_scoring_id': id, 'default_critere_qual': critere_qual, 'default_critere_quant': critere_quant, 'default_groupe': groupe}">
+                                <kanban>
+                                    <field name="name"/>
+                                    <field name="partner_id"/>
+                                    <field name="groupe"/>
+                                    <field name="secteur"/>
+                                    <templates>
+                                        <t t-name="kanban-box">
+                                            <div t-attf-class="oe_kanban_global_click">
+                                                <div class="oe_kanban_details">
+                                                    <field name="name"/>
+                                                    <div t-if="record.partner_id">Client:
+                                                        <field name="partner_id"/>
+                                                    </div>
+                                                    <div t-if="record.groupe">Groupe:
+                                                        <field name="groupe"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </templates>
+                                </kanban>
+                                <form>
+                                    <sheet>
+                                        <group>
+                                            <field name="name"/>
+                                            <field name="date"/>
+                                            <field name="groupe" invisible="1"/>
+                                            <field name="partner_id" domain="[('groupe','=', groupe)]"/>
+                                            <field name="critere_qual"/>
+                                            <field name="critere_quant"/>
+                                            <field name="tcr_id" readonly="1"
+                                                   groups="dept_wk.dept_wk_group_responsable_credit"/>
+                                            <field name="passif_id" readonly="1"
+                                                   groups="dept_wk.dept_wk_group_responsable_credit"/>
+                                            <field name="actif_id" readonly="1"
+                                                   groups="dept_wk.dept_wk_group_responsable_credit"/>
+                                        </group>
+                                        <notebook>
+                                            <page string="المعايير النوعية">
+                                                <group col="2">
+                                                    <field name="original_capital"
+                                                           options="{'no_create': True, 'no_open': True}"/>
+                                                    <field name="actionnariat"
+                                                           options="{'no_create': True, 'no_open': True}"/>
+                                                    <field name="forme_jur"
+                                                           options="{'no_create': True, 'no_open': True}"/>
+                                                    <field name="remp_succession"
+                                                           options="{'no_create': True, 'no_open': True}"/>
+                                                    <field name="competence"
+                                                           options="{'no_create': True, 'no_open': True}"/>
+                                                    <field name="experience"
+                                                           options="{'no_create': True, 'no_open': True}"/>
+                                                    <field name="soutien_etatic"
+                                                           options="{'no_create': True, 'no_open': True}"/>
+                                                    <field name="activite"
+                                                           options="{'no_create': True, 'no_open': True}"/>
+                                                    <field name="influence_tech"
+                                                           options="{'no_create': True, 'no_open': True}"/>
+                                                    <field name="anciennete"
+                                                           options="{'no_create': True, 'no_open': True}"/>
+                                                    <field name="concurrence"
+                                                           options="{'no_create': True, 'no_open': True}"/>
+                                                    <field name="source_appro"
+                                                           options="{'no_create': True, 'no_open': True}"/>
+                                                    <field name="produit"
+                                                           options="{'no_create': True, 'no_open': True}"/>
+                                                </group>
+                                                <group>
+                                                    <field name="flexibilite"
+                                                           options="{'no_create': True, 'no_open': True}"/>
+                                                    <field name="sollicitude"
+                                                           options="{'no_create': True, 'no_open': True}"/>
+                                                    <field name="situation"
+                                                           options="{'no_create': True, 'no_open': True}"/>
+                                                    <field name="mouvement"
+                                                           options="{'no_create': True, 'no_open': True}"/>
+                                                    <field name="garanties"
+                                                           options="{'no_create': True, 'no_open': True}"/>
+                                                    <field name="incident"
+                                                           options="{'no_create': True, 'no_open': True}"/>
+                                                    <field name="conduite"
+                                                           options="{'no_create': True, 'no_open': True}"/>
+                                                    <field name="dette_fisc"
+                                                           options="{'no_create': True, 'no_open': True}"/>
+                                                    <field name="dette_parafisc"
+                                                           options="{'no_create': True, 'no_open': True}"/>
+                                                    <field name="position_admin"
+                                                           options="{'no_create': True, 'no_open': True}"/>
+                                                    <field name="source_remb"
+                                                           options="{'no_create': True, 'no_open': True}"/>
+                                                    <field name="part_profil"
+                                                           options="{'no_create': True, 'no_open': True}"/>
+                                                </group>
+                                            </page>
+                                        </notebook>
+                                    </sheet>
+                                </form>
+                            </field>
                         </page>
                         <page string="المعايير الكمية" groups="dept_wk.dept_wk_group_responsable_credit">
                             <group string="مؤشرات الهيكل المال">
