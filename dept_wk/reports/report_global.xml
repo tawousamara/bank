@@ -44,12 +44,24 @@
                         8 07 رقم التعريف الجبائي 000716097653066
                     </span>
                     <br/>
-                    <span>المتعامل:
-                        <t t-esc="doc.nom_client.name"/>
+                    <span style="font-size: 10px; color: #a0a0a0">المتعامل:
+                        <t t-if="doc.nom_client">
+                            <t t-esc="doc.nom_client.name"/>
+                        </t>
+                        <t t-else="">
+                            <t t-esc="doc.partner_id.name"/>
+                        </t>
                     </span>
                     <br/>
-                    <span>رقم الحساب:
-                        <t t-esc="doc.nom_client.name"/>
+
+                    <span style="font-size: 10px; color: #a0a0a0">رقم الحساب:
+                        <t t-if="doc.nom_client">
+                            <t t-esc="doc.nom_client.num_compte"/>
+                        </t>
+                        <t t-else="">
+                            <t t-esc="doc.partner_id.num_compte"/>
+                        </t>
+
                     </span>
                     <br/>
                     <div t-if="report_type == 'pdf'" class="text-muted" style="font-size: 10px;color: #a0a0a0">
