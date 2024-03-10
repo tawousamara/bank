@@ -30,7 +30,7 @@
                     <button name="reject_request" type="object" string="رفض الطلب"
                             class="btn-secondary"/>
                     <button name="verrouiller_dossier" type="object" string="ملف مقبول" groups="dept_wk.dept_wk_group_analyste"
-                            invisible="state_finance != 'finance_1'"
+                            invisible="state_finance != 'finance_2'"
                             class="btn-primary"/>
                 </header>
                 <sheet>
@@ -292,7 +292,7 @@
                                         <field name="montant_dollar_demande" optional="hide"/>
                                         <field name="montant_da_total"/>
                                         <field name="montant_dollar_total" optional="hide"/>
-                                        <field name="garantie_montant"/>
+                                        <field name="garantie_montant" widget="percentage"/>
                                         <field name="remarques"/>
                                     </tree>
                                 </field>
@@ -303,10 +303,10 @@
                                        readonly="state_finance != 'finance_2'">
                                     <tree editable="bottom">
                                         <field name="type_garantie"/>
-                                        <field name="type_contrat"/>
+                                        <!--<field name="type_contrat"/>-->
                                         <field name="montant"/>
                                         <field name="date"/>
-                                        <field name="recouvrement"/>
+                                        <field name="recouvrement" widget="percentage"/>
                                         <field name="niveau"/>
                                     </tree>
                                 </field>

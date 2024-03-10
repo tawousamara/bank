@@ -201,12 +201,13 @@ access_wk_historique_user,access.wk.historique,model_wk_historique,,1,1,1,1
 access_wk_document_user,access.wk.document,model_wk_document,,1,1,1,1
 
 access_wk_document_check_all,access.wk.document.check.all,model_wk_document_check,,1,0,0,0
-access_wk_document_check_agence_user,access.wk.document.check.agence.user,model_wk_document_check,dept_wk.dept_wk_group_agent_agence,1,1,1,1
+access_wk_document_check_agence_user,access.wk.document.check.agence.user,model_wk_document_check,dept_wk.dept_wk_group_agent_agence,1,1,1,0
 
 access_wk_state_user,access.wk.state,model_wk_state,,1,1,1,1
 access_wk_state_principal_user,access.wk.state.principal,model_wk_state_principal,,1,1,1,1
 
 access_wk_tracking_user,access.wk.tracking,model_wk_tracking,,1,1,1,1
+access_wk_contrat_user,access.wk.contrat,model_wk_contrat,,1,1,1,1
 
 access_configuration_risque_user,access.configuration.risque,model_configuration_risque,,1,1,1,1
 

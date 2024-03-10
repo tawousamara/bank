@@ -65,7 +65,7 @@ class FaciliteAccorde(models.Model):
 
     date = fields.Date(string='تاريخ الرخصة')
     type_facilite = fields.Many2one('wk.product', string='نوع التسهيلات')
-    garantie_montant = fields.Char(string='التأمين النقدي')
+    garantie_montant = fields.Float(string='التأمين النقدي')
     remarques = fields.Text(string='ملاحظات')
 
     @api.depends('montant_da_actuel')
@@ -108,7 +108,7 @@ class DetailGarantieActuel(models.Model):
 
     etape_id = fields.Many2one('wk.etape')
     type_garantie = fields.Many2one('wk.garanties', string='نوعية الضمان')
-    type_contrat = fields.Many2one('wk.product', string='نوعية العقد')
+    type_contrat = fields.Many2one('wk.contrat', string='نوعية العقد')
     montant = fields.Float(string='القيمة')
     date = fields.Date(string='تاريخ التقييم')
     recouvrement = fields.Float(string='التغطية')
@@ -121,16 +121,21 @@ class Detail(models.Model):
     _name = 'wk.detail.garantie'
     _description = 'Detail Garantie'
 
-
     etape_id = fields.Many2one('wk.etape')
     type_garantie = fields.Many2one('wk.garanties', string='نوعية الضمان')
-    type_contrat = fields.Many2one('wk.product', string='نوعية العقد')
+    #type_contrat = fields.Many2one('wk.contrat', string='نوعية العقد')
     montant = fields.Float(string='القيمة')
     date = fields.Date(string='تاريخ التقييم')
     recouvrement = fields.Float(string='التغطية')
     niveau = fields.Selection([('1', 'عالي'),
                                ('2', 'متوسط'),
                                ('3', 'منخفض')], string='كفاية الضمانات قابلية التنفيذ عليها')
+
+
+class Contrat(models.Model):
+    _name = 'wk.contrat'
+
+    name = fields.Char(string='Nom')
 
 
 class Ganrantie(models.Model):

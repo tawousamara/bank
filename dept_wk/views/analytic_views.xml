@@ -148,8 +148,6 @@
         <field name="name">مديرية التمويلات</field>
         <field name="res_model">wk.etape</field>
         <field name="view_mode">tree</field>
-        <field name="domain">[('sequence', '=', 2),('etape', '=', 2)]</field>
-        <field name="context">{'search_default_sequence_2': 1}</field>
         <field name="view_id" ref="dept_wk.view_wk_etape_tree"/>
     </record>
     <record id="wk_financial_step_graph" model="ir.actions.act_window">
@@ -187,8 +185,7 @@
                     <column>
                         <action name="%(dept_wk.wk_financial_step_graph)d" string="عدد الملفات لكل محلل في الوقت الحالي"
                                 context="{'search_default_finance_2': 1}"/>
-                        <action name="%(dept_wk.wk_financial_step_action)d" string="الملفات"
-                                context="{'search_default_sequence_2': 1}"/>
+                        <action name="%(dept_wk.wk_financial_step_action)d" string="الملفات"/>
                     </column>
                     <column>
                         <action name="%(dept_wk.wk_financial_step_pie)d" string="عدد الملفات حسب وضعية التحليل المالي"

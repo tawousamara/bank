@@ -7,7 +7,7 @@ class RevoirState(models.TransientModel):
 
     etape_id = fields.Many2one("wk.etape", string="Request")
     state = fields.Many2one('wk.state')
-    raison = fields.Text(string="Reason", required=True)
+    raison = fields.Text(string="Reason")
 
     def cancel(self):
         return {'type': 'ir.actions.act_window_close'}

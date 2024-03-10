@@ -495,7 +495,7 @@ class Etape(models.Model):
         res = super(Etape, self).create(vals)
         if res.demande == self.env.ref('dept_wk.type_demande_1'):
             if res.etape.sequence == 1:
-                for i in range(15):
+                for i in range(17):
                     doc = self.env['wk.document.check'].create({'list_document': str(i+1),
                                                                 'etape_id': res.id})
                 for item in List_items:

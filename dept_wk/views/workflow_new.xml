@@ -110,7 +110,7 @@
                                                     <field name="name"/>
                                                 </div>
                                             </div>
-                                            <div style="position: absolute; top: 5px; right: 5px;">
+                                            <div style="position: absolute; top: 5px; left: 5px;">
                                                 <field name="state_compute" widget="percentage"
                                                        style="color: #4CAF50; font-weight: bold"/>
                                             </div>
@@ -120,7 +120,7 @@
                                                 <span>المكلف بالملف:</span>
                                                 <field name="user_id"/>
                                             </div>
-                                            <div style="margin-top: 5px; position: absolute; bottom: 5px; right: 5px;">
+                                            <div style="margin-top: 5px; position: absolute; bottom: 5px; left: 5px;">
                                                 <button type="object" name="action_get_view" string="انظر مزيد"
                                                         class="btn-primary"/>
                                             </div>

@@ -96,6 +96,10 @@
                           name="الاوقات اللازمة"
                           action="wk_time_action"
                           sequence="50"/>
+                <menuitem id="wk_time_menu"
+                          name="نوعية العقد"
+                          action="wk_contrat_action"
+                          sequence="50"/>
             </menuitem>
 
         </menuitem>

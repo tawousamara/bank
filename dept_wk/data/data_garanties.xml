@@ -26,6 +26,12 @@
         <record id="garantie_8" model="wk.garanties">
             <field name="name">توطين الصفقات لدى المصرف</field>
         </record>
+        <record id="garantie_9" model="wk.garanties">
+            <field name="name">رهن عقاري من الدرجة الثانية</field>
+        </record>
+        <record id="garantie_10" model="wk.garanties">
+            <field name="name">رهن عقاري من الدرجة الثالثة</field>
+        </record>
         <record id="exception_1" model="wk.exception">
             <field name="name">رهن عقاري من الدرجة الأولى لا يغطي 120%  من صافي التسهيلات</field>
         </record>

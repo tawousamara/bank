@@ -47,7 +47,7 @@
                     <field name="date_inscription"/>
                     <field name="activity_code"/>
                     <field name="activity_description"/>
-                    <field name="groupe"/>
+                    <field name="groupe" domain="[('is_company', '=', True)]"/>
                 </group>
                 <group>
                     <field name="activite"/>
