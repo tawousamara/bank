@@ -183,7 +183,7 @@ class TCRAnalysis(models.Model):
                 nbr_mois = rec.nbr_echeance - 1
                 periode = 1
                 taux = 12
-                annuite = rec.capital_differe * ((rec.taux * (1 + rec.tva)) / taux) / (1 - (1 + ((rec.taux * (1 + rec.tva))/ taux) - rec.nbr_echeance))
+                annuite = rec.capital_differe * ((rec.taux * (1 + rec.tva)) / 2) / (1 - (1 + ((rec.taux * (1 + rec.tva)) / taux)) ** -rec.nbr_echeance)
                 valeur = ((rec.taux * (1 + rec.tva)) / taux) / (1 - (1 + ((rec.taux * (1 + rec.tva))/ taux) - rec.nbr_echeance))
                 print(annuite)
                 print(valeur)
@@ -191,17 +191,17 @@ class TCRAnalysis(models.Model):
                 nbr_mois = rec.nbr_echeance * 3 - 1
                 periode = 3
                 taux = 4
-                annuite = rec.capital_differe * (((rec.taux * (1 + rec.tva)) / taux) / (1 - (1 + (rec.taux * (1 + rec.tva)) ** periode) - rec.nbr_echeance))
+                annuite = rec.capital_differe * ((rec.taux * (1 + rec.tva)) / 2) / (1 - (1 + ((rec.taux * (1 + rec.tva)) / taux)) ** -rec.nbr_echeance)
             elif rec.periodicite == 's':
                 nbr_mois = rec.nbr_echeance * 6 - 1
                 periode = 6
                 taux = 2
-                annuite = rec.capital_differe * ((rec.taux * (1 + rec.tva)) / (1 - (1 + (rec.taux * (1 + rec.tva)) ** periode) - rec.nbr_echeance))
+                annuite = rec.capital_differe * ((rec.taux * (1 + rec.tva)) / 2) / (1 - (1 + ((rec.taux * (1 + rec.tva)) / taux)) ** -rec.nbr_echeance)
             elif rec.periodicite == 'a':
                 nbr_mois = rec.nbr_echeance * 12 - 1
                 periode = 12
                 taux = 1
-                annuite = rec.capital_differe * ((rec.taux * (1 + rec.tva)) / (1 - (1 + (rec.taux * (1 + rec.tva)) ** periode) - rec.nbr_echeance))
+                annuite = rec.capital_differe * (rec.taux * (1 + rec.tva)) / (1 - (1 + (rec.taux * (1 + rec.tva))) ** -rec.nbr_echeance)
             start_date = rec.date_debut
             rec.amort = annuite
             end_date = start_date + relativedelta(months=nbr_mois)
@@ -1103,8 +1103,3 @@ def calculFormule(line_ids):
     calcul1.amount_n2 = calcul.amount_n2 - sum(valeurs.mapped('amount_n2'))
     calcul1.amount_n3 = calcul.amount_n3 - sum(valeurs.mapped('amount_n3'))
     calcul1.amount_n4 = calcul.amount_n4 - sum(valeurs.mapped('amount_n4'))
-
-
-
-
-
