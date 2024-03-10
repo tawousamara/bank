@@ -92,7 +92,7 @@ class DetailGarantiePropose(models.Model):
     etape_id = fields.Many2one('wk.etape')
     type_garantie = fields.Many2one('wk.garanties', string='نوعية الضمان')
     type_garant = fields.Char(string='نوعية الضمان')
-    type_contrat = fields.Many2one('wk.product', string='نوعية العقد')
+    type_contrat = fields.Many2one('wk.contrat', string='نوعية العقد')
     montant = fields.Float(string='القيمة')
     date = fields.Date(string='تاريخ التقييم')
     recouvrement = fields.Float(string='التغطية')
