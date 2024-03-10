@@ -183,7 +183,7 @@ class TCRAnalysis(models.Model):
                 nbr_mois = rec.nbr_echeance - 1
                 periode = 1
                 taux = 12
-                annuite = rec.capital_differe * ((rec.taux * (1 + rec.tva)) / 2) / (1 - (1 + ((rec.taux * (1 + rec.tva)) / taux)) ** -rec.nbr_echeance)
+                annuite = rec.capital_differe * ((rec.taux * (1 + rec.tva)) / taux) / (1 - (1 + ((rec.taux * (1 + rec.tva)) / taux)) ** -rec.nbr_echeance)
                 valeur = ((rec.taux * (1 + rec.tva)) / taux) / (1 - (1 + ((rec.taux * (1 + rec.tva))/ taux) - rec.nbr_echeance))
                 print(annuite)
                 print(valeur)
@@ -191,12 +191,12 @@ class TCRAnalysis(models.Model):
                 nbr_mois = rec.nbr_echeance * 3 - 1
                 periode = 3
                 taux = 4
-                annuite = rec.capital_differe * ((rec.taux * (1 + rec.tva)) / 2) / (1 - (1 + ((rec.taux * (1 + rec.tva)) / taux)) ** -rec.nbr_echeance)
+                annuite = rec.capital_differe * ((rec.taux * (1 + rec.tva)) / taux) / (1 - (1 + ((rec.taux * (1 + rec.tva)) / taux)) ** -rec.nbr_echeance)
             elif rec.periodicite == 's':
                 nbr_mois = rec.nbr_echeance * 6 - 1
                 periode = 6
                 taux = 2
-                annuite = rec.capital_differe * ((rec.taux * (1 + rec.tva)) / 2) / (1 - (1 + ((rec.taux * (1 + rec.tva)) / taux)) ** -rec.nbr_echeance)
+                annuite = rec.capital_differe * ((rec.taux * (1 + rec.tva)) / taux) / (1 - (1 + ((rec.taux * (1 + rec.tva)) / taux)) ** -rec.nbr_echeance)
             elif rec.periodicite == 'a':
                 nbr_mois = rec.nbr_echeance * 12 - 1
                 periode = 12
