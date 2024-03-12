@@ -103,5 +103,14 @@
             </menuitem>
 
         </menuitem>
+        <menuitem id="api_menu_config" name="Api OCR configuration" sequence="4"
+                  parent="base.menu_custom">
+            <menuitem id="api_menu" name="Api key"  action="res_config_ocr_action" />
+        </menuitem>
+        <menuitem id="financial_modeling.financial_modeling_root"
+              name="Financial Modeling"
+              groups="dept_wk.dept_wk_group_administration"
+              web_icon="financial_modeling,static/description/icon.png"
+              sequence="10"/>
     </data>
 </odoo>

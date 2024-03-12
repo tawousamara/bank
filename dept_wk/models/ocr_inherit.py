@@ -27,8 +27,9 @@ class TCR(models.Model):
         for rec in self:
             list_validation = [7, 12, 13, 14, 33, 50, 36]
             list_validation = [7, 33, 50, 12, 13, 36]
-            tcr = rec.tcr_lines.filtered(lambda r: r.rubrique.sequence in list_validation).mapped('rubrique.sequence')
+            tcr = rec.tcr_lines.mapped('rubrique.sequence')
             print(tcr)
+
             if not set(list_validation).issubset(set(tcr)):
                 raise ValidationError("Vous devriez confirmer les valeurs suivantes: \n "
                                       "- Chiffre d'affaires net des rabais, Remises, Ristournes \n"
@@ -81,7 +82,10 @@ class Actif(models.Model):
     def action_validation_wk(self):
         for rec in self:
             list_validation = [4, 7, 16, 27, 18, 19, 24, 26, 20]
-            actifs = rec.actif_lines.filtered(lambda r: r.rubrique.sequence in list_validation).mapped('rubrique.sequence')
+            actifs = rec.actif_lines.mapped('rubrique.sequence')
+            print(actifs)
+            print(set(list_validation).issubset(set(actifs)))
+            print(set(list_validation) != set(actifs))
             if not set(list_validation).issubset(set(actifs)):
                 raise ValidationError("Vous devriez confirmer les valeurs suivantes: \n"
                                       "- Immobilisations corporelles \n"
@@ -134,7 +138,7 @@ class Passif(models.Model):
     def action_validation_wk(self):
         for rec in self:
             list_validation = [2, 4, 8, 25, 18, 24, 23, 14, 20, 21, 22]
-            passifs = rec.passif_lines.filtered(lambda r: r.rubrique.sequence in list_validation).mapped('rubrique.sequence')
+            passifs = rec.passif_lines.mapped('rubrique.sequence')
             if not set(list_validation).issubset(set(passifs)):
                 raise ValidationError("Vous devriez confirmer les valeurs suivantes: \n"
                                       "- Capital émis \n"

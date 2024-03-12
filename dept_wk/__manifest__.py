@@ -20,6 +20,7 @@
             'data/data_type_demande.xml',
             'data/data_decision_cell.xml',
             'data/data_state.xml',
+            'data/api_data.xml',
             'data/other_data.xml',
             'reports/report_global.xml',
             'reports/report_risk.xml',
@@ -36,6 +37,7 @@
             'views/wizard_view.xml',
             'views/etape.xml',
             'views/analytic_views.xml',
+            'views/res_config.xml',
             'views/menu_item.xml'],
     # data files containing optionally loaded demonstration data
     'demo': [],

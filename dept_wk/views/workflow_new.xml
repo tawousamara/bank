@@ -16,7 +16,7 @@
                 <field name="date_fin"/>
                 <field name="branche"/>
                 <field name="demande"/>
-                <field name="nom_client"/>
+                <field name="nom_client" options="{'no_create': True}"/>
                 <field name="chiffre_affaire"/>
                 <field name="assigned_to_agence"/>
                 <field name="assigned_to_finance"/>

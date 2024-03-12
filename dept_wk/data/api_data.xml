@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data >
+        <!-- Liste des activites -->
+        <record id="ocr_1" model="res.config.ocr">
+            <field name="name">01</field>
+            <field name="apikey">XXXXXXXXXXXXXXXXXXXXX</field>
+        </record>
+    </data>
+</odoo>
