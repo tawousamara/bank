@@ -1,10 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+
+
+
     <menuitem id="financial_modeling_root"
               name="Financial Modeling"
-              groups="financial_modeling_group_administration"
               web_icon="financial_modeling,static/description/icon.png"
               sequence="10"/>
+
+    <menuitem id="menuitem_financial_modeling"
+              name="Analyse Simplifiée"
+              parent="financial_modeling_root"
+              sequence="1"/>
+
+    <menuitem id="menu_automatic_revenue_forecast_clients_facture"
+              action="action_automatic_revenue_forecast_clients_facture"
+              parent="menuitem_financial_modeling"
+              sequence="1"/>
+
+    <menuitem id="menu_automatic_revenue_forecast_clients_crm"
+              action="action_automatic_revenue_forecast_clients_crm"
+              parent="menuitem_financial_modeling"
+              sequence="2"/>
+
+    <!--<menuitem id="menu_manual_revenue_forecast_clients"
+              action="action_manual_revenue_forecast_clients"
+              parent="menuitem_financial_modeling"
+              sequence="3"/>-->
+
+    <menuitem id="menu_bfr_analysis_clients"
+              action="action_bfr_analysis_clients"
+              parent="menuitem_financial_modeling"
+              sequence="4"/>
+
+    <menuitem id="menu_stress_testing"
+              action="action_stress_testing"
+              parent="menuitem_financial_modeling"
+              sequence="5"/>
+
+
+    <!-- **************************************** -->
+
+    <menuitem id="menuitem_valorisation_entreprise"
+              name="Valorisation d`entreprise"
+              parent="financial_modeling_root"
+              sequence="2"/>
+
+    <menuitem id="menu_val_multiple_ebe"
+              action="action_val_multiple_ebe"
+              parent="menuitem_valorisation_entreprise"
+              sequence="1"/>
+
+    <menuitem id="menu_val_dcf"
+              action="action_val_dcf"
+              parent="menuitem_valorisation_entreprise"
+              sequence="2"/>
 
     <!-- **************************************** -->
 
@@ -18,6 +68,10 @@
               parent="menuitem_financial_modeling_detailed"
               sequence="5"/>
 
+    <menuitem id="menu_bilan_general"
+              action="action_bilan_general"
+              parent="menuitem_financial_modeling_detailed"
+              sequence="2"/>
     <menuitem id="menuitem_financial_modeling_scoring"
               name="Analyse Scoring"
               parent="financial_modeling_root"

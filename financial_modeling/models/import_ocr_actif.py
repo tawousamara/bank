@@ -1,13 +1,15 @@
 
 from odoo import models, fields, api, _
+
+import json
 from datetime import datetime
 from odoo.exceptions import ValidationError
-import base64
 import io
-import pdfplumber
-import ocrmypdf
+import PyPDF2
+import base64
+from PIL import Image
 import re
-
+import requests
 
 class ImportActifOCR(models.Model):
     _name = "import.ocr.actif"
@@ -31,116 +33,102 @@ class ImportActifOCR(models.Model):
 
     def extract_data(self):
         for rec in self:
+            pattern_alpha = r'^[a-zA-Z\séèàôâê\'-]+$'
+            pattern_num = r'^[0-9\s]+$'
+            if rec.actif_lines:
+                rec.actif_lines.unlink()
             if rec.file_import:
-                with pdfplumber.open(io.BytesIO(base64.b64decode(rec.file_import))) as pdf:
-                    page = pdf.pages[0]
-                    text = page.extract_text()
-                    input_file = io.BytesIO(base64.b64decode(rec.file_import))
-                    output = io.BytesIO()
-                    output.seek(0)
-                    ocrmypdf.ocr(input_file, output)
-                    actif = self.env['import.ocr.actif.line'].search([('actif_id', '=', rec.id)])
-                    print(actif)
-                    actif.unlink()
+                data = str(rec.file_import)
+                data = data.replace('\r\n', '\n')  # Replace Windows-style newline with Unix-style
+                data = data.replace('\r', '\n')
+                data = data.replace("b'", '\n')
+                data = data.replace("='", '=')
+                data = 'data:application/pdf;base64,' + data
+                test_file = ocr_space_file(filename=data, api_key='K82274210888957', language='fre',
+                                       isTable=True)
+                json_dumps = test_file.content.decode()
+                json_loads = json.loads(json_dumps)
+                lines = json_loads['ParsedResults'][0]['TextOverlay']['Lines']
+                same_line = []
+                for line in lines:
+                    if bool(re.match(pattern_alpha, line['LineText'])):
+                        rubrique = self.env['import.ocr.config'].search([('name', '=', line['LineText'])])
+                        if rubrique:
+                            rec.env['import.ocr.actif.line'].create({'actif_id': rec.id,
+                                                                 'name': line['LineText'],
+                                                                 'rubrique': rubrique.id,
+                                                                 'mintop': line['MinTop'],
+                                                                 'height': line['MaxHeight'],
+                                                                 'montant_1n': 0,
+                                                                 'montant_2n': 0,
+                                                                 'montant_n': 0,
+                                                                 'montant_n1': 0})
+                            dicty = {'min_top':line['MinTop'],
+                                     'amounts': []}
+                            same_line.append(dicty)
+                    elif bool(re.match(pattern_num, line['LineText'])):
+                        if line['MinTop'] == 389:
+                            print(line['LineText'])
+                        actif = rec.actif_lines.filtered(lambda l: l.mintop - l.height <= line['MinTop'] <= l.mintop + l.height)
+                        if actif:
+                            width = 0
+                            for i in line['Words']:
+                                width += i['Width']
+                            for val in same_line:
+                                if val['min_top'] == actif.mintop:
+                                    val['amounts'].append({'amount': int(line['LineText'].replace(' ', '')),
+                                                           'left': line['Words'][0]['Left'],
+                                                           'width': width})
+                count = 0
+                first = []
+                second = []
+                third = []
+                forth = []
+                sum_height = 200
+                for line in same_line:
+                    print(line)
+                    if len(line['amounts']) == 4:
+                        count += 1
+                        first.append(line['amounts'][0]['left'])
+                        second.append(line['amounts'][1]['left'])
+                        third.append(line['amounts'][2]['left'])
+                        forth.append(line['amounts'][3]['left'])
 
-                    with pdfplumber.open(output) as pdfPage:
-                        pages = pdfPage.pages
-                        for page in pages:
-                            text = ""
-                            text += page.extract_text()
-                            lines = text.split('\n')
+                    for amount in line['amounts']:
+                        if sum_height > amount['width']:
+                            sum_height = amount['width']
+                first.sort()
+                second.sort()
+                third.sort()
+                forth.sort()
+                first_moy = [first[0], first[-1] + sum_height]
+                second_moy = [first[-1] + sum_height, second[-1]+sum_height]
+                third_moy = [second[-1] + sum_height, third[-1]+sum_height]
+                forth_moy = [third[-1] + sum_height, forth[-1]+sum_height]
+                for line in same_line:
+                    actif = rec.actif_lines.filtered(lambda l: l.mintop == line['min_top'])
 
-                            first_item = 13
-                            last_item = len(lines) - 1
-                            for line in lines:
-                                if "Désignation" in line:
-                                    rec.company = line[len("Désignation de l'entreprise:"):]
-                                if "Exercice" in line:
-                                    rec.annee = line[len("Exercice clos"):]
-                                if "ACTIFS NON COURANTS" in line:
-                                    first_item = lines.index(line)
-                                if "TOTAL GENERAL ACTIF" in line:
-                                    last_item = lines.index(line) + 1
-                            sublines = lines[first_item:last_item]
-                            print(sublines)
-                            for line in sublines:
-                                print(line)
-                                montant_1n = 0
-                                montant_2n = 0
-                                montant_n = 0
-                                montant_n1 = 0
+                    if len(line['amounts']) == 4:
+                        actif.montant_1n = line['amounts'][0]['amount']
+                        actif.montant_2n = line['amounts'][1]['amount']
+                        actif.montant_n = line['amounts'][2]['amount']
+                        actif.montant_n1 = line['amounts'][3]['amount']
 
-                                try:
-                                    rubrique = re.search('\d', str(line))
-                                    name = line[:rubrique.start()]
-                                    print(name)
-                                    if len(line) > len(name):
-                                        chiffre = line[rubrique.start():]
-                                        list_montant1 = chiffre.split('|')
-                                        list_montant2 = chiffre.split('_')
-
-                                        if len(list_montant1) == 4:
-                                            montant_1n = re.sub("[^0-9]", "", list_montant1[0], 0)
-                                            montant_2n = re.sub("[^0-9]", "", list_montant1[1], 0)
-                                            montant_n = re.sub("[^0-9]", "", list_montant1[2], 0)
-                                            montant_n1 = re.sub("[^0-9]", "", list_montant1[3], 0)
-                                        elif len(list_montant2) == 4:
-                                            montant_1n = re.sub("[^0-9]", "", list_montant2[0], 0)
-                                            montant_2n = re.sub("[^0-9]", "", list_montant2[1], 0)
-                                            montant_n = re.sub("[^0-9]", "", list_montant2[2], 0)
-                                            montant_n1 = re.sub("[^0-9]", "", list_montant2[3], 0)
-                                        else:
-                                            chiffre_rep = re.sub("[^0-9]", "", chiffre, 0)
-                                            length_montant = int(len(chiffre_rep)/4)
-                                            if length_montant < 6:
-                                                length_montant = int(len(chiffre_rep) / 3)
-                                                if length_montant < 6:
-                                                    length_montant = int(len(chiffre_rep) / 2)
-                                            montant_1n = re.sub("[^0-9]", "", chiffre_rep[:length_montant], 0)
-                                            montant_2n = re.sub("[^0-9]", "", chiffre_rep[length_montant:((len(chiffre_rep)- (2 * length_montant)))], 0)
-                                            montant_n = re.sub("[^0-9]", "", chiffre_rep[((len(chiffre_rep)- (2 * length_montant))):(len(chiffre_rep)-length_montant)], 0)
-                                            montant_n1 = re.sub("[^0-9]", "", chiffre_rep[len(chiffre_rep)-length_montant:], 0)
-                                            if len(montant_2n) <= 4:
-                                                montant_2n = 0
-                                except:
-                                    name = line
-                                    print(name)
-                                try:
-                                    montant1 = float(montant_1n)
-                                except:
-                                    montant1 = 0
-                                try:
-                                    montant2 = float(montant_2n)
-                                except:
-                                    montant2 = 0
-                                try:
-                                    montant = float(montant_n)
-                                except:
-                                    montant = 0
-
-                                try:
-                                    montant_1 = float(montant_n1)
-                                except:
-                                    montant_1 = 0
-                                rec.env['import.ocr.actif.line'].create({'actif_id': rec.id,
-                                                                       'name': name,
-                                                                         'montant_1n':montant1,
-                                                                         'montant_2n': montant2,
-                                                                       'montant_n': montant,
-                                                                       'montant_n1': montant_1})
-                    output.close()
-                    rec.state = "validation"
-            for line in rec.actif_lines:
-                line.montant_1n = line.montant_1n / 1000
-                line.montant_2n = line.montant_2n / 1000
-                line.montant_n = line.montant_n / 1000
-                line.montant_n1 = line.montant_n1 / 1000
+                    else:
+                        assign_amounts(actif, line['amounts'], [first_moy, second_moy, third_moy, forth_moy])
+                rec.state = "validation"
+                for line in rec.actif_lines:
+                    line.montant_n = line.montant_n / 1000
+                    line.montant_n1 = line.montant_n1 / 1000
+                    line.montant_1n = line.montant_1n / 1000
+                    line.montant_2n = line.montant_2n / 1000
 
     def action_validation(self):
         for rec in self:
-            list_validation = [18, 20, 26]
-            actifs = rec.actif_lines.filtered(lambda r: r.rubrique.sequence in list_validation)
-            if len(actifs) != 3:
+            list_validation = [4, 7, 16, 27, 18, 19, 24, 26, 20]
+            actifs = rec.actif_lines.filtered(lambda r: r.rubrique.sequence in list_validation).mapped('rubrique.sequence')
+            print(actifs)
+            if not set(list_validation).issubset(set(actifs)):
                 raise ValidationError("Vous devriez confirmer les valeurs suivantes: \n"
                                       "- Trésorerie \n"
                                       "- Stock \n"
@@ -185,9 +173,61 @@ class ImportActifOcrLine(models.Model):
     _description = "Line de bilan actif importé"
 
     name = fields.Char(string="RUBRIQUES")
+    mintop = fields.Integer(string='Rang')
+    height = fields.Integer(string='Height')
     rubrique = fields.Many2one('import.ocr.config', string='Rubriques confirmés', domain="[('type','=','actif')]")
     montant_1n = fields.Float(string="Montants Bruts")
     montant_2n = fields.Float(string="Amortissements provisions et pertes de valeurs")
     montant_n = fields.Float(string="N")
     montant_n1 = fields.Float(string="N-1")
     actif_id = fields.Many2one('import.ocr.actif', string="Actif ID")
+
+
+def ocr_space_file(filename, overlay=False, api_key='helloworld', language='eng',isTable=False):
+    payload = {'isOverlayRequired': overlay,
+               'apikey': api_key,
+               'language': language,
+               'base64Image': filename,
+               'isTable': isTable,
+               'OCREngine': 2
+               }
+    print('called')
+    r = requests.post('https://api.ocr.space/parse/image',
+                          data=payload,
+                          )
+    return r
+
+
+def assign_amounts(actif, amounts, intervals):
+    for amount in amounts:
+        if intervals[0][0] <= amount['left'] <= intervals[0][-1]:
+            actif.montant_1n = amount['amount']
+        elif intervals[1][0] <= amount['left'] <= intervals[1][-1]:
+            actif.montant_2n = amount['amount']
+        elif intervals[2][0] <= amount['left'] <= intervals[2][-1]:
+            actif.montant_n = amount['amount']
+        elif intervals[3][0] <= amount['left'] <= intervals[3][-1]:
+            actif.montant_n1 = amount['amount']
+        else:
+            if intervals[0][0] <= amount['left'] + amount['width'] <= intervals[0][-1]:
+                actif.montant_1n = amount['amount']
+            elif intervals[1][0] <= amount['left']+amount['width'] <= intervals[1][-1]:
+                actif.montant_2n = amount['amount']
+            elif intervals[2][0] <= amount['left']+amount['width'] <= intervals[2][-1]:
+                actif.montant_n = amount['amount']
+            elif intervals[3][0] <= amount['left']+amount['width'] <= intervals[3][-1]:
+                actif.montant_n1 = amount['amount']
+            else:
+                if intervals[0][0] <= amount['left'] - amount['width'] <= intervals[0][-1]:
+                    actif.montant_1n = amount['amount']
+                elif intervals[1][0] <= amount['left'] - amount['width'] <= intervals[1][-1]:
+                    actif.montant_2n = amount['amount']
+                elif intervals[2][0] <= amount['left'] - amount['width'] <= intervals[2][-1]:
+                    actif.montant_n = amount['amount']
+                elif intervals[3][0] <= amount['left'] - amount['width'] <= intervals[3][-1]:
+                    actif.montant_n1 = amount['amount']
+
+
+
+
+

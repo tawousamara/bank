@@ -49,6 +49,7 @@
                             <separator/>
                             <field name="file_import_name" invisible="1"/>
                             <field name="file_import" filename="file_import_name" type="base64" class="col-4"/>
+                            <field name="file_import2" filename="file_import_name" type="base64" class="col-4"/>
                         </div>
 
                     </div>

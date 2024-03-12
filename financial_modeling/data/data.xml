@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data noupdate="1">
+    <data >
         <record id="tcr_1" model="import.ocr.config">
             <field name="name">Ventes de marchandises</field>
             <field name="type">tcr</field>
             <field name="sequence">1</field>
         </record>
         <record id="tcr_2" model="import.ocr.config">
-            <field name="name">Production Vendue / Produits Fabriqués</field>
+            <field name="name">Produits fabriqués</field>
             <field name="type">tcr</field>
             <field name="sequence">2</field>
         </record>
         <record id="tcr_3" model="import.ocr.config">
-            <field name="name">Production Vendue / Prestations de services</field>
+            <field name="name">Prestations de services</field>
             <field name="type">tcr</field>
             <field name="sequence">3</field>
         </record>
         <record id="tcr_4" model="import.ocr.config">
-            <field name="name">Production Vendue / Vente de travaux</field>
+            <field name="name">Vente de travaux</field>
             <field name="type">tcr</field>
             <field name="sequence">4</field>
         </record>
@@ -27,17 +27,17 @@
             <field name="sequence">5</field>
         </record>
         <record id="tcr_6" model="import.ocr.config">
-            <field name="name">Rabais, Remises, Ristournes accordés</field>
+            <field name="name">Rabais, remises, ristournes accordés</field>
             <field name="type">tcr</field>
             <field name="sequence">6</field>
         </record>
         <record id="tcr_7" model="import.ocr.config">
-            <field name="name">Chiffre d'affaires net des rabais, Remises, Ristournes</field>
+            <field name="name">Chiffre d'affaires net des Rabais, remises, ristournes</field>
             <field name="type">tcr</field>
             <field name="sequence">7</field>
         </record>
         <record id="tcr_8" model="import.ocr.config">
-            <field name="name">Production stockée, déstockée</field>
+            <field name="name">Production stockée ou déstockée</field>
             <field name="type">tcr</field>
             <field name="sequence">8</field>
         </record>
@@ -52,7 +52,7 @@
             <field name="sequence">10</field>
         </record>
         <record id="tcr_11" model="import.ocr.config">
-            <field name="name">Production de l'exercice</field>
+            <field name="name">I-Production de l'exercice</field>
             <field name="type">tcr</field>
             <field name="sequence">11</field>
         </record>
@@ -62,7 +62,7 @@
             <field name="sequence">12</field>
         </record>
         <record id="tcr_13" model="import.ocr.config">
-            <field name="name">Matières premieres</field>
+            <field name="name">Matières premières</field>
             <field name="type">tcr</field>
             <field name="sequence">13</field>
         </record>
@@ -77,7 +77,7 @@
             <field name="sequence">15</field>
         </record>
         <record id="tcr_16" model="import.ocr.config">
-            <field name="name">Achats d'études de prestations de services</field>
+            <field name="name">Achats d'études et de prestations de services</field>
             <field name="type">tcr</field>
             <field name="sequence">16</field>
         </record>
@@ -87,47 +87,47 @@
             <field name="sequence">17</field>
         </record>
         <record id="tcr_18" model="import.ocr.config">
-            <field name="name">Rabais, remises, ristournes obtenues sur achats</field>
+            <field name="name">Rabais; remises, ristournes obtenues sur achats</field>
             <field name="type">tcr</field>
             <field name="sequence">18</field>
         </record>
         <record id="tcr_19" model="import.ocr.config">
-            <field name="name">Services éxterieurs/ Sous-traitance générale</field>
+            <field name="name">Sous-traitance générale</field>
             <field name="type">tcr</field>
             <field name="sequence">19</field>
         </record>
         <record id="tcr_20" model="import.ocr.config">
-            <field name="name">Services éxterieurs/ Locations</field>
+            <field name="name">Locations</field>
             <field name="type">tcr</field>
             <field name="sequence">20</field>
         </record>
         <record id="tcr_21" model="import.ocr.config">
-            <field name="name">Services éxterieurs/ Entretien, réparation et maintenance</field>
+            <field name="name">Entretien, réparations et maintenance</field>
             <field name="type">tcr</field>
             <field name="sequence">21</field>
         </record>
         <record id="tcr_22" model="import.ocr.config">
-            <field name="name">Services exterieurs/ Primes d'assurances</field>
+            <field name="name">Primes d'assurances</field>
             <field name="type">tcr</field>
             <field name="sequence">22</field>
         </record>
         <record id="tcr_23" model="import.ocr.config">
-            <field name="name">Services éxterieurs/ Personnel exterieur à l'entreprise</field>
+            <field name="name">Personnel extérieur à l'entreprise</field>
             <field name="type">tcr</field>
             <field name="sequence">23</field>
         </record>
         <record id="tcr_24" model="import.ocr.config">
-            <field name="name">Services éxterieurs/ Rémunération d'intermédiaires et honoraires</field>
+            <field name="name">Rémunération d'intermédiaires et honoraires</field>
             <field name="type">tcr</field>
             <field name="sequence">24</field>
         </record>
         <record id="tcr_25" model="import.ocr.config">
-            <field name="name">Services éxterieurs/ Publicité</field>
+            <field name="name">Publicité</field>
             <field name="type">tcr</field>
             <field name="sequence">25</field>
         </record>
         <record id="tcr_26" model="import.ocr.config">
-            <field name="name">Services éxterieurs/ Déplacements, missions et réceptions</field>
+            <field name="name">Déplacements, missions et réceptions</field>
             <field name="type">tcr</field>
             <field name="sequence">26</field>
         </record>
@@ -142,12 +142,12 @@
             <field name="sequence">28</field>
         </record>
         <record id="tcr_29" model="import.ocr.config">
-            <field name="name">Consommations de l'exercice</field>
+            <field name="name">II-Consommations de l'exercice</field>
             <field name="type">tcr</field>
             <field name="sequence">29</field>
         </record>
         <record id="tcr_30" model="import.ocr.config">
-            <field name="name">Valeur ajoutée d'exploitation (I-II)</field>
+            <field name="name">III-Valeur ajoutée d'exploitation (I-II)</field>
             <field name="type">tcr</field>
             <field name="sequence">30</field>
         </record>
@@ -157,12 +157,12 @@
             <field name="sequence">31</field>
         </record>
         <record id="tcr_32" model="import.ocr.config">
-            <field name="name">Impots et taxes et versements assimilés</field>
+            <field name="name">Impôts et taxes et versements assimilés</field>
             <field name="type">tcr</field>
             <field name="sequence">32</field>
         </record>
         <record id="tcr_33" model="import.ocr.config">
-            <field name="name">Excédent brut de l'exploitation</field>
+            <field name="name">IV-Excédent brut d'exploitation</field>
             <field name="type">tcr</field>
             <field name="sequence">33</field>
         </record>
@@ -197,7 +197,7 @@
             <field name="sequence">39</field>
         </record>
         <record id="tcr_40" model="import.ocr.config">
-            <field name="name">Résultat opérationnel</field>
+            <field name="name">V-Résultat opérationnel</field>
             <field name="type">tcr</field>
             <field name="sequence">40</field>
         </record>
@@ -212,48 +212,48 @@
             <field name="sequence">42</field>
         </record>
         <record id="tcr_43" model="import.ocr.config">
-            <field name="name">Résultat financier</field>
+            <field name="name">VI-Résultat financier</field>
             <field name="type">tcr</field>
             <field name="sequence">43</field>
         </record>
         <record id="tcr_44" model="import.ocr.config">
-            <field name="name">Résultat ordinaire (V+VI)</field>
+            <field name="name">VII-Résultat ordinaire (V+VI)</field>
             <field name="type">tcr</field>
             <field name="sequence">44</field>
         </record>
         <record id="tcr_45" model="import.ocr.config">
-            <field name="name">Elements extraordinaires (produits) (*)</field>
+            <field name="name">Eléments extraordinaires (produits) (*)</field>
             <field name="type">tcr</field>
             <field name="sequence">45</field>
         </record>
         <record id="tcr_46" model="import.ocr.config">
-            <field name="name">Elements extraordinaires (charges) (*)</field>
+            <field name="name">Eléments extraordinaires (charges) (*)</field>
             <field name="type">tcr</field>
             <field name="sequence">46</field>
         </record>
         <record id="tcr_47" model="import.ocr.config">
-            <field name="name">Résultat extraordinaire</field>
+            <field name="name">VIII-Résultat extraordinaire</field>
             <field name="type">tcr</field>
             <field name="sequence">47</field>
         </record>
         <record id="tcr_48" model="import.ocr.config">
-            <field name="name">Impots exigibles sur résultats</field>
+            <field name="name">Impôts exigibles sur résultats</field>
             <field name="type">tcr</field>
             <field name="sequence">48</field>
         </record>
         <record id="tcr_49" model="import.ocr.config">
-            <field name="name">Impots différés (variations) sur résultat ordinaire</field>
+            <field name="name">Impôts différés (variations) sur résultats ordinaire</field>
             <field name="type">tcr</field>
             <field name="sequence">49</field>
         </record>
         <record id="tcr_50" model="import.ocr.config">
-            <field name="name">Résultat  net de l'exercice</field>
+            <field name="name">IX-RESULTAT NET DE L'EXERCICE</field>
             <field name="type">tcr</field>
             <field name="sequence">50</field>
         </record>
         <!-- **** ACTIF ****-->
         <record id="actif_1" model="import.ocr.config">
-            <field name="name">Actifs non courants</field>
+            <field name="name">ACTIFS NON COURANTS</field>
             <field name="type">actif</field>
             <field name="sequence">1</field>
         </record>
@@ -278,7 +278,7 @@
             <field name="sequence">5</field>
         </record>
         <record id="actif_6" model="import.ocr.config">
-            <field name="name">Batiments</field>
+            <field name="name">Bâtiments</field>
             <field name="type">actif</field>
             <field name="sequence">6</field>
         </record>
@@ -298,12 +298,12 @@
             <field name="sequence">9</field>
         </record>
         <record id="actif_10" model="import.ocr.config">
-            <field name="name">Immobilisations financière</field>
+            <field name="name">Immobilisations financières</field>
             <field name="type">actif</field>
             <field name="sequence">10</field>
         </record>
         <record id="actif_11" model="import.ocr.config">
-            <field name="name">Titres mis en équivalence </field>
+            <field name="name">Titres mis en équivalence</field>
             <field name="type">actif</field>
             <field name="sequence">11</field>
         </record>
@@ -318,22 +318,22 @@
             <field name="sequence">13</field>
         </record>
         <record id="actif_14" model="import.ocr.config">
-            <field name="name">Prets et autres actifs financiers non courants</field>
+            <field name="name">Prêts et autres actifs financiers non courants</field>
             <field name="type">actif</field>
             <field name="sequence">14</field>
         </record>
         <record id="actif_15" model="import.ocr.config">
-            <field name="name">Impots différés actif</field>
+            <field name="name">Impôts différés actif</field>
             <field name="type">actif</field>
             <field name="sequence">15</field>
         </record>
         <record id="actif_16" model="import.ocr.config">
-            <field name="name">Total actif non courant</field>
+            <field name="name">TOTAL ACTIF NON COURANT</field>
             <field name="type">actif</field>
             <field name="sequence">16</field>
         </record>
         <record id="actif_17" model="import.ocr.config">
-            <field name="name">Actif courant</field>
+            <field name="name">ACTIF COURANT</field>
             <field name="type">actif</field>
             <field name="sequence">17</field>
         </record>
@@ -358,7 +358,7 @@
             <field name="sequence">21</field>
         </record>
         <record id="actif_22" model="import.ocr.config">
-            <field name="name">Impots et assimilés</field>
+            <field name="name">Impôts et assimilés</field>
             <field name="type">actif</field>
             <field name="sequence">22</field>
         </record>
@@ -368,7 +368,7 @@
             <field name="sequence">23</field>
         </record>
         <record id="actif_24" model="import.ocr.config">
-            <field name="name">Disponibilité et assimilés</field>
+            <field name="name">Disponibilités et assimilés</field>
             <field name="type">actif</field>
             <field name="sequence">24</field>
         </record>
@@ -383,19 +383,19 @@
             <field name="sequence">26</field>
         </record>
         <record id="actif_27" model="import.ocr.config">
-            <field name="name">Total Actif courant</field>
+            <field name="name">TOTAL ACTIF COURANT</field>
             <field name="type">actif</field>
             <field name="sequence">27</field>
         </record>
         <record id="actif_28" model="import.ocr.config">
-            <field name="name">Total general actif</field>
+            <field name="name">TOTAL GENERAL ACTIF</field>
             <field name="type">actif</field>
             <field name="sequence">28</field>
         </record>
 
         <!-- **** PASSIF ****-->
         <record id="passif_1" model="import.ocr.config">
-            <field name="name">Capitaux propres</field>
+            <field name="name">CAPITAUX PROPRES</field>
             <field name="type">passif</field>
             <field name="sequence">1</field>
         </record>
@@ -410,7 +410,7 @@
             <field name="sequence">3</field>
         </record>
         <record id="passif_4" model="import.ocr.config">
-            <field name="name">Primes et reserves - Reserves consolidées (1)</field>
+            <field name="name">Primes et réserves - Réserves consolidées (1)</field>
             <field name="type">passif</field>
             <field name="sequence">4</field>
         </record>
@@ -430,7 +430,7 @@
             <field name="sequence">7</field>
         </record>
         <record id="passif_8" model="import.ocr.config">
-            <field name="name">Autres capitaux propres - Report à nouveau</field>
+            <field name="name">Autres capitaux propores - Report à nouveau</field>
             <field name="type">passif</field>
             <field name="sequence">8</field>
         </record>
@@ -450,12 +450,12 @@
             <field name="sequence">11</field>
         </record>
         <record id="passif_12" model="import.ocr.config">
-            <field name="name">Total I</field>
+            <field name="name">TOTAL I</field>
             <field name="type">passif</field>
             <field name="sequence">12</field>
         </record>
         <record id="passif_13" model="import.ocr.config">
-            <field name="name">Passifs non courants</field>
+            <field name="name">PASSIFS NON-COURANTS</field>
             <field name="type">passif</field>
             <field name="sequence">13</field>
         </record>
@@ -465,7 +465,7 @@
             <field name="sequence">14</field>
         </record>
         <record id="passif_15" model="import.ocr.config">
-            <field name="name">Impots (différés et provisionnés)</field>
+            <field name="name">Impôts (différés et provisionnés)</field>
             <field name="type">passif</field>
             <field name="sequence">15</field>
         </record>
@@ -480,12 +480,12 @@
             <field name="sequence">17</field>
         </record>
         <record id="passif_18" model="import.ocr.config">
-            <field name="name">Total II</field>
+            <field name="name">TOTAL II</field>
             <field name="type">passif</field>
             <field name="sequence">18</field>
         </record>
         <record id="passif_19" model="import.ocr.config">
-            <field name="name">Passifs courants</field>
+            <field name="name">PASSIFS COURANTS:</field>
             <field name="type">passif</field>
             <field name="sequence">19</field>
         </record>
@@ -495,7 +495,7 @@
             <field name="sequence">20</field>
         </record>
         <record id="passif_21" model="import.ocr.config">
-            <field name="name">Impots</field>
+            <field name="name">Impôts</field>
             <field name="type">passif</field>
             <field name="sequence">21</field>
         </record>
@@ -505,17 +505,17 @@
             <field name="sequence">22</field>
         </record>
         <record id="passif_23" model="import.ocr.config">
-            <field name="name">Trésorerie passifs</field>
+            <field name="name">Trésorerie passif</field>
             <field name="type">passif</field>
             <field name="sequence">23</field>
         </record>
         <record id="passif_24" model="import.ocr.config">
-            <field name="name">Total III</field>
+            <field name="name">TOTAL III</field>
             <field name="type">passif</field>
             <field name="sequence">24</field>
         </record>
         <record id="passif_25" model="import.ocr.config">
-            <field name="name">Total General Passif (I+II+III)</field>
+            <field name="name">TOTAL GENERAL PASSIF (I+II+III)</field>
             <field name="type">passif</field>
             <field name="sequence">25</field>
         </record>
