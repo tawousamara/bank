@@ -34,6 +34,30 @@ class Workflow(models.Model):
     assigned_to_agence = fields.Many2one('res.users', string='المكلف بالملف', )
     states = fields.One2many('wk.etape', 'workflow', string='المديريات', domain=lambda self: [('etape', '!=', self.env.ref('dept_wk.princip_8').id)])
     lanced = fields.Boolean(string='Traitement lancé', compute='compute_visible_states')
+    is_new = fields.Boolean(string='is new', compute='compute_type_demande')
+    is_renew = fields.Boolean(string='is new', compute='compute_type_demande')
+    is_modify = fields.Boolean(string='is new', compute='compute_type_demande')
+    is_delete = fields.Boolean(string='is new', compute='compute_type_demande')
+    is_condition = fields.Boolean(string='is new', compute='compute_type_demande')
+    def compute_type_demande(self):
+        for rec in self:
+            if rec.demande.name == 'تسهيلات جديدة':
+                rec.is_new = True
+                rec.is_renew = rec.is_modify = rec.is_delete = rec.is_condition = False
+            elif rec.demande.name == 'تجديد تسهيلات':
+                rec.is_renew = True
+                rec.is_new = rec.is_modify = rec.is_delete = rec.is_condition = False
+            elif rec.demande.name == 'تعديل تسهيلات':
+                rec.is_modify = True
+                rec.is_new = rec.is_renew = rec.is_delete = rec.is_condition = False
+            elif rec.demande.name == 'الغاء تسهيلات':
+                rec.is_delete= True
+                rec.is_new = rec.is_modify = rec.is_renew = rec.is_condition = False
+            elif rec.demande.name == 'تعديل الشروط':
+                rec.is_condition = True
+                rec.is_new = rec.is_modify = rec.is_delete = rec.is_renew = False
+            else:
+                rec.is_new = rec.is_condition = rec.is_modify = rec.is_delete = rec.is_renew = False
 
     def compute_visible_states(self):
         for rec in self:

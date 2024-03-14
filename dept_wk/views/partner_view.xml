@@ -40,22 +40,22 @@
                 <group>
                     <field name="adress_siege"/>
                     <field name="is_client"/>
-                    <field name="branche"/>
+                    <field name="branche" options="{'no_create': True, 'no_open': True}"/>
                     <field name="wilaya"/>
                     <field name="nif"/>
                     <field name="rc"/>
                     <field name="date_inscription"/>
                     <field name="activity_code"/>
                     <field name="activity_description"/>
-                    <field name="groupe" domain="[('is_company', '=', True)]"/>
+                    <field name="groupe" domain="[('is_company', '=', True)]" options="{'no_create': True, 'no_open': True}"/>
                 </group>
                 <group>
-                    <field name="activite"/>
+                    <field name="activite" options="{'no_create': True, 'no_open': True}"/>
                     <field name="date_debut_activite"/>
                     <field name="num_compte"/>
                     <field name="date_ouverture_compte"/>
-                    <field name="classification"/>
-                    <field name="forme_jur"/>
+                    <field name="classification" options="{'no_create': True, 'no_open': True}"/>
+                    <field name="forme_jur" options="{'no_create': True, 'no_open': True}"/>
                     <field name="chiffre_affaire" widget="monetary"/>
                 </group>
             </xpath>

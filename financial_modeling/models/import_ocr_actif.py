@@ -39,10 +39,10 @@ class ImportActifOCR(models.Model):
                 rec.actif_lines.unlink()
             if rec.file_import:
                 data = str(rec.file_import)
+                data = data.replace("b'", '\n')
+                data = data.replace("'", '')
                 data = data.replace('\r\n', '\n')  # Replace Windows-style newline with Unix-style
                 data = data.replace('\r', '\n')
-                data = data.replace("b'", '\n')
-                data = data.replace("='", '=')
                 data = 'data:application/pdf;base64,' + data
                 test_file = ocr_space_file(filename=data, api_key='K82274210888957', language='fre',
                                        isTable=True)
@@ -75,7 +75,7 @@ class ImportActifOCR(models.Model):
                             for i in line['Words']:
                                 width += i['Width']
                             for val in same_line:
-                                if val['min_top'] == actif.mintop:
+                                if val['min_top'] == actif[0].mintop:
                                     val['amounts'].append({'amount': int(line['LineText'].replace(' ', '')),
                                                            'left': line['Words'][0]['Left'],
                                                            'width': width})

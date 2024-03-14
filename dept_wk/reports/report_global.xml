@@ -18,16 +18,60 @@
                 left: 0;
                 padding: 5px;
                 }
+                table > tbody > tr > td {
+                padding: 10px
+                }
+                .page-content {
+                font-family: 'NotoArabic-Regular';
+                direction: rtl;
+                padding: 20px;
+                margin: 40px;
+                text-align: justify;
+                line-height: 1.5
+                }
             </style>
-            <div class="header" style="margin-bottom: 10px; ">
-                <div class="row" style="margin-bottom: 10px; width: 300px; height: 150px;">
-                    <img t-if="doc.company_id.logo" t-att-src="image_data_uri(doc.company_id.logo)" height="150"
-                         border="1" width="100"
-                         alt="Logo"/>
-                </div>
-                <div>
-                </div>
+            <div class="header page-content" style="margin-bottom: 10px; ">
+                <table class="page-content" style="border: 1px black;border-collapse: collapse;">
+                    <tbody>
+                        <tr>
+                            <td width="60%"
+                                style="font-size: 20px;font-family: 'NotoArabic-Regular';padding: 5px; text-align: right;vertical-align: middle;">
+                                ادارة التمويلات
+                            </td>
+                            <td width="30%"
+                                style="font-size: 20px;font-family: 'NotoArabic-Regular';padding: 5px; text-align: right;vertical-align: middle;">
+                                التاريخ:
+                                <t t-esc="doc.date"/>
+                            </td>
+                            <td width="10%" rowspan="3">
+                                <img style="margin-bottom: 10px; width: 150px; height: 100px;"
+                                     t-if="doc.company_id.logo"
+                                     t-att-src="image_data_uri(doc.company_id.logo)" height="100"
+                                     border="1" width="100"
+                                     alt="Logo"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-size: 20px;font-family: 'NotoArabic-Regular';padding: 5px;vertical-align: middle;">
+                                الشركة:
+                                <t t-esc="doc.nom_client.name"/>
+                            </td>
+                            <td style="font-size: 20px;font-family: 'NotoArabic-Regular';padding: 5px;vertical-align: middle;">
+                                دراسة طلب التسهيلات رقم:
+                                <t t-esc="doc.name"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-size: 20px;font-family: 'NotoArabic-Regular';padding: 5px;vertical-align: middle;">
+                                المجمع:
+                                <t t-esc="doc.nom_client.groupe.name"/>
+                            </td>
+                            <td>
 
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
             <div class="article o_report_layout_standard">
                 <t t-out="0"/>
@@ -42,26 +86,6 @@
                     <br/>
                     <span style="font-size: 10px; color: #a0a0a0">راس المال 000 000 20000دج / السجل التجاري رقم 0976530
                         8 07 رقم التعريف الجبائي 000716097653066
-                    </span>
-                    <br/>
-                    <span style="font-size: 10px; color: #a0a0a0">المتعامل:
-                        <t t-if="doc.nom_client">
-                            <t t-esc="doc.nom_client.name"/>
-                        </t>
-                        <t t-else="">
-                            <t t-esc="doc.partner_id.name"/>
-                        </t>
-                    </span>
-                    <br/>
-
-                    <span style="font-size: 10px; color: #a0a0a0">رقم الحساب:
-                        <t t-if="doc.nom_client">
-                            <t t-esc="doc.nom_client.num_compte"/>
-                        </t>
-                        <t t-else="">
-                            <t t-esc="doc.partner_id.num_compte"/>
-                        </t>
-
                     </span>
                     <br/>
                     <div t-if="report_type == 'pdf'" class="text-muted" style="font-size: 10px;color: #a0a0a0">
@@ -152,254 +176,239 @@
                             }
                         </style>
                         <div class="page page-content">
-                            <center style="margin-bottom: 10px;margin-top: 10px">
-                                <div class="column">
-                                    <h3 class="title" style="margin-bottom: 50px;">محضر التمويلات
-                                        <t t-esc="doc.name"/>
-                                    </h3>
-                                    <br/>
-                                    <h6>بتاريخ:
-                                        <t t-esc="doc.date"/>
-                                    </h6>
-                                </div>
-                            </center>
                             <div class="justify-content-start">
                                 <t t-set="etape1"
                                    t-value="doc.env['wk.etape'].search([('workflow', '=', doc.id), ('sequence', '=', 8)], limit=1)"/>
+                                <t t-set="etape2"
+                                   t-value="doc.env['wk.etape'].search([('workflow', '=', doc.id), ('sequence', '=', 2)], limit=1)"/>
+                                <t t-set="etape4"
+                                   t-value="doc.env['wk.etape'].search([('workflow', '=', doc.id), ('sequence', '=', 4)], limit=1)"/>
+                                <table class="reversed-table">
+                                    <tbody>
+                                        <tr>
+                                            <td
+                                                    style="font-family: 'NotoArabic-Regular';padding: 5px; text-align: right;vertical-align: middle;">
+                                                تسهيلات جديدة
+                                            </td>
+                                            <td
+                                                    style="font-family: 'NotoArabic-Regular';padding: 5px; text-align: right;vertical-align: middle;">
+                                                <t t-if="doc.is_new">X</t>
+                                            </td>
+                                            <td
+                                                    style="font-family: 'NotoArabic-Regular';padding: 5px; text-align: right;vertical-align: middle;">
+                                                تجديد تسهيلات
+                                            </td>
+                                            <td
+                                                    style="font-family: 'NotoArabic-Regular';padding: 5px; text-align: right;vertical-align: middle;">
+                                                <t t-if="doc.is_renew">X</t>
+                                            </td>
+                                            <td
+                                                    style="font-family: 'NotoArabic-Regular';padding: 5px; text-align: right;vertical-align: middle;">
+                                                تعديل تسهيلات
+                                            </td>
+                                            <td
+                                                    style="font-family: 'NotoArabic-Regular';padding: 5px; text-align: right;vertical-align: middle;">
+                                                <t t-if="doc.is_modify">X</t>
+                                            </td>
+                                            <td
+                                                    style="font-family: 'NotoArabic-Regular';padding: 5px; text-align: right;vertical-align: middle;">
+                                                الغاء تسهيلات
+                                            </td>
+                                            <td
+                                                    style="font-family: 'NotoArabic-Regular';padding: 5px; text-align: right;vertical-align: middle;">
+                                                <t t-if="doc.is_delete">X</t>
+                                            </td>
+                                            <td
+                                                    style="font-family: 'NotoArabic-Regular';padding: 5px; text-align: right;vertical-align: middle;">
+                                                تعديل الشروط
+                                            </td>
+                                            <td
+                                                    style="font-family: 'NotoArabic-Regular';padding: 5px; text-align: right;vertical-align: middle;">
+                                                <t t-if="doc.is_condition">X</t>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-family: 'NotoArabic-Regular';padding: 5px;vertical-align: middle;">
+                                                رقم العميل:
+
+                                            </td>
+                                            <td colspan="3"
+                                                style="font-family: 'NotoArabic-Regular';padding: 5px;vertical-align: middle;">
+                                                <t t-esc="doc.nom_client.num_compte"/>
+                                            </td>
+                                            <td style="font-family: 'NotoArabic-Regular';padding: 5px;vertical-align: middle;">
+                                                رقم السجل التجاري:
+
+                                            </td>
+                                            <td colspan="5"
+                                                style="font-family: 'NotoArabic-Regular';padding: 5px;vertical-align: middle;">
+                                                <t t-esc="doc.nom_client.rc"/>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                                <br/>
                                 <div class="table_deco">
-                                    <table class="table_content">
+                                    <table class="reversed-table">
                                         <tbody>
                                             <tr>
-                                                <td style="font-weight: bold;" t-if="etape1.branche">
-                                                    الفرع
+                                                <td>
+                                                    تاريخ الاستلام
                                                 </td>
-                                                <td t-if="etape1.branche">
-                                                    <span>
-                                                        <t t-esc="etape1.branche.name"/>
-                                                    </span>
+                                                <td colspan="2">
+                                                    <t t-esc="doc.date"/>
                                                 </td>
-                                                <td style="font-weight: bold;" t-if="etape1.wilaya">
-                                                    الولاية
+                                                <td>
+                                                    الدراسة و التحليل المالي
                                                 </td>
-                                                <td t-if="etape1.wilaya">
-                                                    <span>
-                                                        <t t-esc="etape1.wilaya.domaine"/>
-                                                    </span>
+                                                <td colspan="2">
+
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td style="font-weight: bold;" t-if="etape1.num_compte">
-                                                    رقم الحساب
+                                                <td>
+                                                    سلطة القرار
                                                 </td>
-                                                <td t-if="etape1.num_compte">
-                                                    <span>
-                                                        <t t-esc="etape1.num_compte"/>
-                                                    </span>
+                                                <td colspan="5">
+                                                    <t t-esc="etape2.comite.name"/>
                                                 </td>
-                                                <td style="font-weight: bold;" t-if="etape1.date_ouverture_compte">
-                                                    تاريخ فتح الحساب
+                                            </tr>
+
+                                            <tr>
+                                                <td>
+                                                    اسم المتعامل
                                                 </td>
-                                                <td t-if="etape1.date_ouverture_compte">
-                                                    <span>
-                                                        <t t-esc="etape1.date_ouverture_compte"/>
-                                                    </span>
+                                                <td colspan="2">
+                                                    <t t-esc="etape1.nom_client.name"/>
+                                                </td>
+                                                <td>
+                                                    اسم المجموعة
+                                                </td>
+                                                <td colspan="2">
+                                                    <t t-esc="etape1.nom_client.groupe.name"/>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td style="font-weight: bold;" t-if="etape1.forme_jur">
-                                                    الشكل القانوني
+                                                <td>
+                                                    النشاط الرئيسي
                                                 </td>
-                                                <td t-if="etape1.forme_jur">
-                                                    <span>
-                                                        <t t-esc="etape1.forme_jur.name"/>
-                                                    </span>
+                                                <td colspan="2">
+                                                    <t t-esc="etape1.activite.domaine"/>
                                                 </td>
-                                                <td style="font-weight: bold;" t-if="etape1.chiffre_affaire">
-                                                    رأسمال الشركة
-                                                </td>
-                                                <td t-if="etape1.chiffre_affaire">
-                                                    <span>
-                                                        <t t-esc="etape1.chiffre_affaire"/>
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="font-weight: bold;" t-if="etape1.activity_code">
+                                                <td>
                                                     رمز النشاط
                                                 </td>
-                                                <td t-if="etape1.activity_code">
-                                                    <span>
-                                                        <t t-esc="etape1.activity_code"/>
-                                                    </span>
-                                                </td>
-                                                <td style="font-weight: bold;" t-if="etape1.activity_description">
-                                                    النشاط
-                                                </td>
-                                                <td t-if="etape1.activity_description">
-                                                    <span>
-                                                        <t t-esc="etape1.activity_description"/>
-                                                    </span>
+                                                <td colspan="2">
+                                                    <t t-esc="etape1.activite.name"/>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td style="font-weight: bold;" t-if="etape1.nif">
-                                                    NIF
+                                                <td>
+                                                    النشاط الثانوي
                                                 </td>
-                                                <td t-if="etape1.nif">
-                                                    <span>
-                                                        <t t-esc="etape1.nif"/>
-                                                    </span>
+                                                <td colspan="2">
+                                                    <t t-esc="etape1.activity_description"/>
                                                 </td>
-                                                <td style="font-weight: bold;" t-if="etape1.num_registre_commerce">
-                                                    RC
+                                                <td>
+                                                    رمز النشاط
                                                 </td>
-                                                <td t-if="etape1.num_registre_commerce">
-                                                    <span>
-                                                        <t t-esc="etape1.num_registre_commerce"/>
-                                                    </span>
+                                                <td colspan="2">
+                                                    <t t-esc="etape1.activity_code"/>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td style="font-weight: bold; direction: rtl;" t-if="etape1.phone">
-                                                    الهاتف
+                                                <td>
+                                                    تاريخ التاسيس
                                                 </td>
-                                                <td t-if="etape1.phone" style="text-align: right; direction: ltr;">
-                                                    <span>
-                                                        <t t-esc="etape1.phone"/>
-                                                    </span>
+                                                <td colspan="2">
+                                                    <t t-esc="etape1.date_inscription"/>
                                                 </td>
-                                                <td style="font-weight: bold;" t-if="etape1.email">
-                                                    البريد الإلكتروني
-                                                </td>
-                                                <td t-if="etape1.email">
-                                                    <span>
-                                                        <t t-esc="etape1.email"/>
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="font-weight: bold;" t-if="etape1.date_inscription">
-                                                    تاريخ القيد في السجل التجاري
-                                                </td>
-                                                <td t-if="etape1.date_inscription">
-                                                    <span>
-                                                        <t t-esc="etape1.date_inscription"/>
-                                                    </span>
-                                                </td>
-                                                <td style="font-weight: bold;" t-if="etape1.date_debut_activite">
+                                                <td>
                                                     تاريخ بداية النشاط
                                                 </td>
-                                                <td t-if="etape1.date_debut_activite">
-                                                    <span>
-                                                        <t t-esc="etape1.date_debut_activite"/>
-                                                    </span>
+                                                <td colspan="2">
+                                                    <t t-esc="etape1.date_debut_activite"/>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td style="font-weight: bold;" t-if="etape1.classification">
-                                                    تصنيف الشركة
+                                                <td>
+                                                    راس المال الشركة
                                                 </td>
-                                                <td t-if="etape1.classification">
-                                                    <span>
-                                                        <t t-esc="etape1.classification.name"/>
-                                                    </span>
+                                                <td colspan="2">
+                                                    <t t-esc="etape1.chiffre_affaire"/>
                                                 </td>
-                                                <td style="font-weight: bold;" t-if="etape1.gerant">
-                                                    المسير
+                                                <td>
+                                                    راس المال الحالي
                                                 </td>
-                                                <td t-if="etape1.gerant">
-                                                    <span>
-                                                        <t t-esc="etape1.gerant.name"/>
-                                                    </span>
+                                                <td colspan="2">
+                                                    <t t-esc="etape1.chiffre_affaire"/>
                                                 </td>
-
                                             </tr>
                                             <tr>
-                                                <td style="font-weight: bold;" t-if="etape1.demande">
-                                                    نوع الطلب
+                                                <td>
+                                                    التنقيط السابق
                                                 </td>
-                                                <td t-if="etape1.demande">
-                                                    <span>
-                                                        <t t-esc="etape1.demande.name"/>
-                                                    </span>
+                                                <td colspan="2">
+                                                    <t t-esc="etape4.resultat_scoring"/>
+                                                </td>
+                                                <td>
+                                                    التنقيط الحالي
+                                                </td>
+                                                <td colspan="2">
+                                                    <t t-esc="etape4.resultat_scoring"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    الفرع
+                                                </td>
+                                                <td>
+                                                    <t t-esc="etape1.branche.name"/>
+                                                </td>
+                                                <td>
+                                                    رقم الحساب
+                                                </td>
+                                                <td>
+                                                    <t t-esc="etape1.num_compte"/>
+                                                </td>
+                                                <td>
+                                                    تاريخ فتح الحساب
+                                                </td>
+                                                <td>
+                                                    <t t-esc="etape1.date_ouverture_compte"/>
                                                 </td>
                                             </tr>
 
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="table_deco">
-                                    <table class="table_content">
-                                        <tbody>
-                                            <tr t-if="etape1.prod_company">
-                                                <td style="font-weight: bold;">
-                                                    منتوجات الشركة
+                                            <tr>
+                                                <td>
+                                                    الطلب
                                                 </td>
-                                                <td style="border: 1px solid green;">
-                                                    <span>
-                                                        <t t-esc="etape1.prod_company"/>
-                                                    </span>
+                                                <td colspan="5">
+                                                    <t t-esc="etape2.demande.name"/>
                                                 </td>
                                             </tr>
-                                            <tr t-if="etape1.unit_prod">
-                                                <td style="font-weight: bold;">
-                                                    وحدات الانتاج
+
+                                            <tr>
+                                                <td>
+                                                    الغرض من الطلب
                                                 </td>
-                                                <td style="border: 1px solid green;">
-                                                    <span>
-                                                        <t t-esc="etape1.unit_prod"/>
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                            <tr t-if="etape1.stock">
-                                                <td style="font-weight: bold;">
-                                                    المخازن
-                                                </td>
-                                                <td style="border: 1px solid green;">
-                                                    <span>
-                                                        <t t-esc="etape1.stock"/>
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                            <tr t-if="etape1.politique_comm">
-                                                <td style="font-weight: bold;">
-                                                    السياسة التسويقية
-                                                </td>
-                                                <td style="border: 1px solid green;">
-                                                    <span>
-                                                        <t t-esc="etape1.politique_comm"/>
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                            <tr t-if="etape1.cycle_exploit">
-                                                <td style="font-weight: bold;">
-                                                    دورة الاستغلال
-                                                </td>
-                                                <td style="border: 1px solid green;">
-                                                    <span>
-                                                        <t t-esc="etape1.cycle_exploit"/>
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                            <tr t-if="etape1.concurrence">
-                                                <td style="font-weight: bold;">
-                                                    المنافسة و دراسة السوق
-                                                </td>
-                                                <td style="border: 1px solid green;">
-                                                    <span>
-                                                        <t t-esc="etape1.concurrence"/>
-                                                    </span>
+                                                <td colspan="5">
+                                                    <t t-esc="doc.explanation"/>
                                                 </td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
                                 <br/>
-                                <h4 class="title" style="margin-top: 20px; color: green;">توزيع راس مال الشركة
-                                </h4>
                                 <div class="table_deco">
                                     <table class="reversed-table" t-if="etape1.apropos">
                                         <thead>
+                                            <tr>
+                                                <th style="text-align: center" colspan="5">
+                                                    نبذة عن المتعامل
+                                                </th>
+                                            </tr>
                                             <tr>
                                                 <th>اسم الشريك/المالك</th>
                                                 <th>تاريخ التاسيس/الميلاد</th>
@@ -424,19 +433,28 @@
                                                         <t t-esc="line.nationalite.name"/>
                                                     </td>
                                                     <td>
-                                                        <t t-esc="line.pourcentage"/>
+                                                        <t t-esc="line.pourcentage"/>%
                                                     </td>
                                                 </tr>
                                             </t>
+                                            <tr>
+                                                <td colspan="4">
+                                                    الاجمالي
+                                                </td>
+                                                <td>
+                                                    <t t-esc="sum(etape1.apropos.mapped('pourcentage'))"/>%
+                                                </td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
                                 <br/>
-                                <h4 class="title" style="margin-top: 20px; color: green;">اعرف عميلك
-                                </h4>
                                 <div class="table_deco">
                                     <table class="reversed-table" t-if="etape1.kyc">
                                         <thead>
+                                            <tr>
+                                                <th colspan="3" style="text-align: center">اعرف عميلك KYC</th>
+                                            </tr>
                                             <tr>
                                                 <th>معلومات اضافية عن العميل</th>
                                                 <th>نعم/لا</th>
@@ -466,7 +484,7 @@
                                     </table>
                                 </div>
                                 <br/>
-                                <h4 class="title" style="margin-top: 20px; color: green;">فريق التسيير
+                                <!--<h4 class="title" style="margin-top: 20px; color: green;">فريق التسيير
                                 </h4>
                                 <div class="table_deco">
                                     <table class="reversed-table" t-if="etape1.gestion">
@@ -754,17 +772,18 @@
                                             </t>
                                         </tbody>
                                     </table>
-                                </div>
+                                </div>-->
                                 <br/>
                                 <t t-set="etape2"
                                    t-value="doc.states.filtered(lambda l: l.sequence == 2 )"/>
-
-                                <h4 class="title" style="margin-top: 20px; color: green;">تفاصيل التسهيلات الممنوحة
-                                    (بالمليون دج)
-                                </h4>
                                 <div class="table_deco">
                                     <table class="reversed-table" t-if="etape2.facilite_accorde">
                                         <thead>
+                                            <tr>
+                                                <th colspan="7" style="text-align: center">تفاصيل التسهيلات الممنوحة
+                                                    (بالمليون دج)
+                                                </th>
+                                            </tr>
                                             <tr>
                                                 <th>نوع التسهيلات</th>
                                                 <th>تاريخ الرخصة</th>
@@ -794,7 +813,8 @@
                                                         <t t-esc="'{0:,.0f}'.format(line.montant_da_total)"/>
                                                     </td>
                                                     <td>
-                                                        <t t-esc="line.garantie_montant"/>
+                                                        <t t-esc="int(line.garantie_montant * 100)"/>
+                                                        %
                                                     </td>
                                                     <td>
                                                         <t t-esc="line.remarques"/>
@@ -805,11 +825,14 @@
                                     </table>
                                 </div>
                                 <br/>
-                                <h4 class="title" style="margin-top: 20px; color: green;">الضمانات العقارية الحالية
-                                </h4>
                                 <div class="table_deco">
                                     <table class="reversed-table" t-if="etape2.detail_garantie_actuel_ids">
                                         <thead>
+                                            <tr>
+                                                <th colspan="6" style="text-align: center">
+                                                    تفاصيل الضمانات
+                                                </th>
+                                            </tr>
                                             <tr>
                                                 <th>نوعية الضمان</th>
                                                 <th>نوعية العقد</th>
@@ -820,6 +843,11 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            <tr>
+                                                <th colspan="6" style="text-align: center">
+                                                    الضمانات العقارية الحالية
+                                                </th>
+                                            </tr>
                                             <t t-foreach="etape2.detail_garantie_actuel_ids" t-as="line">
                                                 <tr>
                                                     <td>
@@ -842,25 +870,19 @@
                                                     </td>
                                                 </tr>
                                             </t>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <br/>
-                                <h4 class="title" style="margin-top: 20px; color: green;">الضمانات العقارية المقترحة
-                                </h4>
-                                <div class="table_deco">
-                                    <table class="reversed-table" t-if="etape2.detail_garantie_propose_ids">
-                                        <thead>
                                             <tr>
-                                                <th>نوعية الضمان</th>
-                                                <th>نوعية العقد</th>
-                                                <th>القيمة</th>
-                                                <th>تاريخ التقييم</th>
-                                                <th>التغطية</th>
-                                                <th>كفاية الضمانات قابلية التنفيذ عليها</th>
+                                                <td>
+                                                    تعليق
+                                                </td>
+                                                <td colspan="5">
+                                                    <t t-esc="etape2.garantie_actuel_comment"/>
+                                                </td>
                                             </tr>
-                                        </thead>
-                                        <tbody>
+                                            <tr>
+                                                <th colspan="6" style="text-align: center">
+                                                    الضمانات العقارية المقترحة
+                                                </th>
+                                            </tr>
                                             <t t-foreach="etape2.detail_garantie_propose_ids" t-as="line">
                                                 <tr>
                                                     <td>
@@ -883,20 +905,30 @@
                                                     </td>
                                                 </tr>
                                             </t>
+                                            <tr>
+                                                <td>
+                                                    تعليق
+                                                </td>
+                                                <td colspan="5">
+                                                    <t t-esc="etape2.garantie_propose_comment"/>
+                                                </td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
                                 <br/>
-
-                                <h4 class="title" style="margin-top: 20px; color: green;">الشروط السابقة/المقترحة و
-                                    الموافق عليها من لجان التمويل
-                                </h4>
                                 <div class="table_deco">
                                     <table class="reversed-table" t-if="etape2.garantie_conf">
                                         <thead>
                                             <tr>
+                                                <th colspan="3" style="text-align: center">
+                                                    الشروط السابقة/المقترحة و
+                                                    الموافق عليها من لجان التمويل
+                                                </th>
+                                            </tr>
+                                            <tr>
                                                 <th>الشروط السابقة و المقترحة</th>
-                                                <th>نعم/لا</th>
+                                                <th>الحالة</th>
                                                 <th>التعليق</th>
                                             </tr>
                                         </thead>
@@ -919,22 +951,11 @@
                                                     </td>
                                                 </tr>
                                             </t>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <br/>
-                                <h4 class="title" style="margin-top: 20px; color: green;">الشروط المالية
-                                </h4>
-                                <div class="table_deco">
-                                    <table class="reversed-table" t-if="etape2.garantie_fin">
-                                        <thead>
                                             <tr>
-                                                <th>الشروط السابقة و المقترحة</th>
-                                                <th>نعم/لا</th>
-                                                <th>التعليق</th>
+                                                <th colspan="3" style="text-align: center">
+                                                    الشروط المالية
+                                                </th>
                                             </tr>
-                                        </thead>
-                                        <tbody>
                                             <t t-foreach="etape2.garantie_fin" t-as="line">
                                                 <tr>
                                                     <td>
@@ -953,22 +974,11 @@
                                                     </td>
                                                 </tr>
                                             </t>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <br/>
-                                <h4 class="title" style="margin-top: 20px; color: green;">الشروط الاخرى
-                                </h4>
-                                <div class="table_deco">
-                                    <table class="reversed-table" t-if="etape2.garantie_autres">
-                                        <thead>
                                             <tr>
-                                                <th>الشروط السابقة و المقترحة</th>
-                                                <th>نعم/لا</th>
-                                                <th>التعليق</th>
+                                                <th colspan="3" style="text-align: center">
+                                                    الشروط الاخرى
+                                                </th>
                                             </tr>
-                                        </thead>
-                                        <tbody>
                                             <t t-foreach="etape2.garantie_autres" t-as="line">
                                                 <tr>
                                                     <td>

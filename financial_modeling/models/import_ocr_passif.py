@@ -74,6 +74,7 @@ class ImportPassifOCR(models.Model):
                         passif = rec.passif_lines.filtered(
                             lambda l: l.mintop - l.height <= line['MinTop'] <= l.mintop + l.height)
                         if passif:
+                            passif = passif[0]
                             width = 0
                             for i in line['Words']:
                                 width += i['Width']

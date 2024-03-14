@@ -327,6 +327,9 @@ class Etape(models.Model):
     state_finance = fields.Selection([('finance_1', 'مدير التمويلات'),
                                      ('finance_2', 'المحلل المالي'),
                                      ('finance_3', 'مدير التمويلات'),
+                                     ('finance_5', 'في انتظار مديرية الاعمال التجارية و المخاطر'),
+                                     ('finance_6', 'في انتظار مديرية الاعمال التجارية'),
+                                     ('finance_7', 'في انتظار ادارة المخاطر'),
                                      ('finance_4', 'انتهاء التحليل'),
                                      ('finance_rejected', 'طلب مرفوض'),
                                      ], track_visibility='always', string='وضعية الملف')
@@ -697,10 +700,10 @@ class Etape(models.Model):
                 if rec.state_finance == 'finance_1':
                     rec.state_compute = 0
                 elif rec.state_finance == 'finance_2':
-                    rec.state_compute = 0.25
-                elif rec.state_finance == 'finance_3':
                     rec.state_compute = 0.5
-                elif rec.state_finance == 'finance_4':
+                elif rec.state_finance == 'finance_3':
+                    rec.state_compute = 0.75
+                elif rec.state_finance in ['finance_4', 'finance_5', 'finance_6', 'finance_7']:
                     rec.state_compute = 1
                 else:
                     rec.state_compute = 1
@@ -1098,12 +1101,19 @@ class Etape(models.Model):
                     rec.state_finance = 'finance_3'
                     rec.raison_a_revoir = False
                 elif rec.state_finance == 'finance_3':
-                    etape_risk = rec.workflow.states.filtered(lambda l: l.etape.sequence == 4)
-                    etape_comm = rec.workflow.states.filtered(lambda l: l.etape.sequence == 3)
-                    if etape_risk.state_risque != 'risque_2' or etape_comm.state_commercial != 'commercial_4':
-                        raise UserError(_('Vous devriez attendre la cloture de traitement de departement risque et commercial'))
-                    else:
-                        if self.env.user.has_group('dept_wk.dept_wk_group_responsable_analyste'):
+                    if self.env.user.has_group('dept_wk.dept_wk_group_responsable_analyste'):
+                        etape_risk = rec.workflow.states.filtered(lambda l: l.etape.sequence == 4)
+                        etape_comm = rec.workflow.states.filtered(lambda l: l.etape.sequence == 3)
+                        if etape_risk.state_risque != 'risque_2' and etape_comm.state_commercial != 'commercial_4':
+                            rec.state_finance = 'finance_5'
+                            rec.raison_a_revoir = False
+                        elif etape_risk.state_risque != 'risque_2' and etape_comm.state_commercial == 'commercial_4':
+                            rec.state_finance = 'finance_7'
+                            rec.raison_a_revoir = False
+                        elif etape_risk.state_risque == 'risque_2' and etape_comm.state_commercial != 'commercial_4':
+                            rec.state_finance = 'finance_6'
+                            rec.raison_a_revoir = False
+                        else:
                             rec.state_finance = 'finance_4'
                             rec.raison_a_revoir = False
                             rec.workflow.state = '5'
@@ -1257,11 +1267,25 @@ class Etape(models.Model):
                     rec.state_commercial = 'commercial_3'
                     rec.raison_a_revoir = False
                 elif rec.state_commercial == 'commercial_3':
+                    etape_fin = rec.workflow.states.filtered(lambda l: l.etape.sequence == 2)
+                    etape_risk = rec.workflow.states.filtered(lambda l: l.etape.sequence == 4)
                     rec.state_commercial = 'commercial_4'
+                    if etape_fin.state_finance != 'finance_4':
+                        if etape_risk.state_risque == 'risque_2':
+                            etape_fin.state_finance = 'finance_4'
+                        else:
+                            etape_fin.state_finance = 'finance_7'
                     rec.raison_a_revoir = False
                     rec.workflow.state = '4'
             elif rec.etape.sequence == 4:
                 if rec.state_risque == 'risque_1':
+                    etape_fin = rec.workflow.states.filtered(lambda l: l.etape.sequence == 2)
+                    etape_comm = rec.workflow.states.filtered(lambda l: l.etape.sequence == 3)
+                    if etape_fin.state_finance != 'finance_4':
+                        if etape_comm.state_commercial == 'commercial_4':
+                            etape_fin.state_finance = 'finance_4'
+                        else:
+                            etape_fin.state_finance = 'finance_6'
                     rec.state_risque = 'risque_2'
                     rec.raison_a_revoir = False
             elif rec.etape.sequence == 5:
@@ -1333,7 +1357,10 @@ class Etape(models.Model):
                     else:
                         raise ValidationError(_('لا يمكنكم طلب المراجعة الملف مقبول'))
                 elif rec.state_finance == 'finance_2':
-                    rec.state_finance = 'finance_1'
+                    if not rec.dossier_verouiller:
+                        rec.state_finance = 'finance_1'
+                        etape = rec.workflow.states.filtered(lambda l: l.etape.sequence == 1)
+                        etape.state_branch = 'branch_4'
                 elif rec.state_finance == 'finance_3':
                     rec.state_finance = 'finance_2'
                 elif rec.state_finance == 'finance_4':

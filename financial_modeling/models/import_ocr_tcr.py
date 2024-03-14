@@ -84,6 +84,9 @@ class ImportTcrOCR(models.Model):
                             tcr = rec.tcr_lines.filtered(
                                 lambda l: l.mintop - l.height <= line['MinTop'] <= l.mintop + l.height)
                             if tcr:
+                                if len(tcr) > 1:
+                                    tcr = rec.tcr_lines.filtered(
+                                        lambda l: (l.mintop - (l.height-5)) <= line['MinTop'] <= (l.mintop + (l.height-5)) )
                                 width = 0
                                 for i in line['Words']:
                                     width += i['Width']
@@ -93,7 +96,8 @@ class ImportTcrOCR(models.Model):
                                                                'left': line['Words'][0]['Left'],
                                                                'width': width})
                     count = 0
-
+                    one_value_c = 0
+                    one_value_d = 0
                     sum_height = 200
                     for line in same_line:
                         print(line)
@@ -107,8 +111,10 @@ class ImportTcrOCR(models.Model):
                                 second_debit.append(line['amounts'][1]['left'])
                         elif len(line['amounts']) == 1:
                             if line['type'] in credit:
+                                one_value_c += 1
                                 second_credit.append(line['amounts'][0]['left'])
                             elif line['type'] in debit:
+                                one_value_d += 1
                                 second_debit.append(line['amounts'][0]['left'])
                         for amount in line['amounts']:
                             if sum_height > amount['width']:
@@ -120,11 +126,13 @@ class ImportTcrOCR(models.Model):
                     second_debit.sort()
                     print(first_debit)
                     print(second_debit)
-
-                    first_moy_credit = [first_credit[0], first_credit[-1] + sum_height]
-                    second_moy_credit = [first_credit[-1] + sum_height, second_credit[-1] + sum_height]
-                    first_moy_debit = [first_debit[0], first_debit[-1] + sum_height]
-                    second_moy_debit = [first_debit[-1] + sum_height, second_debit[-1] + sum_height]
+                    print(first_credit)
+                    print(second_credit)
+                    print( one_value_c != 0 and len(first_credit) > 1 )
+                    first_moy_credit = [first_credit[0], first_credit[-1] + sum_height] if one_value_c != 0 and len(first_credit) > 1 else []
+                    second_moy_credit = [first_credit[-1] + sum_height, second_credit[-1] + sum_height] if one_value_c != 0 and len(second_debit) > 1 else []
+                    first_moy_debit = [first_debit[0], first_debit[-1] + sum_height] if one_value_d != 0 and len(first_debit) > 1 else []
+                    second_moy_debit = [first_debit[-1] + sum_height, second_debit[-1] + sum_height] if one_value_d and len(second_debit) > 1 else []
                     print(first_moy_credit)
                     print(first_moy_debit)
                     print(second_moy_credit)
@@ -183,6 +191,49 @@ class ImportTcrOCR(models.Model):
                                         val['amounts'].append({'amount': int(line['LineText'].replace(' ', '')),
                                                                'left': line['Words'][0]['Left'],
                                                                'width': width})
+                    count = 0
+                    one_value_c = 0
+                    one_value_d = 0
+                    sum_height = 200
+                    for line in same_line:
+                        print(line)
+                        if len(line['amounts']) == 2:
+                            count += 1
+                            if line['type'] in credit:
+                                first_credit.append(line['amounts'][0]['left'])
+                                second_credit.append(line['amounts'][1]['left'])
+                            elif line['type'] in debit:
+                                first_debit.append(line['amounts'][0]['left'])
+                                second_debit.append(line['amounts'][1]['left'])
+                        elif len(line['amounts']) == 1:
+                            if line['type'] in credit:
+                                one_value_c += 1
+                                second_credit.append(line['amounts'][0]['left'])
+                            elif line['type'] in debit:
+                                one_value_d += 1
+                                second_debit.append(line['amounts'][0]['left'])
+                        for amount in line['amounts']:
+                            if sum_height > amount['width']:
+                                sum_height = amount['width']
+                    print(sum_height)
+                    first_credit.sort()
+                    first_debit.sort()
+                    second_credit.sort()
+                    second_debit.sort()
+                    print(first_debit)
+                    print(second_debit)
+                    print(first_credit)
+                    print(second_credit)
+                    print(one_value_c != 0 and len(first_credit) > 1)
+                    first_moy_credit = [first_credit[0], first_credit[-1] + sum_height] if one_value_c != 0 and len(
+                        first_credit) > 1 else []
+                    second_moy_credit = [first_credit[-1] + sum_height,
+                                         second_credit[-1] + sum_height] if one_value_c != 0 and len(
+                        second_debit) > 1 else []
+                    first_moy_debit = [first_debit[0], first_debit[-1] + sum_height] if one_value_d != 0 and len(
+                        first_debit) > 1 else []
+                    second_moy_debit = [first_debit[-1] + sum_height,
+                                        second_debit[-1] + sum_height] if one_value_d and len(second_debit) > 1 else []
                     for line in same_line:
                         tcr = rec.tcr_lines.filtered(lambda l: l.mintop == line['min_top'])
                         if len(line['amounts']) == 2:
