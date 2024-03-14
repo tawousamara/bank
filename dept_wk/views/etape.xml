@@ -181,9 +181,14 @@
                                         <field name="type_demande" options="{'no_create': True, 'no_open': True}"/>
                                         <field name="montant" sum="Total"/>
                                         <field name="raison"/>
-                                        <field name="garanties" widget="many2many_tags"/>
+                                        <field name="preg" widget="percentage"/>
+                                        <field name="duree"/>
+                                        <field name="garanties" invisible="1"/>
                                     </tree>
                                 </field>
+                                <group>
+                                    <field name="garanties_demande" widget="many2many_tags"/>
+                                </group>
                             </page>
                             <page string="الوضعية المالية">
                                 <group>

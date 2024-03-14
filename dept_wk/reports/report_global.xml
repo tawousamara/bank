@@ -1001,11 +1001,11 @@
                                     </table>
                                 </div>
                                 <br/>
-                                <h4 class="title" style="margin-top: 20px; color: green;">مركزية المخاطر
-                                </h4>
                                 <div class="table_deco">
                                     <table class="table_content">
                                         <tbody>
+                                            <tr>
+                                            </tr>
                                             <tr>
                                                 <td style="font-weight: bold;">
                                                     مركزية المخاطر بتاريخ
@@ -1030,13 +1030,47 @@
                                     <table class="reversed-table" t-if="etape2.risque_central">
                                         <thead>
                                             <tr>
-                                                <th>البيان (بالمليون دج)</th>
-                                                <th>السلام:الممنوحة:م/دج</th>
-                                                <th>السلام:المستغل:م/دج</th>
-                                                <th>اخرى :الممنوحة:م/دج</th>
-                                                <th>اخرى :المستغل:م/دج</th>
-                                                <th>الاجمالي:الممنوحة:م/دج</th>
-                                                <th>الاجمالي:المستغل:م/دج</th>
+                                                <th colspan="14" style="text-align: center">
+                                                    الاستثناءات مع سياسة الائتمان
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th colspan="2" style="text-align: center">
+                                                    مركزية المخاطر بتاريخ:
+                                                    <t t-esc="etape2.risque_date"/>
+                                                </th>
+                                                <th colspan="12" style="text-align: center">
+                                                    عدد البنوك المصرحة:
+                                                    <t t-esc="etape2.nbr_banque"/>
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th colspan="2" rowspan="3">البيان (بالمليون دج)</th>
+                                                <th colspan="4">مصرف السلام</th>
+                                                <th colspan="4">مصارف اخرى</th>
+                                                <th colspan="4">الإجمالي</th>
+                                            </tr>
+                                            <tr>
+                                                <th colspan="2">الممنوح</th>
+                                                <th colspan="2">المستغل</th>
+                                                <th colspan="2">الممنوح</th>
+                                                <th colspan="2">المستغل</th>
+                                                <th colspan="2">الممنوح</th>
+                                                <th colspan="2">المستغل</th>
+                                            </tr>
+                                            <tr>
+                                                <th>م/دج</th>
+                                                <th>م/$</th>
+                                                <th>م/دج</th>
+                                                <th>م/$</th>
+                                                <th>م/دج</th>
+                                                <th>م/$</th>
+                                                <th>م/دج</th>
+                                                <th>م/$</th>
+                                                <th>م/دج</th>
+                                                <th>م/$</th>
+                                                <th>م/دج</th>
+                                                <th>م/$</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -1083,11 +1117,14 @@
                                     </table>
                                 </div>
                                 <br/>
-                                <h4 class="title" style="margin-top: 20px; color: green;">الوضعية الجبائية وشبه الجبائية
-                                </h4>
                                 <div class="table_deco">
                                     <table class="reversed-table" t-if="etape2.position_tax">
                                         <thead>
+                                            <tr>
+                                                <th colspan="4" style="text-align: center">الوضعية الجبائية وشبه
+                                                    الجبائية
+                                                </th>
+                                            </tr>
                                             <tr>
                                                 <th></th>
                                                 <th>محينة</th>
@@ -1122,12 +1159,12 @@
                                     </table>
                                 </div>
                                 <br/>
-                                <h4 class="title" style="margin-top: 20px; color: green;">الحركة والأعمال الجانبية
-                                    للحساب مع مصرف السلام الجزائر (بالمليون دج)
-                                </h4>
                                 <div class="table_deco">
                                     <table class="reversed-table" t-if="etape2.mouvement">
                                         <thead>
+                                            <tr>
+                                                <th>الحركة والأعمال الجانبية للحساب مع مصرف السلام الجزائر (بالمليون دج)</th>
+                                            </tr>
                                             <tr>
                                                 <th>الحركة</th>
                                                 <th>م/دج:N-3</th>
@@ -1145,7 +1182,7 @@
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;">
                                                         <t t-if="line.sequence == 0">
-                                                            <t t-esc="int(line.n3_dz)"/>
+                                                            <t t-esc="int(line.n3_dz)"/>   م/دج
                                                         </t>
                                                         <t t-else="">
                                                             <t t-esc="'{0:,.0f}'.format(line.n3_dz)"/>
@@ -1153,7 +1190,7 @@
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;">
                                                         <t t-if="line.sequence == 0">
-                                                            <t t-esc="int(line.n2_dz)"/>
+                                                            م/دج<t t-esc="int(line.n2_dz)"/>
                                                         </t>
                                                         <t t-else="">
                                                             <t t-esc="'{0:,.0f}'.format(line.n2_dz)"/>
@@ -1161,7 +1198,7 @@
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;">
                                                         <t t-if="line.sequence == 0">
-                                                            <t t-esc="int(line.n1_dz)"/>
+                                                            م/دج<t t-esc="int(line.n1_dz)"/>
                                                         </t>
                                                         <t t-else="">
                                                             <t t-esc="'{0:,.0f}'.format(line.n1_dz)"/>
@@ -1169,7 +1206,7 @@
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;">
                                                         <t t-if="line.sequence == 0">
-                                                            <t t-esc="int(line.n_dz)"/>
+                                                            م/دج<t t-esc="int(line.n_dz)"/>
                                                         </t>
                                                         <t t-else="">
                                                             <t t-esc="'{0:,.0f}'.format(line.n_dz)"/>

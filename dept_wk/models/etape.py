@@ -417,6 +417,7 @@ class Etape(models.Model):
     recommandation_analyste_fin = fields.Text(string='توصية المحلل المالي', track_visibility='always')
     facilite_propose = fields.One2many('wk.facilite.propose', 'etape_id', string='التسهيلات المقترحة')
     garantie_ids = fields.Many2many('wk.garanties', string='الضمانات المقترحة')
+    garanties_demande = fields.Many2many('wk.garanties', string='الضمانات')
     comite = fields.Many2one('wk.comite', string='اللجنة')
     recommandation_dir_fin = fields.Text(string='راي مدير ادارة التمويلات', track_visibility='always')
     montant_demande = fields.Float(string='المبلغ المطلوب')
