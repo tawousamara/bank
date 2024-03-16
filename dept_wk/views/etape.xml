@@ -187,7 +187,6 @@
                                     </tree>
                                 </field>
                                 <group>
-                                    <field name="garanties_demande" widget="many2many_tags"/>
                                 </group>
                             </page>
                             <page string="الوضعية المالية">
