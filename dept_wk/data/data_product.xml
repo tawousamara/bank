@@ -32,5 +32,36 @@
         <record id="product_10" model="wk.product">
             <field name="name">سقف اعتمادات مستندية / بوالص تحصيل موصول ببيع اجل</field>
         </record>
+
+        <record id="product_11" model="wk.product">
+            <field name="name">سقف بيع اجل/ مرابحة محلية </field>
+        </record>
+        <record id="product_12" model="wk.product">
+            <field name="name">سقفاستصناع متوسط المدى </field>
+        </record>
+        <record id="product_13" model="wk.product">
+            <field name="name">سقف سلم </field>
+        </record>
+        <record id="product_14" model="wk.product">
+            <field name="name">سقف بيع وكالة</field>
+        </record>
+        <record id="product_15" model="wk.product">
+            <field name="name">سقف استصناع</field>
+        </record>
+        <record id="product_16" model="wk.product">
+            <field name="name">سقف مضاربة</field>
+        </record>
+        <record id="product_17" model="wk.product">
+            <field name="name">سقف مساقاة</field>
+        </record>
+        <record id="product_18" model="wk.product">
+            <field name="name">سقف مشاركة</field>
+        </record>
+        <record id="product_19" model="wk.product">
+            <field name="name">سقف تمويل ايجاري</field>
+        </record>
+        <record id="product_20" model="wk.product">
+            <field name="name">سقف اعتمادات مستندية / بوالص تحصيل موصول ببيع اجل</field>
+        </record>
     </data>
 </odoo>

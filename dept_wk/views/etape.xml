@@ -103,6 +103,7 @@
                                 <field name="date_inscription" readonly="1"/>
                                 <field name="date_debut_activite" readonly="1"/>
                                 <field name="activite" readonly="1" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="activite_second" readonly="1" options="{'no_create': True, 'no_open': True}"/>
                             </group>
                             <group>
                                 <field name="activity_code" readonly="1"/>
@@ -187,6 +188,7 @@
                                     </tree>
                                 </field>
                                 <group>
+                                    <field name="garanties_demande" widget="many2many_tags"/>
                                 </group>
                             </page>
                             <page string="الوضعية المالية">

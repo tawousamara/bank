@@ -53,32 +53,57 @@
                         <page string="المعايير النوعية">
                             <group col="2">
                                 <field name="original_capital" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="comment_origin" />
                                 <field name="actionnariat" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="comment_actionnariat" />
                                 <field name="forme_jur" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="comment_forme_jur" />
                                 <field name="remp_succession" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="comment_remp_succession" />
                                 <field name="competence" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="comment_competence" />
                                 <field name="experience" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="comment_experience" />
                                 <field name="soutien_etatic" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="comment_soutien_etatic" />
                                 <field name="activite" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="comment_activite" />
                                 <field name="influence_tech" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="comment_influence_tech" />
                                 <field name="anciennete" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="comment_anciennete" />
                                 <field name="concurrence" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="comment_concurrence" />
                                 <field name="source_appro" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="comment_source_appro" />
                                 <field name="produit" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="comment_produit" />
                             </group>
                             <group>
                                 <field name="flexibilite" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="comment_flexibilite" />
                                 <field name="sollicitude" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="comment_sollicitude" />
                                 <field name="situation" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="comment_situation" />
                                 <field name="mouvement" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="comment_mouvement" />
                                 <field name="garanties" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="comment_garantie" />
                                 <field name="incident" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="comment_incident" />
                                 <field name="conduite" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="comment_conduite" />
                                 <field name="dette_fisc" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="comment_dette_fisc" />
                                 <field name="dette_parafisc" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="comment_dette_parafisc" />
                                 <field name="position_admin" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="comment_position_admin" />
                                 <field name="source_remb" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="comment_source_remb" />
                                 <field name="part_profil" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="comment_part_profil" />
                             </group>
                         </page>
                         <page string="المعايير النوعية للشركات التابعة للمجموعة">

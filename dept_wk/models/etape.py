@@ -273,7 +273,8 @@ class Etape(models.Model):
     date_ouverture_compte = fields.Date(string='تاريخ فتح الحساب', related='nom_client.date_ouverture_compte')
     date_inscription = fields.Date(string='تاريخ القيد في السجل التجاري', related='nom_client.date_inscription')
     date_debut_activite = fields.Date(string='تاريخ بداية النشاط', related='nom_client.date_debut_activite')
-    activite = fields.Many2one('wk.activite', string='النشاط حسب بنك الجزائر', related='nom_client.activite')
+    activite = fields.Many2one('wk.activite', string='النشاط الرئيسي حسب بنك الجزائر', related='nom_client.activite')
+    activite_second = fields.Many2one('wk.secteur', string='النشاط الثانوي حسب بنك الجزائر', related='nom_client.activite_second')
     activity_code = fields.Char(string='رمز النشاط حسب السجل التجاري', related='nom_client.activity_code')
     activity_description = fields.Char(string='النشاط حسب السجل التجاري', related='nom_client.activity_description')
     phone = fields.Char(string='الهاتف', related='nom_client.mobile')
@@ -417,7 +418,7 @@ class Etape(models.Model):
     recommandation_analyste_fin = fields.Text(string='توصية المحلل المالي', track_visibility='always')
     facilite_propose = fields.One2many('wk.facilite.propose', 'etape_id', string='التسهيلات المقترحة')
     garantie_ids = fields.Many2many('wk.garanties', string='الضمانات المقترحة')
-    #garanties_demande = fields.Many2many('wk.garanties', string='الضمانات')
+    garanties_demande = fields.Many2many('wk.garanties', 'garantie_demande_rel', string='الضمانات')
     comite = fields.Many2one('wk.comite', string='اللجنة')
     recommandation_dir_fin = fields.Text(string='راي مدير ادارة التمويلات', track_visibility='always')
     montant_demande = fields.Float(string='المبلغ المطلوب')
@@ -499,7 +500,7 @@ class Etape(models.Model):
         res = super(Etape, self).create(vals)
         if res.demande == self.env.ref('dept_wk.type_demande_1'):
             if res.etape.sequence == 1:
-                for i in range(17):
+                for i in range(18):
                     doc = self.env['wk.document.check'].create({'list_document': str(i+1),
                                                                 'etape_id': res.id})
                 for item in List_items:
@@ -2155,6 +2156,7 @@ class Etape(models.Model):
                 'type': 'ir.actions.act_window',
                 'context': {'default_parent_id': rec.workflow.id,
                             'parent_id': rec.workflow.id,
+                            'default_partner_id': rec.workflow.nom_client.id,
                             'default_tcr_id': rec.tcr_id.id,
                             'default_actif_id': rec.actif_id.id,
                             'default_passif_id': rec.passif_id.id}

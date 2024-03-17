@@ -54,10 +54,6 @@
             <field name="name">CITIBANK Algérie</field>
             <field name="code">012</field>
         </record>
-        <record id="014" model="wk.banque">
-            <field name="name">CITIBANK Algérie</field>
-            <field name="code">014</field>
-        </record>
         <record id="020" model="wk.banque">
             <field name="name">Natixis Algérie</field>
             <field name="code">020</field>
@@ -104,6 +100,42 @@
         <record id="038" model="wk.banque">
             <field name="name">Al Salam Bank Algeria</field>
             <field name="code">038</field>
+        </record>
+        <record id="039" model="wk.banque">
+            <field name="name">ALC</field>
+            <field name="code"></field>
+        </record>
+        <record id="040" model="wk.banque">
+            <field name="name">SNL</field>
+            <field name="code"></field>
+        </record>
+        <record id="041" model="wk.banque">
+            <field name="name">MLA</field>
+            <field name="code"></field>
+        </record>
+        <record id="042" model="wk.banque">
+            <field name="name">FINALEP</field>
+            <field name="code"></field>
+        </record>
+        <record id="043" model="wk.banque">
+            <field name="name">ICOSIA</field>
+            <field name="code"></field>
+        </record>
+        <record id="044" model="wk.banque">
+            <field name="name">AFRIC INVEST</field>
+            <field name="code"></field>
+        </record>
+        <record id="045" model="wk.banque">
+            <field name="name">DJZAIR ISTITHMAR</field>
+            <field name="code"></field>
+        </record>
+        <record id="046" model="wk.banque">
+            <field name="name">ASF</field>
+            <field name="code"></field>
+        </record>
+        <record id="047" model="wk.banque">
+            <field name="name">SEAF</field>
+            <field name="code"></field>
         </record>
     </data>
 </odoo>
