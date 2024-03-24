@@ -746,6 +746,12 @@ class Etape(models.Model):
 
     def compute_pourcentage_state(self):
         for rec in self:
+            years = self.env['wk.year'].search([])
+            if not years:
+                start = datetime.date.today().year - 2
+                stop = datetime.date.today().year + 10
+                for i in range(start, stop):
+                    self.env['wk.year'].create({'name': str(i)})
             rec.active = True
             if rec.gerant:
                 partner = rec.gerant
