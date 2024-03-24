@@ -56,12 +56,12 @@ class FaciliteAccorde(models.Model):
 
 
     etape_id = fields.Many2one('wk.etape')
-    montant_da_actuel = fields.Float(string='الحالي: م/دج')
-    montant_dollar_actuel = fields.Float(string='م/$', compute='compute_dollar_actuel')
-    montant_da_demande = fields.Float(string='المطلوبة: م/دج')
-    montant_dollar_demande = fields.Float(string='م/$', compute='compute_dollar_demande')
-    montant_da_total = fields.Float(string='الاجمالي الصافي:  م/دج')
-    montant_dollar_total = fields.Float(string='م/$', compute='compute_total')
+    montant_da_actuel = fields.Float(string='الحالي')
+    montant_dollar_actuel = fields.Float(string='K/$', compute='compute_dollar_actuel')
+    montant_da_demande = fields.Float(string='المطلوبة')
+    montant_dollar_demande = fields.Float(string='K/$', compute='compute_dollar_demande')
+    montant_da_total = fields.Float(string='الاجمالي الصافي')
+    montant_dollar_total = fields.Float(string='K/$', compute='compute_total')
 
     date = fields.Date(string='تاريخ الرخصة')
     type_facilite = fields.Many2one('wk.product', string='نوع التسهيلات')
@@ -179,21 +179,21 @@ class Risque(models.Model):
 
 
     etape_id = fields.Many2one('wk.etape')
-    declaration = fields.Char(string='البيان (بالمليون دج)')
-    montant_esalam_dz_donne = fields.Float(string='السلام:الممنوحة:م/دج', default=0)
-    montant_esalam_dollar_donne = fields.Float(string='م/$', compute='compute_salam_dollar_donne')
-    montant_esalam_dz_used = fields.Float(string='السلام:المستغل:م/دج', default=0)
-    montant_esalam_dollar_used = fields.Float(string='م/$',  compute='compute_salam_dollar_donne')
+    declaration = fields.Char(string='البيان')
+    montant_esalam_dz_donne = fields.Float(string='السلام:الممنوح', default=0)
+    montant_esalam_dollar_donne = fields.Float(string='K/$', compute='compute_salam_dollar_donne')
+    montant_esalam_dz_used = fields.Float(string='السلام:المستغل', default=0)
+    montant_esalam_dollar_used = fields.Float(string='K/$',  compute='compute_salam_dollar_donne')
 
-    montant_other_dz_donne = fields.Float(string='اخرى :الممنوحة:م/دج', default=0)
-    montant_other_dollar_donne = fields.Float(string='م/$', compute='compute_other_dollar_donne')
-    montant_other_dz_used = fields.Float(string='اخرى :المستغل:م/دج', default=0)
-    montant_other_dollar_used = fields.Float(string='م/$', compute='compute_other_dollar_donne')
+    montant_other_dz_donne = fields.Float(string='اخرى :الممنوحة', default=0)
+    montant_other_dollar_donne = fields.Float(string='K/$', compute='compute_other_dollar_donne')
+    montant_other_dz_used = fields.Float(string='اخرى :المستغل', default=0)
+    montant_other_dollar_used = fields.Float(string='K/$', compute='compute_other_dollar_donne')
 
-    montant_total_dz_donne = fields.Float(string='الاجمالي:الممنوحة:م/دج', compute='compute_total')
-    montant_total_dollar_donne = fields.Float(string='م/$', compute='compute_total')
-    montant_total_dz_used = fields.Float(string='الاجمالي:المستغل:م/دج', compute='compute_total')
-    montant_total_dollar_used = fields.Float(string='م/$', compute='compute_total')
+    montant_total_dz_donne = fields.Float(string='الاجمالي:الممنوحة', compute='compute_total')
+    montant_total_dollar_donne = fields.Float(string='K/$', compute='compute_total')
+    montant_total_dz_used = fields.Float(string='الاجمالي:المستغل', compute='compute_total')
+    montant_total_dollar_used = fields.Float(string='K/$', compute='compute_total')
 
     @api.onchange('montant_other_dollar_used',
                   'montant_other_dz_used',
@@ -231,17 +231,17 @@ class MouvementAction(models.Model):
     etape_id = fields.Many2one('wk.etape')
     mouvement = fields.Char(string='الحركة')
     sequence = fields.Integer(string='Sequence')
-    n3_dz = fields.Float(string='م/دج:N-3')
-    n3_dollar = fields.Float(string='N-3:م/$', compute='compute_dollar')
+    n3_dz = fields.Float(string='KDA:N-3')
+    n3_dollar = fields.Float(string='N-3:K/$', compute='compute_dollar')
 
-    n2_dz = fields.Float(string='N-2:م/دج')
-    n2_dollar = fields.Float(string='N-2:م/$', compute='compute_dollar')
+    n2_dz = fields.Float(string='N-2:KDA')
+    n2_dollar = fields.Float(string='N-2:K/$', compute='compute_dollar')
 
-    n1_dz = fields.Float(string='N-1:م/دج')
-    n1_dollar = fields.Float(string='N-1:م/$', compute='compute_dollar')
+    n1_dz = fields.Float(string='N-1:KDA')
+    n1_dollar = fields.Float(string='N-1:K/$', compute='compute_dollar')
 
-    n_dz = fields.Float(string='N:م/دج')
-    n_dollar = fields.Float(string='N:م/$', compute='compute_dollar')
+    n_dz = fields.Float(string='N:KDA')
+    n_dollar = fields.Float(string='N:K/$', compute='compute_dollar')
     remarques = fields.Char(string='ملاحظات')
 
     def compute_dollar(self):
@@ -266,14 +266,14 @@ class MouvementGroupe(models.Model):
     etape_id = fields.Many2one('wk.etape')
     company = fields.Char(string='الشركة')
     sequence = fields.Integer(string='Sequence')
-    n2_dz = fields.Float(string='N-2:م/دج')
-    n2_dollar = fields.Float(string='N-2:م/$', compute='compute_dollar')
+    n2_dz = fields.Float(string='N-2')
+    n2_dollar = fields.Float(string='N-2:K/$', compute='compute_dollar')
 
-    n1_dz = fields.Float(string='N-1:م/دج')
-    n1_dollar = fields.Float(string='N-1:م/$', compute='compute_dollar')
+    n1_dz = fields.Float(string='N-1')
+    n1_dollar = fields.Float(string='N-1:K/$', compute='compute_dollar')
 
-    n_dz = fields.Float(string='N:م/دج')
-    n_dollar = fields.Float(string='N:م/$', compute='compute_dollar')
+    n_dz = fields.Float(string='N')
+    n_dollar = fields.Float(string='N:K/$', compute='compute_dollar')
     remarques = fields.Char(string='ملاحظات')
 
     @api.depends('n2_dz', 'n1_dz', 'n_dz')
@@ -366,10 +366,10 @@ class FaciliteExistante(models.Model):
     etape_id = fields.Many2one('wk.etape')
     company = fields.Char(string='الشركة')
     facilite = fields.Many2one('wk.product', string='نوع التسهيلات')
-    brut_da = fields.Float(string='الخام الحالي:م/دج')
-    brut_dollar = fields.Float(string='م/$', compute='compute_dollar')
-    net_da = fields.Float(string='الصافي الحالي:م/دج')
-    net_dollar = fields.Float(string='م/$', compute='compute_dollar')
+    brut_da = fields.Float(string='الخام الحالي:KDA')
+    brut_dollar = fields.Float(string='K/$', compute='compute_dollar')
+    net_da = fields.Float(string='الصافي الحالي:KDA')
+    net_dollar = fields.Float(string='K/$', compute='compute_dollar')
     garanties = fields.Many2many('wk.garanties', string='الضمانات')
 
     @api.depends('brut_da', 'net_da')
@@ -741,8 +741,8 @@ class FacilitePropose(models.Model):
 
     etape_id = fields.Many2one('wk.etape')
     type_facilite = fields.Many2one('wk.product', string='نوع التسهيلات')
-    montant_dz = fields.Float(string='المبلغ المقترح م/دج')
-    montant_dollar = fields.Float(string='م/$', compute='compute_montant_dollar')
+    montant_dz = fields.Float(string='المبلغ المقترح KDA')
+    montant_dollar = fields.Float(string='K/$', compute='compute_montant_dollar')
     condition = fields.Char(string='الشروط')
 
     @api.depends('montant_dz')
@@ -757,8 +757,8 @@ class Facilitefinalfin(models.Model):
 
 
     type_facilite = fields.Many2one('wk.product', string='نوع التسهيلات')
-    montant_dz = fields.Float(string='المبلغ المقترح م/دج')
-    montant_dollar = fields.Float(string='م/$', compute='compute_montant_dollar')
+    montant_dz = fields.Float(string='المبلغ المقترح KDA')
+    montant_dollar = fields.Float(string='K/$', compute='compute_montant_dollar')
     condition = fields.Char(string='الشروط')
 
     @api.depends('montant_dz')
@@ -773,8 +773,8 @@ class FaciliteFinalLeasing(models.Model):
 
 
     type_facilite = fields.Many2one('wk.product', string='نوع التسهيلات')
-    montant_dz = fields.Float(string='المبلغ المقترح م/دج')
-    montant_dollar = fields.Float(string='م/$', compute='compute_montant_dollar')
+    montant_dz = fields.Float(string='المبلغ المقترح KDA')
+    montant_dollar = fields.Float(string='K/$', compute='compute_montant_dollar')
     condition = fields.Char(string='الشروط')
 
     @api.depends('montant_dz')

@@ -92,7 +92,11 @@ class Workflow(models.Model):
                 etape = self.env['wk.etape'].create({'workflow': rec.id,
                                              'etape': self.env.ref('dept_wk.princip_1').id,
                                              'state_branch': 'branch_1'})
-            else:
+            elif rec.demande == self.env.ref('dept_wk.type_demande_2') and not rec.workflow_old:
+                etape = self.env['wk.etape'].create({'workflow': rec.id,
+                                                     'etape': self.env.ref('dept_wk.princip_1').id,
+                                                     'state_branch': 'branch_1'})
+            elif rec.demande == self.env.ref('dept_wk.type_demande_2') and rec.workflow_old:
                 for etape in rec.workflow_old.states:
                     vals = get_values(rec, etape)
                     etape_new = self.env['wk.etape'].create(vals)
@@ -159,17 +163,7 @@ def get_values(workflow, etape):
             'passif_group': etape.passif_group.id,
             'tcr_group': etape.tcr_group.id,
             'visualisation2': etape.visualisation2,
-            'tcr_id': etape.tcr_id.id,
-            'passif_id': etape.passif_id.id,
-            'actif_id': etape.actif_id.id,
-            'tcr1_id': etape.tcr1_id.id,
-            'passif1_id': etape.passif1_id.id,
-            'actif1_id': etape.actif1_id.id,
-            'comment_cat1': etape.comment_cat1,
-            'comment_cat2': etape.comment_cat2,
-            'comment_cat3': etape.comment_cat3,
-            'comment_cat4': etape.comment_cat4,
-            'comment_cat5': etape.comment_cat5,
+
             'visualisation1': etape.visualisation1,
             'description_prjt_invest': etape.description_prjt_invest,
             'actif_invest': etape.actif_invest,
@@ -206,7 +200,6 @@ def get_values(workflow, etape):
             'state_risque': 'risque_1',
             'nom_client': etape.nom_client.id,
             'branche': etape.branche.id,
-            'risk_scoring': etape.risk_scoring.id,
             'recommandation_dir_risque': etape.recommandation_dir_risque,
         }
     elif etape.sequence == 5:

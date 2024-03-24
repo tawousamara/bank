@@ -55,6 +55,7 @@
                     <div>
                         <field name="sequence" invisible="1"/>
                         <field name="dossier_verouiller" invisible="1"/>
+                        <field name="active" invisible="1"/>
                     </div>
                     <div invisible="sequence not in [1,3,5,6,8]">
                         <group invisible="sequence != 1">
@@ -103,17 +104,18 @@
                                 <field name="date_inscription" readonly="1"/>
                                 <field name="date_debut_activite" readonly="1"/>
                                 <field name="activite" readonly="1" options="{'no_create': True, 'no_open': True}"/>
-                                <field name="activite_second" readonly="1" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="activite_sec" readonly="1" />
                             </group>
                             <group>
                                 <field name="activity_code" readonly="1"/>
                                 <field name="activity_description" readonly="1"/>
                                 <field name="phone" readonly="1"/>
-                                <field name="email" readonly="1"/>
+                                <field name="email" readonly="1" widget="email"/>
                                 <field name="siteweb" readonly="1"/>
                                 <field name="gerant" readonly="state_branch != 'branch_1' and sequence != 8"
                                        options="{'no_create': True, 'no_open': True}"
                                        context="{'default_parent_id': nom_client, 'default_is_client':True}"/>
+                                <field name="partner_id" readonly="1"/>
                                 <field name="phone_gerant" readonly="1"/>
                                 <field name="email_gerant" readonly="1"/>
                                 <field name="email_to" invisible="1"/>
@@ -184,7 +186,7 @@
                                         <field name="raison"/>
                                         <field name="preg" widget="percentage"/>
                                         <field name="duree"/>
-                                        <field name="garanties" invisible="1"/>
+                                        <field name="garanties" column_invisible="1"/>
                                     </tree>
                                 </field>
                                 <group>
@@ -284,12 +286,13 @@
                                    invisible="sequence != 2"
                                    readonly="state_finance != 'finance_1'"/>
                         </group>
-                        <group invisible="state_finance == 'finance_1' or sequence != 2" class="col-2">
+                        <group invisible="state_finance == 'finance_1' or sequence != 2" class="col-4">
                             <field name="taux_change"/>
-                            <field name="annee_fiscal" />
+                            <field name="annee_fiscal" invisible="1"/>
+                            <field name="annee_fiscal_list" options="{'no_create': True,'no_open': True}"/>
                         </group>
                         <notebook invisible="state_finance == 'finance_1' or sequence != 2 or demande == 1">
-                            <page string="تفاصيل التسهيلات الممنوحة (بالمليون دج)">
+                            <page string="تفاصيل التسهيلات الممنوحة (KDA)">
                                 <field name="facilite_accorde" readonly="state_finance != 'finance_2'">
                                     <tree editable="bottom">
                                         <field name="type_facilite" options="{'no_create': True}"/>
@@ -369,7 +372,7 @@
                             </page>
                         </notebook>
                         <notebook invisible="state_finance == 'finance_1' or sequence != 2">
-                            <page string="مركزية المخاطر">
+                            <page string="مركزية المخاطر (KDA)">
                                 <group>
                                     <group>
                                         <field name="risque_date" readonly="state_finance != 'finance_2'"/>
@@ -412,10 +415,10 @@
                                     </tree>
                                 </field>
                             </page>
-                            <page string="الحركة والأعمال الجانبية للحساب مع مصرف السلام الجزائر (بالمليون دج)">
+                            <page string="الحركة والأعمال الجانبية للحساب مع مصرف السلام الجزائر (KDA)" invisible="1">
                                 <field name="mouvement" readonly="state_finance != 'finance_2'">
                                     <tree create="0" delete="0" editable="bottom">
-                                        <field name="mouvement" decoration-bf="sequence == 0" readonly="sequence == 0"/>
+                                        <field name="mouvement" decoration-bf="sequence == 0" />
                                         <field name="n3_dz" decoration-bf="sequence == 0" readonly="sequence == 0"/>
                                         <field name="n3_dollar" optional="hide" readonly="sequence == 0"/>
                                         <field name="n2_dz" decoration-bf="sequence == 0" readonly="sequence == 0"/>
@@ -431,19 +434,19 @@
                             </page>
                         </notebook>
                         <notebook invisible="state_finance == 'finance_1' or sequence != 2" >
-                            <page string="معلومات حول الشركات ذات الصلة">
+                            <page string="معلومات حول الشركات ذات الصلة (KDA)">
                                 <field name="companies" readonly="state_finance != 'finance_2'">
                                     <tree editable="bottom">
-                                        <field name="name"/>
-                                        <field name="date_creation"/>
-                                        <field name="activite" options="{'no_create': True}"/>
-                                        <field name="chiffre_affaire"/>
-                                        <field name="n1_num_affaire"/>
-                                        <field name="n_num_affaire"/>
+                                        <field name="name" width="10%"/>
+                                        <field name="date_creation" width="10%"/>
+                                        <field name="activite" options="{'no_create': True}" width="20%"/>
+                                        <field name="chiffre_affaire" width="20%"/>
+                                        <field name="n1_num_affaire" width="20%"/>
+                                        <field name="n_num_affaire" width="20%"/>
                                     </tree>
                                 </field>
                             </page>
-                            <page string="البيانات المالية الموجزة للشركات ذات الصلة">
+                            <page string="البيانات المالية الموجزة للشركات ذات الصلة (KDA)">
                                 <group col="3">
                                     <group>
                                         <button name="create_tcr_group" type="object" string="اضف TCR"
@@ -498,7 +501,7 @@
                                     </tree>
                                 </field>
                             </page>
-                            <page string="الحركة والأعمال الجانبية للمجموعة مع مصرف السلام الجزائر (بالمليون دج)">
+                            <page string="الحركة والأعمال الجانبية للمجموعة مع مصرف السلام الجزائر (KDA)">
                                 <field name="mouvement_group" readonly="state_finance != 'finance_2'">
                                     <tree editable="bottom">
                                         <field name="company" readonly="'السنة' == company"/>
@@ -558,7 +561,7 @@
                         <button name="import_data" type="object" string="حمل البيانات"
                                 class="button_secondary" invisible="state_finance == 'finance_1' or sequence != 2"/>
                         <notebook invisible="state_finance == 'finance_1' or sequence != 2">
-                            <page string="البيانات المالية للشركة">
+                            <page string="البيانات المالية للشركة (KDA)">
                                 <group string="مؤشرات البنية المالية">
                                     <field name="bilan1_id">
                                         <tree editable="bottom" create="0" delete="0">

@@ -74,8 +74,8 @@ class SituationBancaire(models.Model):
 
     banque = fields.Many2one('wk.banque', string='البنك')
     type_fin = fields.Many2one('wk.fin.banque', string='نوع التمويل')
-    montant = fields.Float(string='المبلغ بالمليون دج')
-    encours = fields.Float(string='المبلغ المستغل')
+    montant = fields.Float(string='المبلغ KDA')
+    encours = fields.Float(string='المبلغ المستغل KDA')
     garanties = fields.Text(string='الضمانات الممنوحة')
     etape_id = fields.Many2one('wk.etape')
 
@@ -183,7 +183,7 @@ class RecommLeasing(models.Model):
 class Partner(models.Model):
     _inherit = 'res.partner'
 
-    is_client = fields.Boolean(string='هل هو عميل؟')
+    is_client = fields.Boolean(string='هل هو عميل؟', compute='_compute_is_client', store=True)
     nif = fields.Char(string='NIF')
     rc = fields.Char(string='RC')
     activity_code = fields.Char(string='رمز النشاط حسب السجل التجاري')
@@ -201,11 +201,12 @@ class Partner(models.Model):
     date_inscription = fields.Date(string='تاريخ القيد في السجل التجاري')
     date_debut_activite = fields.Date(string='تاريخ بداية النشاط')
     activite = fields.Many2one('wk.activite', string='النشاط الرئيسي حسب بنك الجزائر')
-    activite_second = fields.Many2one('wk.secteur', string='النشاط الثانوي حسب بنك الجزائر')
+    activite_second = fields.Many2one('wk.secteur',string='رمز النشاط الثانوي في السجل التجاري')
+    activite_sec = fields.Char(string='رمز النشاط الثانوي في السجل التجاري')
     forme_jur = fields.Many2one('wk.forme.jur', string='الشكل القانوني')
     company_id = fields.Many2one('res.company', default=lambda self: self.env.company)
     currency_id = fields.Many2one('res.currency', related='company_id.currency_id')
-    chiffre_affaire = fields.Monetary(string='راس المال الشركة', currency_field='currency_id',)
+    chiffre_affaire = fields.Monetary(string='راس المال الشركة KDA', currency_field='currency_id',)
 
     @api.model
     def create(self, vals):
@@ -232,6 +233,20 @@ class Partner(models.Model):
                     return False
             else:
                 return False
+
+    @api.depends('num_compte', 'nif', 'rc')
+    def _compute_is_client(self):
+        for rec in self:
+            if not rec.nif and not rec.num_compte and not rec.rc:
+                rec.is_client = False
+            else:
+                rec.is_client = True
+
+
+class Year(models.Model):
+    _name = 'wk.year'
+
+    name = fields.Char(string='Annee')
 
 
 class States(models.Model):

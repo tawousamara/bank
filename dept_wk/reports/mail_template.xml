@@ -12,7 +12,8 @@
                     <p style="margin: 0px; padding: 0px; font-size: 13px;">
                         السلام عليكم،
                         <br/>
-                        نود أن نخبركم أن حالة الملف قد تم تحديثها بنجاح.<br/>
+                        نود أن نخبركم أن حالة الملف قد تم تحديثها بنجاح.
+                        <br/>
                         يُمكنكم الاطلاع على التحديث الأخير عبر الرابط
                         أدناه:
                         <a t-att-href="'/web#id=' + str(object.workflow.id) + '&amp;view_type=form&amp;model=wk.workflow.dashboard'">
@@ -43,7 +44,8 @@
                     <p style="margin: 0px; padding: 0px; font-size: 13px;">
                         السلام عليكم،
                         <br/>
-                        نود أن نخبركم أن حالة الملف قد تم تحديثها بنجاح.<br/>
+                        نود أن نخبركم أن حالة الملف قد تم تحديثها بنجاح.
+                        <br/>
                         يُمكنكم الاطلاع على التحديث الأخير عبر الرابط
                         أدناه:
                         <a t-att-href="'/web#id=' + str(object.workflow.id) + '&amp;view_type=form&amp;model=wk.workflow.dashboard'">

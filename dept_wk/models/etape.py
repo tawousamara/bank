@@ -14,6 +14,8 @@ from odoo.exceptions import ValidationError, UserError
 import magic
 import xlrd
 
+
+
 List_items = ['هل العميل شخص مقرب سياسيا؟',
               'هل أحد الشركاء/المساهمين/مسير مقرب سياسيا؟',
               'هل العميل أو أحد الشركاء/المساهمين/مسير مقرب من البنك؟',
@@ -274,7 +276,8 @@ class Etape(models.Model):
     date_inscription = fields.Date(string='تاريخ القيد في السجل التجاري', related='nom_client.date_inscription')
     date_debut_activite = fields.Date(string='تاريخ بداية النشاط', related='nom_client.date_debut_activite')
     activite = fields.Many2one('wk.activite', string='النشاط الرئيسي حسب بنك الجزائر', related='nom_client.activite')
-    activite_second = fields.Many2one('wk.secteur', string='النشاط الثانوي حسب بنك الجزائر', related='nom_client.activite_second')
+    activite_second = fields.Many2one('wk.secteur', string='النشاط الثانوي حسب السجل التجاري', related='nom_client.activite_second')
+    activite_sec = fields.Char( string='النشاط الثانوي حسب السجل التجاري', related='nom_client.activite_sec')
     activity_code = fields.Char(string='رمز النشاط حسب السجل التجاري', related='nom_client.activity_code')
     activity_description = fields.Char(string='النشاط حسب السجل التجاري', related='nom_client.activity_description')
     phone = fields.Char(string='الهاتف', related='nom_client.mobile')
@@ -282,6 +285,7 @@ class Etape(models.Model):
     siteweb = fields.Char(string='الموقع الالكتروني للشركة', related='nom_client.website')
     gerant = fields.Many2one('res.partner', string='المسير',
                              domain="[('parent_id', '=', nom_client),('is_company', '=', False)]")
+    partner_id = fields.Many2one('res.partner', string='المسير',related='gerant', store=True)
     phone_gerant = fields.Char(string='الهاتف', related='gerant.mobile')
     email_gerant = fields.Char(string='البريد الإلكتروني', related='gerant.email')
     email_to = fields.Char(string='البريد الإلكتروني', store=True)
@@ -304,7 +308,7 @@ class Etape(models.Model):
     company_id = fields.Many2one('res.company', default=lambda self: self.env.company)
     forme_jur = fields.Many2one('wk.forme.jur', string='الشكل القانوني', related='nom_client.forme_jur')
     currency_id = fields.Many2one('res.currency', related='company_id.currency_id')
-    chiffre_affaire = fields.Monetary(string='راس المال الشركة', currency_field='currency_id',
+    chiffre_affaire = fields.Monetary(string='راس المال الشركة KDA', currency_field='currency_id',
                                       related='nom_client.chiffre_affaire')
 
     doc_checked = fields.Boolean(string="أؤكد المستندات")
@@ -319,7 +323,7 @@ class Etape(models.Model):
     tailles = fields.One2many('wk.taille', 'etape_id', string='حجم و هيكل التمويلات المطلوبة')
     situations = fields.One2many('wk.situation', 'etape_id', string='الوضعية المصرفية والتزامات لدى الغير')
     situations_fin = fields.One2many('wk.situation.fin', 'etape_id',
-                                     string='البيانات المالية المدققة للثلاث سنوات الأخيرة')
+                                     string='البيانات المالية المدققة للثلاث سنوات الأخيرة KDA')
 
     fournisseur = fields.One2many('wk.fournisseur', 'etape_id', string='الموردين')
     client = fields.One2many('wk.client', 'etape_id', string='الزبائن')
@@ -340,9 +344,10 @@ class Etape(models.Model):
                                 track_visibility='always')
 
     taux_change = fields.Float(string='1$ = ?DA: سعر الصرف', default=1)
-    annee_fiscal = fields.Integer(string='السنة المالية N', default=datetime.date.today().year)
+    annee_fiscal = fields.Integer(string='السنة المالية N', compute='change_annee',)
+    annee_fiscal_list = fields.Many2one('wk.year', string='السنة المالية N',)
     facilite_accorde = fields.One2many('wk.facilite.accorde', 'etape_id',
-                                       string='تفاصيل التسهيلات الممنوحة (بالمليون دج)')
+                                       string='تفاصيل التسهيلات الممنوحة (KDA)')
     detail_garantie_actuel_ids = fields.One2many('wk.detail.garantie', 'etape_id', string='الضمانات العقارية الحالية')
     garantie_actuel_comment = fields.Text(string='تعليق')
     detail_garantie_propose_ids = fields.One2many('wk.detail.garantie.propose', 'etape_id',
@@ -361,7 +366,7 @@ class Etape(models.Model):
     risk_capture = fields.Binary(string='ملف مركزية المخاطر')
     position_tax = fields.One2many('wk.position', 'etape_id', string='الوضعية الجبائية والشبه جبائية')
     mouvement = fields.One2many('wk.mouvement', 'etape_id',
-                                string='الحركة والأعمال الجانبية للحساب مع مصرف السلام الجزائر (بالمليون دج)')
+                                string='الحركة والأعمال الجانبية للحساب مع مصرف السلام الجزائر (KDA)')
 
     companies = fields.One2many('wk.companies', 'etape_id')
     companies_fisc = fields.One2many('wk.companies.fisc', 'etape_id')
@@ -374,7 +379,7 @@ class Etape(models.Model):
 
     facitlite_existante = fields.One2many('wk.facilite.existante', 'etape_id')
     mouvement_group = fields.One2many('wk.mouvement.group', 'etape_id',
-                                      string='الحركة والأعمال الجانبية للمجموعة مع مصرف السلام الجزائر (بالمليون دج)')
+                                      string='الحركة والأعمال الجانبية للمجموعة مع مصرف السلام الجزائر (KDA)')
 
     tcr_id = fields.Many2one('import.ocr.tcr', string='TCR')
     passif_id = fields.Many2one('import.ocr.passif', string='Passif')
@@ -494,13 +499,13 @@ class Etape(models.Model):
     date = fields.Date(string='تاريخ', related='workflow.date')
     tracking_state = fields.Many2one('wk.tracking', compute='_compute_track', store=True)
     dossier_verouiller = fields.Boolean(string='Verrouiller')
-
+    active = fields.Boolean(default=True)
     @api.model
     def create(self, vals):
         res = super(Etape, self).create(vals)
         if res.demande == self.env.ref('dept_wk.type_demande_1'):
             if res.etape.sequence == 1:
-                for i in range(18):
+                for i in range(15):
                     doc = self.env['wk.document.check'].create({'list_document': str(i+1),
                                                                 'etape_id': res.id})
                 for item in List_items:
@@ -591,7 +596,66 @@ class Etape(models.Model):
                 for item in list_var:
                     line = self.env['wk.variable'].create({'var': item, 'etape_id': res.id, 'sequence': count})
                     count += 1
+            years = self.env['wk.year'].search([])
+            if not years:
+                start = datetime.date.today().year - 2
+                stop =  datetime.date.today().year + 10
+                for i in range(start, stop):
+                    self.env['wk.year'].create({'name': str(i)})
         return res
+
+    @api.onchange('annee_fiscal_list')
+    def change_annee(self):
+        for rec in self:
+            print("hiiiiii")
+            rec.annee_fiscal = int(rec.annee_fiscal_list.name)
+            if rec.annee_fiscal_list:
+                rec.situations_fin.filtered(lambda l: l.sequence == 0).write({
+                    'year1': rec.annee_fiscal,
+                    'year2': rec.annee_fiscal - 1,
+                    'year3': rec.annee_fiscal - 2,
+                })
+                rec.mouvement.filtered(lambda l: l.sequence == 0).write({
+                    'n_dz': rec.annee_fiscal,
+                    'n1_dz': rec.annee_fiscal - 1,
+                    'n2_dz': rec.annee_fiscal - 2,
+                    'n3_dz': rec.annee_fiscal - 3,
+                })
+                rec.mouvement_group.filtered(lambda l: l.company == 'السنة').write({'n_dz': rec.annee_fiscal,
+                                                       'n1_dz': rec.annee_fiscal - 1,
+                                                       'n2_dz': rec.annee_fiscal - 2,
+                                                       'sequence': 0})
+                rec.companies_fisc.filtered(lambda l: l.sequence == 0).write({
+                    'year_4': rec.annee_fiscal,
+                    'year_3': rec.annee_fiscal - 1,
+                    'year_2': rec.annee_fiscal - 2,
+                    'year_1': rec.annee_fiscal - 3,
+                })
+                rec.bilan1_id.filtered(lambda l:l.declaration == 'السنة').write({
+                        'year_1': rec.annee_fiscal - 3,
+                        'year_2': rec.annee_fiscal - 2,
+                        'year_3': rec.annee_fiscal - 1,
+                        'year_4': rec.annee_fiscal,})
+                rec.bilan2_id.filtered(lambda l:l.declaration == 'السنة').write({
+                        'year_1': rec.annee_fiscal - 3,
+                        'year_2': rec.annee_fiscal - 2,
+                        'year_3': rec.annee_fiscal - 1,
+                        'year_4': rec.annee_fiscal})
+                rec.bilan3_id.filtered(lambda l:l.declaration == 'السنة').write({
+                        'year_1': rec.annee_fiscal - 3,
+                        'year_2': rec.annee_fiscal - 2,
+                        'year_3': rec.annee_fiscal- 1,
+                        'year_4': rec.annee_fiscal})
+                rec.bilan4_id.filtered(lambda l:l.declaration == 'السنة').write({
+                        'year_1': rec.annee_fiscal- 3,
+                        'year_2': rec.annee_fiscal - 2,
+                        'year_3': rec.annee_fiscal - 1,
+                        'year_4': rec.annee_fiscal})
+                rec.bilan5_id.filtered(lambda l:l.declaration == 'السنة').write({
+                        'year_1': rec.annee_fiscal - 3,
+                        'year_2': rec.annee_fiscal - 2,
+                        'year_3': rec.annee_fiscal - 1,
+                        'year_4': rec.annee_fiscal })
 
     def verrouiller_dossier(self):
         for rec in self:
@@ -682,11 +746,18 @@ class Etape(models.Model):
 
     def compute_pourcentage_state(self):
         for rec in self:
-            print('hi')
-            print(rec.sequence)
-            print(self._context)
+            rec.active = True
+            if rec.gerant:
+                partner = rec.gerant
+                mail_invite = self.env['mail.wizard.invite'].with_context({
+                    'default_res_model': 'wk.etape',
+                    'default_res_id': rec.id
+                }).with_user(self.user_id).create({
+                    'partner_ids': [(4, partner.id)],
+                    'notify': False})
+                mail_invite.add_followers()
             if rec.etape.sequence == 1:
-                rec.workflow.assigned_to_agence= rec.assigned_to_agence.id
+                rec.workflow.assigned_to_agence = rec.assigned_to_agence.id
                 if rec.state_branch == 'branch_1':
                     rec.state_compute = 0
                 elif rec.state_branch == 'branch_2':
@@ -2322,4 +2393,3 @@ def view_viz(data1, data2):
     imageBase64 = base64.b64encode(buf.getvalue())
     buf.close()
     return imageBase64
-

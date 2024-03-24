@@ -8,7 +8,25 @@
             <xpath expr="//field[@name='vat']" position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
-            <xpath expr="//div[@class='o_address_format']" position="attributes">
+            <xpath expr="//field[@name='lang']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='title']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@id='individual']" position="attributes">
+                <attribute name="placeholder">محمد محمود</attribute>
+            </xpath>
+            <xpath expr="//field[@name='parent_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//page[@name='contact_addresses']//form//field[@name='type']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <!--<xpath expr="//div[@class='o_address_format']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>-->
+            <xpath expr="//group/group[1]" position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
             <xpath expr="//span[@class='o_form_label o_td_label']" position="attributes">
@@ -38,26 +56,33 @@
             </xpath>
             <xpath expr="//sheet/group" position="inside">
                 <group>
+                    <field name="date_debut_activite"/>
+                    <field name="activite" options="{'no_create': True, 'no_open': True}"/>
+                    <field name="date_inscription"/>
+                </group>
+                <group>
                     <field name="adress_siege"/>
-                    <field name="is_client"/>
+                    <field name="is_client" invisible="1"/>
                     <field name="branche" options="{'no_create': True, 'no_open': True}"/>
                     <field name="wilaya"/>
                     <field name="nif"/>
                     <field name="rc"/>
-                    <field name="date_inscription"/>
-                    <field name="activity_code"/>
-                    <field name="activity_description"/>
-                    <field name="groupe" domain="[('is_company', '=', True)]" options="{'no_create': True, 'no_open': True}"/>
                 </group>
                 <group>
-                    <field name="activite" options="{'no_create': True, 'no_open': True}"/>
-                    <field name="activite_second" options="{'no_create': True, 'no_open': True}"/>
-                    <field name="date_debut_activite"/>
+                    <field name="activity_code"/>
+                    <field name="activity_description"/>
+                    <field name="activite_sec"/>
+                </group>
+                <group>
+                    <field name="groupe" domain="[('is_company', '=', True)]"
+                           options="{'no_create': True, 'no_open': True}" invisible="not is_company"/>
                     <field name="num_compte"/>
                     <field name="date_ouverture_compte"/>
+                </group>
+                <group>
                     <field name="classification" options="{'no_create': True, 'no_open': True}"/>
-                    <field name="forme_jur" options="{'no_create': True, 'no_open': True}"/>
-                    <field name="chiffre_affaire" widget="monetary"/>
+                    <field name="forme_jur" options="{'no_create': True, 'no_open': True}" invisible="not is_company"/>
+                    <field name="chiffre_affaire" widget="monetary" invisible="not is_company"/>
                 </group>
             </xpath>
         </field>
