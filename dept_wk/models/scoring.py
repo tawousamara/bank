@@ -132,10 +132,15 @@ class Scoring(models.Model):
     vis3 = fields.Binary(string='Vis')
     vis4 = fields.Binary(string='Vis')
     vis5 = fields.Binary(string='Vis')
-
+    scoring_qualitatif = fields.Integer(string='اجمالي المعايير النوعية')
     company_id = fields.Many2one('res.company', default=lambda self: self.env.company)
     scoring_group_ids = fields.One2many('risk.scoring', 'scoring_id', string='بطاقات المغايير النوعية')
     scoring_id = fields.Many2one('risk.scoring',)
+
+    weakness_ids = fields.One2many('wk.swot.weakness', 'risk_id')
+    strength_ids = fields.One2many('wk.swot.strength', 'risk_id')
+    threat_ids = fields.One2many('wk.swot.threat', 'risk_id')
+    opportunitie_ids = fields.One2many('wk.swot.opportunitie', 'risk_id')
 
     def compute_annee(self):
         for rec in self:
@@ -203,9 +208,10 @@ class Scoring(models.Model):
             actif_1 = rec.actif_id.actif_lines.filtered(lambda r: r.rubrique.sequence == 27)
             actif_2 = rec.actif_id.actif_lines.filtered(lambda r: r.rubrique.sequence == 16)
             actif_3 = rec.actif_id.actif_lines.filtered(lambda r: r.rubrique.sequence == 26)
-            rec.quant_3 = ((passif_3.montant_n + passif_1.montant_n - actif_2.montant_n) / (
-                    actif_3.montant_n + actif_1.montant_n)) * 100 if (
-                    actif_3.montant_n + actif_1.montant_n) != 0 else 0
+            passif_12 = rec.passif_id.passif_lines.filtered(lambda r: r.rubrique.sequence == 12)
+            rec.quant_3 = ((passif_12.montant_n - actif_2.montant_n) / (
+                    actif_1.montant_n - actif_3.montant_n)) * 100 if (
+                    actif_1.montant_n - actif_3.montant_n) != 0 else 0
             for r in rec.critere_quant.quant_3:
                 if r.du < rec.quant_3 <= r.au:
                     rec.res_quant_3 = r.ponderation
@@ -296,7 +302,8 @@ class Scoring(models.Model):
                     count_quant += 1
 
             tcr_8 = rec.tcr_id.tcr_lines.filtered(lambda r: r.rubrique.sequence == 40)
-            rec.quant_14 = (tcr_8.montant_n / passif_1.montant_n) * 100 if passif_1.montant_n != 0 else 0
+            tcr_33 = rec.tcr_id.tcr_lines.filtered(lambda r: r.rubrique.sequence == 33)
+            rec.quant_14 = (tcr_33.montant_n / passif_12.montant_n) * 100 if passif_12.montant_n != 0 else 0
             for r in rec.critere_quant.quant_14:
                 if r.du < rec.quant_14 <= r.au:
                     rec.res_quant_14 = r.ponderation
@@ -329,7 +336,7 @@ class Scoring(models.Model):
                           rec.incident.ponderation + rec.conduite.ponderation + \
                           rec.dette_fisc.ponderation + rec.source_remb.ponderation + \
                           rec.part_profil.ponderation
-
+            rec.scoring_qualitatif = result_qual
             rec.resultat_scoring = result_quant + result_qual
             cat1 = rec.critere_ids.filtered(lambda r: r.name == 'مؤشرات الهيكل المال')
             cat1.resultat = rec.res_quant_1 + rec.res_quant_2 + rec.res_quant_3 + rec.res_quant_4

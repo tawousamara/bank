@@ -39,6 +39,9 @@ access_wk_workflow_dashboard_user,access.wk.workflow.dashboard,model_wk_workflow
 access_wk_etape_user,access.wk.etape,model_wk_etape,,1,1,1,1
 access_wk_etape_financial,access.wk.etape,model_wk_etape,,1,1,1,1
 
+access_wk_commune_user,access.wk.commune,model_wk_commune,,1,1,1,1
+access_wk_commune_financial,access.wk.commune,model_wk_commune,,1,1,1,1
+
 access_wk_year_user,access.wk.year,model_wk_year,,1,1,1,1
 access_wk_year_financial,access.wk.year,model_wk_year,,1,1,1,1
 

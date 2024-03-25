@@ -181,16 +181,16 @@
                             <page string="حجم و هيكل التمويلات المطلوبة">
                                 <field name="tailles" readonly="state_branch != 'branch_3' and sequence != 8">
                                     <tree editable="bottom">
-                                        <field name="type_demande" options="{'no_create': True, 'no_open': True}"/>
-                                        <field name="montant" sum="Total"/>
-                                        <field name="raison"/>
-                                        <field name="preg" widget="percentage"/>
-                                        <field name="duree"/>
+                                        <field name="type_demande" options="{'no_create': True, 'no_open': True}" width="20%"/>
+                                        <field name="montant" sum="Total" width="20%"/>
+                                        <field name="raison" width="20%"/>
+                                        <field name="preg" widget="percentage" width="20%"/>
+                                        <field name="duree" width="20%"/>
                                         <field name="garanties" column_invisible="1"/>
                                     </tree>
                                 </field>
                                 <group>
-                                    <field name="garanties_demande" widget="many2many_tags"/>
+                                    <field name="garanties" type="html"/>
                                 </group>
                             </page>
                             <page string="الوضعية المالية">
@@ -411,7 +411,7 @@
                                         <field name="name"/>
                                         <field name="adversite"/>
                                         <field name="non_adversite"/>
-                                        <field name="remarks" widget="many2many_tags"/>
+                                        <field name="notes"/>
                                     </tree>
                                 </field>
                             </page>
@@ -756,6 +756,41 @@
                                     <field name="commentaire_situation"/>
                                 </group>
                             </page>
+                            <page string="الوضعية التقديرية">
+                                <group>
+                                    <field name="file_tcr_estim" filename="file_tcr_name"/>
+                                    <field name="file_tcr_name_estim" invisible="1"/>
+                                </group>
+
+                                <button name="action_situation_estimate" type="object" string="اضافة البيانات"
+                                        class="button_secondary"/>
+                                <notebook>
+                                    <page string="TCR">
+                                        <field name="tcr_situation_estim">
+                                            <tree create="0" editable="bottom">
+                                                <field name="name_ar"/>
+                                                <field name="valeur"/>
+                                            </tree>
+                                        </field>
+                                    </page>
+                                    <page string="Actif">
+                                        <field name="actif_situation_estim">
+                                            <tree create="0" editable="bottom">
+                                                <field name="name_ar"/>
+                                                <field name="valeur"/>
+                                            </tree>
+                                        </field>
+                                    </page>
+                                    <page string="Passif">
+                                        <field name="passif_situation_estim">
+                                            <tree create="0" editable="bottom">
+                                                <field name="name_ar"/>
+                                                <field name="valeur"/>
+                                            </tree>
+                                        </field>
+                                    </page>
+                                </notebook>
+                            </page>
                         </notebook>
                         <button name="create_viz2" type="object" string="إنشاء البيان"
                                 class="button_secondary" invisible="state_finance == 'finance_1' or sequence != 2"/>
@@ -860,7 +895,12 @@
                         <group>
                             <field name="assigned_to_risque" readonly="state_risque != 'risque_1'" options="{'no_create': True, 'no_open': True}"
                                    invisible="sequence not in [4,5]"/>
-                            <field name="risk_scoring" readonly="1" invisible="sequence not in [4,5]"/>
+                        </group>
+
+                        <button name="action_open_risk" type="object" string="انقر هنا لدراسة المخاطر"
+                                class="button_secondary" invisible="sequence not in [4,5]"/>
+
+                        <group>
                             <field name="resultat_scoring" invisible="sequence not in [4,5]"/>
                             <field name="recommandation_dir_risque" readonly="state_risque != 'risque_1'"/>
                         </group>

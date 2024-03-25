@@ -51,59 +51,62 @@
                     </group>
                     <notebook>
                         <page string="المعايير النوعية">
+                            <group>
+                                <field name="scoring_qualitatif"/>
+                            </group>
                             <group col="2">
                                 <field name="original_capital" options="{'no_create': True, 'no_open': True}"/>
-                                <field name="comment_origin" />
+                                <field name="comment_origin"/>
                                 <field name="actionnariat" options="{'no_create': True, 'no_open': True}"/>
-                                <field name="comment_actionnariat" />
+                                <field name="comment_actionnariat"/>
                                 <field name="forme_jur" options="{'no_create': True, 'no_open': True}"/>
-                                <field name="comment_forme_jur" />
+                                <field name="comment_forme_jur"/>
                                 <field name="remp_succession" options="{'no_create': True, 'no_open': True}"/>
-                                <field name="comment_remp_succession" />
+                                <field name="comment_remp_succession"/>
                                 <field name="competence" options="{'no_create': True, 'no_open': True}"/>
-                                <field name="comment_competence" />
+                                <field name="comment_competence"/>
                                 <field name="experience" options="{'no_create': True, 'no_open': True}"/>
-                                <field name="comment_experience" />
+                                <field name="comment_experience"/>
                                 <field name="soutien_etatic" options="{'no_create': True, 'no_open': True}"/>
-                                <field name="comment_soutien_etatic" />
+                                <field name="comment_soutien_etatic"/>
                                 <field name="activite" options="{'no_create': True, 'no_open': True}"/>
-                                <field name="comment_activite" />
+                                <field name="comment_activite"/>
                                 <field name="influence_tech" options="{'no_create': True, 'no_open': True}"/>
-                                <field name="comment_influence_tech" />
+                                <field name="comment_influence_tech"/>
                                 <field name="anciennete" options="{'no_create': True, 'no_open': True}"/>
-                                <field name="comment_anciennete" />
+                                <field name="comment_anciennete"/>
                                 <field name="concurrence" options="{'no_create': True, 'no_open': True}"/>
-                                <field name="comment_concurrence" />
+                                <field name="comment_concurrence"/>
                                 <field name="source_appro" options="{'no_create': True, 'no_open': True}"/>
-                                <field name="comment_source_appro" />
+                                <field name="comment_source_appro"/>
                                 <field name="produit" options="{'no_create': True, 'no_open': True}"/>
-                                <field name="comment_produit" />
+                                <field name="comment_produit"/>
                             </group>
                             <group>
                                 <field name="flexibilite" options="{'no_create': True, 'no_open': True}"/>
-                                <field name="comment_flexibilite" />
+                                <field name="comment_flexibilite"/>
                                 <field name="sollicitude" options="{'no_create': True, 'no_open': True}"/>
-                                <field name="comment_sollicitude" />
+                                <field name="comment_sollicitude"/>
                                 <field name="situation" options="{'no_create': True, 'no_open': True}"/>
-                                <field name="comment_situation" />
+                                <field name="comment_situation"/>
                                 <field name="mouvement" options="{'no_create': True, 'no_open': True}"/>
-                                <field name="comment_mouvement" />
+                                <field name="comment_mouvement"/>
                                 <field name="garanties" options="{'no_create': True, 'no_open': True}"/>
-                                <field name="comment_garantie" />
+                                <field name="comment_garantie"/>
                                 <field name="incident" options="{'no_create': True, 'no_open': True}"/>
-                                <field name="comment_incident" />
+                                <field name="comment_incident"/>
                                 <field name="conduite" options="{'no_create': True, 'no_open': True}"/>
-                                <field name="comment_conduite" />
+                                <field name="comment_conduite"/>
                                 <field name="dette_fisc" options="{'no_create': True, 'no_open': True}"/>
-                                <field name="comment_dette_fisc" />
+                                <field name="comment_dette_fisc"/>
                                 <field name="dette_parafisc" options="{'no_create': True, 'no_open': True}"/>
-                                <field name="comment_dette_parafisc" />
+                                <field name="comment_dette_parafisc"/>
                                 <field name="position_admin" options="{'no_create': True, 'no_open': True}"/>
-                                <field name="comment_position_admin" />
+                                <field name="comment_position_admin"/>
                                 <field name="source_remb" options="{'no_create': True, 'no_open': True}"/>
-                                <field name="comment_source_remb" />
+                                <field name="comment_source_remb"/>
                                 <field name="part_profil" options="{'no_create': True, 'no_open': True}"/>
-                                <field name="comment_part_profil" />
+                                <field name="comment_part_profil"/>
                             </group>
                         </page>
                         <page string="المعايير النوعية للشركات التابعة للمجموعة">
@@ -309,8 +312,36 @@
                             </group>
 
                         </page>
+                        <page string="SWOT" groups="dept_wk.dept_wk_group_responsable_credit">
+                            <div>
+                                <div class="swot_table" style="margin-bottom: 10px; margin-right: 5px; margin-left: 5px;">
+                                    <field name="weakness_ids" style="background-color: #F4A460;" class="swot_element">
+                                        <tree editable="bottom">
+                                            <field name="name"/>
+                                        </tree>
+                                    </field>
+                                    <field name="strength_ids" style="background-color: #90EE90;" class="swot_element">
+                                        <tree editable="bottom">
+                                            <field name="name"/>
+                                        </tree>
+                                    </field>
+                                </div>
+                                <div class="swot_table" style="margin-right: 5px; margin-left: 5px;">
+                                    <field name="opportunitie_ids" style="background-color: #87CEFA;"
+                                           class="swot_element">
+                                        <tree editable="bottom">
+                                            <field name="name"/>
+                                        </tree>
+                                    </field>
+                                    <field name="threat_ids" style="background-color: #CD5C5C;" class="swot_element">
+                                        <tree editable="bottom">
+                                            <field name="name"/>
+                                        </tree>
+                                    </field>
+                                </div>
+                            </div>
+                        </page>
                     </notebook>
-
                 </sheet>
             </form>
         </field>

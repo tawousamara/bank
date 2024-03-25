@@ -16,6 +16,7 @@
             'data/data_product.xml',
             'data/data_activite.xml',
             'data/data_wilaya.xml',
+            'data/data_commune.xml',
             'data/data_forme_juridique.xml',
             'data/data_type_demande.xml',
             'data/data_decision_cell.xml',

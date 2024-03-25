@@ -87,11 +87,6 @@
             <field name="wilaya">25</field>
             <field name="commune">001</field>
         </record>
-        <record id="agence_18" model="wk.agence">
-            <field name="name">02502</field>
-            <field name="wilaya">25</field>
-            <field name="commune">006</field>
-        </record>
         <record id="agence_19" model="wk.agence">
             <field name="name">02801</field>
             <field name="wilaya">28</field>
@@ -115,6 +110,16 @@
         <record id="agence_23" model="wk.agence">
             <field name="name">03401</field>
             <field name="wilaya">34</field>
+            <field name="commune">001</field>
+        </record>
+        <record id="agence_24" model="wk.agence">
+            <field name="name">01608</field>
+            <field name="wilaya">16</field>
+            <field name="commune">001</field>
+        </record>
+        <record id="agence_25" model="wk.agence">
+            <field name="name">00201</field>
+            <field name="wilaya">02</field>
             <field name="commune">001</field>
         </record>
 

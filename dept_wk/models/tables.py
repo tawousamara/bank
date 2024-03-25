@@ -296,7 +296,23 @@ class PositionTax(models.Model):
     name = fields.Char(string='  ')
     adversite = fields.Boolean(string='محينة')
     non_adversite = fields.Boolean(string='غير محينة')
-    remarks = fields.Many2many('wk.remark', string='ملاحظات')
+    compute_adversite = fields.Boolean(string='غير محينة', compute='compute_adversite')
+    notes = fields.Char(string='ملاحظات')
+
+    @api.onchange('adversite')
+    def compute_adversite(self):
+        for rec in self:
+            if rec.adversite:
+                rec.non_adversite = False
+            else:
+                rec.non_adversite = True
+    @api.onchange('non_adversite')
+    def compute_non_adversite(self):
+        for rec in self:
+            if rec.non_adversite:
+                rec.adversite = False
+            else:
+                rec.adversite = True
 
 
 class Remarks(models.Model):
@@ -676,6 +692,7 @@ class TCR(models.Model):
     sequence = fields.Integer(string='Sequence')
     valeur = fields.Float(string='المبلغ')
     etape_id = fields.Many2one('wk.etape')
+    type = fields.Integer()
 
 
 class Actif(models.Model):
@@ -686,7 +703,7 @@ class Actif(models.Model):
     sequence = fields.Integer(string='Sequence')
     valeur = fields.Float(string='المبلغ')
     etape_id = fields.Many2one('wk.etape')
-
+    type = fields.Integer()
 
 class Passif(models.Model):
     _name = 'wk.passif'
@@ -696,13 +713,13 @@ class Passif(models.Model):
     sequence = fields.Integer(string='Sequence')
     valeur = fields.Float(string='المبلغ')
     etape_id = fields.Many2one('wk.etape')
-
+    type = fields.Integer()
 
 class SwotStrength(models.Model):
     _name = 'wk.swot.strength'
     _description = 'swot matrice'
 
-
+    risk_id = fields.Many2one('risk.scoring')
     etape_id = fields.Many2one('wk.etape')
     name = fields.Char(string='نقاط القوة')
 
@@ -712,6 +729,7 @@ class SwotWeakness(models.Model):
     _description = 'swot matrice'
 
 
+    risk_id = fields.Many2one('risk.scoring')
     etape_id = fields.Many2one('wk.etape')
     name = fields.Char(string='نقاط الضعف')
 
@@ -720,7 +738,7 @@ class SwotOpportunities(models.Model):
     _name = 'wk.swot.opportunitie'
     _description = 'swot matrice'
 
-
+    risk_id = fields.Many2one('risk.scoring')
     etape_id = fields.Many2one('wk.etape')
     name = fields.Char(string='الفرص')
 
@@ -729,7 +747,7 @@ class SwotThreats(models.Model):
     _name = 'wk.swot.threat'
     _description = 'swot matrice'
 
-
+    risk_id = fields.Many2one('risk.scoring')
     etape_id = fields.Many2one('wk.etape')
     name = fields.Char(string='التهديدات')
 

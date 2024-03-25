@@ -7,17 +7,18 @@ class Agence(models.Model):
     _rec_name = 'ref'
     name = fields.Char(string='رمز الفرع', size=5)
     wilaya = fields.Char(string='الولاية')
-    ref = fields.Char(string='الولاية', compute='compute_ref', store=True)
+    ref = fields.Char(string='الولاية', )
     commune = fields.Char(string="المجلس الشعبي البلدي")
-    wilaya_id = fields.Many2one('wk.wilaya')
+    wilaya_id = fields.Many2one('wk.wilaya',compute='compute_ref')
 
-    @api.depends('name', 'wilaya')
     def compute_ref(self):
         for rec in self:
             wilaya = self.env['wk.wilaya'].search([('name', '=', rec.wilaya)])
             if wilaya:
                 rec.ref = rec.name + '-' + wilaya.domaine
                 rec.wilaya_id = wilaya.id
+            else:
+                rec.wilaya_id = False
 
     def create_folder(self):
         for rec in self:
@@ -52,6 +53,15 @@ class ExceptionsWk(models.Model):
 class Wilaya(models.Model):
     _name = 'wk.wilaya'
     _rec_name = 'domaine'
+    name = fields.Char(string="الرمز")
+    domaine = fields.Char(string='الولاية')
+    description = fields.Char(string='الاسم')
+
+
+class Commune(models.Model):
+    _name = 'wk.commune'
+    _rec_name = 'description'
+
     name = fields.Char(string="الرمز")
     domaine = fields.Char(string='الولاية')
     description = fields.Char(string='الاسم')

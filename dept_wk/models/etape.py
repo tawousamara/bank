@@ -423,6 +423,7 @@ class Etape(models.Model):
     recommandation_analyste_fin = fields.Text(string='توصية المحلل المالي', track_visibility='always')
     facilite_propose = fields.One2many('wk.facilite.propose', 'etape_id', string='التسهيلات المقترحة')
     garantie_ids = fields.Many2many('wk.garanties', string='الضمانات المقترحة')
+    garanties = fields.Html(string='الضمانات المقترحة', )
     garanties_demande = fields.Many2many('wk.garanties', 'garantie_demande_rel', string='الضمانات')
     comite = fields.Many2one('wk.comite', string='اللجنة')
     recommandation_dir_fin = fields.Text(string='راي مدير ادارة التمويلات', track_visibility='always')
@@ -433,9 +434,14 @@ class Etape(models.Model):
     visualisation_situation = fields.Binary(string='Chart')
     file_tcr = fields.Binary(string='الملف')
     file_tcr_name = fields.Char(string='الملف', default='الوضعية المحاسبية')
-    tcr_situation = fields.One2many('wk.tcr', 'etape_id')
-    actif_situation = fields.One2many('wk.actif', 'etape_id')
-    passif_situation = fields.One2many('wk.passif', 'etape_id')
+    tcr_situation = fields.One2many('wk.tcr', 'etape_id', domain="[('type', '=', 1)]")
+    actif_situation = fields.One2many('wk.actif', 'etape_id', domain="[('type', '=', 1)]")
+    passif_situation = fields.One2many('wk.passif', 'etape_id', domain="[('type', '=', 1)]")
+    file_tcr_estim = fields.Binary(string='الملف')
+    file_tcr_name_estim = fields.Char(string='الملف', default='الوضعية التقديرية')
+    tcr_situation_estim = fields.One2many('wk.tcr', 'etape_id', domain="[('type', '=', 2)]")
+    actif_situation_estim = fields.One2many('wk.actif', 'etape_id', domain="[('type', '=', 2)]")
+    passif_situation_estim = fields.One2many('wk.passif', 'etape_id', domain="[('type', '=', 2)]")
     commentaire_situation = fields.Text(string='تعليق')
     exception_ids = fields.Many2many('wk.exception', string='الاستثناءات مع سياسة الائتمان')
 
@@ -687,17 +693,20 @@ class Etape(models.Model):
                         self.env['wk.tcr'].create({'name': item1,
                                                    'name_ar': item2,
                                                    'sequence': index,
+                                                   'type': 1,
                                                    'etape_id': rec.id})
 
                     for index, item1, item2 in actif_list:
                         self.env['wk.actif'].create({'name': item1,
                                                    'name_ar': item2,
                                                    'sequence': index,
+                                                   'type': 1,
                                                    'etape_id': rec.id})
                     for index, item1, item2 in passif_list:
                         self.env['wk.passif'].create({'name': item1,
                                                    'name_ar': item2,
                                                    'sequence': index,
+                                                   'type': 1,
                                                    'etape_id': rec.id})
                 xls_data = BytesIO(base64.b64decode(rec.file_tcr))
                 workbook = xlrd.open_workbook(file_contents=xls_data.read())
@@ -708,13 +717,13 @@ class Etape(models.Model):
                     for row_idx in range(sheet.nrows):
                         row_data = sheet.row_values(row_idx)
                         if count == 0:
-                            tcr = self.env['wk.tcr'].search([('name', '=', row_data[0])])
+                            tcr = self.env['wk.tcr'].search([('name', '=', row_data[0]),('type', '=', 1)])
                             tcr.valeur = row_data[1]
                         if count == 1:
-                            actif = self.env['wk.actif'].search([('name', '=', row_data[0])])
+                            actif = self.env['wk.actif'].search([('name', '=', row_data[0]),('type', '=', 1)])
                             actif.valeur = row_data[1]
                         if count == 2:
-                            passif = self.env['wk.passif'].search([('name', '=', row_data[0])])
+                            passif = self.env['wk.passif'].search([('name', '=', row_data[0]),('type', '=', 1)])
                             passif.valeur = row_data[1]
                     count += 1
                 label1 = 'CA'
@@ -744,6 +753,53 @@ class Etape(models.Model):
                 rec.visualisation_situation = base64.b64encode(buf.getvalue()).decode()
                 buf.close()
 
+    def action_situation_estimate(self):
+        for rec in self:
+            if not rec.file_tcr_estim:
+                raise UserError(_('Attacher le fichier'))
+            elif not self.check_if_xls_file():
+                raise UserError(_('Attacher un fichier excel'))
+            else:
+                if not rec.tcr_situation_estim:
+                    for index, item1, item2 in tcr_list:
+                        self.env['wk.tcr'].create({'name': item1,
+                                                   'name_ar': item2,
+                                                   'sequence': index,
+                                                   'type': 2,
+                                                   'etape_id': rec.id})
+
+                    for index, item1, item2 in actif_list:
+                        self.env['wk.actif'].create({'name': item1,
+                                                   'name_ar': item2,
+                                                   'sequence': index,
+                                                   'type': 2,
+                                                   'etape_id': rec.id})
+                    for index, item1, item2 in passif_list:
+                        self.env['wk.passif'].create({'name': item1,
+                                                   'name_ar': item2,
+                                                   'sequence': index,
+                                                   'type': 2,
+                                                   'etape_id': rec.id})
+                xls_data = BytesIO(base64.b64decode(rec.file_tcr_estim))
+                workbook = xlrd.open_workbook(file_contents=xls_data.read())
+                count = 0
+                for sheet_index in range(min(workbook.nsheets, 3)): # Loop through the first 3 sheets
+                    sheet = workbook.sheet_by_index(sheet_index)
+                    # Read data from the sheet
+                    for row_idx in range(sheet.nrows):
+                        row_data = sheet.row_values(row_idx)
+                        if count == 0:
+                            tcr = self.env['wk.tcr'].search([('name', '=', row_data[0]),('type', '=', 2)])
+                            tcr.valeur = row_data[1]
+                        if count == 1:
+                            actif = self.env['wk.actif'].search([('name', '=', row_data[0]),('type', '=', 2)])
+                            actif.valeur = row_data[1]
+                        if count == 2:
+                            passif = self.env['wk.passif'].search([('name', '=', row_data[0]),('type', '=', 2)])
+                            passif.valeur = row_data[1]
+                    count += 1
+
+
     def compute_pourcentage_state(self):
         for rec in self:
             years = self.env['wk.year'].search([])
@@ -753,8 +809,8 @@ class Etape(models.Model):
                 for i in range(start, stop):
                     self.env['wk.year'].create({'name': str(i)})
             rec.active = True
-            if rec.gerant:
-                partner = rec.gerant
+            partner = rec.workflow.states.filtered(lambda l: l.sequence == 1).gerant
+            if partner:
                 mail_invite = self.env['mail.wizard.invite'].with_context({
                     'default_res_model': 'wk.etape',
                     'default_res_id': rec.id
@@ -1675,6 +1731,18 @@ class Etape(models.Model):
                 'view_id': view_id,
                 'type': 'ir.actions.act_window',
                 'context': {'parent_id': rec.id, 'year': 1}
+            }
+
+    def action_open_risk(self):
+        for rec in self:
+            view_id = self.env.ref('dept_wk.view_risk_scoring_form').id
+            return {
+                'name': 'ادارة المخاطر',
+                'res_model': 'risk.scoring',
+                'view_mode': 'form',
+                'res_id': rec.risk_scoring.id,
+                'view_id': view_id,
+                'type': 'ir.actions.act_window',
             }
 
     def action_create_tcr1(self):
