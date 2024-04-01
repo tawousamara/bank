@@ -7,7 +7,7 @@ class Workflow(models.Model):
     _description = 'Workflow de demande de financement'
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
-    date = fields.Date(string='تاريخ البدء', default=datetime.datetime.today())
+    date = fields.Date(string='تاريخ البدء', default=fields.Date.today)
     date_fin = fields.Date(string='تاريخ الانتهاء')
     name = fields.Char(string='Réference')
     state = fields.Selection([('1', 'الفرع'),
