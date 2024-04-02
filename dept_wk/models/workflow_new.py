@@ -39,8 +39,20 @@ class Workflow(models.Model):
     is_modify = fields.Boolean(string='is new', compute='compute_type_demande')
     is_delete = fields.Boolean(string='is new', compute='compute_type_demande')
     is_condition = fields.Boolean(string='is new', compute='compute_type_demande')
+    is_same_branche = fields.Boolean(related='is_same', store=True)
+    is_same = fields.Boolean()
+    def is_same_compute(self):
+        for rec in self:
+            if self.env.user.partner_id.branche:
+                if self.env.user.partner_id.branche == rec.branche:
+                    rec.is_same = True
+                else:
+                    rec.is_same = False
+            else:
+                rec.is_same = False
     def compute_type_demande(self):
         for rec in self:
+            self.is_same_compute()
             if rec.demande.name == 'تسهيلات جديدة':
                 rec.is_new = True
                 rec.is_renew = rec.is_modify = rec.is_delete = rec.is_condition = False

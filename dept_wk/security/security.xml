@@ -85,4 +85,5 @@
                (4, ref('dept_wk.dept_wk_group_responsable_agence')),
                (4, ref('dept_wk.dept_wk_group_agent_agence')),]"/>
     </record>
+
 </odoo>
