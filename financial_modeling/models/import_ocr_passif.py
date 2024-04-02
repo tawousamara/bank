@@ -22,13 +22,31 @@ class ImportPassifOCR(models.Model):
     file_import_name = fields.Char(string="Fichier")
     state = fields.Selection([("get_data", "Import données"),
                               ("validation", "Validation"),
-                              ("valide", "Validé")], string="Etat", default="get_data")
+                              ("valide", "Validé"),
+                              ('modified', 'Modifié par le risque')], string="Etat", default="get_data")
 
     @api.model
     def create(self, vals):
         vals['name'] = self.env['ir.sequence'].next_by_code('import.ocr.passif.seq')
         return super(ImportPassifOCR, self).create(vals)
 
+    def open_file(self):
+        for rec in self:
+            view_id = self.env.ref('financial_modeling.extract_bilan_wizard_form').id
+            context = dict(self.env.context or {})
+            context['pdf_1'] = rec.file_import
+            context['passif_id'] = rec.id
+            wizard = self.env['extract.bilan.wizard'].create({'pdf_1': rec.file_import})
+            return {
+                'name': 'Passif',
+                'type': 'ir.actions.act_window',
+                'view_mode': 'form',
+                'res_model': 'extract.bilan.wizard',
+                'res_id': wizard.id,
+                'view_id': view_id,
+                'target': 'new',
+                'context': context,
+            }
     def extract_data(self):
         for rec in self:
             if rec.file_import:

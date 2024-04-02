@@ -14,5 +14,20 @@
                 </form>
             </field>
         </record>
+        <record model="ir.ui.view" id="extract_bilan_wizard_form">
+            <field name="name">extract.bilan.wizard.form</field>
+            <field name="model">extract.bilan.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    الملف
+                    <field name="pdf_1" widget="pdf_viewer" invisible="pdf_1 == False"/>
+                    <field name="pdf_2" widget="pdf_viewer" invisible="pdf_2 == False"/>
+                    <footer>
+                        <button name="cancel" type="object" string="اغلاق" class="btn-secondary"/>
+                        <button name="confirm" type="object" string="تاكيد" class="btn-primary"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
     </data>
 </odoo>

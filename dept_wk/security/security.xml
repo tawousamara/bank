@@ -63,7 +63,6 @@
         <field name="implied_ids"
                eval="[(4, ref('base.group_user'))]"/>
     </record>
-
     <record id="dept_wk_group_responsable_commercial" model="res.groups">
         <field name="name">Responsable Commercial</field>
         <field name="category_id"

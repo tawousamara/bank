@@ -17,8 +17,8 @@
             <field name="inherit_id" ref="mail.mail_message_view_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='email_from']" position="after">
-                    <field name="parent_res_id" />
-                    <field name="parent_res_model" />
+                    <field name="parent_res_id"/>
+                    <field name="parent_res_model"/>
                 </xpath>
             </field>
         </record>
@@ -50,6 +50,20 @@
                     <footer>
                         <button name="confirm" type="object" string="Confirmer" class="btn-primary"/>
                         <button name="cancel" type="object" string="Annuler" class="btn-secondary"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_bilan_wizard_form">
+            <field name="name">view.bilan.wizard.form</field>
+            <field name="model">view.bilan.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    الملف
+                    <field name="pdf_1" widget="pdf_viewer" invisible="pdf_1 == False"/>
+                    <field name="pdf_2" widget="pdf_viewer" invisible="pdf_2 == False"/>
+                    <footer>
+                        <button name="cancel" type="object" string="اغلاق" class="btn-secondary"/>
                     </footer>
                 </form>
             </field>

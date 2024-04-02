@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data noupdate="1">
+    <data>
         <!-- List type credit -->
         <record id="product_1" model="wk.product">
             <field name="name">بيع اجل/ مرابحة محلية</field>

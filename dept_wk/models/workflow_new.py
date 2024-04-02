@@ -26,7 +26,7 @@ class Workflow(models.Model):
     currency_id = fields.Many2one('res.currency', related='company_id.currency_id')
     chiffre_affaire = fields.Monetary(string='راس المال الشركة', currency_field='currency_id',related='nom_client.chiffre_affaire')
     montant_demande = fields.Float(string='المبلغ المطلوب')
-
+    active = fields.Boolean(default=True)
     risk_scoring = fields.Many2one('risk.scoring', string='إدارة المخاطر')
     workflow_old = fields.Many2one('wk.workflow.dashboard', string='ملف سابق',)
     explanation = fields.Text(string='الغرض من الطلب')
@@ -140,6 +140,7 @@ def get_values(workflow, etape):
             'cycle_exploit': etape.cycle_exploit,
             'concurrence': etape.concurrence,
             'program_invest': etape.program_invest,
+            'annee_fiscal_list' : etape.annee_fiscal_list.id,
             'result_visit': etape.result_visit,
             'recommendation_visit': etape.recommendation_visit,
             'recommendation_responsable_agence': etape.recommendation_responsable_agence,
@@ -163,7 +164,7 @@ def get_values(workflow, etape):
             'passif_group': etape.passif_group.id,
             'tcr_group': etape.tcr_group.id,
             'visualisation2': etape.visualisation2,
-
+            'annee_fiscal_list': etape.annee_fiscal_list.id,
             'visualisation1': etape.visualisation1,
             'description_prjt_invest': etape.description_prjt_invest,
             'actif_invest': etape.actif_invest,
@@ -213,6 +214,7 @@ def get_values(workflow, etape):
             'unit_prod': etape.unit_prod,
             'stock': etape.stock,
             'prod_company': etape.prod_company,
+            'annee_fiscal_list': etape.annee_fiscal_list.id,
             'politique_comm': etape.politique_comm,
             'cycle_exploit': etape.cycle_exploit,
             'concurrence': etape.concurrence,
@@ -240,6 +242,7 @@ def get_values(workflow, etape):
             'nom_client': etape.nom_client.id,
             'branche': etape.branche.id,
             'gerant': etape.gerant.id,
+            'annee_fiscal_list': etape.annee_fiscal_list.id,
             'recommendation_visit': etape.recommendation_visit,
             'recommendation_responsable_agence': etape.recommendation_responsable_agence,
             'recommendation_dir_commercial': etape.recommendation_dir_commercial,

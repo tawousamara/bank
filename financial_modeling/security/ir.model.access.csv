@@ -123,3 +123,4 @@ access_scoring_configuration_data_system,access.scoring.configuration.data.syste
 
 access_scoring_kpi_cumule_line_user,access.scoring.kpi.cumule.line.user,model_scoring_kpi_cumule_line,base.group_user,1,1,1,1
 access_scoring_kpi_cumule_line_system,access.scoring.kpi.cumule.line.system,model_scoring_kpi_cumule_line,base.group_system,1,1,1,1
+access_extract_bilan_wizard_system,access.extract.bilan.wizard.system,model_extract_bilan_wizard,base.group_user,1,1,1,1

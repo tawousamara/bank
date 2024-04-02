@@ -9,21 +9,11 @@
                       name="طلبات التمويل"
                       sequence="1"
                       action="wk_workflow_dashboard_action"/>
-            <menuitem
-                    name="Dashboard"
-                    action="open_simple_dashboard_action"
-                    sequence="2"
-                    id="dashboard_menu"
-            />
+
             <menuitem id="wk_contact_menu"
                       name="جهات الاتصال"
                       sequence="3"
                       action="contacts.action_contacts"/>
-            <menuitem id="wk_reporting_menu"
-                      name="Reporting"
-                      sequence="4"
-                      action="wk_analyse_performence_action"/>
-
             <menuitem id="wk_configuration_menu"
                       name="Configuration"
                       groups="dept_wk.dept_wk_group_administration"

@@ -48,7 +48,7 @@
                 <field name="wilaya"/>
                 <field name="commune"/>
                 <field name="ref"/>
-                <field name="wilaya_id" invisible="1"/>
+                <field name="wilaya_id" />
             </tree>
         </field>
     </record>

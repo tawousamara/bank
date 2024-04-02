@@ -29,15 +29,16 @@
                             class="btn-secondary"/>
                     <button name="reject_request" type="object" string="رفض الطلب"
                             class="btn-secondary"/>
-                    <button name="verrouiller_dossier" type="object" string="ملف مقبول" groups="dept_wk.dept_wk_group_analyste"
-                            invisible="state_finance != 'finance_2'"
+                    <button name="verrouiller_dossier" type="object" string="ملف مقبول"
+                            groups="dept_wk.dept_wk_group_analyste"
+                            invisible="state_finance != 'finance_2' or dossier_verouiller"
                             class="btn-primary"/>
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                         <button name="open_tracking"
                                 type="object"
-                                icon="fa-history" />
+                                icon="fa-history"/>
                         <button name="open_messages"
                                 type="object"
                                 icon="fa-regular fa-envelope"/>
@@ -64,7 +65,8 @@
                         <group col="1">
                             <group>
                                 <field name="nom_client" readonly="state_branch != 'branch_1' and sequence != 8"
-                                       context="{'default_is_client':True}" options="{'no_create': True, 'no_open': True}"
+                                       context="{'default_is_client':True}"
+                                       options="{'no_create': True, 'no_open': True}"
                                        domain="[('is_client', '=', True)]"/>
                                 <field name="num_compte" readonly="1"/>
                                 <field name="date_ouverture_compte" readonly="1"/>
@@ -83,20 +85,21 @@
                             </div>
                             <field name="documents" nolabel="1"
                                    readonly="state_branch not in ['branch_1','branch_2', 'branch_3']">
-                                <tree editable="bottom">
-                                    <field name="list_document"/>
+                                <tree editable="bottom" delete="0">
+                                    <field name="filename"/>
                                     <field name="document" widget="binary" filename="filename"
                                            readonly="checked == True"/>
                                     <field name="answer" readonly="checked == True"/>
                                     <field name="note" readonly="checked == True"/>
                                     <field name="checked" column_invisible="True"/>
-                                    <field name="filename" column_invisible="True"/>
+                                    <field name="list_document" column_invisible="True"/>
                                 </tree>
                             </field>
                         </div>
                         <group string="تقرير الزيارة" col="2" invisible="sequence not in [1,8]">
                             <group>
-                                <field name="classification" readonly="1" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="classification" readonly="1"
+                                       options="{'no_create': True, 'no_open': True}"/>
                                 <field name="adress_siege" readonly="1"/>
                                 <field name="wilaya" readonly="1" options="{'no_create': True, 'no_open': True}"/>
                                 <field name="nif" readonly="1"/>
@@ -104,7 +107,7 @@
                                 <field name="date_inscription" readonly="1"/>
                                 <field name="date_debut_activite" readonly="1"/>
                                 <field name="activite" readonly="1" options="{'no_create': True, 'no_open': True}"/>
-                                <field name="activite_sec" readonly="1" />
+                                <field name="activite_sec" readonly="1"/>
                             </group>
                             <group>
                                 <field name="activity_code" readonly="1"/>
@@ -115,7 +118,7 @@
                                 <field name="gerant" readonly="state_branch != 'branch_1' and sequence != 8"
                                        options="{'no_create': True, 'no_open': True}"
                                        context="{'default_parent_id': nom_client, 'default_is_client':True}"/>
-                                <field name="partner_id" readonly="1"/>
+                                <field name="partner_id" readonly="1" invisible="1"/>
                                 <field name="phone_gerant" readonly="1"/>
                                 <field name="email_gerant" readonly="1"/>
                                 <field name="email_to" invisible="1"/>
@@ -136,7 +139,7 @@
                                         <field name="age"/>
                                         <field name="statut_partenaire"/>
                                         <field name="nationalite"/>
-                                        <field name="pourcentage" sum="Total"/>
+                                        <field name="pourcentage" sum="Total" widget="percentage"/>
                                     </tree>
                                 </field>
                             </page>
@@ -181,7 +184,8 @@
                             <page string="حجم و هيكل التمويلات المطلوبة">
                                 <field name="tailles" readonly="state_branch != 'branch_3' and sequence != 8">
                                     <tree editable="bottom">
-                                        <field name="type_demande" options="{'no_create': True, 'no_open': True}" width="20%"/>
+                                        <field name="type_demande" options="{'no_create': True, 'no_open': True}"
+                                               width="20%"/>
                                         <field name="montant" sum="Total" width="20%"/>
                                         <field name="raison" width="20%"/>
                                         <field name="preg" widget="percentage" width="20%"/>
@@ -204,9 +208,12 @@
                                             <field name="garanties"/>
                                         </tree>
                                     </field>
+                                    <group>
+                                        <field name="annee_fiscal_list" options="{'no_create': True,'no_open': True}"/>
+                                    </group>
                                     <field name="situations_fin"
                                            readonly="state_branch != 'branch_3' and sequence != 8">
-                                        <tree editable="bottom">
+                                        <tree editable="bottom" delete="0" create="0">
                                             <field name="type" readonly="sequence == 0"
                                                    decoration-bf="sequence == 0"/>
                                             <field name="year1" readonly="sequence == 0"
@@ -337,7 +344,7 @@
                                     </tree>
                                 </field>
                                 <group>
-                                    <field name="garantie_propose_comment" />
+                                    <field name="garantie_propose_comment"/>
                                 </group>
                             </page>
                             <page string='الشروط السابقة/المقترحة و الموافق عليها من لجان التمويل'>
@@ -383,7 +390,8 @@
                                 </group>
                                 <field name="risque_central"
                                        readonly="state_finance != 'finance_2'">
-                                    <tree create="0" delete="0"> <!-- a ajouter la fonctionnalité de suppression pour bloque le total-->
+                                    <tree create="0"
+                                          delete="0"> <!-- a ajouter la fonctionnalité de suppression pour bloque le total-->
                                         <field name="declaration" readonly="1"/>
                                         <field name="montant_esalam_dz_donne"/>
                                         <field name="montant_esalam_dollar_donne" optional="hide"/>
@@ -408,17 +416,17 @@
                             <page string="الوضعية الجبائية وشبه الجبائية">
                                 <field name="position_tax" readonly="state_finance != 'finance_2'">
                                     <tree editable="bottom" create="0" delete="0">
-                                        <field name="name"/>
+                                        <field name="name" readonly="1"/>
                                         <field name="adversite"/>
                                         <field name="non_adversite"/>
                                         <field name="notes"/>
                                     </tree>
                                 </field>
                             </page>
-                            <page string="الحركة والأعمال الجانبية للحساب مع مصرف السلام الجزائر (KDA)" invisible="1">
+                            <page string="الحركة والأعمال الجانبية للحساب مع مصرف السلام الجزائر (KDA)">
                                 <field name="mouvement" readonly="state_finance != 'finance_2'">
                                     <tree create="0" delete="0" editable="bottom">
-                                        <field name="mouvement" decoration-bf="sequence == 0" />
+                                        <field name="mouvement" decoration-bf="sequence == 0" readonly="1"/>
                                         <field name="n3_dz" decoration-bf="sequence == 0" readonly="sequence == 0"/>
                                         <field name="n3_dollar" optional="hide" readonly="sequence == 0"/>
                                         <field name="n2_dz" decoration-bf="sequence == 0" readonly="sequence == 0"/>
@@ -433,7 +441,7 @@
                                 </field>
                             </page>
                         </notebook>
-                        <notebook invisible="state_finance == 'finance_1' or sequence != 2" >
+                        <notebook invisible="state_finance == 'finance_1' or sequence != 2">
                             <page string="معلومات حول الشركات ذات الصلة (KDA)">
                                 <field name="companies" readonly="state_finance != 'finance_2'">
                                     <tree editable="bottom">
@@ -472,7 +480,7 @@
                                 </group>
                                 <field name="companies_fisc" readonly="state_finance != 'finance_2'">
                                     <tree editable="bottom" create="0" delete="0">
-                                        <field name="declaration" readonly="sequence == 0"
+                                        <field name="declaration" readonly="1"
                                                decoration-bf="sequence == 0"/>
                                         <field name="year_3" readonly="sequence == 0" decoration-bf="sequence == 0"/>
                                         <field name="year_4" readonly="sequence == 0" decoration-bf="sequence == 0"/>
@@ -501,7 +509,7 @@
                                     </tree>
                                 </field>
                             </page>
-                            <page string="الحركة والأعمال الجانبية للمجموعة مع مصرف السلام الجزائر (KDA)">
+                            <page string="الحركة والأعمال الجانبية للمجموعة مع مصرف السلام الجزائر (KDA)" invisible="1">
                                 <field name="mouvement_group" readonly="state_finance != 'finance_2'">
                                     <tree editable="bottom">
                                         <field name="company" readonly="'السنة' == company"/>
@@ -847,7 +855,7 @@
                         <h3 invisible="state_finance == 'finance_1'">توصية المحلل المالي</h3>
                         <group invisible="state_finance == 'finance_1'">
                             <field name="recommandation_analyste_fin" readonly="state_finance != 'finance_2'"/>
-                            <field name="facilite_propose" readonly="state_finance != 'finance_2'" >
+                            <field name="facilite_propose" readonly="state_finance != 'finance_2'">
                                 <tree editable="bottom">
                                     <field name="type_facilite" options="{'no_create': True}"/>
                                     <field name="montant_dz" sum="Total"/>
@@ -893,7 +901,8 @@
                     </div>
                     <div invisible="sequence not in [4,5,6]">
                         <group>
-                            <field name="assigned_to_risque" readonly="state_risque != 'risque_1'" options="{'no_create': True, 'no_open': True}"
+                            <field name="assigned_to_risque" readonly="state_risque != 'risque_1'"
+                                   options="{'no_create': True, 'no_open': True}"
                                    invisible="sequence not in [4,5]"/>
                         </group>
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data noupdate="1">
+    <data>
         <!-- Liste des activites -->
         <record id="activite_1" model="wk.activite">
             <field name="name">01</field>

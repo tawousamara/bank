@@ -69,6 +69,7 @@
                     <field name="rc"/>
                 </group>
                 <group>
+                    <field name="activite_salam"/>
                     <field name="activity_code"/>
                     <field name="activity_description"/>
                     <field name="activite_sec"/>

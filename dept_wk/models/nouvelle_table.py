@@ -57,7 +57,7 @@ class Taillefin(models.Model):
     raison = fields.Char(string='الغرض من التمويل')
     garanties = fields.Many2many('wk.garanties', string='الضمانات المقترحة')
     preg = fields.Float( string='هامش الجدية')
-    duree = fields.Integer( string='المدة (الاشهر)')
+    duree = fields.Integer( string='المدة (الايام)')
     etape_id = fields.Many2one('wk.etape')
 
 
@@ -201,6 +201,7 @@ class Partner(models.Model):
     date_inscription = fields.Date(string='تاريخ القيد في السجل التجاري')
     date_debut_activite = fields.Date(string='تاريخ بداية النشاط')
     activite = fields.Many2one('wk.activite', string='النشاط الرئيسي حسب بنك الجزائر')
+    activite_salam = fields.Many2one('wk.activite.salam', string='النشاط الرئيسي حسب بنك السلام')
     activite_second = fields.Many2one('wk.secteur',string='رمز النشاط الثانوي في السجل التجاري')
     activite_sec = fields.Char(string='رمز النشاط الثانوي في السجل التجاري')
     forme_jur = fields.Many2one('wk.forme.jur', string='الشكل القانوني')
@@ -247,6 +248,12 @@ class Year(models.Model):
     _name = 'wk.year'
 
     name = fields.Char(string='Annee')
+
+
+class ActivitieSalam(models.Model):
+    _name = 'wk.activite.salam'
+
+    name = fields.Char(string='النشاط')
 
 
 class States(models.Model):

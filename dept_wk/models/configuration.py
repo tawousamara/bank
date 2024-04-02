@@ -14,11 +14,19 @@ class Agence(models.Model):
     def compute_ref(self):
         for rec in self:
             wilaya = self.env['wk.wilaya'].search([('name', '=', rec.wilaya)])
+            commune = self.env['wk.commune'].search([('name', '=', rec.commune),
+                                                     ('domaine', '=', rec.wilaya)])
+            print(wilaya)
+            print(commune)
+            print(commune.description)
             if wilaya:
-                rec.ref = rec.name + '-' + wilaya.domaine
+
                 rec.wilaya_id = wilaya.id
             else:
                 rec.wilaya_id = False
+            if commune:
+                print(commune.description)
+                rec.ref = rec.name + '-' + commune.description
 
     def create_folder(self):
         for rec in self:

@@ -16,7 +16,7 @@
     </record>
 
     <record id="risk_configuration_risque_action" model="ir.actions.act_window">
-        <field name="name">Configuration de chiffre d'affaire</field>
+        <field name="name">Configuration de Fond propre de la banque</field>
         <field name="res_model">configuration.risque</field>
         <field name="view_mode">tree</field>
     </record>

@@ -141,6 +141,31 @@ class Confirmation(models.TransientModel):
             if etape:
                 etape.write({'dossier_verouiller': self.env.context.get('verrouiller')})
                 print('1')
+        elif self.env.context.get('to_validate'):
+            etape = self.env['wk.etape'].search([('id', '=', self.env.context.get('etape'))])
+            etape.validate_information_function()
+
+
+
+class BilanViewer(models.TransientModel):
+    _name = 'view.bilan.wizard'
+    _description = 'Viewing Files wizard'
+
+    pdf_1 = fields.Binary(string='PDF')
+    pdf_2 = fields.Binary(string='PDF')
+
+    def cancel(self):
+        return {'type': 'ir.actions.act_window_close'}
+
+    def confirm(self):
+        """print("send")
+        print(self.env.context.get('active_ids')[0])
+        print(self.env.context)
+        if self.env.context.get('tcr_id'):
+            tcr_id = self.env['import.ocr.tcr'].search([('id', '=', self.env.context.get('tcr_id'))])
+            self.pdf_1 = tcr_id.file_import
+            self.pdf_2 = tcr_id.file_import2"""
+
 
 
 class Mail(models.Model):

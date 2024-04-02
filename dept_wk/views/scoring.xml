@@ -13,14 +13,17 @@
                 <field name="name"/>
                 <field name="date"/>
                 <field name="partner_id"/>
-                <field name="annee_fiscal"/>
-                <field name="secteur"/>
-                <field name="groupe"/>
-                <field name="max_limit"/>
+                <field name="branche" />
+                <field name="annee_fiscal" optional="hide"/>
+                <field name="secteur" />
+                <field name="groupe" optional="hide"/>
+                <field name="taille" optional="hide"/>
+                <field name="max_limit" optional="show"/>
                 <field name="resultat_scoring"/>
                 <field name="classif"/>
                 <field name="niveau_risque"/>
                 <field name="chiffre_affaire"/>
+                <field name="ca_banque"/>
             </tree>
         </field>
     </record>
@@ -42,19 +45,46 @@
                         <field name="partner_id"/>
                         <field name="groupe"/>
                         <field name="date"/>
-                        <field name="critere_qual"/>
-                        <field name="critere_quant"/>
+                        <field name="critere_qual" invisible="is_branch" readonly="1"/>
+                        <field name="critere_quant" invisible="is_branch" readonly="1"/>
                         <field name="groupe" invisible="1"/>
-                        <field name="tcr_id" readonly="1" groups="dept_wk.dept_wk_group_responsable_credit"/>
-                        <field name="passif_id" readonly="1" groups="dept_wk.dept_wk_group_responsable_credit"/>
-                        <field name="actif_id" readonly="1" groups="dept_wk.dept_wk_group_responsable_credit"/>
+                        <field name="is_branch" invisible="1"/>
+                    </group>
+                    <group class="col-3">
+                        <group>
+                            <field name="tcr_id" readonly="1" groups="dept_wk.dept_wk_group_responsable_credit"
+                                   style="display: inline-block;"/>
+                        </group>
+                        <group>
+                            <button name="open_file" string="" icon="fa-eye" type="object"
+                                    style="display: inline-block;color: #808080; background-color: white"/>
+                        </group>
+                    </group>
+                    <group class="col-3">
+                        <group>
+                            <field name="passif_id" readonly="1" groups="dept_wk.dept_wk_group_responsable_credit"
+                                   style="display: inline-block;"/>
+                        </group>
+                        <group>
+                            <button name="open_file_passif" string="" icon="fa-eye" type="object"
+                                    style="display: inline-block;color: #808080; background-color: white"/>
+                        </group>
+                    </group>
+                    <group class="col-3">
+                        <group>
+                            <field name="actif_id" readonly="1" groups="dept_wk.dept_wk_group_responsable_credit"/>
+                        </group>
+                        <group>
+                            <button name="open_file_actif" string="" icon="fa-eye" type="object"
+                                    style="display: inline-block;color: #808080; background-color: white"/>
+                        </group>
                     </group>
                     <notebook>
                         <page string="المعايير النوعية">
                             <group>
-                                <field name="scoring_qualitatif"/>
+                                <field name="scoring_qualitatif" invisible="is_branch" readonly="1"/>
                             </group>
-                            <group col="2">
+                            <group col="2" string="الإدارة، التسيير و الخبرة">
                                 <field name="original_capital" options="{'no_create': True, 'no_open': True}"/>
                                 <field name="comment_origin"/>
                                 <field name="actionnariat" options="{'no_create': True, 'no_open': True}"/>
@@ -67,12 +97,16 @@
                                 <field name="comment_competence"/>
                                 <field name="experience" options="{'no_create': True, 'no_open': True}"/>
                                 <field name="comment_experience"/>
+                            </group>
+                            <group string="إستقرار قطاع النشاط">
                                 <field name="soutien_etatic" options="{'no_create': True, 'no_open': True}"/>
                                 <field name="comment_soutien_etatic"/>
                                 <field name="activite" options="{'no_create': True, 'no_open': True}"/>
                                 <field name="comment_activite"/>
                                 <field name="influence_tech" options="{'no_create': True, 'no_open': True}"/>
                                 <field name="comment_influence_tech"/>
+                            </group>
+                            <group string="مكانة الشركة في القطاع">
                                 <field name="anciennete" options="{'no_create': True, 'no_open': True}"/>
                                 <field name="comment_anciennete"/>
                                 <field name="concurrence" options="{'no_create': True, 'no_open': True}"/>
@@ -81,14 +115,16 @@
                                 <field name="comment_source_appro"/>
                                 <field name="produit" options="{'no_create': True, 'no_open': True}"/>
                                 <field name="comment_produit"/>
-                            </group>
-                            <group>
                                 <field name="flexibilite" options="{'no_create': True, 'no_open': True}"/>
                                 <field name="comment_flexibilite"/>
+                            </group>
+                            <group string="القروض و الأملاك">
                                 <field name="sollicitude" options="{'no_create': True, 'no_open': True}"/>
                                 <field name="comment_sollicitude"/>
                                 <field name="situation" options="{'no_create': True, 'no_open': True}"/>
                                 <field name="comment_situation"/>
+                            </group>
+                            <group string="علاقة الشركة مع المصرف">
                                 <field name="mouvement" options="{'no_create': True, 'no_open': True}"/>
                                 <field name="comment_mouvement"/>
                                 <field name="garanties" options="{'no_create': True, 'no_open': True}"/>
@@ -97,14 +133,20 @@
                                 <field name="comment_incident"/>
                                 <field name="conduite" options="{'no_create': True, 'no_open': True}"/>
                                 <field name="comment_conduite"/>
+                            </group>
+                            <group string="علاقة الشركة مع الإدارات المميزة">
                                 <field name="dette_fisc" options="{'no_create': True, 'no_open': True}"/>
                                 <field name="comment_dette_fisc"/>
                                 <field name="dette_parafisc" options="{'no_create': True, 'no_open': True}"/>
                                 <field name="comment_dette_parafisc"/>
                                 <field name="position_admin" options="{'no_create': True, 'no_open': True}"/>
                                 <field name="comment_position_admin"/>
+                            </group>
+                            <group string="مصادر التسديد">
                                 <field name="source_remb" options="{'no_create': True, 'no_open': True}"/>
                                 <field name="comment_source_remb"/>
+                            </group>
+                            <group string="مركزية محفظة المصرف">
                                 <field name="part_profil" options="{'no_create': True, 'no_open': True}"/>
                                 <field name="comment_part_profil"/>
                             </group>
@@ -151,59 +193,96 @@
                                         </group>
                                         <notebook>
                                             <page string="المعايير النوعية">
-                                                <group col="2">
+                                                <group col="2" string="الإدارة، التسيير و الخبرة">
                                                     <field name="original_capital"
                                                            options="{'no_create': True, 'no_open': True}"/>
+                                                    <field name="comment_origin"/>
                                                     <field name="actionnariat"
                                                            options="{'no_create': True, 'no_open': True}"/>
+                                                    <field name="comment_actionnariat"/>
                                                     <field name="forme_jur"
                                                            options="{'no_create': True, 'no_open': True}"/>
+                                                    <field name="comment_forme_jur"/>
                                                     <field name="remp_succession"
                                                            options="{'no_create': True, 'no_open': True}"/>
+                                                    <field name="comment_remp_succession"/>
                                                     <field name="competence"
                                                            options="{'no_create': True, 'no_open': True}"/>
+                                                    <field name="comment_competence"/>
                                                     <field name="experience"
                                                            options="{'no_create': True, 'no_open': True}"/>
+                                                    <field name="comment_experience"/>
+                                                </group>
+                                                <group string="إستقرار قطاع النشاط">
                                                     <field name="soutien_etatic"
                                                            options="{'no_create': True, 'no_open': True}"/>
+                                                    <field name="comment_soutien_etatic"/>
                                                     <field name="activite"
                                                            options="{'no_create': True, 'no_open': True}"/>
+                                                    <field name="comment_activite"/>
                                                     <field name="influence_tech"
                                                            options="{'no_create': True, 'no_open': True}"/>
+                                                    <field name="comment_influence_tech"/>
+                                                </group>
+                                                <group string="مكانة الشركة في القطاع">
                                                     <field name="anciennete"
                                                            options="{'no_create': True, 'no_open': True}"/>
+                                                    <field name="comment_anciennete"/>
                                                     <field name="concurrence"
                                                            options="{'no_create': True, 'no_open': True}"/>
+                                                    <field name="comment_concurrence"/>
                                                     <field name="source_appro"
                                                            options="{'no_create': True, 'no_open': True}"/>
+                                                    <field name="comment_source_appro"/>
                                                     <field name="produit"
                                                            options="{'no_create': True, 'no_open': True}"/>
-                                                </group>
-                                                <group>
+                                                    <field name="comment_produit"/>
                                                     <field name="flexibilite"
                                                            options="{'no_create': True, 'no_open': True}"/>
+                                                    <field name="comment_flexibilite"/>
+                                                </group>
+                                                <group string="القروض و الأملاك">
                                                     <field name="sollicitude"
                                                            options="{'no_create': True, 'no_open': True}"/>
+                                                    <field name="comment_sollicitude"/>
                                                     <field name="situation"
                                                            options="{'no_create': True, 'no_open': True}"/>
+                                                    <field name="comment_situation"/>
+                                                </group>
+                                                <group string="علاقة الشركة مع المصرف">
                                                     <field name="mouvement"
                                                            options="{'no_create': True, 'no_open': True}"/>
+                                                    <field name="comment_mouvement"/>
                                                     <field name="garanties"
                                                            options="{'no_create': True, 'no_open': True}"/>
+                                                    <field name="comment_garantie"/>
                                                     <field name="incident"
                                                            options="{'no_create': True, 'no_open': True}"/>
+                                                    <field name="comment_incident"/>
                                                     <field name="conduite"
                                                            options="{'no_create': True, 'no_open': True}"/>
+                                                    <field name="comment_conduite"/>
+                                                </group>
+                                                <group string="علاقة الشركة مع الإدارات المميزة">
                                                     <field name="dette_fisc"
                                                            options="{'no_create': True, 'no_open': True}"/>
+                                                    <field name="comment_dette_fisc"/>
                                                     <field name="dette_parafisc"
                                                            options="{'no_create': True, 'no_open': True}"/>
+                                                    <field name="comment_dette_parafisc"/>
                                                     <field name="position_admin"
                                                            options="{'no_create': True, 'no_open': True}"/>
+                                                    <field name="comment_position_admin"/>
+                                                </group>
+                                                <group string="مصادر التسديد">
                                                     <field name="source_remb"
                                                            options="{'no_create': True, 'no_open': True}"/>
+                                                    <field name="comment_source_remb"/>
+                                                </group>
+                                                <group string="مركزية محفظة المصرف">
                                                     <field name="part_profil"
                                                            options="{'no_create': True, 'no_open': True}"/>
+                                                    <field name="comment_part_profil"/>
                                                 </group>
                                             </page>
                                         </notebook>
@@ -302,19 +381,30 @@
                             <field name="vis5" widget="image" invisible="vis5 == False"/>
                         </page>
                         <page string="تنقيط" groups="dept_wk.dept_wk_group_responsable_credit">
-                            <button name="calcul_limit" string="Calculer la limite" class="btn-primary" type="object"/>
+                            <group col="2">
+                                <group col="2">
+                                    <field name="ca_banque"/>
+                                    <field name="resultat_scoring" readonly="1"/>
+                                </group>
+                                <group col="2">
+                                    <field name="chiffre_affaire" readonly="1"/>
+                                    <field name="niveau_risque" readonly="1"/>
+                                    <field name="taille" />
+                                </group>
+                            </group>
+                            <button name="calcul_limit" class="col-3 btn-primary" string="Calculer la limite"
+                                    type="object"/>
                             <group>
-                                <field name="ca_banque"/>
-                                <field name="limit_25" readonly="1"/>
                                 <field name="resultat_scoring" readonly="1"/>
+                                <field name="limit_25" readonly="1"/>
                                 <field name="max_limit" readonly="1"/>
                                 <field name="case_25" readonly="1"/>
                             </group>
-
                         </page>
                         <page string="SWOT" groups="dept_wk.dept_wk_group_responsable_credit">
                             <div>
-                                <div class="swot_table" style="margin-bottom: 10px; margin-right: 5px; margin-left: 5px;">
+                                <div class="swot_table"
+                                     style="margin-bottom: 10px; margin-right: 5px; margin-left: 5px;">
                                     <field name="weakness_ids" style="background-color: #F4A460;" class="swot_element">
                                         <tree editable="bottom">
                                             <field name="name"/>
@@ -351,6 +441,10 @@
         <field name="model">risk.scoring</field>
         <field name="arch" type="xml">
             <search>
+                <field name="partner_id"/>
+                <field name="branche"/>
+                <field name="groupe"/>
+                <field name="num_compte"/>
                 <group expand="0" name="group_by" string="Group By">
                     <filter name="client" string="العميل" domain="[]" context="{'group_by' : 'partner_id'}"/>
                     <filter name="secteur" string="النشاط" context="{'group_by': 'secteur'}"/>

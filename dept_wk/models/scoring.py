@@ -24,7 +24,13 @@ class Scoring(models.Model):
     parent_id = fields.Many2one('wk.workflow.dashboard', default=lambda self: self._context.get('parent_id'))
     partner_id = fields.Many2one('res.partner',  store=True, string='العميل')
     secteur = fields.Many2one('wk.activite', related='partner_id.activite', store=True)
-    groupe = fields.Many2one('res.partner', related='partner_id.groupe', store=True , string='المجموعة')
+    groupe = fields.Many2one('res.partner', related='partner_id.groupe', store=True, string='المجموعة')
+    branche = fields.Many2one('wk.agence', related='partner_id.branche', store=True, string='الفرع')
+    num_compte = fields.Char(related='partner_id.num_compte', store=True, string='رقم الحساب')
+    taille = fields.Selection([('tpe', 'TPE'),
+                               ('pe', 'Petite entreprise'),
+                               ('me', 'ME'),
+                               ('ge', 'GE')], string='حجم الشركة')
     critere_qual = fields.Many2one('risk.critere.qualitatif', string='Critères Qualitatifs', default=1)
     critere_quant = fields.Many2one('risk.critere.quantitatif', string='Critères Quantitatifs', default=1)
 
@@ -141,6 +147,14 @@ class Scoring(models.Model):
     strength_ids = fields.One2many('wk.swot.strength', 'risk_id')
     threat_ids = fields.One2many('wk.swot.threat', 'risk_id')
     opportunitie_ids = fields.One2many('wk.swot.opportunitie', 'risk_id')
+    is_branch = fields.Boolean(string='Est dans l\'agence', compute='compute_level')
+
+    def compute_level(self):
+        for rec in self:
+            if not self.env.user.has_group('dept_wk.dept_wk_group_responsable_credit'):
+                rec.is_branch = True
+            else:
+                rec.is_branch = False
 
     def compute_annee(self):
         for rec in self:
@@ -429,7 +443,57 @@ class Scoring(models.Model):
                     rec.case_25 = rec.ca_banque * (24 / 100)
                 elif 950 <= rec.resultat_scoring <= 1000:
                     rec.case_25 = rec.ca_banque * (25 / 100)
+    def open_file(self):
+        for rec in self:
+            view_id = self.env.ref('dept_wk.view_bilan_wizard_form').id
+            context = dict(self.env.context or {})
+            context['pdf_1'] = rec.tcr_id.file_import
+            context['pdf_2'] = rec.tcr_id.file_import2
+            wizard = self.env['view.bilan.wizard'].create({'pdf_1': rec.tcr_id.file_import,
+                                                  'pdf_2': rec.tcr_id.file_import2})
+            return {
+                'name': 'TCR',
+                'type': 'ir.actions.act_window',
+                'view_mode': 'form',
+                'res_model': 'view.bilan.wizard',
+                'res_id': wizard.id,
+                'view_id': view_id,
+                'target': 'new',
+                'context': context,
+            }
+    def open_file_passif(self):
+        for rec in self:
+            view_id = self.env.ref('dept_wk.view_bilan_wizard_form').id
+            context = dict(self.env.context or {})
+            context['pdf_1'] = rec.passif_id.file_import
+            wizard = self.env['view.bilan.wizard'].create({'pdf_1': rec.passif_id.file_import})
+            return {
+                'name': 'Passif',
+                'type': 'ir.actions.act_window',
+                'view_mode': 'form',
+                'res_model': 'view.bilan.wizard',
+                'res_id': wizard.id,
+                'view_id': view_id,
+                'target': 'new',
+                'context': context,
+            }
 
+    def open_file_actif(self):
+        for rec in self:
+            view_id = self.env.ref('dept_wk.view_bilan_wizard_form').id
+            context = dict(self.env.context or {})
+            context['pdf_1'] = rec.actif_id.file_import
+            wizard = self.env['view.bilan.wizard'].create({'pdf_1': rec.actif_id.file_import})
+            return {
+                'name': 'Actif',
+                'type': 'ir.actions.act_window',
+                'view_mode': 'form',
+                'res_model': 'view.bilan.wizard',
+                'res_id': wizard.id,
+                'view_id': view_id,
+                'target': 'new',
+                'context': context,
+            }
     def create_graphs(self):
         for rec in self:
             data = {'RS1': rec.res_quant_1 / 150,

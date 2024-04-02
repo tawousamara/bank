@@ -26,13 +26,13 @@
         <field name="arch" type="xml">
             <form string="Import passif">
                 <header>
-                    <button name="extract_data" string="Extraire les informations"
-                            class="btn-primary" type="object"/>
+                    <button name="open_file" string="Extraire les informations"
+                            class="btn-primary" type="object" invisible="state != 'get_data'"/>
                     <button name="action_validation" string="Valider"
-                            class="btn-primary" type="object"/>
+                            class="btn-primary" type="object" invisible="state in ['get_data', 'valide','modified']"/>
                     <button name="action_annulation" string="Annuler la validation"
-                            class="btn-secondary" type="object"/>
-                    <field name="state" widget="statusbar" nolabel="1"/>
+                            class="btn-secondary" type="object" invisible="state not in ['modified', 'valide']"/>
+                    <field name="state" widget="statusbar" nolabel="1"  statusbar_visible="get_data,validation,valide" />
                 </header>
                 <sheet>
                     <div>

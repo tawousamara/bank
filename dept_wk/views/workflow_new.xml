@@ -89,6 +89,7 @@
                                        options="{'no_create': True, 'no_open': True}"/>
                                 <field name="lanced" invisible="1"/>
                                 <field name="is_new" invisible="1"/>
+                                <field name="active" invisible="1"/>
                                 <field name="is_renew" invisible="1"/>
                                 <field name="is_delete" invisible="1"/>
                                 <field name="is_modify" invisible="1"/>
