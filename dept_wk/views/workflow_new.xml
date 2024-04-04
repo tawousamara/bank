@@ -10,7 +10,7 @@
         <field name="name">طلب التمويل</field>
         <field name="res_model">wk.workflow.dashboard</field>
         <field name="view_mode">tree,form</field>
-        <field name="domain">[('is_same_branche', '=', True)]</field>
+        <field name="domain">[('is_same', '=', True)]</field>
         <field name="context">{'search_default_filter_creation_date': 1}</field>
     </record>
     <record id="view_wk_workflow_dashboard_tree" model="ir.ui.view">
@@ -84,6 +84,16 @@
                         <h1>
                             <field name="name" readonly="1"/>
                         </h1>
+                    </div>
+                    <div invisible="raison_refus == False" style="border: 2px solid;
+                                border-radius: 12px;
+                                border-style: dashed;
+                                border-color: #ff2345;
+                                margin-bottom: 2px;
+                                padding: 5px;">
+                        <group>
+                            <field name="raison_refus" readonly="1"/>
+                        </group>
                     </div>
                     <div>
                         <group col="1">

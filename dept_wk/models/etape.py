@@ -1398,6 +1398,7 @@ class Etape(models.Model):
                 elif rec.state_comite == 'comite_2':
                     rec.state_vice = 'comite_1'
 
+
     def revoir_action(self):
         view_id = self.env.ref('dept_wk.retour_wizard_form').id
         return {
@@ -1596,6 +1597,19 @@ class Etape(models.Model):
             }
 
     def reject_request(self):
+        view_id = self.env.ref('dept_wk.retour_wizard_form').id
+        ctx = {}
+        ctx['refus'] = True
+        return {
+            'name': 'سبب رفض الطلب',
+            'type': 'ir.actions.act_window',
+            'view_mode': 'form',
+            'res_model': 'wk.wizard.retour',
+            'view_id': view_id,
+            'target': 'new',
+            'context': ctx
+        }
+    def reject_request_function(self):
         for rec in self:
             if rec.etape.sequence == 1:
                 if rec.state_branch in ['branch_2', 'branch_4'] and self.env.user.has_group('dept_wk.dept_wk_group_responsable_agence'):
@@ -1613,6 +1627,11 @@ class Etape(models.Model):
                 if rec.state_comite in ['comite_1']:
                     rec.state_comite = 'comite_rejected'
                     rec.workflow.state = '8'
+            email_template = self.env.ref('dept_wk.notification_refus_mail_template')
+            email_values = {
+                'email_to': [rec.assigned_to_agence.partner_id.email, rec.assigned_to_finance.partner_id.email],
+            }
+            email_template.send_mail(rec.id, force_send=True, email_values=email_values)
 
     def create_tcr_group(self):
         for rec in self:
@@ -2482,6 +2501,39 @@ class Etape(models.Model):
                     partner_ids += user_ids.mapped('email')
                     user_ids = self.env.ref('dept_wk.dept_wk_group_responsable_commercial').users.mapped('partner_id')
                     partner_ids += user_ids.mapped('email')
+            if rec.sequence == 3:
+                if rec.state_commercial == 'commercial_2':
+                    partner_ids = rec.assigned_to_commercial.partner_id.email
+                elif rec.state_commercial in ['commercial_3']:
+                    user_ids = self.env.ref('dept_wk.dept_wk_group_responsable_commercial').users.mapped('partner_id')
+                    partner_ids.append(user_ids.mapped('email'))
+                else:
+                    user_ids = self.env.ref('dept_wk.dept_wk_group_responsable_analyste').users.mapped('partner_id')
+                    partner_ids = user_ids.mapped('email')
+            if rec.sequence == 4:
+                if rec.state_risque == 'risque_2':
+                    user_ids = self.env.ref('dept_wk.dept_wk_group_responsable_analyste').users.mapped('partner_id')
+                    partner_ids = user_ids.mapped('email')
+                print(rec.state_finance)
+            print(partner_ids)
+            return partner_ids
+
+    def get_mail_to_revoir(self):
+        for rec in self:
+            partner_ids = []
+            if rec.sequence == 1:
+                if rec.state_branch in ['branch_1', 'branch_3']:
+                    partner_ids = rec.assigned_to_agence.partner_id.email
+                elif rec.state_branch in ['branch_2','branch_4']:
+                    user_ids = self.env.ref('dept_wk.dept_wk_group_responsable_agence').users.filtered(
+                        lambda l: l.branche == rec.branche).mapped('partner_id')
+                    partner_ids = user_ids.mapped('email')
+            if rec.sequence == 2:
+                if rec.state_finance == 'finance_3':
+                    user_ids = self.env.ref('dept_wk.dept_wk_group_responsable_analyste').users.mapped('partner_id')
+                    partner_ids = user_ids.mapped('email')
+                elif rec.state_finance == 'finance_2':
+                    partner_ids.append(rec.assigned_to_finance.partner_id.email)
             if rec.sequence == 3:
                 if rec.state_commercial == 'commercial_2':
                     partner_ids = rec.assigned_to_commercial.partner_id.email

@@ -65,5 +65,70 @@
             </field>
             <field name="auto_delete" eval="True"/>
         </record>
+        <record id="notification_refus_mail_template" model="mail.template">
+            <field name="name">رفض الملف</field>
+            <field name="model_id" ref="dept_wk.model_wk_etape"/>
+            <field name="subject">تم رفض الملف {{object.workflow.name}}</field>
+            <field name="email_from">{{ user.email }}</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        السلام عليكم،
+                        <br/>
+                        نود أن نخبركم أنه تم رفض الملف الموجود في الرابط ادناه
+                        <br/>
+                        <a t-att-href="'/web#id=' + str(object.workflow.id) + '&amp;view_type=form&amp;model=wk.workflow.dashboard'">
+                            <t t-out="object.workflow.name"/>
+                        </a><br/>
+                        :سبب الرفض
+                        <br/>
+                        <t t-out="object.workflow.raison_refus"/><br/>
+                        نشكر لكم تفهمكم وتعاونكم.
+                        <br/>
+                        أطيب التحيات،
+                        <t t-if="user.signature">
+                            <br/>
+                            <t t-out="user.signature or ''">--<br/>Mitchell Admin
+                            </t>
+                        </t>
+                    </p>
+                </div>
+            </field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+        <record id="notification_revoir_mail_template" model="mail.template">
+            <field name="name">مراجعة الملف</field>
+            <field name="model_id" ref="dept_wk.model_wk_etape"/>
+            <field name="subject">طلب مراجعة الملف {{object.workflow.name}}</field>
+            <field name="email_from">{{ user.email }}</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        السلام عليكم،
+                        <br/>
+                        نود أن نخبركم أنه تم طلب مراجعة الملف الموجود في الرابط ادناه
+                        <br/>
+                        <a t-att-href="'/web#id=' + str(object.workflow.id) + '&amp;view_type=form&amp;model=wk.workflow.dashboard'">
+                            <t t-out="object.workflow.name"/>
+                        </a>
+
+                        <br/>
+                        للاسباب التالية:
+                        <br/>
+                        <t t-out="object.raison_a_revoir"/>
+                        <br/>
+                        نشكر لكم تفهمكم وتعاونكم.
+                        <br/>
+                        أطيب التحيات،
+                        <t t-if="user.signature">
+                            <br/>
+                            <t t-out="user.signature or ''">--<br/>Mitchell Admin
+                            </t>
+                        </t>
+                    </p>
+                </div>
+            </field>
+            <field name="auto_delete" eval="True"/>
+        </record>
     </data>
 </odoo>

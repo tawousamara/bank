@@ -58,6 +58,16 @@
                         <field name="dossier_verouiller" invisible="1"/>
                         <field name="active" invisible="1"/>
                     </div>
+                    <div invisible="raison_a_revoir == False" style="border: 2px solid;
+                                border-radius: 12px;
+                                border-style: dashed;
+                                border-color: #ff2345;
+                                margin-bottom: 2px;
+                                padding: 5px;">
+                        <group>
+                            <field name="raison_a_revoir" readonly="1"/>
+                        </group>
+                    </div>
                     <div invisible="sequence not in [1,3,5,6,8]">
                         <group invisible="sequence != 1">
                             <field name="assigned_to_agence" options="{'no_create': True, 'no_open': True}"/>

@@ -18,10 +18,17 @@ class RevoirState(models.TransientModel):
             print(self.env.context)
             demande = self.env['wk.etape'].search([('id', 'in', self.env.context.get('active_ids'))])
             print(demande._fields['state_branch'])
-            print(self.env.context.get('actual_state'))
-            if self.raison:
+            if self.env.context.get('refus') and self.raison:
+                demande.workflow.raison_refus = self.raison
+                demande.reject_request_function()
+            elif self.raison:
                 demande.write({'raison_a_revoir': self.raison})
                 demande.a_revoir()
+                email_template = self.env.ref('dept_wk.notification_revoir_mail_template')
+                email_values = {
+                    'email_to': demande.get_mail_to_revoir(),
+                }
+                email_template.send_mail(demande.id, force_send=True, email_values=email_values)
                 '''last_track = self.env['wk.tracking'].search([('workflow_id', '=', demande.workflow.id)])
                 last_track[-1].write({'date_fin': datetime.today()})
                 state = dict(demande._fields['state_branch'].selection).get(demande.state_branch)

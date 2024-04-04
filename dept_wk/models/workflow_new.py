@@ -35,21 +35,27 @@ class Workflow(models.Model):
     states = fields.One2many('wk.etape', 'workflow', string='المديريات', domain=lambda self: [('etape', '!=', self.env.ref('dept_wk.princip_8').id)])
     lanced = fields.Boolean(string='Traitement lancé', compute='compute_visible_states')
     is_new = fields.Boolean(string='is new', compute='compute_type_demande')
-    is_renew = fields.Boolean(string='is new', compute='compute_type_demande')
-    is_modify = fields.Boolean(string='is new', compute='compute_type_demande')
-    is_delete = fields.Boolean(string='is new', compute='compute_type_demande')
-    is_condition = fields.Boolean(string='is new', compute='compute_type_demande')
-    is_same_branche = fields.Boolean(related='is_same', store=True)
+    is_renew = fields.Boolean(string='is renew', compute='compute_type_demande')
+    is_modify = fields.Boolean(string='is modify', compute='compute_type_demande')
+    is_delete = fields.Boolean(string='is delete', compute='compute_type_demande')
+    is_condition = fields.Boolean(string='is condition', compute='compute_type_demande')
+    is_same_branche = fields.Boolean(compute='is_same_compute')
     is_same = fields.Boolean()
+    raison_refus= fields.Text(string='سبب طلب المراجعة')
     def is_same_compute(self):
         for rec in self:
             if self.env.user.partner_id.branche:
                 if self.env.user.partner_id.branche == rec.branche:
+                    print(True)
                     rec.is_same = True
+                    rec.is_same_branche = True
                 else:
                     rec.is_same = False
+                    rec.is_same_branche = False
             else:
                 rec.is_same = False
+                rec.is_same_branche = False
+
     def compute_type_demande(self):
         for rec in self:
             self.is_same_compute()
@@ -63,7 +69,7 @@ class Workflow(models.Model):
                 rec.is_modify = True
                 rec.is_new = rec.is_renew = rec.is_delete = rec.is_condition = False
             elif rec.demande.name == 'الغاء تسهيلات':
-                rec.is_delete= True
+                rec.is_delete = True
                 rec.is_new = rec.is_modify = rec.is_renew = rec.is_condition = False
             elif rec.demande.name == 'تعديل الشروط':
                 rec.is_condition = True
