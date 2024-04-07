@@ -128,8 +128,7 @@ LIST = [('1', 'طلب التسهيلات ممضي من طرف المفوض ال�
           ('12',
            ' نسخة طبق الأصل للشهادات الضريبية و شبه الضريبية حديثة (أقل من ثلاثة أشهر)'),
           ('13', 'استمارة كشف مركزية المخاطر ممضية من طرف ممثل الشركة (نموذج مرفق)'),
-          ('14', 'آخر تقرير مدقق الحسابات'),
-          ('15', 'ملف اخر')
+          ('14', 'آخر تقرير مدقق الحسابات')
           ]
 
 class DocChecker(models.Model):
@@ -185,7 +184,7 @@ class Partner(models.Model):
     rc = fields.Char(string='RC')
     activity_code = fields.Char(string='رمز النشاط حسب السجل التجاري')
     activity_description = fields.Char(string='النشاط حسب السجل التجاري')
-    branche = fields.Many2one('wk.agence', string='الفرع')
+    branche = fields.Many2one('wk.agence', string='الفرع', default=lambda self: self.env.user.partner_id.branche)
     num_compte = fields.Char(string='رقم الحساب')
     date_ouverture_compte = fields.Date(string='تاريخ فتح الحساب')
     demandes = fields.Many2many('wk.historique', string="تسهيلات الشركة")

@@ -1,5 +1,6 @@
 from odoo import models, fields, api, _
 from datetime import datetime
+from odoo.exceptions import ValidationError, UserError
 
 
 class RevoirState(models.TransientModel):
@@ -150,7 +151,56 @@ class Confirmation(models.TransientModel):
                 print('1')
         elif self.env.context.get('to_validate'):
             etape = self.env['wk.etape'].search([('id', '=', self.env.context.get('etape'))])
-            etape.validate_information_function()
+            if etape.sequence == 1:
+                if etape.state_branch == 'branch_3':
+                    list_validation = ['1', '2', '7', '8', '12', '13']
+                    bloquants = etape.documents.filtered(
+                        lambda l: l.list_document in ['1', '2', '7', '8', '12', '13'] and l.document != False).mapped(
+                        'list_document')
+                    print(bloquants)
+                    if not etape.apropos:
+                        self.env['bus.bus']._sendone(self.env.user.partner_id, 'simple_notification', {
+                            'type': 'danger',
+                            'message': "يجب ملء توزيع راس مال الشركة",
+                            'sticky': True, })
+                    if not etape.gestion:
+                        self.env['bus.bus']._sendone(self.env.user.partner_id, 'simple_notification', {
+                            'type': 'danger',
+                            'message': "يجب ملء فريق التسيير",
+                            'sticky': True, })
+                    if not etape.tailles:
+                        self.env['bus.bus']._sendone(self.env.user.partner_id, 'simple_notification', {
+                            'type': 'danger',
+                            'message': "يجب ملء حجم و هيكل التمويلات المطلوبة",
+                            'sticky': True, })
+                    if not etape.fournisseur:
+                        self.env['bus.bus']._sendone(self.env.user.partner_id, 'simple_notification', {
+                            'type': 'danger',
+                            'message': "يجب ملء الموردين",
+                            'sticky': True, })
+                    if not etape.client:
+                        self.env['bus.bus']._sendone(self.env.user.partner_id, 'simple_notification', {
+                            'type': 'danger',
+                            'message': "يجب ملء الزبائن",
+                            'sticky': True, })
+                    if not etape.risk_scoring:
+                        self.env['bus.bus']._sendone(self.env.user.partner_id, 'simple_notification', {
+                            'type': 'danger',
+                            'message': "يجب ملأ بطاقة المعايير النوعية",
+                            'sticky': True, })
+                    if not set(list_validation).issubset(set(bloquants)):
+                        self.env['bus.bus']._sendone(self.env.user.partner_id, 'simple_notification', {
+                            'type': 'danger',
+                            'message': "يوجد ملفات غير مرفقة",
+                            'sticky': True, })
+
+                    all_valid = etape.client and etape.fournisseur and etape.risk_scoring and etape.tailles and etape.gestion and etape.apropos and set(list_validation).issubset(set(bloquants))
+                    if all_valid:
+                        etape.validate_information_function()
+                else:
+                    etape.validate_information_function()
+            else:
+                etape.validate_information_function()
 
 
 

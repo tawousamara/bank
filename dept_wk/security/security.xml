@@ -91,5 +91,23 @@
         <field name="groups" eval="[(4, ref ('dept_wk_group_agent_agence'))]"/>
         <field name="domain_force">[('branche', '=', user.partner_id.branche.id)]</field>
     </record>
+    <record id="contact_branch_visibility_user" model="ir.rule">
+        <field name="name">User can only see his / her contacts</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="groups" eval="[(4, ref ('dept_wk_group_agent_agence'))]"/>
+        <field name="domain_force">[('branche', '=', user.partner_id.branche.id)]</field>
+    </record>
+    <record id="contact_all_visibility_user" model="ir.rule">
+        <field name="name">User can see all contacts</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="groups" eval="[
+               (4, ref('dept_wk.dept_wk_group_responsable_commercial')),
+               (4, ref('dept_wk.dept_wk_group_responsable_credit')),
+               (4, ref('dept_wk.dept_wk_group_responsable_analyste')),
+               (4, ref('dept_wk.dept_wk_group_analyste')),
+               (4, ref('dept_wk.dept_wk_group_responsable_agence')),
+               (4, ref('dept_wk.dept_wk_group_agent_agence')),]"/>
+        <field name="domain_force">['|',('branche','=',False), ('branche', '=', user.partner_id.branche.id)]</field>
+    </record>
 
 </odoo>

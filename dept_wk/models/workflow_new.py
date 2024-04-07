@@ -18,7 +18,7 @@ class Workflow(models.Model):
                               ('6', 'لجنة التسهيلات'),
                               ('7', 'طور تبليغ المتعامل'),
                               ('8', 'ملف مرفوض')], default='1', string='وضعية الملف')
-    nom_client = fields.Many2one('res.partner', string='اسم المتعامل', domain="[('is_client', '=', True)]")
+    nom_client = fields.Many2one('res.partner', string='اسم المتعامل', domain="[('branche', '=', 1)]")
     branche = fields.Many2one('wk.agence', string='الفرع', related='nom_client.branche', store=True)
     num_compte = fields.Char(string='رقم الحساب', related='nom_client.num_compte', store=True)
     demande = fields.Many2one('wk.type.demande', string='الطلب')

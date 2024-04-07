@@ -257,8 +257,7 @@ LIST = [('1', 'طلب التسهيلات ممضي من طرف المفوض ال�
           ('12',
            ' نسخة طبق الأصل للشهادات الضريبية و شبه الضريبية حديثة (أقل من ثلاثة أشهر)'),
           ('13', 'استمارة كشف مركزية المخاطر ممضية من طرف ممثل الشركة (نموذج مرفق)'),
-          ('14', 'آخر تقرير مدقق الحسابات'),
-          ('15', 'ملف اخر')
+          ('14', 'آخر تقرير مدقق الحسابات')
           ]
 
 class Etape(models.Model):
@@ -282,7 +281,7 @@ class Etape(models.Model):
                                      ], track_visibility='always', string='وضعية الملف')
 
     # fields of branch
-    nom_client = fields.Many2one('res.partner', string='اسم المتعامل', domain="[('is_client', '=', True)]", related='workflow.nom_client')
+    nom_client = fields.Many2one('res.partner', string='اسم المتعامل', domain=lambda self: [('branche', '=', self.env.user.partner_id.branche.id), ('is_client', '=', True)], related='workflow.nom_client')
     branche = fields.Many2one('wk.agence', string='الفرع', related='nom_client.branche')
     num_compte = fields.Char(string='رقم الحساب', related='nom_client.num_compte', store=True)
     demande = fields.Many2one('wk.type.demande', string='الطلب', related='workflow.demande')
@@ -340,7 +339,7 @@ class Etape(models.Model):
     employees = fields.One2many('wk.nombre.employee', 'etape_id', string='عدد العمال (حسب الفئة المهنية)')
     sieges = fields.One2many('wk.siege', 'etape_id', string='مقرات تابعة للشركة')
     tailles = fields.One2many('wk.taille', 'etape_id', string='حجم و هيكل التمويلات المطلوبة')
-    situations = fields.One2many('wk.situation', 'etape_id', string='الوضعية المصرفية والتزامات لدى الغير')
+    situations = fields.One2many('wk.situation', 'etape_id', string='الوضعية المصرفية والتزامات لدى الغير حسب تصريح العميل')
     situations_fin = fields.One2many('wk.situation.fin', 'etape_id',
                                      string='البيانات المالية المدققة للثلاث سنوات الأخيرة KDA')
 
@@ -972,6 +971,7 @@ class Etape(models.Model):
                     else:
                         raise ValidationError(_('Vous n`\'etes pas autorisez à valider cette etape'))
                 else:
+
                     rec.state_branch = 'branch_5'
                     folder = self.env['documents.folders'].search([('branch', '=', rec.branche.id),
                                                                    ('client', '=', rec.nom_client.id)])
@@ -1146,7 +1146,7 @@ class Etape(models.Model):
                             'etape_id': etape_revision.id
                         })
 
-                    rec.workflow.state = '2'
+                        rec.workflow.state = '2'
             elif rec.etape.sequence == 2:
                 if rec.state_finance == 'finance_1':
                     if self.env.user.has_group('dept_wk.dept_wk_group_responsable_analyste'):
