@@ -171,3 +171,61 @@ class TimeExpected(models.Model):
     etape = fields.Many2one('wk.state.principal', string='الحالة')
     time = fields.Integer(string='الوقت اللازم')
 
+import logging
+from odoo.exceptions import AccessError, ValidationError
+_logger = logging.getLogger(__name__)
+class IRRule(models.Model):
+    _inherit = 'ir.rule'
+
+    def _make_access_error(self, operation, records):
+        _logger.info('Access Denied by record rules for operation: %s on record ids: %r, uid: %s, model: %s', operation, records.ids[:6], self._uid, records._name)
+        self = self.with_context(self.env.user.context_get())
+
+        model = records._name
+        description = self.env['ir.model']._get(model).name or model
+        operations = {
+            'read':  _("read"),
+            'write': _("write"),
+            'create': _("create"),
+            'unlink': _("unlink"),
+        }
+        user_description = f"{self.env.user.name} (id={self.env.user.id})"
+        operation_error = _("Vous ne pouvez pas acceder %s n'a pas access a %s", user_description, operations[operation])
+        failing_model = _("- %s (%s)", description, model)
+
+        resolution_info = _("يمكنكم الاتصال بالفريق التقني")
+
+        if not self.user_has_groups('base.group_no_one') or not self.env.user.has_group('base.group_user'):
+            records.invalidate_recordset()
+            return AccessError(f"{operation_error}\n{failing_model}\n\n{resolution_info}")
+
+        # This extended AccessError is only displayed in debug mode.
+        # Note that by default, public and portal users do not have
+        # the group "base.group_no_one", even if debug mode is enabled,
+        # so it is relatively safe here to include the list of rules and record names.
+        rules = self._get_failing(records, mode=operation).sudo()
+
+        records_sudo = records[:6].sudo()
+        company_related = any('company_id' in (r.domain_force or '') for r in rules)
+
+        def get_record_description(rec):
+            # If the user has access to the company of the record, add this
+            # information in the description to help them to change company
+            if company_related and 'company_id' in rec and rec.company_id in self.env.user.company_ids:
+                return f'{description}, {rec.display_name} ({model}: {rec.id}, company={rec.company_id.display_name})'
+            return f'{description}, {rec.display_name} ({model}: {rec.id})'
+
+        failing_records = '\n '.join(f'- {get_record_description(rec)}' for rec in records_sudo)
+
+        rules_description = '\n'.join(f'- {rule.name}' for rule in rules)
+        failing_rules = _("A cause de :\n%s", rules_description)
+
+        if company_related:
+            failing_rules += "\n\n" + _('Note: this might be a multi-company issue. Switching company may help - in Odoo, not in real life!')
+
+        # clean up the cache of records prefetched with display_name above
+        records_sudo.invalidate_recordset()
+
+        msg = f"{operation_error}\n{failing_records}\n\n{failing_rules}\n\n{resolution_info}"
+        return AccessError(msg)
+
