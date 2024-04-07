@@ -94,9 +94,9 @@
                                 </h1>
                             </div>
                             <field name="documents" nolabel="1"
-                                   readonly="state_branch not in ['branch_1','branch_2', 'branch_3']">
+                                   readonly="state_branch == 'branch_5'">
                                 <tree editable="bottom" delete="0">
-                                    <field name="filename"/>
+                                    <field name="list_doc"/>
                                     <field name="document" widget="binary" filename="filename"
                                            readonly="checked == True"/>
                                     <field name="answer" readonly="checked == True"/>
@@ -122,14 +122,14 @@
                             <group>
                                 <field name="activity_code" readonly="1"/>
                                 <field name="activity_description" readonly="1"/>
-                                <field name="phone" readonly="1"/>
+                                <field name="phone" readonly="1" style="direction: ltr;text-align: right;"/>
                                 <field name="email" readonly="1" widget="email"/>
                                 <field name="siteweb" readonly="1"/>
                                 <field name="gerant" readonly="state_branch != 'branch_1' and sequence != 8"
                                        options="{'no_create': True, 'no_open': True}"
                                        context="{'default_parent_id': nom_client, 'default_is_client':True}"/>
                                 <field name="partner_id" readonly="1" invisible="1"/>
-                                <field name="phone_gerant" readonly="1"/>
+                                <field name="phone_gerant" readonly="1" style="direction: ltr;text-align: right;"/>
                                 <field name="email_gerant" readonly="1"/>
                                 <field name="email_to" invisible="1"/>
                                 <field name="forme_jur" readonly="1" options="{'no_create': True, 'no_open': True}"/>
@@ -143,20 +143,20 @@
                         <notebook string="معرفة عميلك"
                                   invisible="state_branch not in ['branch_3', 'branch_4','branch_rejected','branch_5'] and sequence not in [3,5,8]">
                             <page string="توزيع راس مال الشركة">
-                                <field name="apropos" readonly="state_branch != 'branch_3' and sequence != 8">
+                                <field name="apropos" width="100%" readonly="state_branch != 'branch_3' and sequence != 8">
                                     <tree editable="bottom">
-                                        <field name="nom_partenaire"/>
-                                        <field name="age"/>
-                                        <field name="statut_partenaire"/>
-                                        <field name="nationalite"/>
-                                        <field name="pourcentage" sum="Total" widget="percentage"/>
+                                        <field name="nom_partenaire" width="20%"/>
+                                        <field name="age" width="20%"/>
+                                        <field name="statut_partenaire" width="20%"/>
+                                        <field name="nationalite" width="20%"/>
+                                        <field name="pourcentage" sum="Total" widget="percentage" width="20%"/>
                                     </tree>
                                 </field>
                             </page>
                             <page name="اعرف عميلك KYC">
                                 <field name="kyc" readonly="state_branch != 'branch_3' and sequence != 8">
                                     <tree create="0" delete="0" editable="bottom">
-                                        <field name="info" style="text-align: center"/>
+                                        <field name="info" style="text-align: center" readonly="1"/>
                                         <field name="answer"/>
                                         <field name="detail"/>
                                     </tree>
@@ -164,18 +164,18 @@
                             </page>
                             <page string="فريق التسيير">
                                 <group>
-                                    <field name="gestion" readonly="state_branch != 'branch_3' and sequence != 8">
+                                    <field name="gestion" width="100%" readonly="state_branch != 'branch_3' and sequence != 8">
                                         <tree editable="bottom">
-                                            <field name="name"/>
-                                            <field name="job"/>
-                                            <field name="niveau_etude"/>
-                                            <field name="age"/>
-                                            <field name="experience"/>
+                                            <field name="name" width="20%"/>
+                                            <field name="job" width="20%"/>
+                                            <field name="niveau_etude" width="20%"/>
+                                            <field name="age" width="20%"/>
+                                            <field name="experience" width="20%"/>
                                         </tree>
                                     </field>
                                     <field name="employees" readonly="state_branch != 'branch_3' and sequence != 8">
                                         <tree create="0" delete="0" editable="bottom">
-                                            <field name="name"/>
+                                            <field name="name" readonly="1"/>
                                             <field name="poste_permanent"/>
                                             <field name="poste_non_permanent"/>
                                         </tree>
@@ -185,7 +185,7 @@
                             <page string="مقرات تابعة للشركة">
                                 <field name="sieges" readonly="state_branch != 'branch_3' and sequence != 8">
                                     <tree create="0" delete="0" editable="bottom">
-                                        <field name="name"/>
+                                        <field name="name" readonly="1"/>
                                         <field name="adresse"/>
                                         <field name="nature" options="{'no_create': True, 'no_open': True}"/>
                                     </tree>
@@ -209,13 +209,13 @@
                             </page>
                             <page string="الوضعية المالية">
                                 <group>
-                                    <field name="situations" readonly="state_branch != 'branch_3' and sequence != 8">
+                                    <field name="situations" width="100%" readonly="state_branch != 'branch_3' and sequence != 8">
                                         <tree editable="bottom">
-                                            <field name="banque"/>
-                                            <field name="type_fin"/>
-                                            <field name="montant"/>
-                                            <field name="encours"/>
-                                            <field name="garanties"/>
+                                            <field name="banque" width="20%"/>
+                                            <field name="type_fin" width="20%"/>
+                                            <field name="montant" width="20%"/>
+                                            <field name="encours" width="20%"/>
+                                            <field name="garanties" width="20%"/>
                                         </tree>
                                     </field>
                                     <group>
@@ -310,18 +310,18 @@
                         </group>
                         <notebook invisible="state_finance == 'finance_1' or sequence != 2 or demande == 1">
                             <page string="تفاصيل التسهيلات الممنوحة (KDA)">
-                                <field name="facilite_accorde" readonly="state_finance != 'finance_2'">
+                                <field name="facilite_accorde" width="100%" readonly="state_finance != 'finance_2'">
                                     <tree editable="bottom">
-                                        <field name="type_facilite" options="{'no_create': True}"/>
-                                        <field name="date"/>
-                                        <field name="montant_da_actuel"/>
+                                        <field name="type_facilite" options="{'no_create': True}" width="15%"/>
+                                        <field name="date" width="10%"/>
+                                        <field name="montant_da_actuel" width="15%"/>
                                         <field name="montant_dollar_actuel" optional="hide"/>
-                                        <field name="montant_da_demande"/>
+                                        <field name="montant_da_demande" width="15%"/>
                                         <field name="montant_dollar_demande" optional="hide"/>
-                                        <field name="montant_da_total"/>
+                                        <field name="montant_da_total" width="15%"/>
                                         <field name="montant_dollar_total" optional="hide"/>
-                                        <field name="garantie_montant" widget="percentage"/>
-                                        <field name="remarques"/>
+                                        <field name="garantie_montant" widget="percentage" width="15%"/>
+                                        <field name="remarques" width="10%"/>
                                     </tree>
                                 </field>
                             </page>
@@ -507,15 +507,15 @@
 
                             </page>
                             <page string="التسهيلات القائمة مع المصرف">
-                                <field name="facitlite_existante" readonly="state_finance != 'finance_2'">
+                                <field name="facitlite_existante" width="100%" readonly="state_finance != 'finance_2'">
                                     <tree editable="bottom">
-                                        <field name="company"/>
-                                        <field name="facilite" options="{'no_create': True}"/>
-                                        <field name="brut_da" sum="Total facilities"/>
+                                        <field name="company" width="10%"/>
+                                        <field name="facilite" options="{'no_create': True}" width="10%"/>
+                                        <field name="brut_da" sum="Total facilities" width="20%"/>
                                         <field name="brut_dollar" sum="Total facilities" optional="hide"/>
-                                        <field name="net_da" sum="Total facilities"/>
+                                        <field name="net_da" sum="Total facilities" width="20%"/>
                                         <field name="net_dollar" sum="Total facilities" optional="hide"/>
-                                        <field name="garanties" widget="many2many_tags" options="{'no_create': True}"/>
+                                        <field name="garanties" widget="many2many_tags" options="{'no_create': True}" width="20%"/>
                                     </tree>
                                 </field>
                             </page>

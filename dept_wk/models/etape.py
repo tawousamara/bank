@@ -241,6 +241,25 @@ passif_list = [
     (19, "Total Passif", 'المجمــوع العـام للخــصوم'),
 ]
 
+LIST = [('1', 'طلب التسهيلات ممضي من طرف المفوض القانوني عن الشركة'),
+          ('2', 'الميزانيات لثلاث سنوات السابقة مصادق عليها من طرف المدقق المحاس'),
+          ('3',
+           ' الميزانية الافتتاحية و الميزانية المتوقعة للسنة المراد تمويلها موقعة من طرف الشركة (حديثة النشأة)'),
+          ('4', 'مخطط تمويل الاستغلال مقسم الى أرباع السنة للسنة المراد تمويلها'),
+          ('5',
+           ' المستندات و الوثائق المتعلقة بنشاط الشركة ( عقود، صفقات ،  طلبيات ، ... )'),
+          ('6', 'محاضر الجمعيات العادية و الغير العادية للأشخاص المعنويين'),
+          ('7', 'نسخة مصادق عليها من السجل التجاري'),
+          ('8', 'نسخة مصادق عليها من القانون الأساسي للشركة'),
+          ('9', 'مداولة الشركاء أو مجلس الإدارة لتفويض المسير لطلب القروض البنكية'),
+          ('10', 'نسخة مصادق عليها من النشرة الرسمية للإعلانات القانونية'),
+          ('11', 'نسخة طبق الأصل لعقد ملكية أو استئجار المحلات ذات الاستعمال المهني'),
+          ('12',
+           ' نسخة طبق الأصل للشهادات الضريبية و شبه الضريبية حديثة (أقل من ثلاثة أشهر)'),
+          ('13', 'استمارة كشف مركزية المخاطر ممضية من طرف ممثل الشركة (نموذج مرفق)'),
+          ('14', 'آخر تقرير مدقق الحسابات'),
+          ('15', 'ملف اخر')
+          ]
 
 class Etape(models.Model):
     _name = 'wk.etape'
@@ -511,8 +530,9 @@ class Etape(models.Model):
         res = super(Etape, self).create(vals)
         if res.demande == self.env.ref('dept_wk.type_demande_1') or (res.demande == self.env.ref('dept_wk.type_demande_2') and not res.workflow.workflow_old):
             if res.etape.sequence == 1:
-                for i in range(15):
-                    doc = self.env['wk.document.check'].create({'list_document': str(i+1),
+                for index, item in LIST:
+                    doc = self.env['wk.document.check'].create({'list_document': index,
+                                                                'list_doc': item,
                                                                 'etape_id': res.id})
                 for item in List_items:
                     line = self.env['wk.kyc.details'].create({'info': item, 'etape_id': res.id})
@@ -671,7 +691,7 @@ class Etape(models.Model):
                     context['etape'] = rec.id
                     context['verrouiller'] = True
                     return {
-                        'name': 'Validation',
+                        'name': 'تأكيد',
                         'type': 'ir.actions.act_window',
                         'view_mode': 'form',
                         'res_model': 'etape.wizard',
@@ -687,7 +707,7 @@ class Etape(models.Model):
                 context['to_validate'] = True
                 context['etape'] = rec.id
                 return {
-                    'name': 'Validation',
+                    'name': 'تأكيد',
                     'type': 'ir.actions.act_window',
                     'view_mode': 'form',
                     'res_model': 'etape.wizard',
@@ -975,6 +995,7 @@ class Etape(models.Model):
                         for doc in rec.documents:
                             if doc.document:
                                 self.env['wk.document.check'].create({'list_document': doc.list_document,
+                                                                      'list_doc': doc.list_doc,
                                                                   'document': doc.document,
                                                                   'answer': doc.answer,
                                                                   'note': doc.note,
@@ -994,11 +1015,12 @@ class Etape(models.Model):
                         for doc in rec.documents:
                             if doc.document:
                                 self.env['wk.document.check'].create({'list_document': doc.list_document,
-                                                              'document': doc.document,
-                                                              'answer': doc.answer,
-                                                              'note': doc.note,
-                                                              'filename': doc.filename,
-                                                              'etape_id': etape_created.id})
+                                                                      'list_doc': doc.list_doc,
+                                                                      'document': doc.document,
+                                                                      'answer': doc.answer,
+                                                                      'note': doc.note,
+                                                                      'filename': doc.filename,
+                                                                      'etape_id': etape_created.id})
                     etape_revision = rec.workflow.states.filtered(lambda l: l.etape.sequence == 8)
 
                     vals = {
@@ -1039,6 +1061,7 @@ class Etape(models.Model):
                         etape_revision.facilite_propose.unlink()
                     for doc in rec.documents:
                         self.env['wk.document.check'].create({'list_document': doc.list_document,
+                                                              'list_doc': doc.list_doc,
                                                               'document': doc.document,
                                                               'answer': doc.answer,
                                                               'note': doc.note,
@@ -1157,6 +1180,7 @@ class Etape(models.Model):
                             etape = self.env['wk.etape'].create(vals)
                             for doc in etape_1.documents:
                                 self.env['wk.document.check'].create({'list_document': doc.list_document,
+                                                                      'list_doc': doc.list_doc,
                                                                       'document': doc.document,
                                                                       'answer': doc.answer,
                                                                       'note': doc.note,
@@ -1484,6 +1508,7 @@ class Etape(models.Model):
                 etape = self.env['wk.etape'].create(vals)
             for doc in etape_1.documents:
                 self.env['wk.document.check'].create({'list_document': doc.list_document,
+                                                      'list_doc': doc.list_doc,
                                                       'document': doc.document,
                                                       'answer': doc.answer,
                                                       'note': doc.note,

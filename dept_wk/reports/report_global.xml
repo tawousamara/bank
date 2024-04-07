@@ -438,7 +438,7 @@
                                                         <t t-esc="line.nationalite.name"/>
                                                     </td>
                                                     <td>
-                                                        <t t-esc="line.pourcentage"/>%
+                                                        <t t-esc="int(line.pourcentage * 100)"/>%
                                                     </td>
                                                 </tr>
                                             </t>
@@ -447,7 +447,7 @@
                                                     الاجمالي
                                                 </td>
                                                 <td>
-                                                    <t t-esc="sum(etape1.apropos.mapped('pourcentage'))"/>%
+                                                    <t t-esc="int(sum(etape1.apropos.mapped('pourcentage')) * 100)"/>%
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -478,7 +478,7 @@
                                                         <t t-if="line.answer == 'oui'">
                                                             نعم
                                                         </t>
-                                                        <t t-elif="line.answer != 'oui'">
+                                                        <t t-elif="line.answer == 'non'">
                                                             لا
                                                         </t>
                                                     </td>
@@ -837,7 +837,7 @@
                                     <table class="reversed-table" t-if="etape2.detail_garantie_actuel_ids">
                                         <thead>
                                             <tr>
-                                                <th colspan="6" style="text-align: center" class="title-cell">
+                                                <th colspan="6" style="text-align: center; font-size: 17px" class="title-cell">
                                                     تفاصيل الضمانات
                                                 </th>
                                             </tr>
@@ -871,10 +871,18 @@
                                                         <t t-esc="line.date"/>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;">
-                                                        <t t-esc="'{0:,.0f}'.format(line.recouvrement)"/>
+                                                        <t t-esc="int(line.recouvrement * 100)"/>%
                                                     </td>
                                                     <td>
-                                                        <t t-esc="line.niveau"/>
+                                                        <t t-if="line.niveau == '1'">
+                                                            عالي
+                                                        </t>
+                                                        <t t-elif="line.niveau == '2'">
+                                                            متوسط
+                                                        </t>
+                                                        <t t-elif="line.niveau == '3'">
+                                                            منخفض
+                                                        </t>
                                                     </td>
                                                 </tr>
                                             </t>
@@ -906,10 +914,18 @@
                                                         <t t-esc="line.date"/>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;">
-                                                        <t t-esc="'{0:,.0f}'.format(line.recouvrement)"/>
+                                                        <t t-esc="int(line.recouvrement * 100)"/>%
                                                     </td>
                                                     <td>
-                                                        <t t-esc="line.niveau"/>
+                                                        <t t-if="line.niveau == '1'">
+                                                            عالي
+                                                        </t>
+                                                        <t t-elif="line.niveau == '2'">
+                                                            متوسط
+                                                        </t>
+                                                        <t t-elif="line.niveau == '3'">
+                                                            منخفض
+                                                        </t>
                                                     </td>
                                                 </tr>
                                             </t>
@@ -950,7 +966,7 @@
                                                         <t t-if="line.answer == 'oui'">
                                                             نعم
                                                         </t>
-                                                        <t t-elif="line.answer == 'oui'">
+                                                        <t t-elif="line.answer == 'non'">
                                                             لا
                                                         </t>
                                                     </td>
@@ -973,7 +989,7 @@
                                                         <t t-if="line.answer == 'oui'">
                                                             نعم
                                                         </t>
-                                                        <t t-elif="line.answer == 'oui'">
+                                                        <t t-elif="line.answer == 'non'">
                                                             لا
                                                         </t>
                                                     </td>
@@ -996,7 +1012,7 @@
                                                         <t t-if="line.answer == 'oui'">
                                                             نعم
                                                         </t>
-                                                        <t t-elif="line.answer == 'oui'">
+                                                        <t t-elif="line.answer == 'non'">
                                                             لا
                                                         </t>
                                                     </td>

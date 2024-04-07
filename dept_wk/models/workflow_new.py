@@ -62,10 +62,10 @@ class Workflow(models.Model):
             if rec.demande.name == 'تسهيلات جديدة':
                 rec.is_new = True
                 rec.is_renew = rec.is_modify = rec.is_delete = rec.is_condition = False
-            elif rec.demande.name == 'تجديد تسهيلات':
+            elif rec.demande.name == 'تجديد التسهيلات':
                 rec.is_renew = True
                 rec.is_new = rec.is_modify = rec.is_delete = rec.is_condition = False
-            elif rec.demande.name == 'تعديل تسهيلات':
+            elif rec.demande.name == 'تعديل التسهيلات':
                 rec.is_modify = True
                 rec.is_new = rec.is_renew = rec.is_delete = rec.is_condition = False
             elif rec.demande.name == 'الغاء تسهيلات':

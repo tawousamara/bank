@@ -129,10 +129,7 @@ LIST = [('1', 'طلب التسهيلات ممضي من طرف المفوض ال�
            ' نسخة طبق الأصل للشهادات الضريبية و شبه الضريبية حديثة (أقل من ثلاثة أشهر)'),
           ('13', 'استمارة كشف مركزية المخاطر ممضية من طرف ممثل الشركة (نموذج مرفق)'),
           ('14', 'آخر تقرير مدقق الحسابات'),
-          ('15', 'ملف اخر'),
-            ('16', 'TCR'),
-            ('17', 'Actif'),
-            ('18', 'Passif'),
+          ('15', 'ملف اخر')
           ]
 
 class DocChecker(models.Model):
@@ -141,8 +138,9 @@ class DocChecker(models.Model):
 
 
     list_document = fields.Selection(selection=LIST, string='اسم الملف')
+    list_doc = fields.Char(string='اسم الملف')
     document = fields.Binary(string='الملف',)
-    filename = fields.Char(string='الاسم')
+    filename = fields.Char(string='الاسم', related='list_doc')
     answer = fields.Selection([('oui', 'نعم'),
                                ('non', 'لا')], string='نعم/ لا')
     note = fields.Text(string='التعليق')
@@ -155,7 +153,6 @@ class DocChecker(models.Model):
             if index == vals['list_document']:
                 vals['filename'] = item
         return super(DocChecker, self).create(vals)
-
 
 
 class DemandeLeasing(models.Model):

@@ -14,7 +14,7 @@ class Partenaire(models.Model):
 
     nom_partenaire = fields.Char(string='اسم الشريك/المالك')
     age = fields.Date(string='تاريخ التاسيس/الميلاد')
-    pourcentage = fields.Integer(string='نسبة الحصة')
+    pourcentage = fields.Float(string='نسبة الحصة')
     statut_partenaire = fields.Char(string='صفة الشريك')
     nationalite = fields.Many2one('res.country', string='الجنسية', default=lambda self: self.env['res.country'].search([('code', '=', 'DZ')], limit=1))
     etape_id = fields.Many2one('wk.etape')

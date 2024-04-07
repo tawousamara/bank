@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <odoo>
-     <record id="module_dept_wk_category" model="ir.module.category">
+    <record id="module_dept_wk_category" model="ir.module.category">
         <field name="name">Dept Workflow</field>
     </record>
     <record id="module_dept_wk_agence_category" model="ir.module.category">
@@ -29,14 +29,14 @@
     <record id="dept_wk_group_agent_agence" model="res.groups">
         <field name="name">Employée</field>
         <field name="category_id"
-           ref="module_dept_wk_agence_category"/>
+               ref="module_dept_wk_agence_category"/>
         <field name="implied_ids"
                eval="[(4, ref('base.group_user'))]"/>
     </record>
     <record id="dept_wk_group_responsable_agence" model="res.groups">
         <field name="name">Responsable</field>
         <field name="category_id"
-           ref="module_dept_wk_agence_category"/>
+               ref="module_dept_wk_agence_category"/>
         <field name="implied_ids"
                eval="[(4, ref('dept_wk.dept_wk_group_agent_agence'))]"/>
     </record>
@@ -44,14 +44,14 @@
     <record id="dept_wk_group_analyste" model="res.groups">
         <field name="name">Analyste</field>
         <field name="category_id"
-           ref="module_dept_wk_finance_category"/>
+               ref="module_dept_wk_finance_category"/>
         <field name="implied_ids"
                eval="[(4, ref('base.group_user'))]"/>
     </record>
     <record id="dept_wk_group_responsable_analyste" model="res.groups">
         <field name="name">Responsable Analyste</field>
         <field name="category_id"
-           ref="module_dept_wk_finance_category"/>
+               ref="module_dept_wk_finance_category"/>
         <field name="implied_ids"
                eval="[(4, ref('dept_wk.dept_wk_group_analyste'))]"/>
     </record>
@@ -59,14 +59,14 @@
     <record id="dept_wk_group_responsable_credit" model="res.groups">
         <field name="name">Responsable Risque</field>
         <field name="category_id"
-           ref="module_dept_wk_risk_category"/>
+               ref="module_dept_wk_risk_category"/>
         <field name="implied_ids"
                eval="[(4, ref('base.group_user'))]"/>
     </record>
     <record id="dept_wk_group_responsable_commercial" model="res.groups">
         <field name="name">Responsable Commercial</field>
         <field name="category_id"
-           ref="module_dept_wk_commercial_category"/>
+               ref="module_dept_wk_commercial_category"/>
         <field name="implied_ids"
                eval="[(4, ref('base.group_user'))]"/>
     </record>
@@ -74,7 +74,7 @@
     <record id="dept_wk_group_administration" model="res.groups">
         <field name="name">Administration</field>
         <field name="category_id"
-           ref="module_dept_wk_administration_category"/>
+               ref="module_dept_wk_administration_category"/>
         <field name="implied_ids"
                eval="[(4, ref('base.group_user')),
                (4, ref('dept_wk.dept_wk_group_responsable_commercial')),
@@ -84,6 +84,12 @@
                (4, ref('dept_wk.dept_wk_group_analyste')),
                (4, ref('dept_wk.dept_wk_group_responsable_agence')),
                (4, ref('dept_wk.dept_wk_group_agent_agence')),]"/>
+    </record>
+    <record id="workflow_branch_visibility_user" model="ir.rule">
+        <field name="name">User can only see his / her demands</field>
+        <field name="model_id" ref="model_wk_workflow_dashboard"/>
+        <field name="groups" eval="[(4, ref ('dept_wk_group_agent_agence'))]"/>
+        <field name="domain_force">[('branche', '=', user.partner_id.branche.id)]</field>
     </record>
 
 </odoo>
