@@ -38,9 +38,6 @@
             <xpath expr="//page[@name='sales_purchases']" position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
-            <xpath expr="//button[@name='%(payment.action_payment_token)d']" position="attributes">
-                <attribute name="invisible">1</attribute>
-            </xpath>
             <xpath expr="//page[@name='internal_notes']" position="before">
                 <page string="تفاصيل التمويلات">
                     <field name="demandes">

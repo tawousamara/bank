@@ -971,182 +971,185 @@ class Etape(models.Model):
                     else:
                         raise ValidationError(_('Vous n`\'etes pas autorisez à valider cette etape'))
                 else:
-
-                    rec.state_branch = 'branch_5'
-                    folder = self.env['documents.folders'].search([('branch', '=', rec.branche.id),
-                                                                   ('client', '=', rec.nom_client.id)])
-                    if not folder:
-                        folder_branch = self.env['documents.folders'].search([('branch', '=', rec.branche.id),
-                                                                              ('client', '=', False)])
-                        if not folder_branch:
-                            folder_branch = self.env['documents.folders'].create({'branch': rec.branche.id,
-                                                                                  'name': rec.branche.ref})
-                        folder = self.env['documents.folders'].create({'branch': rec.branche.id,
-                                                                      'name': rec.num_compte,
-                                                                      'parent_folder_id': folder_branch.id,
-                                                                      'client': rec.nom_client.id})
-                    etape_created = rec.workflow.states.filtered(lambda l: l.etape.sequence == 2)
-                    if not etape_created:
-                        etape = self.env['wk.etape'].create({'workflow': rec.workflow.id,
-                                                             'etape': self.env.ref('dept_wk.princip_2').id,
-                                                             'state_finance': 'finance_1',
-                                                             'annee_fiscal_list': rec.annee_fiscal_list.id,
-                                                             'assigned_to_agence': rec.assigned_to_agence.id})
-                        for doc in rec.documents:
-                            if doc.document:
-                                self.env['wk.document.check'].create({'list_document': doc.list_document,
-                                                                      'list_doc': doc.list_doc,
-                                                                  'document': doc.document,
-                                                                  'answer': doc.answer,
-                                                                  'note': doc.note,
-                                                                  'filename': doc.filename,
-                                                                  'etape_id': etape.id})
-
-                                doc_attached = self.env['ir.attachment'].search([('doc', '=', doc.id),
-                                                                                 ('folder_id', '=', folder.id)])
-                                if not doc_attached:
-                                    self.env['ir.attachment'].create({'folder_id': folder.id,
-                                                                      'datas': doc.document,
-                                                                      'doc': doc.id,
-                                                                      'create_uid': self.env.user,
-                                                                      'name': doc.filename})
-                    else:
-                        etape_created.documents.unlink()
-                        for doc in rec.documents:
-                            if doc.document:
-                                self.env['wk.document.check'].create({'list_document': doc.list_document,
-                                                                      'list_doc': doc.list_doc,
+                    if self.env.user.has_group('dept_wk.dept_wk_group_responsable_agence'):
+                        rec.state_branch = 'branch_5'
+                        folder = self.env['documents.folders'].search([('branch', '=', rec.branche.id),
+                                                                       ('client', '=', rec.nom_client.id)])
+                        if not folder:
+                            folder_branch = self.env['documents.folders'].search([('branch', '=', rec.branche.id),
+                                                                                  ('client', '=', False)])
+                            if not folder_branch:
+                                folder_branch = self.env['documents.folders'].create({'branch': rec.branche.id,
+                                                                                      'name': rec.branche.ref})
+                            folder = self.env['documents.folders'].create({'branch': rec.branche.id,
+                                                                          'name': rec.num_compte,
+                                                                          'parent_folder_id': folder_branch.id,
+                                                                          'client': rec.nom_client.id})
+                        etape_created = rec.workflow.states.filtered(lambda l: l.etape.sequence == 2)
+                        if not etape_created:
+                            etape = self.env['wk.etape'].create({'workflow': rec.workflow.id,
+                                                                 'etape': self.env.ref('dept_wk.princip_2').id,
+                                                                 'state_finance': 'finance_1',
+                                                                 'annee_fiscal_list': rec.annee_fiscal_list.id,
+                                                                 'assigned_to_agence': rec.assigned_to_agence.id})
+                            for doc in rec.documents:
+                                if doc.document:
+                                    self.env['wk.document.check'].create({'list_document': doc.list_document,
+                                                                          'list_doc': doc.list_doc,
                                                                       'document': doc.document,
                                                                       'answer': doc.answer,
                                                                       'note': doc.note,
                                                                       'filename': doc.filename,
-                                                                      'etape_id': etape_created.id})
-                    etape_revision = rec.workflow.states.filtered(lambda l: l.etape.sequence == 8)
+                                                                      'etape_id': etape.id})
 
-                    vals = {
-                        'etape': self.env.ref('dept_wk.princip_8').id,
-                        'assigned_to_agence' : rec.assigned_to_agence.id,
-                        'workflow': rec.workflow.id,
-                        'nom_client': rec.nom_client.id,
-                        'branche': rec.branche.id,
-                        'gerant': rec.gerant.id,
-                        'annee_fiscal_list': rec.annee_fiscal_list.id,
-                        'unit_prod': rec.unit_prod,
-                        'stock': rec.stock,
-                        'prod_company': rec.prod_company,
-                        'politique_comm': rec.politique_comm,
-                        'cycle_exploit': rec.cycle_exploit,
-                        'concurrence': rec.concurrence,
-                        'program_invest': rec.program_invest,
-                        'result_visit': rec.result_visit,
-                        'recommendation_visit': rec.recommendation_visit,
-                        'recommendation_responsable_agence': rec.recommendation_responsable_agence,
-                    }
-                    if not etape_revision:
-                        etape_revision = self.env['wk.etape'].create(vals)
+                                    doc_attached = self.env['ir.attachment'].search([('doc', '=', doc.id),
+                                                                                     ('folder_id', '=', folder.id)])
+                                    if not doc_attached:
+                                        self.env['ir.attachment'].create({'folder_id': folder.id,
+                                                                          'datas': doc.document,
+                                                                          'doc': doc.id,
+                                                                          'create_uid': self.env.user,
+                                                                          'name': doc.filename})
+                        else:
+                            etape_created.documents.unlink()
+                            for doc in rec.documents:
+                                if doc.document:
+                                    self.env['wk.document.check'].create({'list_document': doc.list_document,
+                                                                          'list_doc': doc.list_doc,
+                                                                          'document': doc.document,
+                                                                          'answer': doc.answer,
+                                                                          'note': doc.note,
+                                                                          'filename': doc.filename,
+                                                                          'etape_id': etape_created.id})
+                        etape_revision = rec.workflow.states.filtered(lambda l: l.etape.sequence == 8)
+
+                        vals = {
+                            'etape': self.env.ref('dept_wk.princip_8').id,
+                            'assigned_to_agence' : rec.assigned_to_agence.id,
+                            'workflow': rec.workflow.id,
+                            'nom_client': rec.nom_client.id,
+                            'branche': rec.branche.id,
+                            'gerant': rec.gerant.id,
+                            'annee_fiscal_list': rec.annee_fiscal_list.id,
+                            'unit_prod': rec.unit_prod,
+                            'stock': rec.stock,
+                            'prod_company': rec.prod_company,
+                            'politique_comm': rec.politique_comm,
+                            'cycle_exploit': rec.cycle_exploit,
+                            'concurrence': rec.concurrence,
+                            'program_invest': rec.program_invest,
+                            'result_visit': rec.result_visit,
+                            'recommendation_visit': rec.recommendation_visit,
+                            'recommendation_responsable_agence': rec.recommendation_responsable_agence,
+                        }
+                        if not etape_revision:
+                            etape_revision = self.env['wk.etape'].create(vals)
+                        else:
+                            etape_revision.write(vals)
+                            etape_revision.documents.unlink()
+                            etape_revision.images.unlink()
+                            etape_revision.kyc.unlink()
+                            etape_revision.apropos.unlink()
+                            etape_revision.gestion.unlink()
+                            etape_revision.employees.unlink()
+                            etape_revision.sieges.unlink()
+                            etape_revision.tailles.unlink()
+                            etape_revision.situations.unlink()
+                            etape_revision.situations_fin.unlink()
+                            etape_revision.client.unlink()
+                            etape_revision.fournisseur.unlink()
+                            etape_revision.facilite_propose.unlink()
+                        for doc in rec.documents:
+                            self.env['wk.document.check'].create({'list_document': doc.list_document,
+                                                                  'list_doc': doc.list_doc,
+                                                                  'document': doc.document,
+                                                                  'answer': doc.answer,
+                                                                  'note': doc.note,
+                                                                  'filename': doc.filename,
+                                                                  'etape_id': etape_revision.id})
+                        for image in rec.images:
+                            self.env['wk.documents'].create({'picture': image.picture,
+                                                             'name': image.name,
+                                                             'etape_id': etape_revision.id})
+                        for kyc in rec.kyc:
+                            self.env['wk.kyc.details'].create({'info': kyc.info,
+                                                               'answer': kyc.answer,
+                                                               'detail': kyc.detail,
+                                                               'etape_id': etape_revision.id})
+                        for a in rec.apropos:
+                            self.env['wk.partenaire'].create({'nom_partenaire': a.nom_partenaire,
+                                                              'age': a.age,
+                                                              'pourcentage': a.pourcentage,
+                                                              'statut_partenaire': a.statut_partenaire,
+                                                              'nationalite': a.nationalite.id,
+                                                              'etape_id': etape_revision.id
+                                                              })
+                        for g in rec.gestion:
+                            self.env['wk.gestion'].create({
+                                'name': g.name,
+                                'job': g.job,
+                                'niveau_etude': g.niveau_etude,
+                                'age': g.age,
+                                'experience': g.experience,
+                                'etape_id': etape_revision.id
+                            })
+                        for empl in rec.employees:
+                            self.env['wk.nombre.employee'].create({
+                                'name': empl.name,
+                                'poste_permanent': empl.poste_permanent,
+                                'poste_non_permanent': empl.poste_non_permanent,
+                                'etape_id': etape_revision.id
+                            })
+                        for siege in rec.sieges:
+                            self.env['wk.siege'].create({
+                                'name': siege.name,
+                                'adresse': siege.adresse,
+                                'nature': siege.nature.id,
+                                'etape_id': etape_revision.id
+                            })
+                        for taille in rec.tailles:
+                            self.env['wk.taille'].create({
+                                'type_demande': taille.type_demande.id,
+                                'montant': taille.montant,
+                                'raison': taille.raison,
+                                'etape_id': etape_revision.id,
+                                'garanties': taille.garanties.ids})
+                        for sit in rec.situations:
+                            self.env['wk.situation'].create({
+                                'banque': sit.banque.id,
+                                'type_fin': sit.type_fin.id,
+                                'montant': sit.montant,
+                                'garanties': sit.garanties,
+                                'etape_id': etape_revision.id
+                            })
+                        for sit in rec.situations_fin:
+                            self.env['wk.situation.fin'].create({
+                                'type': sit.type,
+                                'sequence': sit.sequence,
+                                'year1': sit.year1,
+                                'year2': sit.year2,
+                                'year3': sit.year3,
+                                'etape_id': etape_revision.id
+                            })
+                        for client in rec.client:
+                            self.env['wk.client'].create({
+                                'name': client.name,
+                                'country': client.country.id,
+                                'type_payment': client.type_payment.ids,
+                                'etape_id': etape_revision.id
+                            })
+                        for f in rec.fournisseur:
+                            self.env['wk.fournisseur'].create({
+                                'name': f.name,
+                                'country': f.country.id,
+                                'type_payment': f.type_payment.ids,
+                                'etape_id': etape_revision.id
+                            })
+
+                            rec.workflow.state = '2'
                     else:
-                        etape_revision.write(vals)
-                        etape_revision.documents.unlink()
-                        etape_revision.images.unlink()
-                        etape_revision.kyc.unlink()
-                        etape_revision.apropos.unlink()
-                        etape_revision.gestion.unlink()
-                        etape_revision.employees.unlink()
-                        etape_revision.sieges.unlink()
-                        etape_revision.tailles.unlink()
-                        etape_revision.situations.unlink()
-                        etape_revision.situations_fin.unlink()
-                        etape_revision.client.unlink()
-                        etape_revision.fournisseur.unlink()
-                        etape_revision.facilite_propose.unlink()
-                    for doc in rec.documents:
-                        self.env['wk.document.check'].create({'list_document': doc.list_document,
-                                                              'list_doc': doc.list_doc,
-                                                              'document': doc.document,
-                                                              'answer': doc.answer,
-                                                              'note': doc.note,
-                                                              'filename': doc.filename,
-                                                              'etape_id': etape_revision.id})
-                    for image in rec.images:
-                        self.env['wk.documents'].create({'picture': image.picture,
-                                                         'name': image.name,
-                                                         'etape_id': etape_revision.id})
-                    for kyc in rec.kyc:
-                        self.env['wk.kyc.details'].create({'info': kyc.info,
-                                                           'answer': kyc.answer,
-                                                           'detail': kyc.detail,
-                                                           'etape_id': etape_revision.id})
-                    for a in rec.apropos:
-                        self.env['wk.partenaire'].create({'nom_partenaire': a.nom_partenaire,
-                                                          'age': a.age,
-                                                          'pourcentage': a.pourcentage,
-                                                          'statut_partenaire': a.statut_partenaire,
-                                                          'nationalite': a.nationalite.id,
-                                                          'etape_id': etape_revision.id
-                                                          })
-                    for g in rec.gestion:
-                        self.env['wk.gestion'].create({
-                            'name': g.name,
-                            'job': g.job,
-                            'niveau_etude': g.niveau_etude,
-                            'age': g.age,
-                            'experience': g.experience,
-                            'etape_id': etape_revision.id
-                        })
-                    for empl in rec.employees:
-                        self.env['wk.nombre.employee'].create({
-                            'name': empl.name,
-                            'poste_permanent': empl.poste_permanent,
-                            'poste_non_permanent': empl.poste_non_permanent,
-                            'etape_id': etape_revision.id
-                        })
-                    for siege in rec.sieges:
-                        self.env['wk.siege'].create({
-                            'name': siege.name,
-                            'adresse': siege.adresse,
-                            'nature': siege.nature.id,
-                            'etape_id': etape_revision.id
-                        })
-                    for taille in rec.tailles:
-                        self.env['wk.taille'].create({
-                            'type_demande': taille.type_demande.id,
-                            'montant': taille.montant,
-                            'raison': taille.raison,
-                            'etape_id': etape_revision.id,
-                            'garanties': taille.garanties.ids})
-                    for sit in rec.situations:
-                        self.env['wk.situation'].create({
-                            'banque': sit.banque.id,
-                            'type_fin': sit.type_fin.id,
-                            'montant': sit.montant,
-                            'garanties': sit.garanties,
-                            'etape_id': etape_revision.id
-                        })
-                    for sit in rec.situations_fin:
-                        self.env['wk.situation.fin'].create({
-                            'type': sit.type,
-                            'sequence': sit.sequence,
-                            'year1': sit.year1,
-                            'year2': sit.year2,
-                            'year3': sit.year3,
-                            'etape_id': etape_revision.id
-                        })
-                    for client in rec.client:
-                        self.env['wk.client'].create({
-                            'name': client.name,
-                            'country': client.country.id,
-                            'type_payment': client.type_payment.ids,
-                            'etape_id': etape_revision.id
-                        })
-                    for f in rec.fournisseur:
-                        self.env['wk.fournisseur'].create({
-                            'name': f.name,
-                            'country': f.country.id,
-                            'type_payment': f.type_payment.ids,
-                            'etape_id': etape_revision.id
-                        })
+                        raise ValidationError(_('Vous n`\'etes pas autorisez à valider cette etape'))
 
-                        rec.workflow.state = '2'
             elif rec.etape.sequence == 2:
                 if rec.state_finance == 'finance_1':
                     if self.env.user.has_group('dept_wk.dept_wk_group_responsable_analyste'):
