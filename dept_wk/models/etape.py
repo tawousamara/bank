@@ -957,19 +957,19 @@ class Etape(models.Model):
                         rec.raison_a_revoir = False
 
                     else:
-                        raise ValidationError(_('Vous n\'etes pas autorisez à valider cette etape'))
+                        raise ValidationError(_('Vous n\'etes pas autoriser à valider cette etape'))
                 elif rec.state_branch == 'branch_2':
                     if self.env.user.has_group('dept_wk.dept_wk_group_responsable_agence'):
                         rec.state_branch = 'branch_3'
                         rec.raison_a_revoir = False
                     else:
-                        raise ValidationError(_('Vous n`\'etes pas autorisez à valider cette etape'))
+                        raise ValidationError(_('Vous n\'etes pas autoriser à valider cette etape'))
                 elif rec.state_branch == 'branch_3':
                     if self.env.user.has_group('dept_wk.dept_wk_group_agent_agence'):
                         rec.state_branch = 'branch_4'
                         rec.raison_a_revoir = False
                     else:
-                        raise ValidationError(_('Vous n`\'etes pas autorisez à valider cette etape'))
+                        raise ValidationError(_('Vous n\'etes pas autoriser à valider cette etape'))
                 else:
                     if self.env.user.has_group('dept_wk.dept_wk_group_responsable_agence'):
                         rec.state_branch = 'branch_5'
@@ -1022,7 +1022,6 @@ class Etape(models.Model):
                                                                           'filename': doc.filename,
                                                                           'etape_id': etape_created.id})
                         etape_revision = rec.workflow.states.filtered(lambda l: l.etape.sequence == 8)
-
                         vals = {
                             'etape': self.env.ref('dept_wk.princip_8').id,
                             'assigned_to_agence' : rec.assigned_to_agence.id,
@@ -1148,7 +1147,7 @@ class Etape(models.Model):
 
                             rec.workflow.state = '2'
                     else:
-                        raise ValidationError(_('Vous n`\'etes pas autorisez à valider cette etape'))
+                        raise ValidationError(_('Vous n\'etes pas autoriser à valider cette etape'))
 
             elif rec.etape.sequence == 2:
                 if rec.state_finance == 'finance_1':
