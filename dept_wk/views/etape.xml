@@ -224,7 +224,7 @@
                                     <field name="situations_fin"
                                            readonly="state_branch != 'branch_3' and sequence != 8">
                                         <tree editable="bottom" delete="0" create="0">
-                                            <field name="type" readonly="sequence == 0"
+                                            <field name="type" readonly="1"
                                                    decoration-bf="sequence == 0"/>
                                             <field name="year1" readonly="sequence == 0"
                                                    decoration-bf="sequence == 0"/>
