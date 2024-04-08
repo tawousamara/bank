@@ -152,7 +152,15 @@ class Confirmation(models.TransientModel):
         elif self.env.context.get('to_validate'):
             etape = self.env['wk.etape'].search([('id', '=', self.env.context.get('etape'))])
             if etape.sequence == 1:
-                if etape.state_branch == 'branch_3':
+                if etape.state_branch == 'branch_1':
+                    if not etape.gerant:
+                        self.env['bus.bus']._sendone(self.env.user.partner_id, 'simple_notification', {
+                            'type': 'danger',
+                            'message': "يجب اختيار المسير",
+                            'sticky': True, })
+                    else:
+                        etape.validate_information_function()
+                elif etape.state_branch == 'branch_3':
                     list_validation = ['1', '2', '7', '8', '12', '13']
                     bloquants = etape.documents.filtered(
                         lambda l: l.list_document in ['1', '2', '7', '8', '12', '13'] and l.document != False).mapped(

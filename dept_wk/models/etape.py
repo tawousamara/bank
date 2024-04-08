@@ -319,6 +319,7 @@ class Etape(models.Model):
     concurrence = fields.Text(string='المنافسة و دراسة السوق')
     program_invest = fields.Text(string='البرنامج الاستثماري /المشاريع التطويرية')
     result_visit = fields.Text(string='نتائج الزيارة')
+    description_company = fields.Text(string='تعريف الشركة')
     recommendation_visit = fields.Text(string='توصية الفرع', track_visibility='always')
     recommendation_responsable_agence = fields.Text(string='توصية مدير الفرع', track_visibility='always')
     images = fields.One2many('wk.documents', 'etape_id', string='الصور المرفقة')
@@ -1014,7 +1015,7 @@ class Etape(models.Model):
                             etape_created.documents.unlink()
                             for doc in rec.documents:
                                 if doc.document:
-                                    self.env['wk.document.check'].create({'list_document': doc.list_document,
+                                    self.env['wk.document.check'].create({
                                                                           'list_doc': doc.list_doc,
                                                                           'document': doc.document,
                                                                           'answer': doc.answer,
@@ -1024,7 +1025,7 @@ class Etape(models.Model):
                         etape_revision = rec.workflow.states.filtered(lambda l: l.etape.sequence == 8)
                         vals = {
                             'etape': self.env.ref('dept_wk.princip_8').id,
-                            'assigned_to_agence' : rec.assigned_to_agence.id,
+                            'assigned_to_agence': rec.assigned_to_agence.id,
                             'workflow': rec.workflow.id,
                             'nom_client': rec.nom_client.id,
                             'branche': rec.branche.id,
@@ -1038,6 +1039,7 @@ class Etape(models.Model):
                             'concurrence': rec.concurrence,
                             'program_invest': rec.program_invest,
                             'result_visit': rec.result_visit,
+                            'description_company': rec.description_company,
                             'recommendation_visit': rec.recommendation_visit,
                             'recommendation_responsable_agence': rec.recommendation_responsable_agence,
                         }
@@ -1059,7 +1061,7 @@ class Etape(models.Model):
                             etape_revision.fournisseur.unlink()
                             etape_revision.facilite_propose.unlink()
                         for doc in rec.documents:
-                            self.env['wk.document.check'].create({'list_document': doc.list_document,
+                            self.env['wk.document.check'].create({
                                                                   'list_doc': doc.list_doc,
                                                                   'document': doc.document,
                                                                   'answer': doc.answer,
@@ -1176,12 +1178,13 @@ class Etape(models.Model):
                                 'concurrence': etape_1.concurrence,
                                 'program_invest': etape_1.program_invest,
                                 'result_visit': etape_1.result_visit,
+                                'description_company': etape_1.description_company,
                                 'recommendation_visit': etape_1.recommendation_visit,
                                 'recommendation_responsable_agence': etape_1.recommendation_responsable_agence,
                             }
                             etape = self.env['wk.etape'].create(vals)
                             for doc in etape_1.documents:
-                                self.env['wk.document.check'].create({'list_document': doc.list_document,
+                                self.env['wk.document.check'].create({
                                                                       'list_doc': doc.list_doc,
                                                                       'document': doc.document,
                                                                       'answer': doc.answer,
@@ -1478,6 +1481,7 @@ class Etape(models.Model):
                 'concurrence': etape_1.concurrence,
                 'program_invest': etape_1.program_invest,
                 'result_visit': etape_1.result_visit,
+                'description_company': etape_1.description_company,
                 'recommendation_visit': etape_1.recommendation_visit,
                 'recommendation_responsable_agence': etape_1.recommendation_responsable_agence,
                 'analyse_secteur_act': etape_comm.analyse_secteur_act,
@@ -1509,7 +1513,7 @@ class Etape(models.Model):
             else:
                 etape = self.env['wk.etape'].create(vals)
             for doc in etape_1.documents:
-                self.env['wk.document.check'].create({'list_document': doc.list_document,
+                self.env['wk.document.check'].create({
                                                       'list_doc': doc.list_doc,
                                                       'document': doc.document,
                                                       'answer': doc.answer,

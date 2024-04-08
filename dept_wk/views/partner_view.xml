@@ -60,7 +60,7 @@
                 <group>
                     <field name="adress_siege"/>
                     <field name="is_client" invisible="1"/>
-                    <field name="branche" options="{'no_create': True, 'no_open': True}"/>
+                    <field name="branche" options="{'no_create': True, 'no_open': True}" readonly="is_client == True" />
                     <field name="wilaya"/>
                     <field name="nif"/>
                     <field name="rc"/>

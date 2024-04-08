@@ -95,11 +95,11 @@
                             </div>
                             <field name="documents" nolabel="1"
                                    readonly="state_branch == 'branch_5'">
-                                <tree editable="bottom" >
+                                <tree editable="bottom" delete="0">
                                     <field name="list_doc" decoration-info="list_document in ['1', '2', '7', '8', '12', '13']"/>
                                     <field name="document" widget="binary" filename="filename"
                                            readonly="checked == True"/>
-                                    <field name="answer" readonly="checked == True"/>
+                                    <field name="answer" readonly="state_branch != 'branch_2'"/>
                                     <field name="note" readonly="checked == True"/>
                                     <field name="checked" column_invisible="True"/>
                                     <field name="list_document" column_invisible="True"/>
@@ -258,6 +258,7 @@
                         </notebook>
                         <group col="2" string="نبذة عن نشاط الشركة"
                                invisible="state_branch not in ['branch_3', 'branch_4','branch_rejected','branch_5'] and sequence not in [3,5,8]">
+                            <field name="description_company" readonly="state_branch != 'branch_3' and sequence != 8"/>
                             <field name="unit_prod" readonly="state_branch != 'branch_3' and sequence != 8"/>
                             <field name="stock" readonly="state_branch != 'branch_3' and sequence != 8"/>
                             <field name="prod_company" readonly="state_branch != 'branch_3' and sequence != 8"/>

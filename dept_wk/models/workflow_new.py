@@ -18,10 +18,10 @@ class Workflow(models.Model):
                               ('6', 'لجنة التسهيلات'),
                               ('7', 'طور تبليغ المتعامل'),
                               ('8', 'ملف مرفوض')], default='1', string='وضعية الملف')
-    nom_client = fields.Many2one('res.partner', string='اسم المتعامل', domain="[('branche', '=', 1)]")
+    nom_client = fields.Many2one('res.partner', string='اسم المتعامل', required=True)
     branche = fields.Many2one('wk.agence', string='الفرع', related='nom_client.branche', store=True)
     num_compte = fields.Char(string='رقم الحساب', related='nom_client.num_compte', store=True)
-    demande = fields.Many2one('wk.type.demande', string='الطلب')
+    demande = fields.Many2one('wk.type.demande', string='الطلب', required=True)
     company_id = fields.Many2one('res.company', default=lambda self: self.env.company)
     currency_id = fields.Many2one('res.currency', related='company_id.currency_id')
     chiffre_affaire = fields.Monetary(string='راس المال الشركة', currency_field='currency_id',related='nom_client.chiffre_affaire')
@@ -41,7 +41,8 @@ class Workflow(models.Model):
     is_condition = fields.Boolean(string='is condition', compute='compute_type_demande')
     is_same_branche = fields.Boolean(compute='is_same_compute')
     is_same = fields.Boolean()
-    raison_refus= fields.Text(string='سبب طلب المراجعة')
+    raison_refus = fields.Text(string='سبب طلب المراجعة')
+
     def is_same_compute(self):
         for rec in self:
             if self.env.user.partner_id.branche:
@@ -160,6 +161,7 @@ def get_values(workflow, etape):
             'program_invest': etape.program_invest,
             'annee_fiscal_list' : etape.annee_fiscal_list.id,
             'result_visit': etape.result_visit,
+            'description_company': etape.description_company,
             'recommendation_visit': etape.recommendation_visit,
             'recommendation_responsable_agence': etape.recommendation_responsable_agence,
             'risk_scoring': etape.risk_scoring.id,
@@ -238,6 +240,7 @@ def get_values(workflow, etape):
             'concurrence': etape.concurrence,
             'program_invest': etape.program_invest,
             'result_visit': etape.result_visit,
+            'description_company': etape.description_company,
             'recommendation_visit': etape.recommendation_visit,
             'recommendation_responsable_agence': etape.recommendation_responsable_agence,
             'analyse_secteur_act': etape.analyse_secteur_act,
