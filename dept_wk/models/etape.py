@@ -994,7 +994,7 @@ class Etape(models.Model):
                                                                  'assigned_to_agence': rec.assigned_to_agence.id})
                             for doc in rec.documents:
                                 if doc.document:
-                                    self.env['wk.document.check'].create({'list_document': doc.list_document,
+                                    self.env['wk.document.check'].create({
                                                                           'list_doc': doc.list_doc,
                                                                       'document': doc.document,
                                                                       'answer': doc.answer,

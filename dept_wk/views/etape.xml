@@ -95,7 +95,7 @@
                             </div>
                             <field name="documents" nolabel="1"
                                    readonly="state_branch == 'branch_5'">
-                                <tree editable="bottom" delete="0">
+                                <tree editable="bottom" >
                                     <field name="list_doc" decoration-info="list_document in ['1', '2', '7', '8', '12', '13']"/>
                                     <field name="document" widget="binary" filename="filename"
                                            readonly="checked == True"/>

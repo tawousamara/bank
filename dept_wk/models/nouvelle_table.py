@@ -139,7 +139,7 @@ class DocChecker(models.Model):
     list_document = fields.Selection(selection=LIST, string='اسم الملف')
     list_doc = fields.Char(string='اسم الملف')
     document = fields.Binary(string='الملف',)
-    filename = fields.Char(string='الاسم', compute='compute_filename')
+    filename = fields.Char(string='الاسم', compute='compute_filename', store=True)
     answer = fields.Selection([('oui', 'نعم'),
                                ('non', 'لا')], string='نعم/ لا')
     note = fields.Text(string='التعليق')
@@ -152,14 +152,15 @@ class DocChecker(models.Model):
             if index == vals['list_document']:
                 vals['filename'] = item
         return super(DocChecker, self).create(vals)
-
+    @api.depends('list_document', 'list_doc')
     def compute_filename(self):
         for rec in self:
-            for index, item in LIST:
-                if index == rec.list_document:
-                    rec.filename = item
-                    rec.list_doc = item
-            if not rec.filename:
+            if rec.list_document:
+                for index, item in LIST:
+                    if index == rec.list_document:
+                        rec.filename = item
+                        rec.list_doc = item
+            else:
                 rec.filename = rec.list_doc
 
 class DemandeLeasing(models.Model):
