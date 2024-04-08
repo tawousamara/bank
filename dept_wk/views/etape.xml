@@ -99,8 +99,8 @@
                                     <field name="list_doc" decoration-info="list_document in ['1', '2', '7', '8', '12', '13']"/>
                                     <field name="document" widget="binary" filename="filename"
                                            readonly="checked == True"/>
-                                    <field name="answer" readonly="state_branch != 'branch_2'"/>
-                                    <field name="note" readonly="checked == True"/>
+                                    <field name="answer" readonly="checked != True"/>
+                                    <field name="note" readonly="checked != True"/>
                                     <field name="checked" column_invisible="True"/>
                                     <field name="list_document" column_invisible="True"/>
                                 </tree>

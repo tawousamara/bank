@@ -144,7 +144,7 @@ class DocChecker(models.Model):
                                ('non', 'لا')], string='نعم/ لا')
     note = fields.Text(string='التعليق')
     etape_id = fields.Many2one('wk.etape',  ondelete='cascade')
-    checked = fields.Boolean(string='Checked', related='etape_id.doc_checked')
+    checked = fields.Boolean(string='Checked', compute='compute_checked')
 
     @api.model
     def create(self, vals):
@@ -152,6 +152,17 @@ class DocChecker(models.Model):
             if index == vals['list_document']:
                 vals['filename'] = item
         return super(DocChecker, self).create(vals)
+
+    def compute_checked(self):
+        for rec in self:
+            if rec.etape_id.sequence == 1:
+                if rec.etape_id.state_branch == 'branch_2':
+                    rec.checked = True
+                else:
+                    rec.checked = False
+            else:
+                rec.checked = False
+
     @api.depends('list_document', 'list_doc')
     def compute_filename(self):
         for rec in self:
