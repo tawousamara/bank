@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="wk_state5_action" model="ir.actions.act_window">
+        <field name="name">نائب المدير العام</field>
+        <field name="res_model">wk.state.five</field>
+        <field name="view_mode">form</field>
+    </record>
+    <record id="view_wk_state5_form" model="ir.ui.view">
+        <field name="name">wk.state.five.form</field>
+        <field name="model">wk.state.five</field>
+        <field name="arch" type="xml">
+            <form create="0">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <div>
+                        <button name="%(resume_report)d" string="Imprimer le rapport" class="button_secondary"
+                                type="action"/>
+                        <h3>نائب المدير العام</h3>
+                        <group>
+                            <field name="recommandation_vice_dir_fin" />
+                        </group>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="wk_state1_action" model="ir.actions.act_window">
+        <field name="name">الفرع</field>
+        <field name="res_model">wk.state.one</field>
+        <field name="view_mode">form</field>
+    </record>
+    <record id="view_wk_state1_form" model="ir.ui.view">
+        <field name="name">wk.state.one.form</field>
+        <field name="model">wk.state.one</field>
+        <field name="arch" type="xml">
+            <form create="0">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <div>
+                        <group col="1">
+                            <group>
+                                <field name="date"/>
+                                <field name="assigned_to_branch" readonly="1"/>
+                                <field name="nom_client" readonly="1"/>
+                                <field name="num_compte" readonly="1"/>
+                                <field name="date_ouverture_compte" readonly="1"/>
+                                <field name="branche" readonly="1"/>
+                                <field name="demande" readonly="1"/>
+                            </group>
+                        </group>
+                        <div>
+                            <div class="oe_title">
+                                <h1>
+                                    الوثائق المرفقة مع الطلب الحالي
+                                </h1>
+                            </div>
+                            <field name="documents" nolabel="1">
+                                <tree editable="bottom">
+                                    <field name="list_document" column_invisible="1"/>
+                                    <field name="document" widget="binary" filename="filename" readonly="1"/>
+                                    <field name="answer" readonly="1"/>
+                                    <field name="note" readonly="1"/>
+                                    <field name="filename" column_invisible="1"/>
+                                </tree>
+                            </field>
+                        </div>
+                        <group>
+                            <group string="تقرير الزيارة" col="2">
+                                <field name="nom_groupe" readonly="1"/>
+                                <field name="classification" readonly="1"/>
+                                <field name="adress_siege" readonly="1"/>
+                                <field name="wilaya" readonly="1"/>
+                                <field name="num_registre_commerce" readonly="1"/>
+                                <field name="date_inscription" readonly="1"/>
+                                <field name="date_debut_activite" readonly="1"/>
+                                <field name="activite" readonly="1"/>
+                                <field name="gerant" readonly="1"/>
+                                <field name="phone" readonly="1"/>
+                                <field name="email" readonly="1"/>
+                                <field name="siteweb" readonly="1"/>
+                            </group>
+
+                            <group col="2" string="نبذة عن نشاط الشركة">
+                                <field name="unit_prod" readonly="1"/>
+                                <field name="stock" readonly="1"/>
+                                <field name="prod_company" readonly="1"/>
+                                <field name="politique_comm" readonly="1"/>
+                                <field name="cycle_exploit" readonly="1"/>
+                                <field name="concurrence" readonly="1"/>
+                            </group>
+                            <group string="معرفة عميلك">
+                                <field name="forme_jur" readonly="1"/>
+                                <field name="currency_id" invisible="1"/>
+                                <field name="chiffre_affaire"
+                                       readonly="1"
+                                       widget="monetary"
+                                       options="{'currency_field': 'currency_id'}"/>
+                            </group>
+                            <notebook>
+                                <page string="توزيع راس مال الشركة">
+                                    <field name="apropos" readonly="1">
+                                        <tree editable="bottom">
+                                            <field name="nom_partenaire"/>
+                                            <field name="age"/>
+                                            <field name="statut_partenaire"/>
+                                            <field name="nationalite"/>
+                                            <field name="pourcentage" sum="Total"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                                <page name="اعرف عميلك KYC">
+                                    <field name="kyc" readonly="1">
+                                        <tree create="0" delete="0" editable="bottom">
+                                            <field name="info"/>
+                                            <field name="answer"/>
+                                            <field name="detail"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                                <page string="فريق التسيير">
+                                    <group>
+                                        <field name="gestion" readonly="1">
+                                            <tree editable="bottom">
+                                                <field name="name"/>
+                                                <field name="job"/>
+                                                <field name="niveau_etude"/>
+                                                <field name="age"/>
+                                                <field name="experience"/>
+                                            </tree>
+                                        </field>
+                                        <field name="employees" readonly="1">
+                                            <tree create="0" delete="0" editable="bottom">
+                                                <field name="name"/>
+                                                <field name="poste_permanent"/>
+                                                <field name="poste_non_permanent"/>
+                                            </tree>
+                                        </field>
+                                    </group>
+                                </page>
+                                <page string="مقرات تابعة للشركة">
+                                    <field name="sieges" readonly="1">
+                                        <tree create="0" delete="0" editable="bottom">
+                                            <field name="name"/>
+                                            <field name="adresse"/>
+                                            <field name="nature"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                                <page string="حجم و هيكل التمويلات المطلوبة">
+                                    <field name="tailles" readonly="1">
+                                        <tree editable="bottom">
+                                            <field name="type_demande"/>
+                                            <field name="montant"/>
+                                            <field name="raison"/>
+                                            <field name="garanties" widget="many2many_tags"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                                <page string="الوضعية المالية">
+                                    <group>
+                                        <field name="situations" readonly="1">
+                                            <tree editable="bottom">
+                                                <field name="banque"/>
+                                                <field name="type_fin"/>
+                                                <field name="montant"/>
+                                                <field name="garanties"/>
+                                            </tree>
+                                        </field>
+                                        <field name="situations_fin" readonly="1">
+                                            <tree editable="bottom">
+                                                <field name="type"/>
+                                                <field name="year1"/>
+                                                <field name="year2"/>
+                                                <field name="year3"/>
+                                            </tree>
+                                        </field>
+                                    </group>
+                                </page>
+                                <page string="الموردون و الزبائن">
+                                    <group>
+                                        <field name="fournisseur" readonly="1">
+                                            <tree editable="bottom">
+                                                <field name="name"/>
+                                                <field name="country"/>
+                                                <field name="type_payment" widget="many2many_tags"/>
+                                            </tree>
+                                        </field>
+                                        <field name="client" readonly="1">
+                                            <tree editable="bottom">
+                                                <field name="name"/>
+                                                <field name="country"/>
+                                                <field name="type_payment" widget="many2many_tags"/>
+                                            </tree>
+                                        </field>
+                                    </group>
+                                </page>
+                            </notebook>
+                            <group>
+                                <field name="politique_vente" readonly="1"/>
+                                <field name="program_invest" readonly="1"/>
+                                <field name="result_visit" readonly="1"/>
+                                <field name="recommendation_visit" readonly="1"/>
+                                <field name="images" readonly="1">
+                                    <tree editable="bottom">
+                                        <field name="picture" widget="binary" filename="name"/>
+                                        <field name="name" column_invisible="1"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </group>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

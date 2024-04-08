@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="wk_state6_action" model="ir.actions.act_window">
+        <field name="name">لجنة التسهيلات</field>
+        <field name="res_model">wk.state.six</field>
+        <field name="view_mode">form</field>
+    </record>
+    <record id="view_wk_state6_form" model="ir.ui.view">
+        <field name="name">wk.state.six.form</field>
+        <field name="model">wk.state.six</field>
+        <field name="arch" type="xml">
+            <form create="0">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <div>
+                        <h3>لجنة التسهيلات</h3>
+                        <group>
+                            <field name="recommandation_fin_grp"/>
+                        </group>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

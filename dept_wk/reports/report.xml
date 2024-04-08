@@ -1,0 +1,1139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <template id="report_resume">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <style>
+                        .reversed-table > tbody > tr > td {
+                        padding: 5px;
+                        border: 1px solid #79b080;
+                        }
+                        .reversed-table > thead > tr > th {
+                        padding: 5px;
+                        border: 1px solid #79b080;
+                        }
+                        td {
+                        padding: 5px;
+                        }
+                        .reversed-table {
+                        width: 100%;
+                        border: 1px solid black;
+                        }
+                        .table_deco {
+                        display: flex;
+                        justify-content: center;
+                        direction: rtl;
+                        }
+                        .page {
+                        text-align: right;
+                        }
+                        .page-content {
+                        font-family: 'NotoArabic-Regular';
+                        direction: rtl;
+                        padding: 20px;
+                        margin: 20px;
+                        }
+
+                        .center-align {
+                        margin: 0 auto;
+                        }
+                        .title {
+                        padding: 20 px;
+                        color: green;
+                        }
+                        ul li {
+                        padding: 10px;
+                        }
+                        div.row-info > h4 {
+                        display: inline-block;
+                        }
+                        div.row-info > .data {
+                        margin: 20px
+                        display: inline-block;
+                        }
+                    </style>
+                    <t t-foreach="docs" t-as="doc">
+                        <div class="page page-content">
+                            <center style="margin-bottom: 10px">
+                                <div class="column">
+                                    <h2 class="title" style="margin-bottom: 50px;">ملخص اجمالي</h2>
+                                </div>
+                            </center>
+                            <div class="justify-content-start">
+                                <div class="table_deco">
+                                    <table>
+                                        <tbody>
+                                            <tr>
+
+                                                <td style="font-weight: bold;">
+                                                    الفرع
+                                                </td>
+                                                <td>
+                                                    <span>
+                                                        <t t-esc="doc.branche_related.name"/>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-weight: bold;">
+                                                    رقم الحساب
+                                                </td>
+                                                <td>
+                                                    <span>
+                                                        <t t-esc="doc.num_compte_related"/>
+                                                    </span>
+                                                </td>
+                                                <td style="font-weight: bold;">
+                                                    تاريخ فتح الحساب
+                                                </td>
+                                                <td>
+                                                    <span>
+                                                        <t t-esc="doc.date_ouverture_compte"/>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-weight: bold;">
+                                                    الشكل القانوني
+                                                </td>
+                                                <td>
+                                                    <span>
+                                                        <t t-esc="doc.forme_jur_related.name"/>
+                                                    </span>
+                                                </td>
+                                                <td style="font-weight: bold;">
+                                                    رأسمال الشركة
+                                                </td>
+                                                <td>
+                                                    <span>
+                                                        <t t-esc="doc.chiffre_affaire_related"/>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-weight: bold;">
+                                                    رمز النشاط
+                                                </td>
+                                                <td>
+                                                    <span>
+                                                        <t t-esc="doc.activity_code"/>
+                                                    </span>
+                                                </td>
+                                                <td style="font-weight: bold;">
+                                                    النشاط
+                                                </td>
+                                                <td>
+                                                    <span>
+                                                        <t t-esc="doc.activity_description"/>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-weight: bold;">
+                                                    NIF
+                                                </td>
+                                                <td>
+                                                    <span>
+                                                        <t t-esc="doc.nif"/>
+                                                    </span>
+                                                </td>
+                                                <td style="font-weight: bold;">
+                                                    RC
+                                                </td>
+                                                <td>
+                                                    <span>
+                                                        <t t-esc="doc.num_registre_commerce"/>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-weight: bold;">
+                                                    الهاتف
+                                                </td>
+                                                <td>
+                                                    <span>
+                                                        <t t-esc="doc.phone"/>
+                                                    </span>
+                                                </td>
+                                                <td style="font-weight: bold;">
+                                                    البريد الإلكتروني
+                                                </td>
+                                                <td>
+                                                    <span>
+                                                        <t t-esc="doc.email"/>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-weight: bold;">
+                                                    تاريخ القيد في السجل التجاري
+                                                </td>
+                                                <td>
+                                                    <span>
+                                                        <t t-esc="doc.date_inscription"/>
+                                                    </span>
+                                                </td>
+                                                <td style="font-weight: bold;">
+                                                    تاريخ بداية النشاط
+                                                </td>
+                                                <td>
+                                                    <span>
+                                                        <t t-esc="doc.date_debut_activite"/>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-weight: bold;">
+                                                    المسير
+                                                </td>
+                                                <td>
+                                                    <span>
+                                                        <t t-esc="doc.gerant.name"/>
+                                                    </span>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td style="font-weight: bold;">
+                                                    نوع الطلب
+                                                </td>
+                                                <td>
+                                                    <span>
+                                                        <t t-esc="doc.demande_related.name"/>
+                                                    </span>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="table_deco">
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                <td style="font-weight: bold;">
+                                                    منتوجات الشركة
+                                                </td>
+                                                <td>
+                                                    <span>
+                                                        <t t-esc="doc.prod_company_related"/>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-weight: bold;">
+                                                    وحدات الانتاج
+                                                </td>
+                                                <td>
+                                                    <span>
+                                                        <t t-esc="doc.unit_prod"/>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-weight: bold;">
+                                                    المخازن
+                                                </td>
+                                                <td>
+                                                    <span>
+                                                        <t t-esc="doc.stock"/>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-weight: bold;">
+                                                    السياسة التسويقية
+                                                </td>
+                                                <td>
+                                                    <span>
+                                                        <t t-esc="doc.politique_comm"/>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-weight: bold;">
+                                                    دورة الاستغلال
+                                                </td>
+                                                <td>
+                                                    <span>
+                                                        <t t-esc="doc.cycle_exploit"/>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-weight: bold;">
+                                                    المنافسة و دراسة السوق
+                                                </td>
+                                                <td>
+                                                    <span>
+                                                        <t t-esc="doc.concurrence"/>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/>
+                                <h4 class="title" style="margin-top: 20px; color: green;">توزيع راس مال الشركة
+                                </h4>
+                                <div class="table_deco">
+                                    <table class="reversed-table" t-if="doc.employees_related">
+                                        <thead>
+                                            <tr>
+                                                <th>اسم الشريك/المالك</th>
+                                                <th>تاريخ التاسيس/الميلاد</th>
+                                                <th>صفة الشريك</th>
+                                                <th>الجنسية</th>
+                                                <th>الحصة</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="doc.apropos" t-as="line">
+                                                <tr>
+                                                    <td>
+                                                        <t t-esc="line.nom_partenaire"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.age"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.statut_partenaire"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.nationalite"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.pourcentage"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/>
+                                <h4 class="title" style="margin-top: 20px; color: green;">عدد العمال (حسب الفئة
+                                    المهنية)
+                                </h4>
+                                <div class="table_deco">
+                                    <table class="reversed-table" t-if="doc.employees_related">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>مناصب دائمة</th>
+                                                <th>غير دائمة</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="doc.employees_related" t-as="line">
+                                                <tr>
+                                                    <td>
+                                                        <t t-esc="line.name"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.poste_permanent"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.poste_non_permanent"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/>
+                                <h4 class="title" style="margin-top: 20px; color: green;">حجم و هيكل التمويلات
+                                    المطلوبة
+                                </h4>
+                                <div class="table_deco">
+                                    <table class="reversed-table" t-if="doc.tailles_related">
+                                        <thead>
+                                            <tr>
+                                                <th>نوع التسهيلات</th>
+                                                <th>المبلغ المطلوب</th>
+                                                <th>غير دائمةالغرض من التمويل</th>
+                                                <th>الضمانات المقترحة</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="doc.tailles_related" t-as="line">
+                                                <tr>
+                                                    <td>
+                                                        <t t-esc="line.type_demande.name"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.montant"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.raison"/>
+                                                    </td>
+                                                    <td>
+                                                        <ol>
+                                                            <t t-foreach="line.garanties" t-as="garantie">
+                                                                <li>
+                                                                    <t t-esc="garantie.name"/>
+                                                                </li>
+                                                            </t>
+                                                        </ol>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/>
+                                <h4 class="title" style="margin-top: 20px; color: green;">اعرف عميلك
+                                </h4>
+                                <div class="table_deco">
+                                    <table class="reversed-table" t-if="doc.kyc">
+                                        <thead>
+                                            <tr>
+                                                <th>معلومات اضافية عن العميل</th>
+                                                <th>نعم/لا</th>
+                                                <th>التفاصيل</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="doc.kyc" t-as="line">
+                                                <tr>
+                                                    <td>
+                                                        <t t-esc="line.info"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.answer"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.detail"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/>
+                                <h4 class="title" style="margin-top: 20px; color: green;">البيانات المالية المدققة
+                                    للثلاث سنوات الأخيرة
+                                </h4>
+                                <div class="table_deco">
+                                    <table class="reversed-table" t-if="doc.situations_fin_related">
+                                        <thead>
+                                            <tr>
+                                                <th>السنة</th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="doc.situations_fin_related" t-as="line">
+                                                <tr>
+                                                    <td>
+                                                        <t t-esc="line.type"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.year1"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.year2"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.year3"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/>
+                                <h4 class="title" style="margin-top: 20px; color: green;">الشروط السابقة/المقترحة و الموافق عليها من لجان التمويل
+                                </h4>
+                                <div class="table_deco">
+                                    <table class="reversed-table" t-if="doc.garantie_conf">
+                                        <thead>
+                                            <tr>
+                                                <th>الشروط السابقة و المقترحة</th>
+                                                <th>نعم/لا</th>
+                                                <th>التعليق</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="doc.garantie_conf" t-as="line">
+                                                <tr>
+                                                    <td>
+                                                        <t t-esc="line.info"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.answer"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.detail"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/>
+                                <h4 class="title" style="margin-top: 20px; color: green;">الشروط المالية
+                                </h4>
+                                <div class="table_deco">
+                                    <table class="reversed-table" t-if="doc.garantie_fin">
+                                        <thead>
+                                            <tr>
+                                                <th>الشروط السابقة و المقترحة</th>
+                                                <th>نعم/لا</th>
+                                                <th>التعليق</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="doc.garantie_fin" t-as="line">
+                                                <tr>
+                                                    <td>
+                                                        <t t-esc="line.info"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.answer"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.detail"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/>
+                                <h4 class="title" style="margin-top: 20px; color: green;">الشروط الاخرى
+                                </h4>
+                                <div class="table_deco">
+                                    <table class="reversed-table" t-if="doc.garantie_autres">
+                                        <thead>
+                                            <tr>
+                                                <th>الشروط السابقة و المقترحة</th>
+                                                <th>نعم/لا</th>
+                                                <th>التعليق</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="doc.garantie_autres" t-as="line">
+                                                <tr>
+                                                    <td>
+                                                        <t t-esc="line.info"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.answer"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.detail"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/>
+                                <div class="row-info">
+                                    <h4 class="title" style="margin-top: 20px; color: green;">حجم الارباح PNB المتوقعة
+                                    </h4>
+                                    <t t-esc="doc.ampleur_benefice_related" class="data"/>
+                                </div>
+                                <div class="row-info">
+                                    <h4 class="title" style="margin-top: 20px; color: green;">تحليل اهمية العلاقة على
+                                        المدى
+                                        المتوسط
+                                    </h4>
+                                    <t t-esc="doc.analyse_relation_related" class="data"/>
+                                </div>
+                                <br/>
+                                <div class="row-info">
+                                    <h4 class="title" style="margin-top: 20px; color: green;">
+                                        توصية المحلل المالي
+                                    </h4>
+                                    <t class="data" t-esc="doc.recommandation_analyste_fin_related"/>
+                                </div>
+
+                                <h4 class="title" style="margin-top: 20px; color: green;">
+                                    التسهيلات المقترحة
+                                </h4>
+                                <div class="table_deco">
+                                    <table class="reversed-table" t-if="doc.facilite_propose_related">
+                                        <thead>
+                                            <tr>
+                                                <th>نوع التسهيلات</th>
+                                                <th>المبلغ المقترح م/دج</th>
+                                                <th>المبلغ المقترح م/دج</th>
+                                                <th>الشروط</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="doc.facilite_propose_related" t-as="line">
+                                                <tr>
+                                                    <td>
+                                                        <t t-esc="line.type_facilite.name"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.montant_dz"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.montant_dollar"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.condition"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <h4 class="title" style="margin-top: 20px; color: green;">
+                                    الضمانات المقترحة
+                                </h4>
+                                <ol>
+                                    <t t-foreach="doc.garantie_ids_related" t-as="garantie">
+                                        <li>
+                                            <t t-esc="garantie.name"/>
+                                        </li>
+                                    </t>
+                                </ol>
+                                <br/>
+                                <div class="row-info">
+                                    <h4 class="title" style="margin-top: 20px; color: green;">راي مدير ادارة التمويلات
+                                    </h4>
+                                    <t class="data" t-esc="doc.recommandation_dir_fin_related"/>
+                                </div>
+                                <br/>
+                                <div class="table_deco">
+                                    <table class="reversed-table" t-if="doc.critere_ids">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    المعايير الكمية
+                                                </th>
+                                                <th>
+                                                    المعيار
+                                                </th>
+                                                <th>
+                                                    العلامة
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="doc.critere_ids" t-as="line">
+                                                <tr>
+                                                    <td>
+                                                        <t t-esc="line.name"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.critere"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.resultat"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="row-info">
+                                    <h4 class="title" style="margin-top: 20px; color: green;">التنقيط الاجمالي</h4>
+                                    <t class="data" t-esc="doc.resultat_scoring"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <record id="resume_report" model="ir.actions.report">
+            <field name="name">ملخص اجمالي</field>
+            <field name="model">wk.workflow</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">dept_wk.report_resume</field>
+            <field name="report_file">dept_wk.report_resume</field>
+            <field name="binding_model_id" ref="model_wk_workflow"/>
+        </record>
+
+
+        <template id="ticket_fin">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <style>
+                        td {
+                        padding: 5px;
+                        border: 1px solid #79b080;
+                        }
+                        th {
+                        padding: 5px;
+                        border: 1px solid #79b080;
+                        }
+                        .reversed-table {
+                        width: 100%;
+                        border: 1px solid black;
+                        }
+                        .table_deco {
+                        display: flex;
+                        justify-content: center;
+                        direction: rtl;
+                        }
+                        .page {
+                        text-align: right;
+                        }
+                        .page-content {
+                        font-family: 'NotoArabic-Regular';
+                        direction: rtl;
+                        padding: 20px;
+                        margin: 20px;
+                        }
+
+                        .center-align {
+                        margin: 0 auto;
+                        }
+                        .title {
+                        padding: 20 px;
+                        color: green;
+                        }
+                        ul li {
+                        padding: 10px;
+                        }
+                    </style>
+                    <t t-foreach="docs" t-as="doc">
+                        <div class="page page-content">
+                            <center style="margin-bottom: 10px">
+                                <div class="column">
+                                    <h2 class="title" style="margin-bottom: 50px;">
+                                        مرجع:
+                                        <t t-esc="doc.name"/>
+                                    </h2>
+                                </div>
+                            </center>
+                            <div class="justify-content-start">
+                                <h2 class="title" style="color: green;">التسهيلات المقترحة</h2>
+                                <div class="table_deco">
+                                    <table class="reversed-table">
+                                        <thead>
+                                            <tr>
+                                                <th>نوع التسهيلات</th>
+                                                <th>المبلغ المقترح م/دج</th>
+                                                <th>المبلغ المقترح م/$</th>
+                                                <th>الشروط</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="doc.facilite_final_fin" t-as="line">
+                                                <tr>
+                                                    <td>
+                                                        <t t-esc="line.type_facilite.name"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.montant_dz"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.montant_dollar"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.condition"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <h2 class="title" style="margin-top: 20px; color: green;">
+                                    الضمانات المقترحة
+                                </h2>
+                                <ul>
+                                    <t t-foreach="doc.garantie_ids" t-as="garantie">
+                                        <li>
+                                            <t t-esc="garantie.name"/>
+                                        </li>
+                                    </t>
+                                </ul>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <record id="fin_ticket" model="ir.actions.report">
+            <field name="name">Ticket financier</field>
+            <field name="model">wk.workflow</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">dept_wk.ticket_fin</field>
+            <field name="report_file">dept_wk.ticket_fin</field>
+            <field name="binding_model_id" ref="model_wk_workflow"/>
+        </record>
+
+        <!--<template id="ticket_leasing">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <style>
+                        td {
+                        padding: 5px;
+                        border: 1px solid #79b080;
+                        }
+                        th {
+                        padding: 5px;
+                        border: 1px solid #79b080;
+                        }
+                        .reversed-table {
+                        width: 100%;
+                        border: 1px solid black;
+                        }
+                        .table_deco {
+                        display: flex;
+                        justify-content: center;
+                        direction: rtl;
+                        }
+                        .page {
+                        text-align: right;
+                        }
+                        .page-content {
+                        font-family: 'NotoArabic-Regular';
+                        direction: rtl;
+                        padding: 20px;
+                        margin: 20px;
+                        }
+
+                        .center-align {
+                        margin: 0 auto;
+                        }
+                        .title {
+                        padding: 20 px;
+                        color: green;
+                        }
+                        ul li {
+                        padding: 10px;
+                        }
+                    </style>
+                    <t t-foreach="docs" t-as="doc">
+                        <div class="page page-content">
+                            <center style="margin-bottom: 10px">
+                                <div class="column">
+                                    <h2 class="title" style="margin-bottom: 50px;">
+                                        مرجع:
+                                        <t t-esc="doc.name"/>
+                                    </h2>
+                                </div>
+                            </center>
+                            <div class="justify-content-start">
+                                <h2 style="color: green;">التسهيلات المقترحة</h2>
+                                <div class="table_deco">
+                                    <table class="reversed-table">
+                                        <thead>
+                                            <tr>
+                                                <th>نوع التسهيلات</th>
+                                                <th>المبلغ المقترح م/دج</th>
+                                                <th>المبلغ المقترح م/$</th>
+                                                <th>الشروط</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="doc.facilite_final_leasing" t-as="line">
+                                                <tr>
+                                                    <td>
+                                                        <t t-esc="line.type_facilite.name"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.montant_dz"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.montant_dollar"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.condition"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <h2 class="title" style="margin-top: 20px; color: green;">
+                                    الضمانات المقترحة
+                                </h2>
+                                <ul>
+                                    <t t-foreach="doc.garantie_leasing" t-as="garantie">
+                                        <li>
+                                            <t t-esc="garantie.name"/>
+                                        </li>
+                                    </t>
+                                </ul>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <record id="leasing_ticket" model="ir.actions.report">
+            <field name="name">Ticket leasing</field>
+            <field name="model">wk.workflow</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">dept_wk.ticket_leasing</field>
+            <field name="report_file">dept_wk.ticket_leasing</field>
+            <field name="binding_model_id" ref="model_wk_workflow"/>
+        </record>
+
+        <record id="achat_bon" model="ir.actions.report">
+            <field name="name">سند طلبية</field>
+            <field name="model">purchase.order</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">dept_wk.bon_achat</field>
+            <field name="report_file">dept_wk.bon_achat</field>
+            <field name="binding_model_id" ref="model_purchase_order"/>
+        </record>
+        <template id="bon_achat">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <style>
+                        td {
+                        padding: 5px;
+                        border: 1px solid #79b080;
+                        }
+                        th {
+                        padding: 5px;
+                        border: 1px solid #79b080;
+                        }
+                        .reversed-table {
+                        width: 100%;
+                        border: 1px solid black;
+                        }
+                        .table_deco {
+                        display: flex;
+                        justify-content: center;
+                        direction: rtl;
+                        }
+                        .page {
+                        text-align: right;
+                        }
+                        .page-content {
+                        font-family: 'NotoArabic-Regular';
+                        direction: rtl;
+                        padding: 50px;
+                        margin: 20px;
+                        }
+
+                        .center-align {
+                        margin: 0 auto;
+                        }
+                        .title {
+                        padding: 20 px;
+                        color: green;
+                        }
+                        ul li {
+                        padding: 10px;
+                        }
+                    </style>
+                    <t t-foreach="docs" t-as="doc">
+                        <div class="page page-content" style="height: 100%">
+                            <center style="margin-bottom: 10px">
+                                <div class="column">
+                                    <h2 class="title" style="margin-bottom: 50px;">
+                                        سند طلبية
+                                    </h2>
+                                </div>
+                            </center>
+                            <div class="justify-content-start">
+                                <h4>الجزائر في: ../../2023</h4>
+                                <p>يتقدم إليكم مصرف السلام الجزائر من خلال هذا السند، بطلبية المعدات المحددة أدناه ضمن
+                                    الجدول،
+                                    والتي سيقوم بتأجيرها بصيغة الاعتماد الإيجاري لفائدة المستأجر الوارد اسمة أدناة.
+                                </p>
+                                <div class="row-info">
+                                    <p style="font-weight: bold;">المورد :
+                                    </p>
+
+                                </div>
+                                <div class="row-info">
+                                    <p style="font-weight: bold;">المستأجر (التسمية الكاملة) :
+                                    </p>
+                                </div>
+                                <div class="row-info">
+                                    <p style="font-weight: bold;">مكان التسليم :
+                                    </p>
+                                </div>
+
+                                <div class="table_deco">
+                                    <table class="reversed-table">
+                                        <thead>
+                                            <tr>
+                                                <th>التعيين</th>
+                                                <th>الكمية</th>
+                                                <th>تاريخ التسليم</th>
+                                                <th>تاريخ الشراء خارج الرسوم</th>
+                                                <th>الضريبة على القيمة المضافة</th>
+                                                <th>المبلغ الاجمالي خارج الرسوم</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr style="height: 60px;">
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <h4>شروط سداد الثمن</h4>
+                                <p>تعهد مصرف السلام الجزائر بسداد ثمن المعدات المشار اليه أعلاه للمورد عن طريق تحويل أو
+                                    شيك بنكي بمبلغ .... دينار جزائري
+                                </p>
+                                <p>وذلك مقابل تسليم الوثائق التالية :</p>
+                                <ul>
+                                    <li>وصل التصريح بالسير المؤقت للمركبة ( البطاقة الصفراء) باسم المصرف لصالح
+                                        المستاجر
+                                    </li>
+                                    <li>فاتورة نهائية باسم المصرف لصالح المستأجر.</li>
+                                    <li>محضر التسليم والقبول موقع من قبل ممثل المصرف والمستأجر والمورد.</li>
+                                </ul>
+                            </div>
+                            <div style="width:100%; direction: ltr; ">
+                                <center style="width:50%; direction: ltr; ">
+                                    <p>المؤجر</p>
+                                    <p>(ختم المصرف. اسم و صفة الموقع)</p>
+                                </center>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <record id="picking_wk" model="ir.actions.report">
+            <field name="name">محضر تسليم و قبول</field>
+            <field name="model">stock.picking</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">dept_wk.wk_picking</field>
+            <field name="report_file">dept_wk.wk_picking</field>
+            <field name="binding_model_id" ref="stock.model_stock_picking"/>
+        </record>
+        <template id="wk_picking">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <style>
+                        td {
+                        padding: 5px;
+                        border: 1px solid #79b080;
+                        }
+                        th {
+                        padding: 5px;
+                        border: 1px solid #79b080;
+                        }
+                        .reversed-table {
+                        width: 100%;
+                        border: 1px solid black;
+                        }
+                        .table_deco {
+                        display: flex;
+                        justify-content: center;
+                        direction: rtl;
+                        }
+                        .page {
+                        text-align: right;
+                        }
+                        .page-content {
+                        font-family: 'NotoArabic-Regular';
+                        direction: rtl;
+                        padding: 50px;
+                        margin: 20px;
+                        }
+
+                        .center-align {
+                        margin: 0 auto;
+                        }
+                        .title {
+                        padding: 20 px;
+                        color: green;
+                        }
+                        ul li {
+                        padding: 10px;
+                        }
+                    </style>
+                    <t t-foreach="docs" t-as="doc">
+                        <div class="page page-content" style="height: 100%">
+                            <center style="margin-bottom: 10px">
+                                <div class="column">
+                                    <h2 class="title" style="margin-bottom: 50px;">
+                                        محضر تسليم و قبول
+                                    </h2>
+                                </div>
+                            </center>
+                            <div class="justify-content-start">
+                                <h4>الجزائر في: ../../2023</h4>
+                                <p>يقر الموقعون أدناه بتسليم /تركيب المعدات المحددة ضمن الجدول أدناه،
+                                    ويؤكدون أن العتاد المذكور قد تم فحصه، وأنه في حالة جيدة،
+                                    دون أي عيب أو خلل ظاهر مطابق للطلبية المقدمة من قبل المصرف والمواصفات المحددة ضمنها،
+                                    وأنه مناسب من ثم تماما للغاية التي
+                                </p>
+                                <p>طلب لأجلها.</p>
+                                <div class="row-info">
+                                    <p style="font-weight: bold;">المورد :
+                                    </p>
+                                </div>
+                                <div class="row-info">
+                                    <p style="font-weight: bold;">المستأجر (التسمية الكاملة) :
+                                    </p>
+                                </div>
+                                <div class="row-info">
+                                    <p style="font-weight: bold;">المؤجر (التسمية الكاملة) : مصرف السلام الجزائر
+                                    </p>
+                                </div>
+                                <div class="row-info">
+                                    <p style="font-weight: bold;">مكان التسليم :
+                                    </p>
+                                </div>
+
+                                <div class="table_deco">
+                                    <table class="reversed-table">
+                                        <thead>
+                                            <tr>
+                                                <th>الرقم التسلسلي في الطراز
+                                                    <br/>
+                                                    الرقم التسلسلي
+                                                </th>
+                                                <th>التعيين</th>
+                                                <th>الكمية</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr style="height: 60px;">
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div style="width:100%; direction: ltr;">
+                                <div style="width:50%; direction: ltr;"><h5 style="padding: 100px"
+                                >الجزائر في: ../../2023</h5></div>
+
+                            </div>
+                            <div style="width:100%;padding: 70px">
+                                <center >
+                                    <center style="display: inline-block;padding-left: 70px">
+                                        <p>المؤجر</p>
+                                        <p>اسم وصفة الموقع ختم</p>
+                                    </center>
+                                    <center style="display: inline-block;padding-left: 70px">
+                                        <p>المستاجر</p>
+                                        <p>اسم وصفة الموقع ختم</p>
+                                    </center>
+                                    <center style="display: inline-block;">
+                                        <p>المورد</p>
+                                        <p>اسم وصفة الموقع ختم</p>
+                                    </center>
+                                </center>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>-->
+    </data>
+</odoo>

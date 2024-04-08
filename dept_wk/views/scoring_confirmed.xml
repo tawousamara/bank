@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="wk_state4_action" model="ir.actions.act_window">
+        <field name="name">ادارة المخاطر</field>
+        <field name="res_model">wk.state.four</field>
+        <field name="view_mode">form</field>
+    </record>
+    <record id="view_wk_state4_form" model="ir.ui.view">
+        <field name="name">wk.state.four.form</field>
+        <field name="model">wk.state.four</field>
+        <field name="arch" type="xml">
+            <form create="0">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <div>
+                        <group col="2">
+                            <field name="name"/>
+                            <field name="critere_qual"/>
+                            <field name="critere_quant"/>
+                            <field name="tcr_id"/>
+                            <field name="passif_id"/>
+                            <field name="actif_id"/>
+                        </group>
+                        <notebook>
+                            <page string="Critères Qualitatifs">
+                                <group col="2">
+                                    <field name="original_capital" options="{'no_create': True, 'no_open': True}"/>
+                                    <field name="actionnariat" options="{'no_create': True, 'no_open': True}"/>
+                                    <field name="forme_jur" options="{'no_create': True, 'no_open': True}"/>
+                                    <field name="remp_succession" options="{'no_create': True, 'no_open': True}"/>
+                                    <field name="competence" options="{'no_create': True, 'no_open': True}"/>
+                                    <field name="experience" options="{'no_create': True, 'no_open': True}"/>
+                                    <field name="soutien_etatic" options="{'no_create': True, 'no_open': True}"/>
+                                    <field name="activite" options="{'no_create': True, 'no_open': True}"/>
+                                    <field name="influence_tech" options="{'no_create': True, 'no_open': True}"/>
+                                    <field name="anciennete" options="{'no_create': True, 'no_open': True}"/>
+                                    <field name="concurrence" options="{'no_create': True, 'no_open': True}"/>
+                                    <field name="source_appro" options="{'no_create': True, 'no_open': True}"/>
+                                    <field name="produit" options="{'no_create': True, 'no_open': True}"/>
+                                </group>
+                                <group>
+                                    <field name="flexibilite" options="{'no_create': True, 'no_open': True}"/>
+                                    <field name="sollicitude" options="{'no_create': True, 'no_open': True}"/>
+                                    <field name="situation" options="{'no_create': True, 'no_open': True}"/>
+                                    <field name="mouvement" options="{'no_create': True, 'no_open': True}"/>
+                                    <field name="garanties" options="{'no_create': True, 'no_open': True}"/>
+                                    <field name="incident" options="{'no_create': True, 'no_open': True}"/>
+                                    <field name="conduite" options="{'no_create': True, 'no_open': True}"/>
+                                    <field name="dette_fisc" options="{'no_create': True, 'no_open': True}"/>
+                                    <field name="dette_parafisc" options="{'no_create': True, 'no_open': True}"/>
+                                    <field name="position_admin" options="{'no_create': True, 'no_open': True}"/>
+                                    <field name="source_remb" options="{'no_create': True, 'no_open': True}"/>
+                                    <field name="part_profil" options="{'no_create': True, 'no_open': True}"/>
+                                </group>
+                            </page>
+                            <page string="Critères Quantitatifs">
+                                <group col="2">
+                                    <group>
+                                        <field name="quant_1" readonly="1"/>
+                                    </group>
+                                    <field name="res_quant_1" readonly="1"/>
+                                    <group>
+                                        <field name="quant_2" readonly="1"/>
+                                    </group>
+                                    <field name="res_quant_2" readonly="1"/>
+                                    <group>
+                                        <field name="quant_3" readonly="1"/>
+                                    </group>
+                                    <field name="res_quant_3" readonly="1"/>
+                                    <group>
+                                        <field name="quant_4" readonly="1"/>
+                                    </group>
+                                    <field name="res_quant_4" readonly="1"/>
+                                    <group>
+                                        <field name="quant_5" readonly="1"/>
+                                    </group>
+                                    <field name="res_quant_5" readonly="1"/>
+                                    <group>
+                                        <field name="quant_6" readonly="1"/>
+                                    </group>
+                                    <field name="res_quant_6" readonly="1"/>
+                                    <group>
+                                        <field name="quant_7" readonly="1"/>
+                                    </group>
+                                    <field name="res_quant_7" readonly="1"/>
+                                    <group>
+                                        <field name="quant_8" readonly="1"/>
+                                    </group>
+                                    <field name="res_quant_8" readonly="1"/>
+                                    <group>
+                                        <field name="quant_9" readonly="1"/>
+                                    </group>
+                                    <field name="res_quant_9" readonly="1"/>
+                                    <group>
+                                        <field name="quant_10" readonly="1"/>
+                                    </group>
+                                    <field name="res_quant_10" readonly="1"/>
+                                    <group>
+                                        <field name="quant_11" readonly="1"/>
+                                    </group>
+                                    <field name="res_quant_11" readonly="1"/>
+                                    <group>
+                                        <field name="quant_12" readonly="1"/>
+                                    </group>
+                                    <field name="res_quant_12" readonly="1"/>
+                                    <group>
+                                        <field name="quant_13" readonly="1"/>
+                                    </group>
+                                    <field name="res_quant_13" readonly="1"/>
+                                    <group>
+                                        <field name="quant_14" readonly="1"/>
+                                    </group>
+                                    <field name="res_quant_14" readonly="1"/>
+                                    <group>
+                                        <field name="quant_15" readonly="1"/>
+                                    </group>
+                                    <field name="res_quant_15" readonly="1"/>
+                                    <group>
+                                        <field name="quant_16" readonly="1"/>
+                                    </group>
+                                    <field name="res_quant_16" readonly="1"/>
+                                </group>
+                            </page>
+                        </notebook>
+
+                        <group>
+                            <field name="resultat_scoring" readonly="1"/>
+                        </group>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>

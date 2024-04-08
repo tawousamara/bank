@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="wk_state2_action" model="ir.actions.act_window">
+        <field name="name">مديرية التمويلات</field>
+        <field name="res_model">wk.state.two</field>
+        <field name="view_mode">form</field>
+    </record>
+    <record id="view_wk_state2_form" model="ir.ui.view">
+        <field name="name">wk.state.two.form</field>
+        <field name="model">wk.state.two</field>
+        <field name="arch" type="xml">
+            <form create="0">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <div>
+                        <group>
+                            <field name="analyseur"/>
+                        </group>
+                        <notebook>
+                            <page string="تفاصيل التسهيلات الممنوحة (بالمليون دج)">
+                                <field name="facilite_accorde">
+                                    <tree editable="bottom">
+                                        <field name="date"/>
+                                        <field name="type_facilite"/>
+                                        <field name="montant_da_actuel"/>
+                                        <field name="montant_dollar_actuel"/>
+                                        <field name="montant_da_demande"/>
+                                        <field name="montant_dollar_demande"/>
+                                        <field name="montant_da_total"/>
+                                        <field name="montant_dollar_total"/>
+                                        <field name="garantie_montant"/>
+                                        <field name="remarques"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="تفاصيل الضمانات">
+                                <h6>الضمانات العقارية الحالية</h6>
+                                <field name="detail_garantie_actuel_ids">
+                                    <tree editable="bottom">
+                                        <field name="type_garantie"/>
+                                        <field name="type_contrat"/>
+                                        <field name="montant"/>
+                                        <field name="date"/>
+                                        <field name="recouvrement"/>
+                                        <field name="niveau"/>
+                                    </tree>
+                                </field>
+                                <h6>الضمانات العقارية المقترحة</h6>
+                                <field name="detail_garantie_propose_ids">
+                                    <tree editable="bottom">
+                                        <field name="type_garantie"/>
+                                        <field name="type_contrat"/>
+                                        <field name="montant"/>
+                                        <field name="date"/>
+                                        <field name="recouvrement"/>
+                                        <field name="niveau"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string='الشروط السابقة/المقترحة و الموافق عليها من لجان التمويل'>
+                                <field name="garantie_conf">
+                                    <tree editable="bottom">
+                                        <field name="info"/>
+                                        <field name="answer"/>
+                                        <field name="detail"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string='الشروط المالية'>
+                                <field name="garantie_fin">
+                                    <tree editable="bottom">
+                                        <field name="info"/>
+                                        <field name="answer"/>
+                                        <field name="detail"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string='الشروط الاخرى'>
+                                <field name="garantie_autres">
+                                    <tree editable="bottom">
+                                        <field name="info"/>
+                                        <field name="answer"/>
+                                        <field name="detail"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                        <notebook>
+                            <page string="مركزية المخاطر">
+                                <group>
+                                    <group>
+                                        <field name="risque_date"/>
+                                    </group>
+                                    <group>
+                                        <field name="nbr_banque"/>
+                                    </group>
+                                </group>
+                                <field name="risque_central">
+                                    <tree create="0" delete="0" editable="bottom">
+                                        <field name="declaration"/>
+                                        <field name="montant_esalam_dz_donne"/>
+                                        <field name="montant_esalam_dollar_donne"/>
+                                        <field name="montant_esalam_dz_used"/>
+                                        <field name="montant_esalam_dollar_used"/>
+                                        <field name="montant_other_dz_donne"/>
+                                        <field name="montant_other_dollar_donne"/>
+                                        <field name="montant_other_dz_used"/>
+                                        <field name="montant_other_dollar_used"/>
+                                        <field name="montant_total_dz_donne"/>
+                                        <field name="montant_total_dollar_donne"/>
+                                        <field name="montant_total_dz_used"/>
+                                        <field name="montant_total_dollar_used"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="الوضعية الجبائية وشبه الجبائية">
+                                <field name="position_tax">
+                                    <tree editable="bottom" create="0" delete="0">
+                                        <field name="name"/>
+                                        <field name="adversite"/>
+                                        <field name="non_adversite"/>
+                                        <field name="remarks" widget="many2many_tags"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="الحركة والأعمال الجانبية للحساب مع مصرف السلام الجزائر (بالمليون دج)">
+                                <field name="mouvement">
+                                    <tree create="0" delete="0" editable="bottom">
+                                        <field name="mouvement"/>
+                                        <field name="n3_dz"/>
+                                        <field name="n3_dollar"/>
+                                        <field name="n2_dz"/>
+                                        <field name="n2_dollar"/>
+                                        <field name="n1_dz"/>
+                                        <field name="n1_dollar"/>
+                                        <field name="n_dz"/>
+                                        <field name="n_dollar"/>
+                                        <field name="remarques"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                        <notebook>
+                            <page string="معلومات حول الشركات ذات الصلة">
+                                <field name="companies">
+                                    <tree editable="bottom">
+                                        <field name="name"/>
+                                        <field name="date_creation"/>
+                                        <field name="activite"/>
+                                        <field name="chiffre_affaire"/>
+                                        <field name="n1_num_affaire"/>
+                                        <field name="n_num_affaire"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="البيانات المالية الموجزة للشركات ذات الصلة">
+                                <field name="companies_fisc">
+                                    <tree editable="bottom" create="0" delete="0">
+                                        <field name="declaration"/>
+                                        <field name="year_1"/>
+                                        <field name="year_2"/>
+                                        <field name="year_3"/>
+                                        <field name="year_4"/>
+                                        <field name="variante"/>
+                                        <field name="remark"/>
+                                    </tree>
+                                </field>
+                                <field name="visualisation2" type="base64" widget="image"
+                                       invisible="visualisation2 == False"/>
+                            </page>
+                            <page string="التسهيلات القائمة مع المصرف">
+                                <field name="facitlite_existante">
+                                    <tree editable="bottom">
+                                        <field name="company"/>
+                                        <field name="facilite"/>
+                                        <field name="brut_da" sum="total facilities"/>
+                                        <field name="brut_dollar" sum="total facilities"/>
+                                        <field name="net_da" sum="total facilities"/>
+                                        <field name="net_dollar" sum="total facilities"/>
+                                        <field name="garanties" widget="many2many_tags"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="الحركة والأعمال الجانبية للمجموعة مع مصرف السلام الجزائر (بالمليون دج)">
+                                <field name="mouvement_group">
+                                    <tree editable="bottom">
+                                        <field name="company"/>
+                                        <field name="n2_dz"/>
+                                        <field name="n2_dollar"/>
+                                        <field name="n1_dz"/>
+                                        <field name="n1_dollar"/>
+                                        <field name="n_dz"/>
+                                        <field name="n_dollar"/>
+                                        <field name="remarques"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                        <group col="3">
+                            <group>
+                                <field name="tcr_id" invisible="tcr_id == False"/>
+                                <field name="actif_id" invisible="actif_id == False"/>
+                                <field name="passif_id" invisible="passif_id == False"/>
+                            </group>
+                        </group>
+                        <group col="3">
+                            <group>
+                                <field name="tcr1_id" invisible="tcr1_id == False"/>
+                                <field name="actif1_id" invisible="actif1_id == False"/>
+                                <field name="passif1_id"  invisible="passif1_id == False"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="البيانات المالية للشركة">
+                                <group string="مؤشرات البنية المالية">
+                                    <field name="bilan1_id" readonly="1">
+                                        <tree editable="bottom" create="0" delete="0">
+                                            <field name="declaration" readonly="sequence == 0" decoration-bf="sequence == 0"/>
+                                            <field name="year_1" readonly="sequence == 0" decoration-bf="sequence == 0"/>
+                                            <field name="year_2" readonly="sequence == 0" decoration-bf="sequence == 0"/>
+                                            <field name="year_3" readonly="sequence == 0" decoration-bf="sequence == 0"/>
+                                            <field name="year_4" readonly="sequence == 0" decoration-bf="sequence == 0"/>
+                                            <field name="variante" readonly="sequence == 0" decoration-bf="sequence == 0"/>
+                                            <field name="sequence" column_invisible="True"/>
+                                            <field name="compute_field" column_invisible="True"/>
+                                        </tree>
+                                    </field>
+                                    <group>
+                                        <field name="comment_cat1" readonly="1"/>
+                                    </group>
+                                </group>
+                                <group string="مؤشرات المديونية">
+                                    <field name="bilan2_id" readonly="1">
+                                        <tree editable="bottom" create="0" delete="0">
+                                            <field name="declaration" readonly="sequence == 0" decoration-bf="sequence == 0"/>
+                                            <field name="year_1" readonly="sequence == 0" decoration-bf="sequence == 0"/>
+                                            <field name="year_2" readonly="sequence == 0" decoration-bf="sequence == 0"/>
+                                            <field name="year_3" readonly="sequence == 0" decoration-bf="sequence == 0"/>
+                                            <field name="year_4" readonly="sequence == 0" decoration-bf="sequence == 0"/>
+                                            <field name="variante" readonly="sequence == 0" decoration-bf="sequence == 0"/>
+                                            <field name="sequence" column_invisible="True"/>
+                                            <field name="compute_field" column_invisible="True"/>
+                                        </tree>
+                                    </field>
+                                    <group>
+                                        <field name="comment_cat2" readonly="1"/>
+                                    </group>
+                                </group>
+                                <group string="مؤشرات المردودية">
+                                    <field name="bilan3_id" readonly="1">
+                                        <tree editable="bottom" create="0" delete="0">
+                                            <field name="declaration" readonly="sequence == 0" decoration-bf="sequence == 0"/>
+                                            <field name="year_1" readonly="sequence == 0" decoration-bf="sequence == 0"/>
+                                            <field name="year_2" readonly="sequence == 0" decoration-bf="sequence == 0"/>
+                                            <field name="year_3" readonly="sequence == 0" decoration-bf="sequence == 0"/>
+                                            <field name="year_4" readonly="sequence == 0" decoration-bf="sequence == 0"/>
+                                            <field name="variante" readonly="sequence == 0" decoration-bf="sequence == 0"/>
+                                            <field name="sequence" column_invisible="True"/>
+                                            <field name="compute_field" column_invisible="True"/>
+                                        </tree>
+                                    </field>
+                                    <group>
+                                        <field name="comment_cat3" readonly="1"/>
+                                    </group>
+                                </group>
+                                <group string="مؤشرات السيولة">
+                                    <field name="bilan4_id" readonly="1">
+                                        <tree editable="bottom" create="0" delete="0">
+                                            <field name="declaration" readonly="sequence == 0" decoration-bf="sequence == 0"/>
+                                            <field name="year_1" readonly="sequence == 0" decoration-bf="sequence == 0"/>
+                                            <field name="year_2" readonly="sequence == 0" decoration-bf="sequence == 0"/>
+                                            <field name="year_3" readonly="sequence == 0" decoration-bf="sequence == 0"/>
+                                            <field name="year_4" readonly="sequence == 0" decoration-bf="sequence == 0"/>
+                                            <field name="variante" readonly="sequence == 0" decoration-bf="sequence == 0"/>
+                                            <field name="sequence" column_invisible="True"/>
+                                            <field name="compute_field" column_invisible="True"/>
+                                        </tree>
+                                    </field>
+                                    <group>
+                                        <field name="comment_cat4" readonly="1"/>
+                                    </group>
+                                </group>
+                                <group string="مؤشرات النشاط">
+                                    <field name="bilan5_id" readonly="1">
+                                        <tree editable="bottom" create="0" delete="0">
+                                            <field name="declaration" readonly="sequence == 0" decoration-bf="sequence == 0"/>
+                                            <field name="year_1" readonly="sequence == 0" decoration-bf="sequence == 0"/>
+                                            <field name="year_2" readonly="sequence == 0" decoration-bf="sequence == 0"/>
+                                            <field name="year_3" readonly="sequence == 0" decoration-bf="sequence == 0"/>
+                                            <field name="year_4" readonly="sequence == 0" decoration-bf="sequence == 0"/>
+                                            <field name="variante" readonly="sequence == 0" decoration-bf="sequence == 0"/>
+                                            <field name="sequence" column_invisible="True"/>
+                                            <field name="compute_field" column_invisible="True"/>
+                                        </tree>
+                                    </field>
+                                    <group>
+                                        <field name="comment_cat5" readonly="1"/>
+                                    </group>
+                                </group>
+                                <field name="bilan_id" readonly="1" invisible="1"/>
+                            </page>
+                            <page string="ملخص للبيانات">
+                                <div col="2" class="swot_table">
+                                    <field name="var_ids" readonly="1" class="swot_element">
+                                        <tree editable="bottom" create="0" delete="0">
+                                            <field name="var"/>
+                                            <field name="montant"/>
+                                        </tree>
+                                    </field>
+                                    <field name="recap_ids"
+                                           class="swot_element">
+                                        <tree editable="bottom" create="0" delete="0">
+                                            <field name="declaration" readonly="1"/>
+                                            <field name="montant"/>
+                                        </tree>
+                                    </field>
+                                </div>
+                            </page>
+                        </notebook>
+                        <field name="visualisation1" type="base64" widget="image"
+                               invisible="visualisation1 == False"/>
+                        <group>
+                            <field name="fin_max_ca" invisible="fin_max_ca == False"/>
+                            <field name="fin_max_bfr" invisible="fin_max_bfr == False"/>
+                            <field name="fin_max_caf" invisible="fin_max_caf == False"/>
+                            <field name="fin_achat" invisible="fin_achat == False"/>
+                            <field name="fin_collecte" invisible="fin_collecte == False"/>
+                        </group>
+                        <h3>توصية المحلل المالي</h3>
+                        <group>
+                            <field name="recommandation_analyste_fin"/>
+                            <field name="facilite_propose">
+                                <tree editable="bottom">
+                                    <field name="type_facilite"/>
+                                    <field name="montant_dz" sum="Total"/>
+                                    <field name="montant_dollar" sum="Total"/>
+                                    <field name="condition"/>
+                                </tree>
+                            </field>
+                            <field name="garantie_ids" widget="many2many_tags"/>
+                            <field name="recommandation_dir_fin"/>
+                        </group>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>
