@@ -37,7 +37,7 @@
             <field name="name">سقف بيع اجل/ مرابحة محلية </field>
         </record>
         <record id="product_12" model="wk.product">
-            <field name="name">سقفاستصناع متوسط المدى </field>
+            <field name="name">سقف استصناع متوسط المدى </field>
         </record>
         <record id="product_13" model="wk.product">
             <field name="name">سقف سلم </field>
