@@ -148,9 +148,10 @@ class DocChecker(models.Model):
 
     @api.model
     def create(self, vals):
-        for index, item in LIST:
-            if index == vals['list_document']:
-                vals['filename'] = item
+        if vals['list_document']:
+            for index, item in LIST:
+                if index == vals['list_document']:
+                    vals['filename'] = item
         return super(DocChecker, self).create(vals)
 
     def compute_checked(self):
