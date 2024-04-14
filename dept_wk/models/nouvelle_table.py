@@ -148,7 +148,7 @@ class DocChecker(models.Model):
 
     @api.model
     def create(self, vals):
-        if vals['list_document']:
+        if 'list_document' in vals:
             for index, item in LIST:
                 if index == vals['list_document']:
                     vals['filename'] = item
