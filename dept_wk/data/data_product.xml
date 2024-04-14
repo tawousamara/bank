@@ -63,5 +63,26 @@
         <record id="product_20" model="wk.product">
             <field name="name">سقف اعتمادات مستندية / بوالص تحصيل موصول ببيع اجل</field>
         </record>
+        <record id="product_21" model="wk.product">
+            <field name="name">سقف كفالات متنوعة</field>
+        </record>
+        <record id="product_22" model="wk.product">
+            <field name="name">سقف كفالات حسن تنفيذ</field>
+        </record>
+        <record id="product_23" model="wk.product">
+            <field name="name">سقف كفالات دخول عطاء</field>
+        </record>
+        <record id="product_24" model="wk.product">
+            <field name="name">سقف كفالات دخول عطاء</field>
+        </record>
+        <record id="product_25" model="wk.product">
+            <field name="name">كفالة استرجاع الدفعة المقدمة</field>
+        </record>
+        <record id="product_26" model="wk.product">
+            <field name="name">كفالة حسن تنفيذ</field>
+        </record>
+        <record id="product_27" model="wk.product">
+            <field name="name">كفالة دخول عطاء</field>
+        </record>
     </data>
 </odoo>

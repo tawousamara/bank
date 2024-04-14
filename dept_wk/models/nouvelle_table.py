@@ -224,6 +224,8 @@ class Partner(models.Model):
     company_id = fields.Many2one('res.company', default=lambda self: self.env.company)
     currency_id = fields.Many2one('res.currency', related='company_id.currency_id')
     chiffre_affaire = fields.Monetary(string='راس المال الشركة KDA', currency_field='currency_id',)
+    is_user = fields.Boolean(string='مستخدم', compute='compute_user')
+    is_not_user = fields.Boolean(string='مستخدم')
 
     @api.model
     def create(self, vals):
@@ -258,6 +260,18 @@ class Partner(models.Model):
                 rec.is_client = False
             else:
                 rec.is_client = True
+
+    def compute_user(self):
+        for rec in self:
+            exist = self.env['res.users'].search([('partner_id', '=', rec.id)])
+            if exist:
+                rec.is_user = True
+                rec.is_not_user = False
+            else:
+                rec.is_user = False
+                rec.is_not_user = True
+            print('rec.is_user', rec.is_user)
+            print('rec.is_not_user', rec.is_not_user)
 
 
 class Year(models.Model):

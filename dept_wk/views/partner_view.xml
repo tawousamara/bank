@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
+    <record id="wk_partner_kanban_view" model="ir.ui.view">
+        <field name="name">res.partner.kanban.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.res_partner_kanban_view"/>
+        <field name="priority" eval="10"/>
+        <field name="arch" type="xml">
+            <field name="active" position="after">
+                <field name="is_user" invisible="1"/>
+            </field>
+        </field>
+    </record>
     <record model="ir.ui.view" id="purchase_order_wk">
         <field name="name">res.partner.new.client</field>
         <field name="model">res.partner</field>
@@ -53,37 +64,58 @@
             </xpath>
             <xpath expr="//sheet/group" position="inside">
                 <group>
-                    <field name="date_debut_activite"/>
-                    <field name="activite" options="{'no_create': True, 'no_open': True}"/>
-                    <field name="date_inscription"/>
+                    <field name="date_debut_activite" invisible="is_user == True"/>
+                    <field name="activite" options="{'no_create': True, 'no_open': True}" invisible="is_user == True"/>
+                    <field name="date_inscription" invisible="is_user == True"/>
                 </group>
                 <group>
-                    <field name="adress_siege"/>
+                    <field name="adress_siege" invisible="is_user == True"/>
                     <field name="is_client" invisible="1"/>
-                    <field name="branche" options="{'no_create': True, 'no_open': True}" readonly="is_client == True" />
+                    <field name="is_user" invisible="1"/>
+                    <field name="branche" options="{'no_create': True, 'no_open': True}" readonly="is_client == True"/>
                     <field name="wilaya"/>
-                    <field name="nif"/>
-                    <field name="rc"/>
+                    <field name="nif" invisible="is_user == True"/>
+                    <field name="rc" invisible="is_user == True"/>
                 </group>
                 <group>
-                    <field name="activite_salam"/>
-                    <field name="activity_code"/>
-                    <field name="activity_description"/>
-                    <field name="activite_sec"/>
+                    <field name="activite_salam" invisible="is_user == True"/>
+                    <field name="activity_code" invisible="is_user == True"/>
+                    <field name="activity_description" invisible="is_user == True"/>
+                    <field name="activite_sec" invisible="is_user == True"/>
                 </group>
                 <group>
                     <field name="groupe" domain="[('is_company', '=', True)]"
-                           options="{'no_create': True, 'no_open': True}" invisible="not is_company"/>
-                    <field name="num_compte"/>
-                    <field name="date_ouverture_compte"/>
+                           options="{'no_create': True, 'no_open': True}"
+                           invisible="not is_company or is_user == True"/>
+                    <field name="num_compte" invisible="is_user == True"/>
+                    <field name="date_ouverture_compte" invisible="is_user == True"/>
                 </group>
                 <group>
-                    <field name="classification" options="{'no_create': True, 'no_open': True}"/>
-                    <field name="forme_jur" options="{'no_create': True, 'no_open': True}" invisible="not is_company"/>
-                    <field name="chiffre_affaire" widget="monetary" invisible="not is_company"/>
+                    <field name="classification" options="{'no_create': True, 'no_open': True}"
+                           invisible="is_user == True"/>
+                    <field name="forme_jur" options="{'no_create': True, 'no_open': True}"
+                           invisible="not is_company or is_user == True"/>
+                    <field name="chiffre_affaire" widget="monetary" invisible="not is_company or is_user == True"/>
                 </group>
             </xpath>
         </field>
-
     </record>
+    <record id="view_res_partner_filter_inherit" model="ir.ui.view">
+        <field name="name">res.partner.select.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <filter name="inactive" position="after">
+                <filter string="عملائي" name="my_clients" domain="[('is_not_user', '=', True)]"/>
+            </filter>
+        </field>
+    </record>
+
+    <record id="res_partner_action_my" model="ir.actions.act_window">
+        <field name="name">عملائي</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="domain">[('is_not_user', '=', True)]</field>
+        <field name="context">{'search_default_my_clients': 1}</field>
+         </record>
 </odoo>
