@@ -857,12 +857,16 @@ class Etape(models.Model):
                 rec.workflow.assigned_to_agence = rec.assigned_to_agence.id
                 if rec.state_branch == 'branch_1':
                     rec.state_compute = 0
+                    rec.workflow.state = '1'
                 elif rec.state_branch == 'branch_2':
                     rec.state_compute = 0.25
+                    rec.workflow.state = '1'
                 elif rec.state_branch == 'branch_3':
                     rec.state_compute = 0.5
+                    rec.workflow.state = '1'
                 elif rec.state_branch == 'branch_4':
                     rec.state_compute = 0.75
+                    rec.workflow.state = '1'
                 else:
                     rec.state_compute = 1
             elif rec.etape.sequence == 2:
