@@ -849,7 +849,7 @@ class Etape(models.Model):
                 mail_invite = self.env['mail.wizard.invite'].with_context({
                     'default_res_model': 'wk.etape',
                     'default_res_id': rec.id
-                }).with_user(self.user_id).create({
+                }).with_user(self.env.user).create({
                     'partner_ids': [(4, partner.id)],
                     'notify': False})
                 mail_invite.add_followers()

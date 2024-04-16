@@ -26,7 +26,8 @@ class Agence(models.Model):
                 rec.wilaya_id = False
             if commune:
                 print(commune.description)
-                rec.ref = rec.name + '-' + commune.description
+                if not rec.ref:
+                    rec.ref = rec.name + '-' + commune.description
 
     def create_folder(self):
         for rec in self:
