@@ -8,7 +8,7 @@
             <menuitem id="wk_workflow_dashboard_menu"
                       name="طلبات التمويل"
                       sequence="1"
-                      groups="dept_wk.dept_wk_group_responsable_commercial,dept_wk.dept_wk_group_responsable_credit,dept_wk.dept_wk_group_responsable_analyste,dept_wk.dept_wk_group_analyste,dept_wk.dept_wk_group_agent_agence,dept_wk.dept_wk_group_comite"
+                      groups="dept_wk.dept_wk_group_charge_commercial,dept_wk.dept_wk_group_responsable_credit,dept_wk.dept_wk_group_responsable_analyste,dept_wk.dept_wk_group_analyste,dept_wk.dept_wk_group_agent_agence,dept_wk.dept_wk_group_comite,dept_wk.dept_wk_group_administration"
                       action="wk_workflow_dashboard_action"/>
             <menuitem id="wk_contact_menu"
                       name="جهات الاتصال"
