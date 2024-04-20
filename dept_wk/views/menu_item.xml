@@ -17,10 +17,12 @@
             <menuitem id="wk_dashboard_menu"
                       name="Dashboard"
                       sequence="4"
+                      groups="dept_wk.dept_wk_group_analyste"
                       action="open_simple_dashboard_action"/>
             <menuitem id="wk_reporting_menu"
                       name="Reporting"
                       sequence="6"
+                      groups="dept_wk.dept_wk_group_analyste"
                       action="wk_analyse_performence_action"/>
             <menuitem id="wk_configuration_menu"
                       name="Configuration"
