@@ -194,13 +194,14 @@
                             <page string="حجم و هيكل التمويلات المطلوبة">
                                 <field name="tailles" readonly="state_branch != 'branch_3' and sequence != 8">
                                     <tree editable="bottom">
-                                        <field name="type_demande" options="{'no_create': True, 'no_open': True}"
-                                               width="20%"/>
+                                        <field name="type_demande_ids" options="{'no_create': True, 'no_open': True}"
+                                               widget="many2many_tags" width="20%"/>
                                         <field name="montant" sum="Total" width="20%"/>
                                         <field name="raison" width="20%"/>
                                         <field name="preg" widget="percentage" width="20%"/>
                                         <field name="duree" width="20%"/>
                                         <field name="garanties" column_invisible="1"/>
+                                        <field name="compute_exist"  column_invisible="1"/>
                                     </tree>
                                 </field>
                                 <group>
@@ -296,7 +297,7 @@
                                 <field name="document" widget="binary" filename="filename"/>
                                 <field name="answer"/>
                                 <field name="note"/>
-                                <field name="filename" column_invisible="True"/>
+                                <field name="filename"  column_invisible="True" />
                             </tree>
                         </field>
                         <group>
@@ -313,7 +314,8 @@
                             <page string="تفاصيل التسهيلات الممنوحة (KDA)">
                                 <field name="facilite_accorde" width="100%" readonly="state_finance != 'finance_2'">
                                     <tree editable="bottom">
-                                        <field name="type_facilite" options="{'no_create': True}" width="15%"/>
+                                        <field name="type_demande_ids" options="{'no_create': True}"
+                                               width="15%" widget="many2many_tags"/>
                                         <field name="date" width="10%"/>
                                         <field name="montant_da_actuel" width="15%"/>
                                         <field name="montant_dollar_actuel" optional="hide"/>
@@ -322,6 +324,7 @@
                                         <field name="montant_da_total" width="15%"/>
                                         <field name="montant_dollar_total" optional="hide"/>
                                         <field name="garantie_montant" widget="percentage" width="15%"/>
+                                        <field name="compute_exist" column_invisible="True"/>
                                         <field name="remarques" width="10%"/>
                                     </tree>
                                 </field>
@@ -868,9 +871,10 @@
                             <field name="recommandation_analyste_fin" readonly="state_finance != 'finance_2'"/>
                             <field name="facilite_propose" readonly="state_finance != 'finance_2'">
                                 <tree editable="bottom">
-                                    <field name="type_facilite" options="{'no_create': True}"/>
+                                    <field name="type_demande_ids" options="{'no_create': True}" widget="many2many_tags"/>
                                     <field name="montant_dz" sum="Total"/>
                                     <field name="montant_dollar" sum="Total"/>
+                                    <field name="compute_exist" column_invisible="True"/>
                                     <field name="condition"/>
                                 </tree>
                             </field>

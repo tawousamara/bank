@@ -65,8 +65,19 @@ class FaciliteAccorde(models.Model):
 
     date = fields.Date(string='تاريخ الرخصة')
     type_facilite = fields.Many2one('wk.product', string='نوع التسهيلات')
+    type_demande_ids = fields.Many2many('wk.product', string='نوع التسهيلات')
     garantie_montant = fields.Float(string='التأمين النقدي')
     remarques = fields.Text(string='ملاحظات')
+    compute_exist = fields.Boolean(compute='compute_products')
+
+    def compute_products(self):
+        for rec in self:
+            if rec.type_facilite:
+                values = self.env['wk.product'].browse(rec.type_facilite.id)
+                rec.type_demande_ids |= values
+                rec.compute_exist = True
+            else:
+                rec.compute_exist = False
 
     @api.depends('montant_da_actuel')
     def compute_dollar_actuel(self):
@@ -756,12 +767,23 @@ class FacilitePropose(models.Model):
     _name = 'wk.facilite.propose'
     _description = 'facilite propose'
 
-
     etape_id = fields.Many2one('wk.etape')
     type_facilite = fields.Many2one('wk.product', string='نوع التسهيلات')
+    type_demande_ids = fields.Many2many('wk.product', string='نوع التسهيلات')
     montant_dz = fields.Float(string='المبلغ المقترح KDA')
     montant_dollar = fields.Float(string='K/$', compute='compute_montant_dollar')
     condition = fields.Char(string='الشروط')
+    compute_exist = fields.Boolean(compute='compute_products')
+
+    def compute_products(self):
+        for rec in self:
+            print('hiiiiiiioooooo')
+            if rec.type_facilite:
+                values = self.env['wk.product'].browse(rec.type_facilite.id)
+                rec.type_demande_ids |= values
+                rec.compute_exist = True
+            else:
+                rec.compute_exist = False
 
     @api.depends('montant_dz')
     def compute_montant_dollar(self):

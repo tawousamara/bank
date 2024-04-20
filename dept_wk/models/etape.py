@@ -271,7 +271,7 @@ class Etape(models.Model):
     assigned_to_agence = fields.Many2one('res.users', string='المكلف بالملف',
                                          default=lambda self: self.env.user,
                                          domain=lambda self: [('groups_id', 'in', self.env.ref('dept_wk.dept_wk_group_agent_agence').id)])
-    state = fields.Selection(related='workflow.state')
+    state = fields.Selection(related='workflow.state', store=True)
     state_branch = fields.Selection([('branch_1', 'الفرع'),
                                   ('branch_2', 'مدير الفرع'),
                                   ('branch_3', ' الفرع'),
@@ -467,7 +467,7 @@ class Etape(models.Model):
     # Commercial fields
     assigned_to_commercial = fields.Many2one('res.users', string='المكلف بالاعمال التجارية',
                                           domain=lambda self: [
-                                              ('groups_id', 'in', self.env.ref('dept_wk.dept_wk_group_responsable_commercial').id)],
+                                              ('groups_id', 'in', self.env.ref('dept_wk.dept_wk_group_charge_commercial').id)],
                                           track_visibility='always')
 
     state_commercial = fields.Selection([('commercial_1', 'مدير الاعمال التجارية'),
@@ -855,6 +855,14 @@ class Etape(models.Model):
                 mail_invite.add_followers()
             if rec.etape.sequence == 1:
                 rec.workflow.assigned_to_agence = rec.assigned_to_agence.id
+                for doc in rec.documents:
+                    if doc.list_document:
+                        for index, item in LIST:
+                            if index == doc.list_document:
+                                doc.filename = item
+                                doc.list_doc = item
+                    else:
+                        doc.filename = doc.list_doc
                 if rec.state_branch == 'branch_1':
                     rec.state_compute = 0
                     rec.workflow.state = '1'
@@ -871,6 +879,14 @@ class Etape(models.Model):
                     rec.state_compute = 1
             elif rec.etape.sequence == 2:
                 rec.workflow.assigned_to_finance = rec.assigned_to_finance.id
+                for doc in rec.documents:
+                    if doc.list_document:
+                        for index, item in LIST:
+                            if index == doc.list_document:
+                                doc.filename = item
+                                doc.list_doc = item
+                    else:
+                        doc.filename = doc.list_doc
                 if rec.state_finance == 'finance_1':
                     rec.state_compute = 0
                 elif rec.state_finance == 'finance_2':
@@ -916,6 +932,7 @@ class Etape(models.Model):
         for rec in self:
             if rec.etape.sequence == 1:
                 rec.user_id = rec.assigned_to_agence.id
+
             elif rec.etape.sequence == 2:
                 rec.user_id = rec.assigned_to_finance.id
             elif rec.etape.sequence == 3:
@@ -940,6 +957,7 @@ class Etape(models.Model):
             if etape2.facilite_propose:
                 montant = sum(etape2.facilite_propose.mapped('montant_dz'))
             rec.montant_propose = montant
+
 
     def action_get_view(self):
         for rec in self:
@@ -1381,7 +1399,7 @@ class Etape(models.Model):
             }
             email_template.send_mail(self.id, force_send=True, email_values=email_values)
 
-    def a_revoir(self):
+    def a_revoir(self, one_step=False):
         for rec in self:
             if rec.etape.sequence == 1:
                 if rec.state_branch == 'branch_2':
@@ -1401,10 +1419,15 @@ class Etape(models.Model):
                     else:
                         raise ValidationError(_('لا يمكنكم طلب المراجعة الملف مقبول'))
                 elif rec.state_finance == 'finance_2':
-                    if not rec.dossier_verouiller:
+                    print(one_step)
+                    print(rec.dossier_verouiller)
+                    if not rec.dossier_verouiller and not one_step:
                         rec.state_finance = 'finance_1'
                         etape = rec.workflow.states.filtered(lambda l: l.etape.sequence == 1)
                         etape.state_branch = 'branch_4'
+                    elif not rec.dossier_verouiller and one_step:
+                        rec.state_finance = 'finance_1'
+                        rec.dossier_verouiller = False
                 elif rec.state_finance == 'finance_3':
                     rec.state_finance = 'finance_2'
                 elif rec.state_finance == 'finance_4':
@@ -1433,16 +1456,21 @@ class Etape(models.Model):
 
 
     def revoir_action(self):
-        view_id = self.env.ref('dept_wk.retour_wizard_form').id
-        return {
-            'name': 'سبب طلب المراجعة',
-            'type': 'ir.actions.act_window',
-            'view_mode': 'form',
-            'res_model': 'wk.wizard.retour',
-            'view_id': view_id,
-            'target': 'new',
-            'context': {'actual_state': 'branch_1'}
-        }
+        for rec in self:
+            view_id = self.env.ref('dept_wk.retour_wizard_form').id
+            not_one_step = False
+            if not rec.sequence == 2 and not rec.state_finance == 'finance_2':
+                not_one_step = True
+            print(not_one_step)
+            return {
+                'name': 'سبب طلب المراجعة',
+                'type': 'ir.actions.act_window',
+                'view_mode': 'form',
+                'res_model': 'wk.wizard.retour',
+                'view_id': view_id,
+                'target': 'new',
+                'context': {'not_one_step': not_one_step}
+            }
 
     def open_tracking(self):
         self.ensure_one()
@@ -2509,6 +2537,7 @@ class Etape(models.Model):
                            ('model', 'in', ['wk.etape', 'wk.workflow.dashboard'])],
                 'type': 'ir.actions.act_window',
             }
+
     def get_mail_to(self):
         for rec in self:
             partner_ids = []
@@ -2517,7 +2546,7 @@ class Etape(models.Model):
                 if rec.state_branch in ['branch_1', 'branch_3']:
                     partner_ids = rec.assigned_to_agence.partner_id.email
                     list_final = partner_ids
-                elif rec.state_branch in ['branch_2','branch_4']:
+                elif rec.state_branch in ['branch_2', 'branch_4']:
                     user_ids = self.env.ref('dept_wk.dept_wk_group_responsable_agence').users.filtered(
                         lambda l: l.branche == rec.branche).mapped('partner_id')
                     partner_ids = user_ids.mapped('email')
@@ -2538,7 +2567,7 @@ class Etape(models.Model):
                     list_final = ', '.join(partner_ids)
                 elif rec.state_finance == 'finance_2':
                     partner_ids.append(rec.assigned_to_finance.partner_id.email)
-                    user_ids = self.env.ref('dept_wk.dept_wk_group_responsable_credit').users.mapped('partner_id')
+                    user_ids = self.env.ref('dept_wk.dept_wk_group_responsable_risque').users.mapped('partner_id')
                     partner_ids += user_ids.mapped('email')
                     user_ids = self.env.ref('dept_wk.dept_wk_group_responsable_commercial').users.mapped('partner_id')
                     partner_ids += user_ids.mapped('email')
@@ -2549,7 +2578,7 @@ class Etape(models.Model):
                 elif rec.state_commercial in ['commercial_3']:
                     user_ids = self.env.ref('dept_wk.dept_wk_group_responsable_commercial').users.mapped('partner_id')
                     partner_ids.append(user_ids.mapped('email'))
-                    list_final = ', '.join(partner_ids)
+                    list_final = ', '.join(str(id) for id in partner_ids)
                 else:
                     user_ids = self.env.ref('dept_wk.dept_wk_group_responsable_analyste').users.mapped('partner_id')
                     partner_ids = user_ids.mapped('email')
@@ -2579,6 +2608,9 @@ class Etape(models.Model):
                     partner_ids = user_ids.mapped('email')
                 elif rec.state_finance == 'finance_2':
                     partner_ids.append(rec.assigned_to_finance.partner_id.email)
+                elif rec.state_finance == 'finance_1':
+                    user_ids = self.env.ref('dept_wk.dept_wk_group_responsable_analyste').users.mapped('partner_id')
+                    partner_ids = user_ids.mapped('email')
             if rec.sequence == 3:
                 if rec.state_commercial == 'commercial_2':
                     partner_ids = rec.assigned_to_commercial.partner_id.email

@@ -42,7 +42,7 @@ class Workflow(models.Model):
     is_same_branche = fields.Boolean(compute='is_same_compute')
     is_same = fields.Boolean()
     raison_refus = fields.Text(string='سبب طلب المراجعة')
-
+    is_in_financial = fields.Boolean(string='is financial state')
     def is_same_compute(self):
         for rec in self:
             if self.env.user.partner_id.branche:
@@ -80,6 +80,10 @@ class Workflow(models.Model):
 
     def compute_visible_states(self):
         for rec in self:
+            if rec.state == '2':
+                rec.is_in_financial = True
+            else:
+                rec.is_in_financial = False
             if rec.states:
                 rec.lanced = True
             else:
@@ -104,6 +108,8 @@ class Workflow(models.Model):
                            ('model', 'in', ['wk.etape', 'wk.workflow.dashboard'])],
                 'type': 'ir.actions.act_window',
             }
+
+
     def action_start(self):
         for rec in self:
             print('here')

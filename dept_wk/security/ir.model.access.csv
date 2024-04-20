@@ -217,6 +217,7 @@ access_wk_contrat_user,access.wk.contrat,model_wk_contrat,,1,1,1,1
 access_configuration_risque_user,access.configuration.risque,model_configuration_risque,,1,1,1,1
 
 access_wk_wizard_retour_user,access.wk.wizard.retour,model_wk_wizard_retour,,1,1,1,1
+access_wk_periode_wizard_user,access.wk.periode.wizard,model_wk_periode_wizard,,1,1,1,1
 access_etape_wizard_user,access.etape.wizard,model_etape_wizard,,1,1,1,1
 access_view_bilan_wizard_user,access.view.bilan.wizard,model_view_bilan_wizard,,1,1,1,1
 access_wk_activite_salam_user,access.wk.activite.salam,model_wk_activite_salam,,1,1,1,1

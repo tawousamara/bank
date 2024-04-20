@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <record id="view_wk_etape_tree" model="ir.ui.view">
-        <field name="name">wk.etape.tree</field>
-        <field name="model">wk.etape</field>
+        <field name="name">wk.workflow.dashboard.tree</field>
+        <field name="model">wk.workflow.dashboard</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="reference"/>
+                <field name="name"/>
                 <field name="assigned_to_agence"/>
                 <field name="assigned_to_finance"/>
                 <field name="montant_demande"/>
-                <field name="state_finance"/>
+                <field name="chiffre_affaire"/>
             </tree>
         </field>
     </record>
@@ -49,14 +49,16 @@
                             <field name="time"/>
                         </tree>
                     </field>
+                    <button name="open_pivot_view" string="انظر الجدول" type="object"
+                            class="oe_highlight" />
 
-                    <field name="line_prod_ids" readonly="1">
+                    <!--<field name="line_prod_ids" readonly="1">
                         <tree>
                             <field name="product"/>
                             <field name="montant_demande"/>
                             <field name="agence"/>
                         </tree>
-                    </field>
+                    </field>-->
                 </sheet>
             </form>
         </field>
@@ -80,6 +82,18 @@
             </graph>
         </field>
     </record>
+    <record id="wk_line_stat_prod_view_pivot" model="ir.ui.view">
+            <field name="name">wk.line.stat.prod.pivot</field>
+            <field name="model">wk.line.stat.prod</field>
+            <field name="priority">60</field>
+            <field name="arch" type="xml">
+                <pivot string="Pipeline Analysis" sample="1">
+                    <field name="agence" type="col"/>
+                    <field name="product" type="row"/>
+                    <field name="montant_demande" type="measure"/>
+                </pivot>
+            </field>
+        </record>
     <record id="view_wk_etape_line_chart" model="ir.ui.view">
         <field name="name">Line Chart View for wk.etape</field>
         <field name="model">wk.etape</field>
@@ -146,8 +160,10 @@
     </record>
     <record id="wk_financial_step_action" model="ir.actions.act_window">
         <field name="name">مديرية التمويلات</field>
-        <field name="res_model">wk.etape</field>
+        <field name="res_model">wk.workflow.dashboard</field>
         <field name="view_mode">tree</field>
+        <field name="domain">[('state', '=', '2')]</field>
+        <field name="context">{'search_default_sequence_2': 1}</field>
         <field name="view_id" ref="dept_wk.view_wk_etape_tree"/>
     </record>
     <record id="wk_financial_step_graph" model="ir.actions.act_window">
@@ -185,7 +201,8 @@
                     <column>
                         <action name="%(dept_wk.wk_financial_step_graph)d" string="عدد الملفات لكل محلل في الوقت الحالي"
                                 context="{'search_default_finance_2': 1}"/>
-                        <action name="%(dept_wk.wk_financial_step_action)d" string="الملفات"/>
+                        <action name="%(dept_wk.wk_financial_step_action)d" string="الملفات الحالية في مديرية التمويلات"
+                                context="{'search_default_sequence_2': 1}"/>
                     </column>
                     <column>
                         <action name="%(dept_wk.wk_financial_step_pie)d" string="عدد الملفات حسب وضعية التحليل المالي"
@@ -205,5 +222,32 @@
         <field name="view_mode">form</field>
         <field name="usage">menu</field>
         <field name="view_id" ref="simple_dashboard_view"/>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_wizard_planning">
+        <field name="name">Choisir la periode</field>
+        <field name="res_model">wk.periode.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+    <record id="wizard_view_form" model="ir.ui.view">
+        <field name="name">wk.periode.wizard.view.form</field>
+        <field name="model">wk.periode.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Choisir la période">
+                <sheet>
+                    <div class="d-inline-block">
+                        <span>Du</span>
+                        <field name="date_from"/>
+                        <span>Au</span>
+                        <field name="date_to"/>
+                    </div>
+                    <footer>
+                        <button name="send" string="Créer" type="object" class="oe_highlight" data-hotkey="q"/>
+                        <button string="Annuler" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
     </record>
 </odoo>

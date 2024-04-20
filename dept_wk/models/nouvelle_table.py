@@ -53,13 +53,23 @@ class Taillefin(models.Model):
     _description = 'La taille et la structure du financement requis'
 
     type_demande = fields.Many2one('wk.product', string='نوع التسهيلات')
+    type_demande_ids = fields.Many2many('wk.product', string='نوع التسهيلات')
     montant = fields.Float(string='المبلغ المطلوب')
     raison = fields.Char(string='الغرض من التمويل')
     garanties = fields.Many2many('wk.garanties', string='الضمانات المقترحة')
     preg = fields.Float( string='هامش الجدية')
     duree = fields.Integer( string='المدة (الايام)')
     etape_id = fields.Many2one('wk.etape')
+    compute_exist = fields.Boolean(compute='compute_products')
 
+    def compute_products(self):
+        for rec in self:
+            if rec.type_demande:
+                values = self.env['wk.product'].browse(rec.type_demande.id)
+                rec.type_demande_ids |= values
+                rec.compute_exist = True
+            else:
+                rec.compute_exist = False
 
 class FinancementBanque(models.Model):
     _name = 'wk.fin.banque'

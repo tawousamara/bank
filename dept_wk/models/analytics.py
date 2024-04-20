@@ -10,6 +10,17 @@ class Recap(models.Model):
     line_ids = fields.One2many('wk.line.stat', 'line', string='الملفات')
     line_prod_ids = fields.One2many('wk.line.stat.prod', 'line', string='الملفات')
 
+    def open_pivot_view(self):
+        for rec in self:
+            view_id = self.env.ref('dept_wk.wk_line_stat_prod_view_pivot').id
+            return {'type': 'ir.actions.act_window',
+                    'name': 'جدول موجز',
+                    'res_model': 'wk.line.stat.prod',
+                    'domain': [('line', '=', rec.id)],
+                    'view_mode': 'pivot',
+                    'view_id': view_id,
+                    }
+
     def action_get_detail(self):
         for rec in self:
             self.line_ids.unlink()

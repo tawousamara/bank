@@ -14,6 +14,14 @@
                       name="جهات الاتصال"
                       sequence="3"
                       action="res_partner_action_my"/>
+            <menuitem id="wk_dashboard_menu"
+                      name="Dashboard"
+                      sequence="4"
+                      action="open_simple_dashboard_action"/>
+            <menuitem id="wk_reporting_menu"
+                      name="Reporting"
+                      sequence="6"
+                      action="wk_analyse_performence_action"/>
             <menuitem id="wk_configuration_menu"
                       name="Configuration"
                       groups="dept_wk.dept_wk_group_administration"

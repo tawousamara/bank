@@ -9,6 +9,7 @@ class RevoirState(models.TransientModel):
     etape_id = fields.Many2one("wk.etape", string="Request")
     state = fields.Many2one('wk.state')
     raison = fields.Text(string="Reason")
+    one_step = fields.Boolean(string='الى مدير التمويلات')
 
     def cancel(self):
         return {'type': 'ir.actions.act_window_close'}
@@ -24,7 +25,7 @@ class RevoirState(models.TransientModel):
                 demande.reject_request_function()
             elif self.raison:
                 demande.write({'raison_a_revoir': self.raison})
-                demande.a_revoir()
+                demande.a_revoir(self.one_step)
                 email_template = self.env.ref('dept_wk.notification_revoir_mail_template')
                 email_values = {
                     'email_to': demande.get_mail_to_revoir(),
@@ -231,6 +232,77 @@ class BilanViewer(models.TransientModel):
             self.pdf_1 = tcr_id.file_import
             self.pdf_2 = tcr_id.file_import2"""
 
+
+class Wizard(models.TransientModel):
+    _name = 'wk.periode.wizard'
+
+    date_from = fields.Date(string='De')
+    date_to = fields.Date(string='Au')
+
+    def send(self):
+        for rec in self:
+            date_from = rec.date_from.replace(day=1)
+            date_to = rec.date_to.replace(day=1)
+            self.env['wk.line.stat.prod'].search([]).unlink()
+            demandes = self.env['wk.workflow.dashboard'].search([('state', '!=', '1')])
+            for demande in demandes:
+                if not date_from and not date_to:
+                    etape = demande.states.filtered(lambda l: l.sequence == 2)
+                    print(etape)
+                    analyste = self.env['wk.line.stat'].search([('analyste', '=', etape.assigned_to_finance.id)])
+                    if not analyste:
+                        analyste = self.env['wk.line.stat'].create({'analyste': etape.assigned_to_finance.id,
+                                                                    'line': rec.id})
+                    else:
+                        analyste.line = rec.id
+                    if etape.state_finance == 'finance_2':
+                        analyste.actual_demande += 1
+                    analyste.total_demande += 1
+                    analyste.montant_demande += etape.montant_demande
+                    analyste.montant_propose += etape.montant_propose
+
+                else:
+                    if (date_from.year < demande.date.year or
+                        (date_from.year == demande.date.year and date_from.month <= demande.date.month)) and \
+                            (demande.date.year < date_to.year or
+                             (demande.date.year == date_to.year and demande.date.month <= date_to.month)):
+                        etape = demande.states.filtered(lambda l: l.sequence == 2)
+                        print(etape)
+                        analyste = self.env['wk.line.stat'].search([('analyste', '=', etape.assigned_to_finance.id)])
+                        if not analyste:
+                            analyste = self.env['wk.line.stat'].create({'analyste': etape.assigned_to_finance.id,
+                                                                        'line': rec.id})
+                        else:
+                            analyste.line = rec.id
+                        if etape.state_finance == 'finance_2':
+                            analyste.actual_demande += 1
+                        analyste.total_demande += 1
+                        analyste.montant_demande += etape.montant_demande
+                        analyste.montant_propose += etape.montant_propose
+                        etape = demande.states.filtered(lambda l: l.sequence == 1)
+                        for taille in etape.tailles:
+                            produit = self.env['wk.line.stat.prod'].search([('product', '=', taille.type_demande.id),
+                                                                            ('line', '=', rec.id),
+                                                                            ('agence', '=', etape.branche.id)])
+                            if not produit:
+                                self.env['wk.line.stat.prod'].create({'line': rec.id,
+                                                                      'product': taille.type_demande.id,
+                                                                      'montant_demande': taille.montant,
+                                                                      'agence': etape.branche.id})
+                            else:
+                                produit.montant_demande += taille.montant
+
+        view_id = self.env.ref('dept_wk.wk_line_stat_prod_view_pivot').id
+        return {'type': 'ir.actions.act_window',
+                'name': 'جدول موجز',
+                    'res_model': 'wk.line.stat.prod',
+                    'view_mode': 'pivot',
+                    'view_id': view_id,
+                    }
+
+
+    def cancel(self):
+        pass
 
 
 class Mail(models.Model):

@@ -46,6 +46,9 @@
                 <field name="state"/>
                 <filter string="تاريخ البدء" name="filter_creation_date" date="date" default_period="this_year,this_month"/>
                 <filter string="تاريخ الانتهاء" name="filter_fin_date" date="date_fin" default_period="this_year,this_month"/>
+                <filter string="Sequence 2" name="sequence_2" domain="[('state', '=', '2')]"/>
+                <filter string="finance 2" name="fin_2" domain="[('is_in_financial', '=', True)]"/>
+
                 <group expand="1" string="Group By">
                     <filter string="الفرع" name="group_by_branch"
                             context="{'group_by': 'branche'}"/>
