@@ -2,10 +2,6 @@
 from odoo import models, fields, api, _
 from datetime import datetime
 from odoo.exceptions import ValidationError
-import base64
-import io
-import pdfplumber
-import ocrmypdf
 import re
 import json
 import requests
@@ -139,24 +135,26 @@ class ImportTcrOCR(models.Model):
                         for amount in line['amounts']:
                             if sum_height > amount['width']:
                                 sum_height = amount['width']
-                    print(sum_height)
                     first_credit.sort()
                     first_debit.sort()
                     second_credit.sort()
                     second_debit.sort()
-                    print(first_debit)
-                    print(second_debit)
-                    print(first_credit)
-                    print(second_credit)
-                    print( one_value_c != 0 and len(first_credit) > 1 )
-                    first_moy_credit = [first_credit[0], first_credit[-1] + sum_height] if one_value_c != 0 and len(first_credit) > 1 else []
-                    second_moy_credit = [first_credit[-1] + sum_height, second_credit[-1] + sum_height] if one_value_c != 0 and len(second_debit) > 1 else []
-                    first_moy_debit = [first_debit[0], first_debit[-1] + sum_height] if one_value_d != 0 and len(first_debit) > 1 else []
-                    second_moy_debit = [first_debit[-1] + sum_height, second_debit[-1] + sum_height] if one_value_d and len(second_debit) > 1 else []
-                    print(first_moy_credit)
-                    print(first_moy_debit)
-                    print(second_moy_credit)
-                    print(second_moy_debit)
+                    try:
+                        first_moy_credit = [first_credit[0], first_credit[-1] + sum_height] if one_value_c != 0 and len(first_credit) > 1 else []
+                    except:
+                        first_moy_credit = []
+                    try:
+                        second_moy_credit = [first_credit[-1] + sum_height, second_credit[-1] + sum_height] if one_value_c != 0 and len(second_debit) > 1 else []
+                    except:
+                        second_moy_credit = []
+                    try:
+                        first_moy_debit = [first_debit[0], first_debit[-1] + sum_height] if one_value_d != 0 and len(first_debit) > 1 else []
+                    except:
+                        first_moy_debit = []
+                    try:
+                        second_moy_debit = [first_debit[-1] + sum_height, second_debit[-1] + sum_height] if one_value_d and len(second_debit) > 1 else []
+                    except:
+                        second_moy_debit = []
                     for line in same_line:
                         tcr = rec.tcr_lines.filtered(lambda l: l.mintop == line['min_top'])
                         if len(line['amounts']) == 2:

@@ -4,10 +4,6 @@ from odoo import models, fields, api, _
 import json
 from datetime import datetime
 from odoo.exceptions import ValidationError
-import io
-import PyPDF2
-import base64
-from PIL import Image
 import re
 import requests
 

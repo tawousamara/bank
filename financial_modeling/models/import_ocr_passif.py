@@ -1,10 +1,7 @@
 from odoo import models, fields, api, _
 from datetime import datetime
 from odoo.exceptions import ValidationError
-import base64
-import io
-import pdfplumber
-import ocrmypdf
+
 import re
 import json
 import requests
