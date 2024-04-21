@@ -25,6 +25,7 @@
                 <field name="demande"/>
                 <field name="nom_client" />
                 <field name="chiffre_affaire"/>
+                <field name="montant_demande"/>
                 <field name="assigned_to_agence"/>
                 <field name="assigned_to_finance"/>
                 <field name="state"/>
