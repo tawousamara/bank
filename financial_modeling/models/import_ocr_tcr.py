@@ -140,21 +140,27 @@ class ImportTcrOCR(models.Model):
                     second_credit.sort()
                     second_debit.sort()
                     try:
-                        first_moy_credit = [first_credit[0], first_credit[-1] + sum_height] if one_value_c != 0 and len(first_credit) > 1 else []
+                        first_moy_credit = [first_credit[0], first_credit[-1] + sum_height] if one_value_c != 0 and len(
+                            first_credit) > 1 else []
                     except:
-                        first_moy_credit = []
+                        first_moy_credit = [first_credit[0], first_credit[0] + sum_height]
                     try:
-                        second_moy_credit = [first_credit[-1] + sum_height, second_credit[-1] + sum_height] if one_value_c != 0 and len(second_debit) > 1 else []
+                        second_moy_credit = [first_credit[-1] + sum_height,
+                                             second_credit[-1] + sum_height] if one_value_c != 0 and len(
+                            second_debit) > 1 else []
                     except:
-                        second_moy_credit = []
+                        second_moy_credit = [first_credit[0] + sum_height, second_credit[0] + sum_height]
                     try:
-                        first_moy_debit = [first_debit[0], first_debit[-1] + sum_height] if one_value_d != 0 and len(first_debit) > 1 else []
+                        first_moy_debit = [first_debit[0], first_debit[-1] + sum_height] if one_value_d != 0 and len(
+                            first_debit) > 1 else []
                     except:
-                        first_moy_debit = []
+                        first_moy_debit = [first_debit[0], first_debit[0] + sum_height]
                     try:
-                        second_moy_debit = [first_debit[-1] + sum_height, second_debit[-1] + sum_height] if one_value_d and len(second_debit) > 1 else []
+                        second_moy_debit = [first_debit[-1] + sum_height,
+                                            second_debit[-1] + sum_height] if one_value_d and len(
+                            second_debit) > 1 else []
                     except:
-                        second_moy_debit = []
+                        second_moy_debit = [first_debit[0] + sum_height, second_debit[0] + sum_height]
                     for line in same_line:
                         tcr = rec.tcr_lines.filtered(lambda l: l.mintop == line['min_top'])
                         if len(line['amounts']) == 2:
