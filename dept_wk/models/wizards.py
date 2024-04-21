@@ -54,7 +54,7 @@ class RevoirState(models.TransientModel):
                                                 'comment': self.raison})'''
                 return {'type': 'ir.actions.act_window_close'}
             else:
-                raise ValueError("Vous devriez saisir la raison")
+                raise UserError("Vous devriez saisir la raison")
 
 
 class AvanceState(models.TransientModel):

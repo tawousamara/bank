@@ -113,7 +113,7 @@
             <field name="commune">01</field>
         </record>
         <record id="agence_24" model="wk.agence">
-            <field name="name">01608</field>
+            <field name="name">01604</field>
             <field name="wilaya">16</field>
             <field name="commune">01</field>
         </record>
