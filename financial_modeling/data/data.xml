@@ -137,7 +137,7 @@
             <field name="sequence">27</field>
         </record>
         <record id="tcr_28" model="import.ocr.config">
-            <field name="name">Rabais, remises, ristournes obtenues sur services extérieurs</field>
+            <field name="name">Rabais, remises, ristournes obtenus sur services extérieurs</field>
             <field name="type">tcr</field>
             <field name="sequence">28</field>
         </record>

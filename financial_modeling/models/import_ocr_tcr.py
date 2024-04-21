@@ -60,14 +60,6 @@ class ImportTcrOCR(models.Model):
                 debit = [12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,31,32,35,36,37,38,39,42,43,46,47,48]
                 if rec.tcr_lines:
                     rec.tcr_lines.unlink()
-                first_credit = []
-                second_credit = []
-                first_debit = []
-                second_debit = []
-                first_moy_credit = []
-                second_moy_credit = []
-                first_moy_debit = []
-                second_moy_debit = []
                 if rec.file_import:
                     data = str(rec.file_import)
                     data = data.replace("b'", '\n')
@@ -80,97 +72,42 @@ class ImportTcrOCR(models.Model):
                     json_dumps = test_file.content.decode()
                     json_loads = json.loads(json_dumps)
                     lines = json_loads['ParsedResults'][0]['TextOverlay']['Lines']
-                    same_line = []
+                    lines = group_words_by_line(lines)
+                    list_tcr = self.env['import.ocr.config'].search([])
                     for line in lines:
-                        if bool(re.match(pattern_alpha, line['LineText'])) or line['LineText'] == 'IX-RESULTAT NET DE L\'EXERCICE' or  line['LineText'] =='IV-Excédent brut d\'exploitation':
-                            rubrique = self.env['import.ocr.config'].search([('name', '=', line['LineText'])])
-                            if rubrique:
-                                rec.env['import.ocr.tcr.line'].create({'tcr_id': rec.id,
-                                                                       'name': line['LineText'],
-                                                                       'rubrique': rubrique.id,
-                                                                       'mintop': line['MinTop'],
-                                                                       'height': line['MaxHeight'],
-                                                                       'montant_n': 0,
-                                                                       'montant_n1': 0})
-                                dicty = {'min_top': line['MinTop'],
+                        rubrique = self.env['import.ocr.config'].search([('name', '=', line['Words'][0]['WordText'])])
+                        value_text = line['Words'][0]['WordText']
+                        if not rubrique:
+                            print(value_text)
+                            value_text = value_text.replace(';', '')
+                            value_text = value_text.replace(',', '')
+                            value_text = value_text.replace('-', '')
+                            for i in list_tcr:
+                                val = i.name
+                                val = val.replace(';', '')
+                                val = val.replace(',', '')
+                                val = val.replace('-', '')
+                                if value_text == val:
+                                    print(value_text == val)
+                        if rubrique:
+                            value = rec.env['import.ocr.tcr.line'].create({'tcr_id': rec.id,
+                                                                   'name': line['Words'][0]['WordText'],
+                                                                   'rubrique': rubrique.id,
+                                                                   })
+                            if len(line['Words']) == 3:
+                                value.write({'montant_n': int(line['Words'][1]['WordText'].replace(' ', '')),
+                                             'montant_n1': int(line['Words'][2]['WordText'].replace(' ', ''))})
+                            elif len(line['Words']) == 2:
+                                separator = line['Words'][1]['Left'] - line['Words'][0]['Left']
+                                if separator > 400:
+                                    value.write({'montant_n1': int(line['Words'][1]['WordText'].replace(' ', ''))})
+                                else:
+                                    value.write({'montant_n1': int(line['Words'][1]['WordText'].replace(' ', ''))})
+
+                                '''dicty = {'min_top': line['MinTop'],
                                          'type': rubrique.sequence,
                                          'amounts': []}
-                                same_line.append(dicty)
-                        elif bool(re.match(pattern_num, line['LineText'])):
-                            tcr = rec.tcr_lines.filtered(
-                                lambda l: l.mintop - l.height <= line['MinTop'] <= l.mintop + l.height)
-                            if tcr:
-                                if len(tcr) > 1:
-                                    tcr = rec.tcr_lines.filtered(
-                                        lambda l: (l.mintop - (l.height-5)) <= line['MinTop'] <= (l.mintop + (l.height-5)) )
-                                width = 0
-                                for i in line['Words']:
-                                    width += i['Width']
-                                for val in same_line:
-                                    if val['min_top'] == tcr.mintop:
-                                        val['amounts'].append({'amount': int(line['LineText'].replace(' ', '')),
-                                                               'left': line['Words'][0]['Left'],
-                                                               'width': width})
-                    count = 0
-                    one_value_c = 0
-                    one_value_d = 0
-                    sum_height = 200
-                    for line in same_line:
-                        print(line)
-                        if len(line['amounts']) == 2:
-                            count += 1
-                            if line['type'] in credit:
-                                first_credit.append(line['amounts'][0]['left'])
-                                second_credit.append(line['amounts'][1]['left'])
-                            elif line['type'] in debit:
-                                first_debit.append(line['amounts'][0]['left'])
-                                second_debit.append(line['amounts'][1]['left'])
-                        elif len(line['amounts']) == 1:
-                            if line['type'] in credit:
-                                one_value_c += 1
-                                second_credit.append(line['amounts'][0]['left'])
-                            elif line['type'] in debit:
-                                one_value_d += 1
-                                second_debit.append(line['amounts'][0]['left'])
-                        for amount in line['amounts']:
-                            if sum_height > amount['width']:
-                                sum_height = amount['width']
-                    first_credit.sort()
-                    first_debit.sort()
-                    second_credit.sort()
-                    second_debit.sort()
-                    try:
-                        first_moy_credit = [first_credit[0], first_credit[-1] + sum_height] if one_value_c != 0 and len(
-                            first_credit) > 1 else []
-                    except:
-                        first_moy_credit = [first_credit[0], first_credit[0] + sum_height]
-                    try:
-                        second_moy_credit = [first_credit[-1] + sum_height,
-                                             second_credit[-1] + sum_height] if one_value_c != 0 and len(
-                            second_debit) > 1 else []
-                    except:
-                        second_moy_credit = [first_credit[0] + sum_height, second_credit[0] + sum_height]
-                    try:
-                        first_moy_debit = [first_debit[0], first_debit[-1] + sum_height] if one_value_d != 0 and len(
-                            first_debit) > 1 else []
-                    except:
-                        first_moy_debit = [first_debit[0], first_debit[0] + sum_height]
-                    try:
-                        second_moy_debit = [first_debit[-1] + sum_height,
-                                            second_debit[-1] + sum_height] if one_value_d and len(
-                            second_debit) > 1 else []
-                    except:
-                        second_moy_debit = [first_debit[0] + sum_height, second_debit[0] + sum_height]
-                    for line in same_line:
-                        tcr = rec.tcr_lines.filtered(lambda l: l.mintop == line['min_top'])
-                        if len(line['amounts']) == 2:
-                            tcr.montant_n = line['amounts'][0]['amount']
-                            tcr.montant_n1 = line['amounts'][1]['amount']
-                        else:
-                            if line['type'] in credit:
-                                assign_amounts(tcr, line['amounts'], [first_moy_credit, second_moy_credit])
-                            elif line['type'] in debit:
-                                assign_amounts(tcr, line['amounts'], [first_moy_debit, second_moy_debit])
+                                same_line.append(dicty)'''
 
                 if rec.file_import2:
                     data = str(rec.file_import2)
@@ -184,97 +121,37 @@ class ImportTcrOCR(models.Model):
                     json_dumps = test_file.content.decode()
                     json_loads = json.loads(json_dumps)
                     lines = json_loads['ParsedResults'][0]['TextOverlay']['Lines']
-                    same_line = []
+                    lines = group_words_by_line(lines)
+                    list_tcr = self.env['import.ocr.config'].search([])
                     for line in lines:
-                        print(line['LineText'])
-                        if bool(re.match(pattern_alpha, line['LineText'])) or line['LineText'] == 'IX-RESULTAT NET DE L\'EXERCICE' or  line['LineText'] =='IV-Excédent brut d\'exploitation':
-
-                            rubrique = self.env['import.ocr.config'].search([('name', '=', line['LineText'])])
-                            if rubrique:
-                                rec.env['import.ocr.tcr.line'].create({'tcr_id': rec.id,
-                                                                       'name': line['LineText'],
-                                                                       'rubrique': rubrique.id,
-                                                                       'mintop': line['MinTop'],
-                                                                       'height': line['MaxHeight'],
-                                                                       'montant_n': 0,
-                                                                       'montant_n1': 0})
-                                dicty = {'min_top': line['MinTop'],
-                                         'type': rubrique.sequence,
-                                         'amounts': []}
-                                same_line.append(dicty)
-                        elif bool(re.match(pattern_num, line['LineText'])):
-                            tcr = rec.tcr_lines.filtered(
-                                lambda l: l.mintop - l.height <= line['MinTop'] <= l.mintop + l.height)
-                            if tcr:
-                                tcr = tcr[0]
-                                width = 0
-                                for i in line['Words']:
-                                    width += i['Width']
-                                for val in same_line:
-                                    if val['min_top'] == tcr.mintop:
-                                        val['amounts'].append({'amount': int(line['LineText'].replace(' ', '')),
-                                                               'left': line['Words'][0]['Left'],
-                                                               'width': width})
-                    count = 0
-                    one_value_c = 0
-                    one_value_d = 0
-                    sum_height = 200
-                    for line in same_line:
-                        print(line)
-                        if len(line['amounts']) == 2:
-                            count += 1
-                            if line['type'] in credit:
-                                first_credit.append(line['amounts'][0]['left'])
-                                second_credit.append(line['amounts'][1]['left'])
-                            elif line['type'] in debit:
-                                first_debit.append(line['amounts'][0]['left'])
-                                second_debit.append(line['amounts'][1]['left'])
-                        elif len(line['amounts']) == 1:
-                            if line['type'] in credit:
-                                one_value_c += 1
-                                second_credit.append(line['amounts'][0]['left'])
-                            elif line['type'] in debit:
-                                one_value_d += 1
-                                second_debit.append(line['amounts'][0]['left'])
-                        for amount in line['amounts']:
-                            if sum_height > amount['width']:
-                                sum_height = amount['width']
-                    print(sum_height)
-                    first_credit.sort()
-                    first_debit.sort()
-                    second_credit.sort()
-                    second_debit.sort()
-                    print(first_debit)
-                    print(second_debit)
-                    print(first_credit)
-                    print(second_credit)
-                    print(one_value_c != 0 and len(first_credit) > 1)
-                    try:
-                        first_moy_credit = [first_credit[0], first_credit[-1] + sum_height] if one_value_c != 0 and len(first_credit) > 1 else []
-                    except:
-                        first_moy_credit = [first_credit[0], first_credit[0] + sum_height]
-                    try:
-                        second_moy_credit = [first_credit[-1] + sum_height, second_credit[-1] + sum_height] if one_value_c != 0 and len(second_debit) > 1 else []
-                    except:
-                        second_moy_credit = [first_credit[0] + sum_height, second_credit[0] + sum_height]
-                    try:
-                        first_moy_debit = [first_debit[0], first_debit[-1] + sum_height] if one_value_d != 0 and len(first_debit) > 1 else []
-                    except:
-                        first_moy_debit = [first_debit[0], first_debit[0] + sum_height]
-                    try:
-                        second_moy_debit = [first_debit[-1] + sum_height, second_debit[-1] + sum_height] if one_value_d and len(second_debit) > 1 else []
-                    except:
-                        second_moy_debit = [first_debit[0] + sum_height, second_debit[0] + sum_height]
-                    for line in same_line:
-                        tcr = rec.tcr_lines.filtered(lambda l: l.mintop == line['min_top'])
-                        if len(line['amounts']) == 2:
-                            tcr.montant_n = line['amounts'][0]['amount']
-                            tcr.montant_n1 = line['amounts'][1]['amount']
-                        else:
-                            if line['type'] in credit:
-                                assign_amounts(tcr, line['amounts'], [first_moy_credit, second_moy_credit])
-                            elif line['type'] in debit:
-                                assign_amounts(tcr, line['amounts'], [first_moy_debit, second_moy_debit])
+                        rubrique = self.env['import.ocr.config'].search([('name', '=', line['Words'][0]['WordText'])])
+                        value_text = line['Words'][0]['WordText']
+                        if not rubrique:
+                            print(value_text)
+                            value_text = value_text.replace(';', '')
+                            value_text = value_text.replace(',', '')
+                            value_text = value_text.replace('-', '')
+                            for i in list_tcr:
+                                val = i.name
+                                val = val.replace(';', '')
+                                val = val.replace(',', '')
+                                val = val.replace('-', '')
+                                if value_text == val:
+                                    print(value_text == val)
+                        if rubrique:
+                            value = rec.env['import.ocr.tcr.line'].create({'tcr_id': rec.id,
+                                                                   'name': line['Words'][0]['WordText'],
+                                                                   'rubrique': rubrique.id,
+                                                                   })
+                            if len(line['Words']) == 3:
+                                value.write({'montant_n': int(line['Words'][1]['WordText'].replace(' ', '')),
+                                             'montant_n1': int(line['Words'][2]['WordText'].replace(' ', ''))})
+                            elif len(line['Words']) == 2:
+                                separator = line['Words'][1]['Left'] - line['Words'][0]['Left']
+                                if separator > 400:
+                                    value.write({'montant_n1': int(line['Words'][1]['WordText'].replace(' ', ''))})
+                                else:
+                                    value.write({'montant_n1': int(line['Words'][1]['WordText'].replace(' ', ''))})
 
                 rec.state = "validation"
                 for line in rec.tcr_lines:
@@ -394,3 +271,42 @@ def pdf_page_to_base64(pdf_bytes, page_number):
     image = Image.open(io.BytesIO(pdf_image))
     # Convertir l'image en base64
     return image_to_base64(image.tobytes())
+
+
+def group_words_by_line(json_data):
+    # Trier les mots par leur position verticale (Top)
+    sorted_words = sorted(json_data, key=lambda x: x['MinTop'])
+
+    lines = []
+    current_line = {'LineText': '', 'Left': None, 'Words': []}
+    previous_top = None
+    previous_max_height = None
+
+    for item in sorted_words:
+        top = item['MinTop']
+        max_height = item['MaxHeight']
+        word_text = item['LineText']
+        left = item['Words'][0]['Left']  # Get the Left position of the first word in this line
+
+        if previous_top is None:
+            current_line['LineText'] = word_text
+            current_line['Left'] = left
+            current_line['Words'].append({'WordText': word_text, 'Left': left})
+            previous_top = top
+            previous_max_height = max_height
+        elif top >= previous_top and top <= (previous_top + previous_max_height):
+            current_line['LineText'] += " " + word_text
+            current_line['Words'].append({'WordText': word_text, 'Left': left})
+            previous_max_height = max(previous_max_height, max_height)
+        else:
+            # Trier les mots de la ligne par leur position horizontale (Left)
+            current_line['Words'] = sorted(current_line['Words'], key=lambda x: x['Left'])
+            lines.append(current_line)
+            current_line = {'LineText': word_text, 'Left': left, 'Words': [{'WordText': word_text, 'Left': left}]}
+            previous_top = top
+            previous_max_height = max_height
+
+    current_line['Words'] = sorted(current_line['Words'], key=lambda x: x['Left'])
+    lines.append(current_line)  # Append the last line
+
+    return lines
