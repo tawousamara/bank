@@ -154,6 +154,7 @@ class Confirmation(models.TransientModel):
         print("send")
         print(self.env.context.get('active_ids')[0])
         print(self.env.context)
+        model = self.env['bus.bus']
         if self.env.context.get('verrouiller'):
             etape = self.env['wk.etape'].search([('id', '=', self.env.context.get('etape'))])
             if etape:
@@ -164,20 +165,24 @@ class Confirmation(models.TransientModel):
             if etape.sequence == 1:
                 if etape.state_branch == 'branch_1':
                     if not etape.gerant:
-                        self.env['bus.bus']._sendone(self.env.user.partner_id, 'simple_notification', {
+                        model._sendone(self.env.user.partner_id, 'simple_notification', {
                             'type': 'danger',
                             'message': "يجب اختيار المسير",
                             'sticky': True, })
                     else:
                         etape.validate_information_function()
                 elif etape.state_branch == 'branch_2':
+                    not_assign = True
                     for doc in etape.documents:
                         if doc.document and not doc.answer:
-                            self.env['bus.bus']._sendone(self.env.user.partner_id, 'simple_notification', {
+                            filename = doc.filename if doc.filename else doc.list_doc
+                            model._sendone(self.env.user.partner_id, 'simple_notification', {
                                 'type': 'danger',
-                                'message':  +"يجب تاكيد الملف",
+                                'message':  "يجب تاكيد الملف %s" % filename,
                                 'sticky': True, })
-                    else:
+                            not_assign = False
+                            break
+                    if not_assign:
                         etape.validate_information_function()
                 elif etape.state_branch == 'branch_3':
                     list_validation = ['1', '2', '7', '8', '12', '13']
@@ -186,49 +191,73 @@ class Confirmation(models.TransientModel):
                         'list_document')
                     print(bloquants)
                     if not etape.apropos:
-                        self.env['bus.bus']._sendone(self.env.user.partner_id, 'simple_notification', {
+                        model._sendone(self.env.user.partner_id, 'simple_notification', {
                             'type': 'danger',
                             'message': "يجب ملء توزيع راس مال الشركة",
                             'sticky': True, })
                     if not etape.gestion:
-                        self.env['bus.bus']._sendone(self.env.user.partner_id, 'simple_notification', {
+                        model._sendone(self.env.user.partner_id, 'simple_notification', {
                             'type': 'danger',
                             'message': "يجب ملء فريق التسيير",
                             'sticky': True, })
                     if not etape.tailles:
-                        self.env['bus.bus']._sendone(self.env.user.partner_id, 'simple_notification', {
+                        model._sendone(self.env.user.partner_id, 'simple_notification', {
                             'type': 'danger',
                             'message': "يجب ملء حجم و هيكل التمويلات المطلوبة",
                             'sticky': True, })
                     if not etape.fournisseur:
-                        self.env['bus.bus']._sendone(self.env.user.partner_id, 'simple_notification', {
+                        model._sendone(self.env.user.partner_id, 'simple_notification', {
                             'type': 'danger',
                             'message': "يجب ملء الموردين",
                             'sticky': True, })
                     if not etape.client:
-                        self.env['bus.bus']._sendone(self.env.user.partner_id, 'simple_notification', {
+                        model._sendone(self.env.user.partner_id, 'simple_notification', {
                             'type': 'danger',
                             'message': "يجب ملء الزبائن",
                             'sticky': True, })
                     if not etape.risk_scoring:
-                        self.env['bus.bus']._sendone(self.env.user.partner_id, 'simple_notification', {
+                        model._sendone(self.env.user.partner_id, 'simple_notification', {
                             'type': 'danger',
                             'message': "يجب ملأ بطاقة المعايير النوعية",
                             'sticky': True, })
                     if not set(list_validation).issubset(set(bloquants)):
-                        self.env['bus.bus']._sendone(self.env.user.partner_id, 'simple_notification', {
+                        model._sendone(self.env.user.partner_id, 'simple_notification', {
                             'type': 'danger',
                             'message': "يوجد ملفات غير مرفقة",
                             'sticky': True, })
+                    if not etape.recommendation_visit:
+                        model._sendone(self.env.user.partner_id, 'simple_notification', {
+                            'type': 'danger',
+                            'message': "يجب اضافة توصية الفرع",
+                            'sticky': True, })
 
-                    all_valid = etape.client and etape.fournisseur and etape.risk_scoring and etape.tailles and etape.gestion and etape.apropos and set(list_validation).issubset(set(bloquants))
+
+                    all_valid = etape.client and etape.fournisseur and etape.risk_scoring and etape.tailles and etape.gestion and etape.apropos and set(list_validation).issubset(set(bloquants)) and etape.recommendation_visit
                     if all_valid:
+                        etape.validate_information_function()
+                elif etape.state_branch == 'branch_4':
+                    not_assign = True
+                    for doc in etape.documents:
+                        if doc.document and not doc.answer:
+                            filename = doc.filename if doc.filename else doc.list_doc
+                            model._sendone(self.env.user.partner_id, 'simple_notification', {
+                                'type': 'danger',
+                                'message':  "يجب تاكيد الملف %s" % filename,
+                                'sticky': True, })
+                            not_assign = False
+                            break
+                    if not etape.recommendation_responsable_agence:
+                        model._sendone(self.env.user.partner_id, 'simple_notification', {
+                            'type': 'danger',
+                            'message': "يجب اضافة توصية مدير الفرع",
+                            'sticky': True, })
+                        not_assign = False
+                    if not_assign:
                         etape.validate_information_function()
                 else:
                     etape.validate_information_function()
             else:
                 etape.validate_information_function()
-
 
 
 class BilanViewer(models.TransientModel):
