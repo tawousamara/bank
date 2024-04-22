@@ -24,8 +24,17 @@ class RevoirState(models.TransientModel):
                 demande.workflow.raison_refus = self.raison
                 demande.reject_request_function()
             elif self.raison:
-                demande.write({'raison_a_revoir': self.raison})
                 demande.a_revoir(self.one_step)
+                if demande.etape.sequence == 2 and demande.state_finance == 'finance_1':
+                    step_1 = demande.workflow.states.filtered(lambda l: l.etape.sequence == 1)
+                    if step_1.state_branch == 'branch_4':
+                        step_1.write({'raison_a_revoir': self.raison})
+                elif demande.etape.sequence == 5 and demande.state_vice == 'vice_1':
+                    step_1 = demande.workflow.states.filtered(lambda l: l.etape.sequence == 2)
+                    if step_1.state_branch == 'finance_3':
+                        step_1.write({'raison_a_revoir': self.raison})
+                else:
+                    demande.write({'raison_a_revoir': self.raison})
                 email_template = self.env.ref('dept_wk.notification_revoir_mail_template')
                 email_values = {
                     'email_to': demande.get_mail_to_revoir(),
@@ -159,6 +168,15 @@ class Confirmation(models.TransientModel):
                             'type': 'danger',
                             'message': "يجب اختيار المسير",
                             'sticky': True, })
+                    else:
+                        etape.validate_information_function()
+                elif etape.state_branch == 'branch_2':
+                    for doc in etape.documents:
+                        if doc.document and not doc.answer:
+                            self.env['bus.bus']._sendone(self.env.user.partner_id, 'simple_notification', {
+                                'type': 'danger',
+                                'message':  +"يجب تاكيد الملف",
+                                'sticky': True, })
                     else:
                         etape.validate_information_function()
                 elif etape.state_branch == 'branch_3':
