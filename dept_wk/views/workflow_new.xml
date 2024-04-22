@@ -120,7 +120,7 @@
                                 <field name="is_condition" invisible="1"/>
                                 <field name="workflow_old" invisible="demande == 1" options="{'no_create': True}"
                                        domain="[('nom_client', '=', nom_client)]"/>
-                                <field name="explanation" invisible="demande == 1"/>
+                                <field name="explanation" />
                             </group>
                             <button type="object" name="action_start" class="btn-primary" string="بدء دراسة الملف"
                                     invisible="lanced == True" width="10%"/>

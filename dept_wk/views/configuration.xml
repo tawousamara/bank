@@ -167,6 +167,16 @@
             </tree>
         </field>
     </record>
+    <record id="view_res_country_inherit_tree" model="ir.ui.view">
+        <field name="name">res.country.inherit.form</field>
+        <field name="model">res.country</field>
+        <field name="inherit_id" ref="base.view_country_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='code']" position="after">
+                <field name="to_show"/>
+            </xpath>
+        </field>
+    </record>
 
     <record id="wk_type_payment_action" model="ir.actions.act_window">
         <field name="name">طريقة السداد</field>

@@ -187,6 +187,13 @@ class DocChecker(models.Model):
             else:
                 rec.filename = rec.list_doc
 
+
+class Country(models.Model):
+    _inherit = 'res.country'
+
+    to_show = fields.Boolean(string='To not show in workflow')
+
+
 class DemandeLeasing(models.Model):
     _name = 'wk.leasing'
     _description = 'Demande Leasing'
