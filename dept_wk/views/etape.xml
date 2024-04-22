@@ -243,14 +243,14 @@
                                     <field name="fournisseur" readonly="state_branch != 'branch_3' and sequence != 8">
                                         <tree editable="bottom">
                                             <field name="name"/>
-                                            <field name="country"/>
+                                            <field name="country" domain="[('to_show', '=', False)]" />
                                             <field name="type_payment" widget="many2many_tags"/>
                                         </tree>
                                     </field>
                                     <field name="client" readonly="state_branch != 'branch_3' and sequence != 8">
                                         <tree editable="bottom">
                                             <field name="name"/>
-                                            <field name="country"/>
+                                            <field name="country" domain="[('to_show', '=', False)]"/>
                                             <field name="type_payment" widget="many2many_tags"/>
                                         </tree>
                                     </field>
