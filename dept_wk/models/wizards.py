@@ -185,9 +185,9 @@ class Confirmation(models.TransientModel):
                     if not_assign:
                         etape.validate_information_function()
                 elif etape.state_branch == 'branch_3':
-                    list_validation = ['1', '2', '7', '8', '12', '13']
+                    list_validation = ['1', '2', '7', '8', '12', '13', '15', '16']
                     bloquants = etape.documents.filtered(
-                        lambda l: l.list_document in ['1', '2', '7', '8', '12', '13'] and l.document != False).mapped(
+                        lambda l: l.list_document in ['1', '2', '7', '8', '12', '13', '15', '16'] and l.document != False).mapped(
                         'list_document')
                     print(bloquants)
                     if not etape.apropos:
