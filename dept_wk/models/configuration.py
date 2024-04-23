@@ -88,6 +88,7 @@ class Product(models.Model):
     _description = 'Liste des produits de la banque'
 
     name = fields.Char(string='منتجات المصرف')
+    for_branch = fields.Boolean(string='للفرع')
 
 
 class DecisionCell(models.Model):

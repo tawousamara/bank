@@ -134,6 +134,7 @@
         <field name="arch" type="xml">
             <tree editable="bottom">
                 <field name="name"/>
+                <field name="for_branch"/>
             </tree>
         </field>
     </record>

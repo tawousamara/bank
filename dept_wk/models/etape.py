@@ -342,7 +342,7 @@ class Etape(models.Model):
     employees = fields.One2many('wk.nombre.employee', 'etape_id', string='عدد العمال (حسب الفئة المهنية)')
     sieges = fields.One2many('wk.siege', 'etape_id', string='مقرات تابعة للشركة')
     tailles = fields.One2many('wk.taille', 'etape_id', string='حجم و هيكل التمويلات المطلوبة')
-    situations = fields.One2many('wk.situation', 'etape_id', string='الوضعية المصرفية والتزامات لدى الغير حسب تصريح العميل')
+    situations = fields.One2many('wk.situation', 'etape_id', string='التمويل لدى البنوك الاخرى')
     situations_fin = fields.One2many('wk.situation.fin', 'etape_id',
                                      string='البيانات المالية المدققة للثلاث سنوات الأخيرة KDA')
 
@@ -489,7 +489,9 @@ class Etape(models.Model):
     # Risk fields
     risk_scoring = fields.Many2one('risk.scoring', string='إدارة المخاطر')
     resultat_scoring = fields.Integer(string='التنقيط الاجمالي', related='risk_scoring.resultat_scoring')
-    state_risque = fields.Selection([('risque_1', 'ادارة المخاطر'),
+    state_risque = fields.Selection([('risque_1', 'مدير المخاطر'),
+                                     ('risque_3', 'المكلف بادارة المخاطر'),
+                                     ('risque_4', 'مدير المخاطر'),
                                      ('risque_2', 'انتهاء التحليل'),
                                      ], track_visibility='always', string='وضعية الملف')
     assigned_to_risque = fields.Many2one('res.users', string='المكلف بادارة المخاطر',
@@ -527,6 +529,8 @@ class Etape(models.Model):
     tracking_state = fields.Many2one('wk.tracking', compute='_compute_track', store=True)
     dossier_verouiller = fields.Boolean(string='Verrouiller')
     active = fields.Boolean(default=True)
+    can_edit = fields.Boolean(string='',compute='compute_readonly')
+
     @api.model
     def create(self, vals):
         res = super(Etape, self).create(vals)
@@ -702,6 +706,126 @@ class Etape(models.Model):
                         'context': context,
                     }
 
+    def verrouiller_dossier_function(self):
+        for rec in self:
+            if rec.etape.sequence == 2:
+                etape_1 = rec.workflow.states.filtered(lambda l: l.etape.sequence == 1)
+                exist_com = rec.workflow.states.filtered(lambda l: l.etape.sequence == 3)
+                exist_risk = rec.workflow.states.filtered(lambda l: l.etape.sequence == 4)
+                if not exist_com:
+                    vals = {
+                        'workflow': rec.workflow.id,
+                        'nom_client': etape_1.nom_client.id,
+                        'branche': etape_1.branche.id,
+                        'num_compte': etape_1.num_compte,
+                        'demande': etape_1.demande.id,
+                        'etape': self.env.ref('dept_wk.princip_3').id,
+                        'state_commercial': 'commercial_1',
+                        'gerant': etape_1.gerant.id,
+                        'unit_prod': etape_1.unit_prod,
+                        'stock': etape_1.stock,
+                        'prod_company': etape_1.prod_company,
+                        'politique_comm': etape_1.politique_comm,
+                        'cycle_exploit': etape_1.cycle_exploit,
+                        'concurrence': etape_1.concurrence,
+                        'program_invest': etape_1.program_invest,
+                        'result_visit': etape_1.result_visit,
+                        'description_company': etape_1.description_company,
+                        'recommendation_visit': etape_1.recommendation_visit,
+                        'recommendation_responsable_agence': etape_1.recommendation_responsable_agence,
+                    }
+                    etape = self.env['wk.etape'].create(vals)
+                    for doc in etape_1.documents:
+                        self.env['wk.document.check'].create({
+                            'list_doc': doc.list_doc,
+                            'document': doc.document,
+                            'answer': doc.answer,
+                            'note': doc.note,
+                            'filename': doc.filename,
+                            'etape_id': etape.id})
+                    for image in etape_1.images:
+                        self.env['wk.documents'].create({'picture': image.picture,
+                                                         'name': image.name,
+                                                         'etape_id': etape.id})
+                    for kyc in etape_1.kyc:
+                        self.env['wk.kyc.details'].create({'info': kyc.info,
+                                                           'answer': kyc.answer,
+                                                           'detail': kyc.detail,
+                                                           'etape_id': etape.id})
+                    for a in etape_1.apropos:
+                        self.env['wk.partenaire'].create({'nom_partenaire': a.nom_partenaire,
+                                                          'age': a.age,
+                                                          'pourcentage': a.pourcentage,
+                                                          'statut_partenaire': a.statut_partenaire,
+                                                          'nationalite': a.nationalite.id,
+                                                          'etape_id': etape.id
+                                                          })
+                    for g in etape_1.gestion:
+                        self.env['wk.gestion'].create({
+                            'name': g.name,
+                            'job': g.job,
+                            'niveau_etude': g.niveau_etude,
+                            'age': g.age,
+                            'experience': g.experience,
+                            'etape_id': etape.id
+                        })
+                    for empl in etape_1.employees:
+                        self.env['wk.nombre.employee'].create({
+                            'name': empl.name,
+                            'poste_permanent': empl.poste_permanent,
+                            'poste_non_permanent': empl.poste_non_permanent,
+                            'etape_id': etape.id
+                        })
+                    for siege in etape_1.sieges:
+                        self.env['wk.siege'].create({
+                            'name': siege.name,
+                            'adresse': siege.adresse,
+                            'nature': siege.nature.id,
+                            'etape_id': etape.id
+                        })
+                    for taille in etape_1.tailles:
+                        self.env['wk.taille'].create({
+                            'type_demande': taille.type_demande.id,
+                            'montant': taille.montant,
+                            'raison': taille.raison,
+                            'etape_id': etape.id,
+                            'garanties': taille.garanties.ids})
+                    for sit in etape_1.situations:
+                        self.env['wk.situation'].create({
+                            'banque': sit.banque.id,
+                            'type_fin': sit.type_fin.id,
+                            'montant': sit.montant,
+                            'garanties': sit.garanties,
+                            'etape_id': etape.id
+                        })
+                    for sit in etape_1.situations_fin:
+                        self.env['wk.situation.fin'].create({
+                            'type': sit.type,
+                            'sequence': sit.sequence,
+                            'year1': sit.year1,
+                            'year2': sit.year2,
+                            'year3': sit.year3,
+                            'etape_id': etape.id
+                        })
+                    for client in etape_1.client:
+                        self.env['wk.client'].create({
+                            'name': client.name,
+                            'country': client.country.id,
+                            'type_payment': client.type_payment.ids,
+                            'etape_id': etape.id
+                        })
+                    for f in etape_1.fournisseur:
+                        self.env['wk.fournisseur'].create({
+                            'name': f.name,
+                            'country': f.country.id,
+                            'type_payment': f.type_payment.ids,
+                            'etape_id': etape.id
+                        })
+                if not exist_risk:
+                    etape = self.env['wk.etape'].create({'workflow': rec.workflow.id,
+                                                         'etape': self.env.ref('dept_wk.princip_4').id,
+                                                         'risk_scoring': etape_1.risk_scoring.id,
+                                                         'state_risque': 'risque_1'})
     def validate_information(self):
         for rec in self:
                 view_id = self.env.ref('dept_wk.confirmation_etape_wizard_form').id
@@ -836,6 +960,44 @@ class Etape(models.Model):
                             passif.valeur = row_data[1]
                     count += 1
 
+    def compute_readonly(self):
+        for rec in self:
+            result = False
+            print(self.env.user.partner_id.branche)
+            print(rec.branche.id)
+            print(self.env.user.partner_id.branche == rec.branche)
+            if rec.etape.sequence == 1:
+                if rec.state_branch in ['branch_2', 'branch_4'] and self.env.user.has_group('dept_wk.dept_wk_group_responsable_agence') and self.env.user.partner_id.branche == rec.branche:
+                    result = True
+                elif rec.state_branch in ['branch_1', 'branch_3'] and self.env.user == rec.assigned_to_agence and self.env.user.partner_id.branche == rec.branche:
+                    print('result', result)
+                    result = True
+            elif rec.etape.sequence == 2:
+                if rec.state_finance in ['finance_1', 'finance_3'] and self.env.user.has_group('dept_wk.dept_wk_group_responsable_analyste') and self.env.user != rec.assigned_to_finance:
+                    result = True
+                    print('result', result)
+                elif rec.state_finance == 'finance_2' and self.env.user == rec.assigned_to_finance:
+                    result = True
+            elif rec.etape.sequence == 3:
+                if rec.state_commercial in ['commercial_1', 'commercial_3'] and self.env.user.has_group('dept_wk.dept_wk_group_responsable_commercial'):
+                    result = True
+                elif rec.state_commercial == 'commercial_2' and self.env.user.has_group('dept_wk.dept_wk_group_charge_commercial') and self.env.user == rec.assigned_to_commercial:
+                    result = True
+            elif rec.etape.sequence == 4:
+                if rec.state_risque == 'risque_3' and rec.assigned_to_risque == self.env.user and self.env.user.has_group('dept_wk.dept_wk_group_responsable_credit'):
+                    result = True
+                elif rec.state_risque in ['risque_1', 'risque_4'] and self.env.user.has_group('dept_wk.dept_wk_group_responsable_risque'):
+                    result = True
+            elif rec.etape.sequence == 5:
+                if self.env.user.has_group('dept_wk.dept_wk_group_dga'):
+                    result = True
+            elif rec.etape.sequence == 6:
+                if self.env.user.has_group('dept_wk.dept_wk_group_comite'):
+                    result = True
+            elif rec.etape.sequence == 8:
+                if self.env.user.has_group('dept_wk.dept_wk_group_responsable_analyste'):
+                    result = True
+            rec.can_edit = result
 
     def compute_pourcentage_state(self):
         for rec in self:
@@ -892,9 +1054,9 @@ class Etape(models.Model):
                 if rec.state_finance == 'finance_1':
                     rec.state_compute = 0
                 elif rec.state_finance == 'finance_2':
-                    rec.state_compute = 0.5
+                    rec.state_compute = 0.33
                 elif rec.state_finance == 'finance_3':
-                    rec.state_compute = 0.75
+                    rec.state_compute = 0.66
                 elif rec.state_finance in ['finance_4', 'finance_5', 'finance_6', 'finance_7']:
                     rec.state_compute = 1
                 else:
@@ -903,14 +1065,18 @@ class Etape(models.Model):
                 if rec.state_commercial == 'commercial_1':
                     rec.state_compute = 0
                 elif rec.state_commercial == 'commercial_2':
-                    rec.state_compute = 0.5
+                    rec.state_compute = 0.33
                 elif rec.state_commercial == 'commercial_3':
-                    rec.state_compute = 0.75
+                    rec.state_compute = 0.66
                 elif rec.state_commercial == 'commercial_4':
                     rec.state_compute = 1
             elif rec.etape.sequence == 4:
                 if rec.state_risque == 'risque_1':
                     rec.state_compute = 0
+                elif rec.state_risque == 'risque_3':
+                    rec.state_compute = 0.33
+                elif rec.state_risque == 'risque_4':
+                    rec.state_compute = 0.66
                 elif rec.state_risque == 'risque_2':
                     rec.state_compute = 1
             elif rec.etape.sequence == 5:
@@ -1181,123 +1347,6 @@ class Etape(models.Model):
                         rec.state_finance = 'finance_2'
                         rec.workflow.assigned_to_finance = rec.assigned_to_finance.id
                         rec.raison_a_revoir = False
-                        etape_1 = rec.workflow.states.filtered(lambda l: l.etape.sequence == 1)
-                        exist_com = rec.workflow.states.filtered(lambda l: l.etape.sequence == 3)
-                        exist_risk = rec.workflow.states.filtered(lambda l: l.etape.sequence == 4)
-                        if not exist_com:
-                            vals = {
-                                'workflow': rec.workflow.id,
-                                'nom_client': etape_1.nom_client.id,
-                                'branche': etape_1.branche.id,
-                                'num_compte': etape_1.num_compte,
-                                'demande': etape_1.demande.id,
-                                'etape': self.env.ref('dept_wk.princip_3').id,
-                                'state_commercial': 'commercial_1',
-                                'gerant': etape_1.gerant.id,
-                                'unit_prod': etape_1.unit_prod,
-                                'stock': etape_1.stock,
-                                'prod_company': etape_1.prod_company,
-                                'politique_comm': etape_1.politique_comm,
-                                'cycle_exploit': etape_1.cycle_exploit,
-                                'concurrence': etape_1.concurrence,
-                                'program_invest': etape_1.program_invest,
-                                'result_visit': etape_1.result_visit,
-                                'description_company': etape_1.description_company,
-                                'recommendation_visit': etape_1.recommendation_visit,
-                                'recommendation_responsable_agence': etape_1.recommendation_responsable_agence,
-                            }
-                            etape = self.env['wk.etape'].create(vals)
-                            for doc in etape_1.documents:
-                                self.env['wk.document.check'].create({
-                                                                      'list_doc': doc.list_doc,
-                                                                      'document': doc.document,
-                                                                      'answer': doc.answer,
-                                                                      'note': doc.note,
-                                                                      'filename': doc.filename,
-                                                                      'etape_id': etape.id})
-                            for image in etape_1.images:
-                                self.env['wk.documents'].create({'picture': image.picture,
-                                                                 'name': image.name,
-                                                                 'etape_id': etape.id})
-                            for kyc in etape_1.kyc:
-                                self.env['wk.kyc.details'].create({'info': kyc.info,
-                                                                   'answer': kyc.answer,
-                                                                   'detail': kyc.detail,
-                                                                   'etape_id': etape.id})
-                            for a in etape_1.apropos:
-                                self.env['wk.partenaire'].create({'nom_partenaire': a.nom_partenaire,
-                                                                  'age': a.age,
-                                                                  'pourcentage': a.pourcentage,
-                                                                  'statut_partenaire': a.statut_partenaire,
-                                                                  'nationalite': a.nationalite.id,
-                                                                  'etape_id': etape.id
-                                                                  })
-                            for g in etape_1.gestion:
-                                self.env['wk.gestion'].create({
-                                    'name': g.name,
-                                    'job': g.job,
-                                    'niveau_etude': g.niveau_etude,
-                                    'age': g.age,
-                                    'experience': g.experience,
-                                    'etape_id': etape.id
-                                })
-                            for empl in etape_1.employees:
-                                self.env['wk.nombre.employee'].create({
-                                    'name': empl.name,
-                                    'poste_permanent': empl.poste_permanent,
-                                    'poste_non_permanent': empl.poste_non_permanent,
-                                    'etape_id': etape.id
-                                })
-                            for siege in etape_1.sieges:
-                                self.env['wk.siege'].create({
-                                    'name': siege.name,
-                                    'adresse': siege.adresse,
-                                    'nature': siege.nature.id,
-                                    'etape_id': etape.id
-                                })
-                            for taille in etape_1.tailles:
-                                self.env['wk.taille'].create({
-                                    'type_demande': taille.type_demande.id,
-                                    'montant': taille.montant,
-                                    'raison': taille.raison,
-                                    'etape_id': etape.id,
-                                    'garanties': taille.garanties.ids})
-                            for sit in etape_1.situations:
-                                self.env['wk.situation'].create({
-                                    'banque': sit.banque.id,
-                                    'type_fin': sit.type_fin.id,
-                                    'montant': sit.montant,
-                                    'garanties': sit.garanties,
-                                    'etape_id': etape.id
-                                })
-                            for sit in etape_1.situations_fin:
-                                self.env['wk.situation.fin'].create({
-                                    'type': sit.type,
-                                    'sequence': sit.sequence,
-                                    'year1': sit.year1,
-                                    'year2': sit.year2,
-                                    'year3': sit.year3,
-                                    'etape_id': etape.id
-                                })
-                            for client in etape_1.client:
-                                self.env['wk.client'].create({
-                                    'name': client.name,
-                                    'country': client.country.id,
-                                    'type_payment': client.type_payment.ids,
-                                    'etape_id': etape.id
-                                })
-                            for f in etape_1.fournisseur:
-                                self.env['wk.fournisseur'].create({
-                                    'name': f.name,
-                                    'country': f.country.id,
-                                    'type_payment': f.type_payment.ids,
-                                    'etape_id': etape.id
-                                })
-                        if not exist_risk:
-                            etape = self.env['wk.etape'].create({'workflow': rec.workflow.id,
-                                                             'etape': self.env.ref('dept_wk.princip_4').id,
-                                                             'risk_scoring': etape_1.risk_scoring.id,
-                                                             'state_risque': 'risque_1'})
                     else:
                         raise ValidationError(_('Vous n\'etes pas autoriser'))
                 elif rec.state_finance == 'finance_2':
@@ -1339,6 +1388,10 @@ class Etape(models.Model):
                     rec.workflow.state = '4'
             elif rec.etape.sequence == 4:
                 if rec.state_risque == 'risque_1':
+                    rec.state_risque = 'risque_3'
+                elif rec.state_risque == 'risque_3':
+                    rec.state_risque = 'risque_4'
+                elif rec.state_risque == 'risque_4':
                     etape_fin = rec.workflow.states.filtered(lambda l: l.etape.sequence == 2)
                     etape_comm = rec.workflow.states.filtered(lambda l: l.etape.sequence == 3)
                     if etape_fin.state_finance != 'finance_4':
@@ -1441,7 +1494,11 @@ class Etape(models.Model):
                     rec.state_commercial = 'commercial_2'
             elif rec.etape.sequence == 4:
                 if rec.state_risque == 'risque_2':
+                    rec.state_risque = 'risque_4'
+                elif rec.state_risque == 'risque_3':
                     rec.state_risque = 'risque_1'
+                elif rec.state_risque == 'risque_4':
+                    rec.state_risque = 'risque_3'
             elif rec.etape.sequence == 5:
                 if rec.state_vice == 'vice_1':
                     etape = rec.workflow.states.filtered(lambda l: l.etape.sequence == 2)
@@ -2577,6 +2634,7 @@ class Etape(models.Model):
             if rec.sequence == 3:
                 if rec.state_commercial == 'commercial_2':
                     partner_ids = rec.assigned_to_commercial.partner_id.email
+                    list_final = partner_ids
                 elif rec.state_commercial in ['commercial_3']:
                     user_ids = self.env.ref('dept_wk.dept_wk_group_responsable_commercial').users.mapped('partner_id')
                     partner_ids.append(user_ids.mapped('email'))
@@ -2586,7 +2644,14 @@ class Etape(models.Model):
                     partner_ids = user_ids.mapped('email')
                     list_final = ', '.join(partner_ids)
             if rec.sequence == 4:
-                if rec.state_risque == 'risque_2':
+                if rec.state_risque == 'risque_3':
+                    partner_ids = rec.assigned_to_risque.partner_id.email
+                    list_final = partner_ids
+                elif rec.state_risque == 'risque_4':
+                    user_ids = self.env.ref('dept_wk.dept_wk_group_responsable_risque').users.mapped('partner_id')
+                    partner_ids = user_ids.mapped('email')
+                    list_final = ', '.join(partner_ids)
+                elif rec.state_risque == 'risque_2':
                     user_ids = self.env.ref('dept_wk.dept_wk_group_responsable_analyste').users.mapped('partner_id')
                     partner_ids = user_ids.mapped('email')
                     list_final = ', '.join(partner_ids)
@@ -2597,38 +2662,49 @@ class Etape(models.Model):
     def get_mail_to_revoir(self):
         for rec in self:
             partner_ids = []
+            list_final = ''
             if rec.sequence == 1:
                 if rec.state_branch in ['branch_1', 'branch_3']:
                     partner_ids = rec.assigned_to_agence.partner_id.email
+                    list_final = partner_ids
                 elif rec.state_branch in ['branch_2','branch_4']:
                     user_ids = self.env.ref('dept_wk.dept_wk_group_responsable_agence').users.filtered(
                         lambda l: l.branche == rec.branche).mapped('partner_id')
-                    partner_ids = user_ids.mapped('email')
+                    partner_ids.append(user_ids.mapped('email'))
+                    list_final = ', '.join(str(id) for id in partner_ids)
             if rec.sequence == 2:
                 if rec.state_finance == 'finance_3':
                     user_ids = self.env.ref('dept_wk.dept_wk_group_responsable_analyste').users.mapped('partner_id')
-                    partner_ids = user_ids.mapped('email')
+                    partner_ids.append(user_ids.mapped('email'))
+                    list_final = ', '.join(str(id) for id in partner_ids)
                 elif rec.state_finance == 'finance_2':
-                    partner_ids.append(rec.assigned_to_finance.partner_id.email)
+                    partner_ids = rec.assigned_to_finance.partner_id.email
+                    list_final = partner_ids
                 elif rec.state_finance == 'finance_1':
                     user_ids = self.env.ref('dept_wk.dept_wk_group_responsable_analyste').users.mapped('partner_id')
-                    partner_ids = user_ids.mapped('email')
+                    partner_ids.append(user_ids.mapped('email'))
+                    list_final = ', '.join(str(id) for id in partner_ids)
             if rec.sequence == 3:
                 if rec.state_commercial == 'commercial_2':
                     partner_ids = rec.assigned_to_commercial.partner_id.email
+                    list_final = partner_ids
                 elif rec.state_commercial in ['commercial_3']:
                     user_ids = self.env.ref('dept_wk.dept_wk_group_responsable_commercial').users.mapped('partner_id')
                     partner_ids.append(user_ids.mapped('email'))
+                    list_final = ', '.join(str(id) for id in partner_ids)
                 else:
                     user_ids = self.env.ref('dept_wk.dept_wk_group_responsable_analyste').users.mapped('partner_id')
-                    partner_ids = user_ids.mapped('email')
+                    partner_ids.append(user_ids.mapped('email'))
+                    list_final = ', '.join(str(id) for id in partner_ids)
             if rec.sequence == 4:
-                if rec.state_risque == 'risque_2':
-                    user_ids = self.env.ref('dept_wk.dept_wk_group_responsable_analyste').users.mapped('partner_id')
+                if rec.state_risque == 'risque_3':
+                    partner_ids = rec.assigned_to_risque.partner_id.email
+                    list_final = partner_ids
+                elif rec.state_risque == ['risque_4', 'risque_1']:
+                    user_ids = self.env.ref('dept_wk.dept_wk_group_responsable_risque').users.mapped('partner_id')
                     partner_ids = user_ids.mapped('email')
-                print(rec.state_finance)
-            print(partner_ids)
-            return partner_ids
+                    list_final = ', '.join(partner_ids)
+            return list_final
 
     def check_if_xls_file(self):
         for record in self:

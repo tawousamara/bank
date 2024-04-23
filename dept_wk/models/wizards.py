@@ -146,7 +146,6 @@ class Confirmation(models.TransientModel):
     _name = 'etape.wizard'
     _description = 'Confirmation of verification wizard'
 
-
     def cancel(self):
         return {'type': 'ir.actions.act_window_close'}
 
@@ -160,6 +159,7 @@ class Confirmation(models.TransientModel):
             if etape:
                 etape.write({'dossier_verouiller': self.env.context.get('verrouiller')})
                 print('1')
+                etape.verrouiller_dossier_function()
         elif self.env.context.get('to_validate'):
             etape = self.env['wk.etape'].search([('id', '=', self.env.context.get('etape'))])
             if etape.sequence == 1:

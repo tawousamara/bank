@@ -84,5 +84,17 @@
         <record id="product_27" model="wk.product">
             <field name="name">كفالة دخول عطاء</field>
         </record>
+        <record id="product_28" model="wk.product">
+            <field name="name">تمويل استغلالي</field>
+            <field name="for_branch">True</field>
+        </record>
+        <record id="product_29" model="wk.product">
+            <field name="name">تمويل استثماري</field>
+            <field name="for_branch">True</field>
+        </record>
+        <record id="product_30" model="wk.product">
+            <field name="name">تمويل ايجاري</field>
+            <field name="for_branch">True</field>
+        </record>
     </data>
 </odoo>

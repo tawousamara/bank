@@ -169,7 +169,7 @@ class DocChecker(models.Model):
     def compute_checked(self):
         for rec in self:
             if rec.etape_id.sequence == 1:
-                if rec.etape_id.state_branch == 'branch_2':
+                if rec.etape_id.state_branch in ['branch_2', 'branch_4']:
                     rec.checked = True
                 else:
                     rec.checked = False

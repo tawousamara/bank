@@ -389,15 +389,25 @@ class FaciliteExistante(models.Model):
     _name = 'wk.facilite.existante'
     _description = 'Facilités existantes avec la banque'
 
-
     etape_id = fields.Many2one('wk.etape')
     company = fields.Char(string='الشركة')
     facilite = fields.Many2one('wk.product', string='نوع التسهيلات')
+    type_demande_ids = fields.Many2many('wk.product', string='نوع التسهيلات')
     brut_da = fields.Float(string='الخام الحالي:KDA')
     brut_dollar = fields.Float(string='K/$', compute='compute_dollar')
     net_da = fields.Float(string='الصافي الحالي:KDA')
     net_dollar = fields.Float(string='K/$', compute='compute_dollar')
     garanties = fields.Many2many('wk.garanties', string='الضمانات')
+    compute_exist = fields.Boolean(compute='compute_products')
+
+    def compute_products(self):
+        for rec in self:
+            if rec.facilite:
+                values = self.env['wk.product'].browse(rec.facilite.id)
+                rec.type_demande_ids |= values
+                rec.compute_exist = True
+            else:
+                rec.compute_exist = False
 
     @api.depends('brut_da', 'net_da')
     def compute_dollar(self):
