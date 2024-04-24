@@ -85,8 +85,8 @@ class ImportPassifOCR(models.Model):
                                                                        'rubrique': rubrique.id,
                                                                        })
                         if len(line['Words']) == 3:
-                            value.write({'montant_n': int(line['Words'][1]['WordText'].replace(' ', '')),
-                                         'montant_n1': int(line['Words'][2]['WordText'].replace(' ', ''))})
+                            value.write({'montant_n': int(line['Words'][1]['WordText'].replace(' ', '').replace(',', '').replace('.', '')),
+                                         'montant_n1': int(line['Words'][2]['WordText'].replace(' ', '').replace(',', '').replace('.', ''))})
                         elif len(line['Words']) == 2:
                             separator = line['Words'][1]['Left'] - line['Words'][0]['Left']
                             if separator > 400:
