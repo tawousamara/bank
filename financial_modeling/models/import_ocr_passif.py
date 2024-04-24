@@ -62,6 +62,38 @@ class ImportPassifOCR(models.Model):
                 json_dumps = test_file.content.decode()
                 json_loads = json.loads(json_dumps)
                 lines = json_loads['ParsedResults'][0]['TextOverlay']['Lines']
+                lines = group_words_by_line(lines)
+                list_tcr = self.env['import.ocr.config'].search([])
+                for line in lines:
+                    rubrique = self.env['import.ocr.config'].search([('name', '=', line['Words'][0]['WordText'])])
+                    value_text = line['Words'][0]['WordText']
+                    if not rubrique:
+                        print(value_text)
+                        value_text = value_text.replace(';', '')
+                        value_text = value_text.replace(',', '')
+                        value_text = value_text.replace('-', '')
+                        for i in list_tcr:
+                            val = i.name
+                            val = val.replace(';', '')
+                            val = val.replace(',', '')
+                            val = val.replace('-', '')
+                            if value_text == val:
+                                print(value_text == val)
+                    if rubrique:
+                        value = rec.env['import.ocr.passif.line'].create({'passif_id': rec.id,
+                                                                       'name': line['Words'][0]['WordText'],
+                                                                       'rubrique': rubrique.id,
+                                                                       })
+                        if len(line['Words']) == 3:
+                            value.write({'montant_n': int(line['Words'][1]['WordText'].replace(' ', '')),
+                                         'montant_n1': int(line['Words'][2]['WordText'].replace(' ', ''))})
+                        elif len(line['Words']) == 2:
+                            separator = line['Words'][1]['Left'] - line['Words'][0]['Left']
+                            if separator > 400:
+                                value.write({'montant_n1': int(line['Words'][1]['WordText'].replace(' ', ''))})
+                            else:
+                                value.write({'montant_n': int(line['Words'][1]['WordText'].replace(' ', ''))})
+                """
                 same_line = []
                 for line in lines:
                     if line['LineText'] == 'TOTAL IIII':
@@ -131,8 +163,7 @@ class ImportPassifOCR(models.Model):
                         passif.montant_n = line['amounts'][0]['amount']
                         passif.montant_n1 = line['amounts'][1]['amount']
                     else:
-                        assign_amounts(passif, line['amounts'], [first_moy, second_moy])
-
+                        assign_amounts(passif, line['amounts'], [first_moy, second_moy])"""
             rec.state = "validation"
             for line in rec.passif_lines:
                 line.montant_n = line.montant_n / 1000
@@ -220,3 +251,42 @@ def assign_amounts(actif, amounts, intervals):
                 actif.montant_n = amount['amount']
             elif intervals[1][0] <= amount['left'] - amount['left'] <= intervals[1][-1]:
                 actif.montant_n1 = amount['amount']
+
+
+def group_words_by_line(json_data):
+    # Trier les mots par leur position verticale (Top)
+    sorted_words = sorted(json_data, key=lambda x: x['MinTop'])
+
+    lines = []
+    current_line = {'LineText': '', 'Left': None, 'Words': []}
+    previous_top = None
+    previous_max_height = None
+
+    for item in sorted_words:
+        top = item['MinTop']
+        max_height = item['MaxHeight']
+        word_text = item['LineText']
+        left = item['Words'][0]['Left']  # Get the Left position of the first word in this line
+
+        if previous_top is None:
+            current_line['LineText'] = word_text
+            current_line['Left'] = left
+            current_line['Words'].append({'WordText': word_text, 'Left': left})
+            previous_top = top
+            previous_max_height = max_height
+        elif top >= previous_top and top <= (previous_top + previous_max_height):
+            current_line['LineText'] += " " + word_text
+            current_line['Words'].append({'WordText': word_text, 'Left': left})
+            previous_max_height = max(previous_max_height, max_height)
+        else:
+            # Trier les mots de la ligne par leur position horizontale (Left)
+            current_line['Words'] = sorted(current_line['Words'], key=lambda x: x['Left'])
+            lines.append(current_line)
+            current_line = {'LineText': word_text, 'Left': left, 'Words': [{'WordText': word_text, 'Left': left}]}
+            previous_top = top
+            previous_max_height = max_height
+
+    current_line['Words'] = sorted(current_line['Words'], key=lambda x: x['Left'])
+    lines.append(current_line)  # Append the last line
+
+    return lines
