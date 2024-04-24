@@ -149,9 +149,9 @@ class ImportTcrOCR(models.Model):
                             elif len(line['Words']) == 2:
                                 separator = line['Words'][1]['Left'] - line['Words'][0]['Left']
                                 if separator > 400:
-                                    value.write({'montant_n1': int(line['Words'][1]['WordText'].replace(' ', ''))})
+                                    value.write({'montant_n1': int(line['Words'][1]['WordText'].replace(' ', '').replace(',', '').replace('.', ''))})
                                 else:
-                                    value.write({'montant_n': int(line['Words'][1]['WordText'].replace(' ', ''))})
+                                    value.write({'montant_n': int(line['Words'][1]['WordText'].replace(' ', '').replace(',', '').replace('.', ''))})
 
                 rec.state = "validation"
                 for line in rec.tcr_lines:
