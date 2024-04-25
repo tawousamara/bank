@@ -72,8 +72,9 @@ class ImportTcrOCR(models.Model):
                     json_dumps = test_file.content.decode()
                     json_loads = json.loads(json_dumps)
                     lines = json_loads['ParsedResults'][0]['TextOverlay']['Lines']
-                    lines = group_words_by_line(lines)
+
                     list_tcr = self.env['import.ocr.config'].search([])
+                    lines = group_words_by_line(lines, list_tcr)
                     for line in lines:
                         rubrique = self.env['import.ocr.config'].search([('name', '=', line['Words'][0]['WordText'])])
                         value_text = line['Words'][0]['WordText']
@@ -95,14 +96,28 @@ class ImportTcrOCR(models.Model):
                                                                    'rubrique': rubrique.id,
                                                                    })
                             if len(line['Words']) == 3:
-                                value.write({'montant_n': int(line['Words'][1]['WordText'].replace(' ', '')),
-                                             'montant_n1': int(line['Words'][2]['WordText'].replace(' ', ''))})
+                                try:
+                                    value.write({'montant_n': int(line['Words'][1]['WordText'].replace(' ', ''))})
+                                except:
+                                    value.write({'montant_n': 0})
+                                try:
+                                    value.write({'montant_n1': int(line['Words'][2]['WordText'].replace(' ', ''))})
+                                except:
+                                    value.write({'montant_n1': 0})
+
                             elif len(line['Words']) == 2:
                                 separator = line['Words'][1]['Left'] - line['Words'][0]['Left']
                                 if separator > 400:
-                                    value.write({'montant_n1': int(line['Words'][1]['WordText'].replace(' ', ''))})
+                                    try:
+                                        value.write({'montant_n1': int(line['Words'][1]['WordText'].replace(' ', ''))})
+                                    except:
+                                        value.write({'montant_n1': 0})
                                 else:
-                                    value.write({'montant_n1': int(line['Words'][1]['WordText'].replace(' ', ''))})
+                                    try:
+                                        value.write({'montant_n': int(line['Words'][1]['WordText'].replace(' ', ''))})
+                                    except:
+                                        value.write({'montant_n': 0})
+
 
                                 '''dicty = {'min_top': line['MinTop'],
                                          'type': rubrique.sequence,
@@ -121,8 +136,8 @@ class ImportTcrOCR(models.Model):
                     json_dumps = test_file.content.decode()
                     json_loads = json.loads(json_dumps)
                     lines = json_loads['ParsedResults'][0]['TextOverlay']['Lines']
-                    lines = group_words_by_line(lines)
                     list_tcr = self.env['import.ocr.config'].search([])
+                    lines = group_words_by_line(lines, list_tcr)
                     for line in lines:
                         rubrique = self.env['import.ocr.config'].search([('name', '=', line['Words'][0]['WordText'])])
                         value_text = line['Words'][0]['WordText']
@@ -144,8 +159,8 @@ class ImportTcrOCR(models.Model):
                                                                    'rubrique': rubrique.id,
                                                                    })
                             if len(line['Words']) == 3:
-                                value.write({'montant_n': int(line['Words'][1]['WordText'].replace(' ', '')),
-                                             'montant_n1': int(line['Words'][2]['WordText'].replace(' ', ''))})
+                                value.write({'montant_n': int(line['Words'][1]['WordText'].replace(' ', '').replace(',', '').replace('.', '')),
+                                             'montant_n1': int(line['Words'][2]['WordText'].replace(' ', '').replace(',', '').replace('.', ''))})
                             elif len(line['Words']) == 2:
                                 separator = line['Words'][1]['Left'] - line['Words'][0]['Left']
                                 if separator > 400:
@@ -273,7 +288,7 @@ def pdf_page_to_base64(pdf_bytes, page_number):
     return image_to_base64(image.tobytes())
 
 
-def group_words_by_line(json_data):
+def group_words_by_line(json_data, list_tcr):
     # Trier les mots par leur position verticale (Top)
     sorted_words = sorted(json_data, key=lambda x: x['MinTop'])
 
@@ -307,6 +322,7 @@ def group_words_by_line(json_data):
             previous_max_height = max_height
 
     current_line['Words'] = sorted(current_line['Words'], key=lambda x: x['Left'])
-    lines.append(current_line)  # Append the last line
 
+    # Append the last line
+    lines.append(current_line)
     return lines
