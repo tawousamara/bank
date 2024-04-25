@@ -806,7 +806,14 @@
                                             <t t-foreach="etape2.facilite_accorde" t-as="line">
                                                 <tr>
                                                     <td>
-                                                        <t t-esc="line.type_facilite.name"/>
+                                                        <t t-foreach="line.type_demande_ids" t-as="demande">
+                                                            <t t-if="len(line.type_demande_ids) != 1 and demande != line.type_demande_ids[-1]">
+                                                                <t t-esc="demande.name"/>/
+                                                            </t>
+                                                            <t t-if="len(line.type_demande_ids) == 1 or demande == line.type_demande_ids[-1]">
+                                                                <t t-esc="demande.name"/>
+                                                            </t>
+                                                        </t>
                                                     </td>
                                                     <td>
                                                         <t t-esc="line.date"/>
@@ -837,7 +844,8 @@
                                     <table class="reversed-table" t-if="etape2.detail_garantie_actuel_ids">
                                         <thead>
                                             <tr>
-                                                <th colspan="6" style="text-align: center; font-size: 17px" class="title-cell">
+                                                <th colspan="6" style="text-align: center; font-size: 17px"
+                                                    class="title-cell">
                                                     تفاصيل الضمانات
                                                 </th>
                                             </tr>
@@ -1188,13 +1196,7 @@
                                                         </t>
                                                     </td>
                                                     <td>
-                                                        <ol>
-                                                            <t t-foreach="line.notes" t-as="type">
-                                                                <li>
-                                                                    <t t-esc="type.name"/>
-                                                                </li>
-                                                            </t>
-                                                        </ol>
+                                                        <t t-esc="notes"/>
                                                     </td>
                                                 </tr>
                                             </t>
@@ -1206,7 +1208,8 @@
                                     <table class="reversed-table" t-if="etape2.mouvement">
                                         <thead>
                                             <tr>
-                                                <th colspan="10" class="title-cell">الحركة والأعمال الجانبية للحساب مع مصرف السلام الجزائر (بالمليون
+                                                <th colspan="10" class="title-cell">الحركة والأعمال الجانبية للحساب مع
+                                                    مصرف السلام الجزائر (بالمليون
                                                     دج)
                                                 </th>
                                             </tr>
