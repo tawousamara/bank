@@ -85,14 +85,30 @@ class ImportPassifOCR(models.Model):
                                                                        'rubrique': rubrique.id,
                                                                        })
                         if len(line['Words']) == 3:
-                            value.write({'montant_n': int(line['Words'][1]['WordText'].replace(' ', '').replace(',', '').replace('.', '')),
-                                         'montant_n1': int(line['Words'][2]['WordText'].replace(' ', '').replace(',', '').replace('.', ''))})
+                            try:
+                                value.write({'montant_n': int(re.sub(r'[^0-9]', '', line['Words'][1]['WordText']))})
+                            except:
+                                value.write({'montant_n': 0})
+                            try:
+                                value.write({'montant_n1': int(re.sub(r'[^0-9]', '', line['Words'][2]['WordText']))})
+                            except:
+                                value.write({'montant_n1': 0})
+
                         elif len(line['Words']) == 2:
                             separator = line['Words'][1]['Left'] - line['Words'][0]['Left']
                             if separator > 400:
-                                value.write({'montant_n1': int(line['Words'][1]['WordText'].replace(' ', '').replace(',', '').replace('.', ''))})
+                                try:
+                                    value.write(
+                                        {'montant_n1': int(re.sub(r'[^0-9]', '', line['Words'][1]['WordText']))})
+                                except:
+                                    value.write({'montant_n1': 0})
                             else:
-                                value.write({'montant_n': int(line['Words'][1]['WordText'].replace(' ', '').replace(',', '').replace('.', ''))})
+                                try:
+                                    value.write({'montant_n': int(re.sub(r'[^0-9]', '', line['Words'][1]['WordText']))})
+                                except:
+                                    value.write({'montant_n': 0})
+
+
                 """
                 same_line = []
                 for line in lines:

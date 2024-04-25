@@ -59,11 +59,13 @@ class ImportActifOCR(models.Model):
                 data = data.replace('\r\n', '\n')  # Replace Windows-style newline with Unix-style
                 data = data.replace('\r', '\n')
                 data = 'data:application/pdf;base64,' + data
-                test_file = ocr_space_file(filename=data, api_key='K87496787788957', language='fre',
+                test_file = ocr_space_file(filename=data, api_key='K82274210888957', language='fre',
                                        isTable=True)
                 json_dumps = test_file.content.decode()
                 json_loads = json.loads(json_dumps)
+                print(json_loads)
                 lines = json_loads['ParsedResults'][0]['TextOverlay']['Lines']
+
                 same_line = []
                 for line in lines:
                     if bool(re.match(pattern_alpha, line['LineText'])):

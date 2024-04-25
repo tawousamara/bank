@@ -97,11 +97,11 @@ class ImportTcrOCR(models.Model):
                                                                    })
                             if len(line['Words']) == 3:
                                 try:
-                                    value.write({'montant_n': int(line['Words'][1]['WordText'].replace(' ', ''))})
+                                    value.write({'montant_n': int(re.sub(r'[^0-9]', '', line['Words'][1]['WordText']))})
                                 except:
                                     value.write({'montant_n': 0})
                                 try:
-                                    value.write({'montant_n1': int(line['Words'][2]['WordText'].replace(' ', ''))})
+                                    value.write({'montant_n1': int(re.sub(r'[^0-9]', '', line['Words'][2]['WordText']))})
                                 except:
                                     value.write({'montant_n1': 0})
 
@@ -109,12 +109,12 @@ class ImportTcrOCR(models.Model):
                                 separator = line['Words'][1]['Left'] - line['Words'][0]['Left']
                                 if separator > 400:
                                     try:
-                                        value.write({'montant_n1': int(line['Words'][1]['WordText'].replace(' ', ''))})
+                                        value.write({'montant_n1': int(re.sub(r'[^0-9]', '', line['Words'][1]['WordText']))})
                                     except:
                                         value.write({'montant_n1': 0})
                                 else:
                                     try:
-                                        value.write({'montant_n': int(line['Words'][1]['WordText'].replace(' ', ''))})
+                                        value.write({'montant_n': int(re.sub(r'[^0-9]', '', line['Words'][1]['WordText']))})
                                     except:
                                         value.write({'montant_n': 0})
 
@@ -160,11 +160,12 @@ class ImportTcrOCR(models.Model):
                                                                    })
                             if len(line['Words']) == 3:
                                 try:
-                                    value.write({'montant_n': int(line['Words'][1]['WordText'].replace(' ', ''))})
+                                    value.write({'montant_n': int(re.sub(r'[^0-9]', '', line['Words'][1]['WordText']))})
                                 except:
                                     value.write({'montant_n': 0})
                                 try:
-                                    value.write({'montant_n1': int(line['Words'][2]['WordText'].replace(' ', ''))})
+                                    value.write(
+                                        {'montant_n1': int(re.sub(r'[^0-9]', '', line['Words'][2]['WordText']))})
                                 except:
                                     value.write({'montant_n1': 0})
 
@@ -172,12 +173,14 @@ class ImportTcrOCR(models.Model):
                                 separator = line['Words'][1]['Left'] - line['Words'][0]['Left']
                                 if separator > 400:
                                     try:
-                                        value.write({'montant_n1': int(line['Words'][1]['WordText'].replace(' ', ''))})
+                                        value.write(
+                                            {'montant_n1': int(re.sub(r'[^0-9]', '', line['Words'][1]['WordText']))})
                                     except:
                                         value.write({'montant_n1': 0})
                                 else:
                                     try:
-                                        value.write({'montant_n': int(line['Words'][1]['WordText'].replace(' ', ''))})
+                                        value.write(
+                                            {'montant_n': int(re.sub(r'[^0-9]', '', line['Words'][1]['WordText']))})
                                     except:
                                         value.write({'montant_n': 0})
 
