@@ -3,7 +3,7 @@ from odoo import models, fields, api, _
 
 import json
 from datetime import datetime
-from odoo.exceptions import ValidationError
+from odoo.exceptions import ValidationError,UserError
 import re
 import requests
 
@@ -62,83 +62,139 @@ class ImportActifOCR(models.Model):
                 test_file = ocr_space_file(filename=data, api_key='K82274210888957', language='fre',
                                        isTable=True)
                 json_dumps = test_file.content.decode()
-                json_loads = json.loads(json_dumps)
-                print(json_loads)
-                lines = json_loads['ParsedResults'][0]['TextOverlay']['Lines']
-
-                same_line = []
-                for line in lines:
-                    if bool(re.match(pattern_alpha, line['LineText'])):
-                        rubrique = self.env['import.ocr.config'].search([('name', '=', line['LineText'])])
-                        if rubrique:
-                            rec.env['import.ocr.actif.line'].create({'actif_id': rec.id,
-                                                                 'name': line['LineText'],
-                                                                 'rubrique': rubrique.id,
-                                                                 'mintop': line['MinTop'],
-                                                                 'height': line['MaxHeight'],
-                                                                 'montant_1n': 0,
-                                                                 'montant_2n': 0,
-                                                                 'montant_n': 0,
-                                                                 'montant_n1': 0})
-                            dicty = {'min_top':line['MinTop'],
-                                     'amounts': []}
-                            same_line.append(dicty)
-                    elif bool(re.match(pattern_num, line['LineText'])):
-                        if line['MinTop'] == 389:
-                            print(line['LineText'])
-                        actif = rec.actif_lines.filtered(lambda l: l.mintop - l.height <= line['MinTop'] <= l.mintop + l.height)
-                        if actif:
-                            width = 0
-                            for i in line['Words']:
-                                width += i['Width']
-                            for val in same_line:
-                                if val['min_top'] == actif[0].mintop:
-                                    val['amounts'].append({'amount': int(line['LineText'].replace(' ', '')),
-                                                           'left': line['Words'][0]['Left'],
-                                                           'width': width})
-                count = 0
-                first = []
-                second = []
-                third = []
-                forth = []
-                sum_height = 200
-                for line in same_line:
-                    print(line)
-                    if len(line['amounts']) == 4:
-                        count += 1
-                        first.append(line['amounts'][0]['left'])
-                        second.append(line['amounts'][1]['left'])
-                        third.append(line['amounts'][2]['left'])
-                        forth.append(line['amounts'][3]['left'])
-
-                    for amount in line['amounts']:
-                        if sum_height > amount['width']:
-                            sum_height = amount['width']
-                first.sort()
-                second.sort()
-                third.sort()
-                forth.sort()
-                first_moy = [first[0], first[-1] + sum_height]
-                second_moy = [first[-1] + sum_height, second[-1]+sum_height]
-                third_moy = [second[-1] + sum_height, third[-1]+sum_height]
-                forth_moy = [third[-1] + sum_height, forth[-1]+sum_height]
-                for line in same_line:
-                    actif = rec.actif_lines.filtered(lambda l: l.mintop == line['min_top'])
-
-                    if len(line['amounts']) == 4:
-                        actif.montant_1n = line['amounts'][0]['amount']
-                        actif.montant_2n = line['amounts'][1]['amount']
-                        actif.montant_n = line['amounts'][2]['amount']
-                        actif.montant_n1 = line['amounts'][3]['amount']
-
+                if test_file.status_code == 200:
+                    json_loads = json.loads(json_dumps)
+                    if not json_loads['IsErroredOnProcessing']:
+                        lines = json_loads['ParsedResults'][0]['TextOverlay']['Lines']
+                        lines = group_words_by_line(lines)
+                        list_tcr = self.env['import.ocr.config'].search([('type', '=', 'actif')])
+                        for line in lines:
+                            print(line)
+                            rubrique = self.env['import.ocr.config'].search(
+                                [('name', '=', line['Words'][0]['WordText'])])
+                            value_text = line['Words'][0]['WordText']
+                            if not rubrique:
+                                value_text = value_text.replace(';', '')
+                                value_text = value_text.replace(',', '')
+                                value_text = value_text.replace('-', '')
+                                for i in list_tcr:
+                                    val = i.name
+                                    val = val.replace(';', '')
+                                    val = val.replace(',', '')
+                                    val = val.replace('-', '')
+                                    if value_text == val:
+                                        print(value_text == val)
+                            if rubrique:
+                                value = rec.env['import.ocr.actif.line'].create({'actif_id': rec.id,
+                                                                                  'name': line['Words'][0]['WordText'],
+                                                                                  'rubrique': rubrique.id,
+                                                                                  })
+                                if len(line['Words']) == 5:
+                                    try:
+                                        value.write(
+                                            {'montant_n': int(re.sub(r'[^0-9]', '', line['Words'][1]['WordText']))})
+                                    except:
+                                        value.write({'montant_n': 0})
+                                    try:
+                                        value.write(
+                                            {'montant_n1': int(re.sub(r'[^0-9]', '', line['Words'][2]['WordText']))})
+                                    except:
+                                        value.write({'montant_n1': 0})
+                                    try:
+                                        value.write(
+                                            {'montant_2n': int(re.sub(r'[^0-9]', '', line['Words'][3]['WordText']))})
+                                    except:
+                                        value.write({'montant_2n': 0})
+                                    try:
+                                        value.write(
+                                            {'montant_1n': int(re.sub(r'[^0-9]', '', line['Words'][4]['WordText']))})
+                                    except:
+                                        value.write({'montant_1n': 0})
+                                elif len(line['Words']) == 4:
+                                    separator = line['Words'][3]['Left'] - line['Words'][0]['Left']
+                                    if separator > 500:
+                                        try:
+                                            value.write(
+                                                {'montant_n1': int(
+                                                    re.sub(r'[^0-9]', '', line['Words'][3]['WordText']))})
+                                        except:
+                                            value.write({'montant_n1': 0})
+                                        try:
+                                            value.write(
+                                                {'montant_n': int(
+                                                    re.sub(r'[^0-9]', '', line['Words'][2]['WordText']))})
+                                        except:
+                                            value.write({'montant_n': 0})
+                                        try:
+                                            value.write(
+                                                {'montant_1n': int(
+                                                    re.sub(r'[^0-9]', '', line['Words'][1]['WordText']))})
+                                        except:
+                                            value.write({'montant_1n': 0})
+                                    else:
+                                        try:
+                                            value.write(
+                                                {'montant_n': int(
+                                                    re.sub(r'[^0-9]', '', line['Words'][3]['WordText']))})
+                                        except:
+                                            value.write({'montant_n': 0})
+                                        try:
+                                            value.write(
+                                                {'montant_2n': int(
+                                                    re.sub(r'[^0-9]', '', line['Words'][2]['WordText']))})
+                                        except:
+                                            value.write({'montant_2n': 0})
+                                        try:
+                                            value.write(
+                                                {'montant_1n': int(
+                                                    re.sub(r'[^0-9]', '', line['Words'][1]['WordText']))})
+                                        except:
+                                            value.write({'montant_1n': 0})
+                                elif len(line['Words']) == 3:
+                                    separator = line['Words'][2]['Left'] - line['Words'][0]['Left']
+                                    if separator > 700:
+                                        try:
+                                            value.write(
+                                                {'montant_n1': int(
+                                                    re.sub(r'[^0-9]', '', line['Words'][2]['WordText']))})
+                                        except:
+                                            value.write({'montant_n1': 0})
+                                        try:
+                                            value.write(
+                                                {'montant_n': int(
+                                                    re.sub(r'[^0-9]', '', line['Words'][1]['WordText']))})
+                                        except:
+                                            value.write({'montant_n': 0})
+                                    else:
+                                        try:
+                                            value.write(
+                                                {'montant_n': int(
+                                                    re.sub(r'[^0-9]', '', line['Words'][2]['WordText']))})
+                                        except:
+                                            value.write({'montant_n': 0})
+                                        try:
+                                            value.write(
+                                                {'montant_1n': int(
+                                                    re.sub(r'[^0-9]', '', line['Words'][1]['WordText']))})
+                                        except:
+                                            value.write({'montant_1n': 0})
+                                else:
+                                    try:
+                                        value.write(
+                                            {'montant_n': int(re.sub(r'[^0-9]', '', line['Words'][1]['WordText']))})
+                                    except:
+                                        value.write({'montant_n': 0})
+                        rec.state = "validation"
+                        for line in rec.actif_lines:
+                            line.montant_n = line.montant_n / 1000
+                            line.montant_n1 = line.montant_n1 / 1000
+                            line.montant_2n = line.montant_2n / 1000
+                            line.montant_1n = line.montant_1n / 1000
                     else:
-                        assign_amounts(actif, line['amounts'], [first_moy, second_moy, third_moy, forth_moy])
-                rec.state = "validation"
-                for line in rec.actif_lines:
-                    line.montant_n = line.montant_n / 1000
-                    line.montant_n1 = line.montant_n1 / 1000
-                    line.montant_1n = line.montant_1n / 1000
-                    line.montant_2n = line.montant_2n / 1000
+                        raise UserError(
+                            'Vous devriez verifier la qualité, le nombre et la taille du fichier \n Le fichier ne doit pas dépasser 1024KB. \n Le fichier doit contenir une seule page.')
+                else:
+                    raise UserError('Un probleme est survenu, vous devriez réessayer ulterieurement.')
 
     def action_validation(self):
         for rec in self:
@@ -244,6 +300,57 @@ def assign_amounts(actif, amounts, intervals):
                 elif intervals[3][0] <= amount['left'] - amount['width'] <= intervals[3][-1]:
                     actif.montant_n1 = amount['amount']
 
+def group_words_by_line(json_data):
+    # Trier les mots par leur position verticale (Top)
+    sorted_words = sorted(json_data, key=lambda x: x['MinTop'])
+
+    lines = []
+    current_line = {'LineText': '', 'Words': []}
+    previous_top = None
+    previous_max_height = None
+
+    for item in sorted_words:
+        top = item['MinTop']
+        max_height = item['MaxHeight']
+        word_text = item['LineText']
+        left = item['Words'][0]['Left']  # Get the Left position of the first word in this line
+
+        if previous_top is None:
+            current_line['LineText'] = word_text
+            current_line['Words'].append({'WordText': word_text, 'Left': left})
+            previous_top = top
+            previous_max_height = max_height
+        elif top >= previous_top and top <= (previous_top + previous_max_height):
+            # Vérifier si le mot contient des caractères alphabétiques
+            if any(c.isalpha() for c in word_text):
+                # Vérifier si d'autres mots alphabétiques sont déjà présents dans la ligne
+                if any(any(c.isalpha() for c in word['WordText']) for word in current_line['Words']):
+                    lines.append(current_line)
+                    current_line = {'LineText': word_text, 'Words': [{'WordText': word_text, 'Left': left}]}
+                    previous_top = top
+                    previous_max_height = max_height
+                else:
+                    current_line['LineText'] += " " + word_text
+                    current_line['Words'].append({'WordText': word_text, 'Left': left})
+                    previous_max_height = max(previous_max_height, max_height)
+            else:
+                current_line['LineText'] += " " + word_text
+                current_line['Words'].append({'WordText': word_text, 'Left': left})
+                previous_max_height = max(previous_max_height, max_height)
+        else:
+            # Trier les mots de la ligne par leur position horizontale (Left)
+            current_line['Words'] = sorted(current_line['Words'], key=lambda x: x['Left'])
+            lines.append(current_line)
+            current_line = {'LineText': word_text, 'Words': [{'WordText': word_text, 'Left': left}]}
+            previous_top = top
+            previous_max_height = max_height
+
+    current_line['Words'] = sorted(current_line['Words'], key=lambda x: x['Left'])
+    lines.append(current_line)  # Ajouter la dernière ligne
+    for line in lines:
+        line['Words'] = sorted(line['Words'], key=lambda x: x['Left'])
+        
+    return lines
 
 
 

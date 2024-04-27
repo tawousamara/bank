@@ -73,7 +73,7 @@ class ImportTcrOCR(models.Model):
                     json_loads = json.loads(json_dumps)
                     lines = json_loads['ParsedResults'][0]['TextOverlay']['Lines']
 
-                    list_tcr = self.env['import.ocr.config'].search([])
+                    list_tcr = self.env['import.ocr.config'].search([('type', '=', 'tcr')])
                     lines = group_words_by_line(lines, list_tcr)
                     for line in lines:
                         rubrique = self.env['import.ocr.config'].search([('name', '=', line['Words'][0]['WordText'])])
@@ -136,7 +136,7 @@ class ImportTcrOCR(models.Model):
                     json_dumps = test_file.content.decode()
                     json_loads = json.loads(json_dumps)
                     lines = json_loads['ParsedResults'][0]['TextOverlay']['Lines']
-                    list_tcr = self.env['import.ocr.config'].search([])
+                    list_tcr = self.env['import.ocr.config'].search([('type', '=', 'tcr')])
                     lines = group_words_by_line(lines, list_tcr)
                     for line in lines:
                         rubrique = self.env['import.ocr.config'].search([('name', '=', line['Words'][0]['WordText'])])

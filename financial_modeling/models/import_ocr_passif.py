@@ -1,6 +1,6 @@
 from odoo import models, fields, api, _
 from datetime import datetime
-from odoo.exceptions import ValidationError
+from odoo.exceptions import ValidationError, UserError
 
 import re
 import json
@@ -60,131 +60,66 @@ class ImportPassifOCR(models.Model):
                 test_file = ocr_space_file(filename=data, api_key='K87496787788957', language='fre',
                                            isTable=True)
                 json_dumps = test_file.content.decode()
-                json_loads = json.loads(json_dumps)
-                lines = json_loads['ParsedResults'][0]['TextOverlay']['Lines']
-                lines = group_words_by_line(lines)
-                list_tcr = self.env['import.ocr.config'].search([])
-                for line in lines:
-                    rubrique = self.env['import.ocr.config'].search([('name', '=', line['Words'][0]['WordText'])])
-                    value_text = line['Words'][0]['WordText']
-                    if not rubrique:
-                        print(value_text)
-                        value_text = value_text.replace(';', '')
-                        value_text = value_text.replace(',', '')
-                        value_text = value_text.replace('-', '')
-                        for i in list_tcr:
-                            val = i.name
-                            val = val.replace(';', '')
-                            val = val.replace(',', '')
-                            val = val.replace('-', '')
-                            if value_text == val:
-                                print(value_text == val)
-                    if rubrique:
-                        value = rec.env['import.ocr.passif.line'].create({'passif_id': rec.id,
-                                                                       'name': line['Words'][0]['WordText'],
-                                                                       'rubrique': rubrique.id,
-                                                                       })
-                        if len(line['Words']) == 3:
-                            try:
-                                value.write({'montant_n': int(re.sub(r'[^0-9]', '', line['Words'][1]['WordText']))})
-                            except:
-                                value.write({'montant_n': 0})
-                            try:
-                                value.write({'montant_n1': int(re.sub(r'[^0-9]', '', line['Words'][2]['WordText']))})
-                            except:
-                                value.write({'montant_n1': 0})
+                print(test_file.status_code)
+                print(json_dumps)
+                if test_file.status_code == 200:
+                    json_loads = json.loads(json_dumps)
+                    if json_loads['IsErroredOnProcessing'] == False:
+                        lines = json_loads['ParsedResults'][0]['TextOverlay']['Lines']
+                        lines = group_words_by_line(lines)
+                        list_tcr = self.env['import.ocr.config'].search([('type', '=', 'passif')])
+                        for line in lines:
+                            rubrique = self.env['import.ocr.config'].search([('name', '=', line['Words'][0]['WordText'])])
+                            value_text = line['Words'][0]['WordText']
+                            if not rubrique:
+                                print(value_text)
+                                value_text = value_text.replace(';', '')
+                                value_text = value_text.replace(',', '')
+                                value_text = value_text.replace('-', '')
+                                for i in list_tcr:
+                                    val = i.name
+                                    val = val.replace(';', '')
+                                    val = val.replace(',', '')
+                                    val = val.replace('-', '')
+                                    if value_text == val:
+                                        print(value_text == val)
+                            if rubrique:
+                                value = rec.env['import.ocr.passif.line'].create({'passif_id': rec.id,
+                                                                               'name': line['Words'][0]['WordText'],
+                                                                               'rubrique': rubrique.id,
+                                                                               })
+                                if len(line['Words']) == 3:
+                                    try:
+                                        value.write({'montant_n': int(re.sub(r'[^0-9]', '', line['Words'][1]['WordText']))})
+                                    except:
+                                        value.write({'montant_n': 0})
+                                    try:
+                                        value.write({'montant_n1': int(re.sub(r'[^0-9]', '', line['Words'][2]['WordText']))})
+                                    except:
+                                        value.write({'montant_n1': 0})
 
-                        elif len(line['Words']) == 2:
-                            separator = line['Words'][1]['Left'] - line['Words'][0]['Left']
-                            if separator > 400:
-                                try:
-                                    value.write(
-                                        {'montant_n1': int(re.sub(r'[^0-9]', '', line['Words'][1]['WordText']))})
-                                except:
-                                    value.write({'montant_n1': 0})
-                            else:
-                                try:
-                                    value.write({'montant_n': int(re.sub(r'[^0-9]', '', line['Words'][1]['WordText']))})
-                                except:
-                                    value.write({'montant_n': 0})
-
-
-                """
-                same_line = []
-                for line in lines:
-                    if line['LineText'] == 'TOTAL IIII':
-                        line['LineText'] = 'TOTAL III'
-                    if line['LineText'] == 'TOTAL GENERAL PASSIF (I+||+III)':
-                        line['LineText'] = 'TOTAL GENERAL PASSIF (I+II+III)'
-                    print(line['LineText'])
-                    if bool(re.match(pattern_alpha, line['LineText'])):
-                        rubrique = self.env['import.ocr.config'].search([('name', '=', line['LineText'])])
-                        if rubrique:
-                            rec.env['import.ocr.passif.line'].create({'passif_id': rec.id,
-                                                                   'name': line['LineText'],
-                                                                   'rubrique': rubrique.id,
-                                                                   'mintop': line['MinTop'],
-                                                                   'height': line['MaxHeight'],
-                                                                   'montant_n': 0,
-                                                                   'montant_n1': 0})
-                            dicty = {'min_top': line['MinTop'],
-                                     'type': rubrique.sequence,
-                                     'amounts': []}
-                            same_line.append(dicty)
-                    elif bool(re.match(pattern_num, line['LineText'])):
-                        line['LineText'] = line['LineText'].replace('(', '')
-                        line['LineText'] = line['LineText'].replace(')', '')
-                        passif = rec.passif_lines.filtered(
-                            lambda l: l.mintop - l.height <= line['MinTop'] <= l.mintop + l.height)
-                        if passif:
-                            passif = passif[0]
-                            width = 0
-                            for i in line['Words']:
-                                width += i['Width']
-                            for val in same_line:
-                                if val['min_top'] == passif.mintop:
-                                    if '-' in line['LineText']:
-                                        line['LineText'] = line['LineText'].replace('-', '')
-                                        val['amounts'].append({'amount': - int(line['LineText'].replace(' ', '')),
-                                                           'left': line['Words'][0]['Left'],
-                                                           'width': width})
+                                elif len(line['Words']) == 2:
+                                    separator = line['Words'][1]['Left'] - line['Words'][0]['Left']
+                                    if separator > 400:
+                                        try:
+                                            value.write(
+                                                {'montant_n1': int(re.sub(r'[^0-9]', '', line['Words'][1]['WordText']))})
+                                        except:
+                                            value.write({'montant_n1': 0})
                                     else:
-                                        val['amounts'].append({'amount': int(line['LineText'].replace(' ', '')),
-                                                               'left': line['Words'][0]['Left'],
-                                                               'width': width})
-                count = 0
-                first = []
-                second = []
-                sum_height = 200
-                for line in same_line:
-                    print(line)
-                    if len(line['amounts']) == 2:
-                        count += 1
-                        first.append(line['amounts'][0]['left'])
-                        second.append(line['amounts'][1]['left'])
-                    elif len(line['amounts']) == 1:
-                            second.append(line['amounts'][0]['left'])
-                    for amount in line['amounts']:
-                        if sum_height > amount['width']:
-                            sum_height = amount['width']
-                print(sum_height)
-                first.sort()
-                second.sort()
-
-                first_moy = [first[0], first[-1] + sum_height]
-                second_moy = [first[-1] + sum_height, second[-1] + sum_height]
-                for line in same_line:
-                    passif = rec.passif_lines.filtered(lambda l: l.mintop == line['min_top'])
-                    if len(line['amounts']) == 2:
-                        passif.montant_n = line['amounts'][0]['amount']
-                        passif.montant_n1 = line['amounts'][1]['amount']
+                                        try:
+                                            value.write({'montant_n': int(re.sub(r'[^0-9]', '', line['Words'][1]['WordText']))})
+                                        except:
+                                            value.write({'montant_n': 0})
+                        rec.state = "validation"
+                        for line in rec.passif_lines:
+                            line.montant_n = line.montant_n / 1000
+                            line.montant_n1 = line.montant_n1 / 1000
                     else:
-                        assign_amounts(passif, line['amounts'], [first_moy, second_moy])"""
-            rec.state = "validation"
-            for line in rec.passif_lines:
-                line.montant_n = line.montant_n / 1000
-                line.montant_n1 = line.montant_n1 / 1000
-                    
+                        raise UserError('Vous devriez verifier la qualité, le nombre et la taille du fichier \n Le fichier ne doit pas dépasser 1024KB. \n Le fichier doit contenir une seule page.')
+                else:
+                    raise UserError('Un probleme est survenu, vous devriez réessayer ulterieurement.')
+
     def action_validation(self):
         for rec in self:
             list_validation = [12, 14, 20, 23, 24, 25]
