@@ -349,7 +349,7 @@ def group_words_by_line(json_data):
     lines.append(current_line)  # Ajouter la dernière ligne
     for line in lines:
         line['Words'] = sorted(line['Words'], key=lambda x: x['Left'])
-        
+
     return lines
 
 
