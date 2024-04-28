@@ -35,7 +35,6 @@ list_mouvement = [
     'الإيرادات (2)',
     '(1)/(2)',
     'الربحية',
-    'التوطين البنكي'
 ]
 List_position = [
     'الوضعية الجبائية',
@@ -388,7 +387,7 @@ class Etape(models.Model):
     position_tax = fields.One2many('wk.position', 'etape_id', string='الوضعية الجبائية والشبه جبائية')
     mouvement = fields.One2many('wk.mouvement', 'etape_id',
                                 string='الحركة والأعمال الجانبية للحساب مع مصرف السلام الجزائر (KDA)')
-
+    detail_mouvement = fields.Text(string='التوطين البنكي')
     companies = fields.One2many('wk.companies', 'etape_id')
     companies_fisc = fields.One2many('wk.companies.fisc', 'etape_id')
     tcr_group = fields.Many2one('import.ocr.tcr', string='TCR')

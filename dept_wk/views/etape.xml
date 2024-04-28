@@ -481,6 +481,9 @@
                                         <field name="sequence" column_invisible="True"/>
                                     </tree>
                                 </field>
+                                <group>
+                                    <field name="detail_mouvement"/>
+                                </group>
                             </page>
                         </notebook>
                         <notebook invisible="state_finance == 'finance_1' or sequence != 2">
@@ -931,8 +934,7 @@
                                 </tree>
                             </field>
                             <field name="garantie_ids" widget="many2many_tags"
-                                   readonly="not can_edit or state_finance != 'finance_2'"
-                                   options="{'no_create': True}"/>
+                                   readonly="not can_edit or state_finance != 'finance_2'"/>
                             <field name="exception_ids" widget="many2many_tags"
                                    readonly="not can_edit or state_finance != 'finance_2'"
                                    options="{'no_create': True}"/>

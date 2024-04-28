@@ -18,7 +18,7 @@
             <field name="name">تجبير بوليصة التامين الشامل لصالح المصرف</field>
         </record>
         <record id="garantie_6" model="wk.garanties">
-            <field name="name">رهن عقاري من الدرجة الاولى يغطي 100% من صافي التسهيلات</field>
+            <field name="name">رهن عقاري من الدرجة الاولى</field>
         </record>
         <record id="garantie_7" model="wk.garanties">
             <field name="name">تقديم الحسابات المدققة للسنة الماضية في الاجال</field>
