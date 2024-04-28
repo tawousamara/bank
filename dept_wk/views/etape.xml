@@ -330,7 +330,7 @@
                             <field name="annee_fiscal_list" options="{'no_create': True,'no_open': True}"
                                    readonly="not can_edit or state_finance != 'finance_2'"/>
                         </group>
-                        <notebook invisible="state_finance == 'finance_1' or sequence != 2 or demande == 1">
+                        <notebook invisible="state_finance == 'finance_1' or sequence != 2">
                             <page string="تفاصيل التسهيلات الممنوحة (KDA)">
                                 <field name="facilite_accorde" width="100%"
                                        readonly="not can_edit or state_finance != 'finance_2'">
