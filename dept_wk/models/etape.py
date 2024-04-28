@@ -2365,18 +2365,20 @@ class Etape(models.Model):
                 tcr1_5 = rec.tcr1_id.tcr_lines.filtered(lambda r: r.rubrique.sequence == 12)
                 tcr_6 = rec.tcr_id.tcr_lines.filtered(lambda r: r.rubrique.sequence == 13)
                 tcr1_6 = rec.tcr1_id.tcr_lines.filtered(lambda r: r.rubrique.sequence == 13)
+                tcr_14 = rec.tcr_id.tcr_lines.filtered(lambda r: r.rubrique.sequence == 14)
+                tcr1_14 = rec.tcr1_id.tcr_lines.filtered(lambda r: r.rubrique.sequence == 14)
                 var_2 = rec.var_ids.filtered(lambda r: r.sequence == 2)
-                bilan_32.write({'year_4': (actif_4.montant_n * 360) / tcr_5.montant_n if tcr_5.montant_n != 0 else 0,
-                                'year_3': (actif_4.montant_n1 * 360) / tcr_5.montant_n1 if tcr_5.montant_n1 != 0 else 0,
-                                'year_2': (actif1_4.montant_n * 360) / tcr1_5.montant_n if tcr1_5.montant_n != 0 else 0,
-                                'year_1': (actif1_4.montant_n1 * 360) / tcr1_5.montant_n1 if tcr1_5.montant_n1 != 0 else 0,
+                bilan_32.write({'year_4': (actif_4.montant_n * 360) / (tcr_5.montant_n + tcr_6.montant_n + tcr_14.montant_n) if (tcr_5.montant_n + tcr_6.montant_n + tcr_14.montant_n) != 0 else 0,
+                                'year_3': (actif_4.montant_n1 * 360) / (tcr_5.montant_n1 + tcr_6.montant_n1 + tcr_14.montant_n1) if (tcr_5.montant_n1 + tcr_6.montant_n1 + tcr_14.montant_n1) != 0 else 0,
+                                'year_2': (actif1_4.montant_n * 360) / (tcr1_5.montant_n + tcr1_6.montant_n + tcr1_14.montant_n) if (tcr1_5.montant_n + tcr1_6.montant_n + tcr1_14.montant_n) != 0 else 0,
+                                'year_1': (actif1_4.montant_n1 * 360) / (tcr1_5.montant_n1 + tcr1_6.montant_n1 + tcr1_14.montant_n1) if (tcr1_5.montant_n1 + tcr1_6.montant_n1 + tcr1_14.montant_n1) != 0 else 0,
                                 })
 
-                if tcr_5.montant_n == 0:
+                if (tcr1_5.montant_n + tcr1_6.montant_n + tcr1_14.montant_n) == 0:
                     bilan_32.is_null_4 = True
-                if tcr_5.montant_n1 == 0:
+                if (tcr1_5.montant_n + tcr1_6.montant_n + tcr1_14.montant_n) == 0:
                     bilan_32.is_null_3 = True
-                if tcr1_5.montant_n == 0:
+                if (tcr1_5.montant_n + tcr1_6.montant_n + tcr1_14.montant_n) == 0:
                     bilan_32.is_null_2 = True
                 if tcr1_5.montant_n1 == 0:
                     bilan_32.is_null_1 = True

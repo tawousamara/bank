@@ -78,7 +78,7 @@
                     <field name="rc" invisible="is_user == True"/>
                 </group>
                 <group>
-                    <field name="activite_salam" invisible="is_user == True"/>
+                    <field name="activite_salam" invisible="is_user == True" options="{'no_create': True, 'no_open': True}"/>
                     <field name="activity_code" invisible="is_user == True"/>
                     <field name="activity_description" invisible="is_user == True"/>
                     <field name="activite_sec" invisible="is_user == True"/>

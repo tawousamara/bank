@@ -238,7 +238,7 @@ class Partner(models.Model):
     date_debut_activite = fields.Date(string='تاريخ بداية النشاط')
     activite = fields.Many2one('wk.activite', string='النشاط الرئيسي حسب بنك الجزائر')
     activite_salam = fields.Many2one('wk.activite.salam', string='النشاط الرئيسي حسب بنك السلام')
-    activite_second = fields.Many2one('wk.secteur',string='رمز النشاط الثانوي في السجل التجاري')
+    activite_second = fields.Many2one('wk.secteur', string='رمز النشاط الثانوي في السجل التجاري')
     activite_sec = fields.Char(string='رمز النشاط الثانوي في السجل التجاري')
     forme_jur = fields.Many2one('wk.forme.jur', string='الشكل القانوني')
     company_id = fields.Many2one('res.company', default=lambda self: self.env.company)

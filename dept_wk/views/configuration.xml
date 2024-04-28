@@ -239,6 +239,21 @@
         </field>
     </record>
 
+    <record id="wk_activite_salam_action" model="ir.actions.act_window">
+        <field name="name">النشاط حسب بنك السلام</field>
+        <field name="res_model">wk.activite.salam</field>
+        <field name="view_mode">tree</field>
+    </record>
+    <record id="view_wk_activite_salam_tree" model="ir.ui.view">
+        <field name="name">wk.activite.salam.tree</field>
+        <field name="model">wk.activite.salam</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
     <record id="wk_secteur_action" model="ir.actions.act_window">
         <field name="name">النشاط</field>
         <field name="res_model">wk.secteur</field>
