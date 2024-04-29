@@ -1161,34 +1161,34 @@
                                     <table class="reversed-table">
                                         <tbody>
                                             <tr>
-                                                <td class="title-cell" colspan="2" width="25%">
+                                                <td class="title-cell" width="25%">
                                                     تعريف الشركة
                                                 </td>
-                                                <td colspan="6" width="75%">
+                                                <td width="75%">
                                                     <t t-esc="etape1.description_company"/>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td class="title-cell" colspan="2" width="25%">
+                                                <td class="title-cell" width="25%">
                                                     وحدات الانتاج
                                                 </td>
-                                                <td colspan="6" width="75%">
+                                                <td  width="75%">
                                                     <t t-esc="etape1.unit_prod"/>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td class="title-cell" colspan="2" width="25%">
+                                                <td class="title-cell" width="25%">
                                                     المخازن
                                                 </td>
-                                                <td colspan="6" width="75%">
+                                                <td width="75%">
                                                     <t t-esc="etape1.stock"/>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td class="title-cell" colspan="2" width="25%">
+                                                <td class="title-cell" width="25%">
                                                     منتوجات الشركة
                                                 </td>
-                                                <td colspan="6" width="75%">
+                                                <td width="75%">
                                                     <t t-esc="etape1.prod_company"/>
                                                 </td>
                                             </tr>
@@ -1198,7 +1198,7 @@
                                                     الجبائية وشبه
                                                     الجبائية
                                                 </td>
-                                                <td colspan="5" style="padding: 0px" width="75%">
+                                                <td style="padding: 0px" width="75%">
                                                     <table class="reversed-table" t-if="etape2.position_tax"
                                                            style="margin:0px; border: none; border-collapse: collapse;">
                                                         <thead>
@@ -1238,7 +1238,7 @@
                                                 <td class="title-cell" width="25%">
                                                     الموردين
                                                 </td>
-                                                <td colspan="5" style="padding: 0px" width="75%">
+                                                <td style="padding: 0px" width="75%">
                                                     <table class="reversed-table" t-if="etape1.fournisseur"
                                                            style="margin:0px; border: none;">
                                                         <thead>
@@ -1277,7 +1277,7 @@
                                                 <td class="title-cell" width="25%">
                                                     الزبائن
                                                 </td>
-                                                <td colspan="5" style="padding: 0px" width="75%">
+                                                <td style="padding: 0px" width="75%">
                                                     <table class="reversed-table" t-if="etape1.client"
                                                            style="margin:0px; border: none;">
                                                         <thead>
