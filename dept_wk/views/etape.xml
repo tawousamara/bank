@@ -467,22 +467,23 @@
                             </page>
                             <page string="الحركة والأعمال الجانبية للحساب مع مصرف السلام الجزائر (KDA)">
                                 <field name="mouvement" readonly="not can_edit or state_finance != 'finance_2'">
-                                    <tree create="0" delete="0" editable="bottom">
+                                    <tree create="0" editable="bottom">
                                         <field name="mouvement" decoration-bf="sequence == 0" readonly="1"/>
-                                        <field name="n3_dz" decoration-bf="sequence == 0" readonly="sequence == 0"/>
-                                        <field name="n3_dollar" optional="hide" readonly="sequence == 0"/>
-                                        <field name="n2_dz" decoration-bf="sequence == 0" readonly="sequence == 0"/>
-                                        <field name="n2_dollar" optional="hide" readonly="sequence == 0"/>
-                                        <field name="n1_dz" decoration-bf="sequence == 0" readonly="sequence == 0"/>
-                                        <field name="n1_dollar" optional="hide" readonly="sequence == 0"/>
-                                        <field name="n_dz" decoration-bf="sequence == 0" readonly="sequence == 0"/>
-                                        <field name="n_dollar" optional="hide" readonly="sequence == 0"/>
+                                        <field name="n3_dz" decoration-bf="sequence == 0" readonly="sequence in [0, 3]"/>
+                                        <field name="n3_dollar" optional="hide" readonly="sequence in [0, 3]"/>
+                                        <field name="n2_dz" decoration-bf="sequence == 0" readonly="sequence in [0, 3]"/>
+                                        <field name="n2_dollar" optional="hide" readonly="sequence in [0, 3]"/>
+                                        <field name="n1_dz" decoration-bf="sequence == 0" readonly="sequence in [0, 3]"/>
+                                        <field name="n1_dollar" optional="hide" readonly="sequence in [0, 3]"/>
+                                        <field name="n_dz" decoration-bf="sequence == 0" readonly="sequence in [0, 3]"/>
+                                        <field name="n_dollar" optional="hide" readonly="sequence in [0, 3]"/>
                                         <field name="remarques" readonly="sequence == 0"/>
                                         <field name="sequence" column_invisible="True"/>
                                     </tree>
                                 </field>
                                 <group>
-                                    <field name="detail_mouvement"/>
+                                    <field name="detail_mouvement"
+                                           readonly="not can_edit or state_finance != 'finance_2'"/>
                                 </group>
                             </page>
                         </notebook>
@@ -619,7 +620,8 @@
                                 class="button_secondary" invisible="state_finance == 'finance_1' or sequence != 2"/>
                         <button name="verrouiller_dossier" type="object" string="قبول الملف"
                                 groups="dept_wk.dept_wk_group_analyste"
-                                class="button_secondary" invisible="state_finance != 'finance_2' or dossier_verouiller"/>
+                                class="button_secondary"
+                                invisible="state_finance != 'finance_2' or dossier_verouiller"/>
                         <notebook invisible="state_finance == 'finance_1' or sequence != 2">
                             <page string="البيانات المالية للشركة (KDA)">
                                 <group string="مؤشرات البنية المالية">

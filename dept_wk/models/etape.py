@@ -388,6 +388,20 @@ class Etape(models.Model):
     mouvement = fields.One2many('wk.mouvement', 'etape_id',
                                 string='الحركة والأعمال الجانبية للحساب مع مصرف السلام الجزائر (KDA)')
     detail_mouvement = fields.Text(string='التوطين البنكي')
+    computed_field = fields.Boolean(compute='compute_ratio', store=True)
+
+    @api.depends('mouvement')
+    def compute_ratio(self):
+        for rec in self:
+            first = rec.mouvement.filtered(lambda l: l.sequence == 1)
+            second = rec.mouvement.filtered(lambda l: l.sequence == 2)
+            third = rec.mouvement.filtered(lambda l: l.sequence == 3)
+            if first and second:
+                third.n_dz = first.n_dz / second.n_dz if second.n_dz != 0 else 0
+                third.n1_dz = first.n1_dz / second.n1_dz if second.n1_dz != 0 else 0
+                third.n2_dz = first.n2_dz / second.n2_dz if second.n2_dz != 0 else 0
+                third.n3_dz = first.n3_dz / second.n3_dz if second.n3_dz != 0 else 0
+            rec.computed_field = True
     companies = fields.One2many('wk.companies', 'etape_id')
     companies_fisc = fields.One2many('wk.companies.fisc', 'etape_id')
     tcr_group = fields.Many2one('import.ocr.tcr', string='TCR')
@@ -994,7 +1008,7 @@ class Etape(models.Model):
                 if self.env.user.has_group('dept_wk.dept_wk_group_comite'):
                     result = True
             elif rec.etape.sequence == 8:
-                if self.env.user.has_group('dept_wk.dept_wk_group_responsable_analyste'):
+                if self.env.user.has_group('dept_wk.dept_wk_group_analyste'):
                     result = True
             rec.can_edit = result
 
@@ -2025,7 +2039,7 @@ class Etape(models.Model):
                 passif1_12 = rec.passif1_id.passif_lines.filtered(lambda r: r.rubrique.sequence == 25)
                 bilan_5.write({'year_4': (passif_1.montant_n / passif_12.montant_n) * 100 if passif_12.montant_n != 0 else 0,
                                'year_3': (passif_1.montant_n1 / passif_12.montant_n1) * 100 if passif_12.montant_n1 != 0 else 0,
-                               'year_2': (passif1_1.montant_n1 / passif1_12.montant_n1) * 100 if passif1_12.montant_n1 != 0 else 0,
+                               'year_2': (passif1_1.montant_n / passif1_12.montant_n) * 100 if passif1_12.montant_n != 0 else 0,
                                'year_1': (passif1_1.montant_n1 / passif1_12.montant_n1) * 100 if passif1_12.montant_n1 != 0 else 0})
                 if passif_12.montant_n == 0:
                     bilan_5.is_null_4 = True
@@ -2192,7 +2206,7 @@ class Etape(models.Model):
                 actif1_1 = rec.actif1_id.actif_lines.filtered(lambda r: r.rubrique.sequence == 26)
                 bilan_18.write({'year_4': (passif_6.montant_n + passif_5.montant_n - actif_1.montant_n) / passif_1.montant_n if passif_1.montant_n != 0 else 0,
                                'year_3': (passif_6.montant_n1 + passif_5.montant_n1 - actif_1.montant_n1) / passif_1.montant_n1 if passif_1.montant_n1 != 0 else 0,
-                               'year_2': ( passif1_6.montant_n + passif1_5.montant_n - actif1_1.montant_n) / passif1_1.montant_n if passif1_1.montant_n != 0 else 0,
+                               'year_2': (passif1_6.montant_n + passif1_5.montant_n - actif1_1.montant_n) / passif1_1.montant_n if passif1_1.montant_n != 0 else 0,
                                'year_1': (passif1_6.montant_n1 + passif1_5.montant_n1 - actif1_1.montant_n1) / passif1_1.montant_n1 if passif1_1.montant_n1 != 0 else 0,
                                })
                 if passif_1.montant_n == 0:

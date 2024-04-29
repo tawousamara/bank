@@ -269,6 +269,7 @@ class MouvementAction(models.Model):
                 rec.n3_dollar = 0
 
 
+
 class MouvementGroupe(models.Model):
     _name = 'wk.mouvement.group'
     _description = 'Mouvement et Action'
@@ -372,7 +373,6 @@ class Companies(models.Model):
 class DeclarationFisc(models.Model):
     _name = 'wk.companies.fisc'
     _description = 'Companies fisc'
-
 
     etape_id = fields.Many2one('wk.etape')
     declaration = fields.Char(string='البيان')

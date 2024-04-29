@@ -24,6 +24,7 @@
             'data/api_data.xml',
             'data/other_data.xml',
             'reports/report_global.xml',
+            'reports/report_global_dollar.xml',
             'reports/report_risk.xml',
             'reports/mail_template.xml',
             'views/configuration.xml',
