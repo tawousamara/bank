@@ -1514,7 +1514,8 @@
                                         <tbody>
                                             <tr>
                                                 <t t-set="taille" t-value="len(bilan1_all) + 2"/>
-                                                <td class="title-cell" t-att-rowspan="taille" style="writing-mode: vertical-rl; text-orientation: mixed;">
+                                                <td class="title-cell" t-att-rowspan="taille"
+                                                    style="writing-mode: vertical-rl; text-orientation: mixed;">
                                                     مؤشرات البنية المالية
                                                 </td>
                                                 <td>
@@ -1609,7 +1610,8 @@
 
                                             <tr>
                                                 <t t-set="taille" t-value="len(bilan2_all) + 2"/>
-                                                <td class="title-cell" t-att-rowspan="taille" style="writing-mode: vertical-rl; text-orientation: mixed;">
+                                                <td class="title-cell" t-att-rowspan="taille"
+                                                    style="writing-mode: vertical-rl; text-orientation: mixed;">
                                                     مؤشرات المديونية
                                                 </td>
                                                 <td>
@@ -1704,7 +1706,8 @@
 
                                             <tr>
                                                 <t t-set="taille" t-value="len(bilan3_all) + 2"/>
-                                                <td class="title-cell" t-att-rowspan="taille" style="writing-mode: vertical-rl; text-orientation: mixed;">
+                                                <td class="title-cell" t-att-rowspan="taille"
+                                                    style="writing-mode: vertical-rl; text-orientation: mixed;">
                                                     مؤشرات المردودية
                                                 </td>
                                                 <td>
@@ -1799,7 +1802,8 @@
 
                                             <tr>
                                                 <t t-set="taille" t-value="len(bilan4_all) + 2"/>
-                                                <td class="title-cell" t-att-rowspan="taille" style="writing-mode: vertical-rl; text-orientation: mixed;">
+                                                <td class="title-cell" t-att-rowspan="taille"
+                                                    style="writing-mode: vertical-rl; text-orientation: mixed;">
                                                     مؤشرات السيولة
                                                 </td>
                                                 <td>
@@ -1894,7 +1898,8 @@
 
                                             <tr>
                                                 <t t-set="taille" t-value="len(bilan5_all) + 2"/>
-                                                <td class="title-cell" t-att-rowspan="taille" style="writing-mode: vertical-rl; text-orientation: mixed;">
+                                                <td class="title-cell" t-att-rowspan="taille"
+                                                    style="writing-mode: vertical-rl; text-orientation: mixed;">
                                                     مؤشرات النشاط
                                                 </td>
                                                 <td>
@@ -1994,7 +1999,11 @@
                                     <table class="reversed-table" t-if="etape2.tcr_situation">
                                         <thead>
                                             <tr>
-                                                <th class="title-cell" colspan="2">الوضعية الحسابية لسنة <t t-esc="etape2.date_situation_comptable.year"/></th>
+                                                <th class="title-cell" colspan="2">الوضعية الحسابية لسنة
+                                                    <t t-if="etape2.date_situation_comptable">
+                                                        <t t-esc="etape2.date_situation_comptable.year"/>
+                                                    </t>
+                                                </th>
                                             </tr>
                                             <tr>
                                                 <th class="title-cell">البيان</th>
