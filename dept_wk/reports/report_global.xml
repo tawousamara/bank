@@ -708,7 +708,7 @@
                                                             <t t-esc="int(line.year1)"/>
                                                         </t>
                                                         <t t-else="">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year1)"/>
+                                                            <t t-esc="'{0:,.0f}'.format(line.year1 / 1000)"/>
                                                         </t>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;">
@@ -716,7 +716,7 @@
                                                             <t t-esc="int(line.year2)"/>
                                                         </t>
                                                         <t t-else="">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year2)"/>
+                                                            <t t-esc="'{0:,.0f}'.format(line.year2 / 1000)"/>
                                                         </t>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;">
@@ -724,7 +724,7 @@
                                                             <t t-esc="int(line.year3)"/>
                                                         </t>
                                                         <t t-else="">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year3)"/>
+                                                            <t t-esc="'{0:,.0f}'.format(line.year3 / 1000)"/>
                                                         </t>
                                                     </td>
                                                 </tr>
@@ -773,13 +773,13 @@
                                                         <t t-esc="line.date"/>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;">
-                                                        <t t-esc="'{0:,.0f}'.format(line.montant_da_actuel)"/>
+                                                        <t t-esc="'{0:,.0f}'.format(line.montant_da_actuel /1000)"/>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;">
-                                                        <t t-esc="'{0:,.0f}'.format(line.montant_da_demande)"/>
+                                                        <t t-esc="'{0:,.0f}'.format(line.montant_da_demande / 1000)"/>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;">
-                                                        <t t-esc="'{0:,.0f}'.format(line.montant_da_total)"/>
+                                                        <t t-esc="'{0:,.0f}'.format(line.montant_da_total / 1000)"/>
                                                     </td>
                                                     <td>
                                                         <t t-esc="int(line.garantie_montant * 100)"/>
@@ -1567,7 +1567,7 @@
                                                             N.D
                                                         </t>
                                                         <t t-else="">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year_1 / 1000)"/>
+                                                            <t t-esc="'{0:,.0f}'.format(line.year_1)"/>
                                                         </t>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;">
@@ -1575,7 +1575,7 @@
                                                             N.D
                                                         </t>
                                                         <t t-else="">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year_2 / 1000)"/>
+                                                            <t t-esc="'{0:,.0f}'.format(line.year_2)"/>
                                                         </t>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;">
@@ -1583,7 +1583,7 @@
                                                             N.D
                                                         </t>
                                                         <t t-else="">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year_3 / 1000)"/>
+                                                            <t t-esc="'{0:,.0f}'.format(line.year_3)"/>
                                                         </t>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;">
@@ -1591,7 +1591,7 @@
                                                             N.D
                                                         </t>
                                                         <t t-else="">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year_4 / 1000)"/>
+                                                            <t t-esc="'{0:,.0f}'.format(line.year_4)"/>
                                                         </t>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;">
@@ -1663,7 +1663,7 @@
                                                             N.D
                                                         </t>
                                                         <t t-else="">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year_1 / 1000)"/>
+                                                            <t t-esc="'{0:,.0f}'.format(line.year_1)"/>
                                                         </t>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;">
@@ -1671,7 +1671,7 @@
                                                             N.D
                                                         </t>
                                                         <t t-else="">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year_2 / 1000)"/>
+                                                            <t t-esc="'{0:,.0f}'.format(line.year_2)"/>
                                                         </t>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;">
@@ -1679,7 +1679,7 @@
                                                             N.D
                                                         </t>
                                                         <t t-else="">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year_3 / 1000)"/>
+                                                            <t t-esc="'{0:,.0f}'.format(line.year_3)"/>
                                                         </t>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;">
@@ -1687,7 +1687,7 @@
                                                             N.D
                                                         </t>
                                                         <t t-else="">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year_4 / 1000)"/>
+                                                            <t t-esc="'{0:,.0f}'.format(line.year_4)"/>
                                                         </t>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;">
@@ -1759,7 +1759,7 @@
                                                             N.D
                                                         </t>
                                                         <t t-else="">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year_1 / 1000)"/>
+                                                            <t t-esc="'{0:,.0f}'.format(line.year_1)"/>
                                                         </t>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;">
@@ -1767,7 +1767,7 @@
                                                             N.D
                                                         </t>
                                                         <t t-else="">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year_2 / 1000)"/>
+                                                            <t t-esc="'{0:,.0f}'.format(line.year_2)"/>
                                                         </t>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;">
@@ -1775,7 +1775,7 @@
                                                             N.D
                                                         </t>
                                                         <t t-else="">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year_3 / 1000)"/>
+                                                            <t t-esc="'{0:,.0f}'.format(line.year_3)"/>
                                                         </t>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;">
@@ -1783,7 +1783,7 @@
                                                             N.D
                                                         </t>
                                                         <t t-else="">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year_4 / 1000)"/>
+                                                            <t t-esc="'{0:,.0f}'.format(line.year_4)"/>
                                                         </t>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;">
@@ -1855,7 +1855,7 @@
                                                             N.D
                                                         </t>
                                                         <t t-else="">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year_1 / 1000)"/>
+                                                            <t t-esc="'{0:,.0f}'.format(line.year_1)"/>
                                                         </t>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;">
@@ -1863,7 +1863,7 @@
                                                             N.D
                                                         </t>
                                                         <t t-else="">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year_2 / 1000)"/>
+                                                            <t t-esc="'{0:,.0f}'.format(line.year_2)"/>
                                                         </t>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;">
@@ -1871,7 +1871,7 @@
                                                             N.D
                                                         </t>
                                                         <t t-else="">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year_3 / 1000)"/>
+                                                            <t t-esc="'{0:,.0f}'.format(line.year_3)"/>
                                                         </t>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;">
@@ -1879,7 +1879,7 @@
                                                             N.D
                                                         </t>
                                                         <t t-else="">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year_4 / 1000)"/>
+                                                            <t t-esc="'{0:,.0f}'.format(line.year_4)"/>
                                                         </t>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;">
@@ -1951,7 +1951,7 @@
                                                             N.D
                                                         </t>
                                                         <t t-else="">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year_1 / 1000)"/>
+                                                            <t t-esc="'{0:,.0f}'.format(line.year_1)"/>
                                                         </t>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;">
@@ -1959,7 +1959,7 @@
                                                             N.D
                                                         </t>
                                                         <t t-else="">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year_2 / 1000)"/>
+                                                            <t t-esc="'{0:,.0f}'.format(line.year_2)"/>
                                                         </t>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;">
@@ -1967,7 +1967,7 @@
                                                             N.D
                                                         </t>
                                                         <t t-else="">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year_3 / 1000)"/>
+                                                            <t t-esc="'{0:,.0f}'.format(line.year_3)"/>
                                                         </t>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;">
@@ -1975,7 +1975,7 @@
                                                             N.D
                                                         </t>
                                                         <t t-else="">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year_4 / 1000)"/>
+                                                            <t t-esc="'{0:,.0f}'.format(line.year_4)"/>
                                                         </t>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;">
