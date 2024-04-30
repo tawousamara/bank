@@ -96,5 +96,8 @@
             <field name="name">تمويل ايجاري</field>
             <field name="for_branch">True</field>
         </record>
+        <record id="product_31" model="wk.product">
+            <field name="name">سقف اعتمادات مستنديه/عند ورود المستندات</field>
+        </record>
     </data>
 </odoo>

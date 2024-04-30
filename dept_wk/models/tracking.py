@@ -24,7 +24,10 @@ class Tracking(models.Model):
                               ('commercial_1', 'مدير الاعمال التجارية'),
                               ('commercial_2', 'مديرية الاعمال التجارية'),
                               ('commercial_3', 'مدير الاعمال التجارية'),
-                              ('risque_1', 'ادارة المخاطر')], string='حالة الملف')
+                              ('risque_1', 'مدير المخاطر'),
+                              ('risque_3', 'المكلف بادارة المخاطر'),
+                              ('risque_4', 'مدير المخاطر')
+                              ], string='حالة الملف')
     comment = fields.Text(string='التعليق')
     raison_a_revoir = fields.Text(string='التعليق')
     is_revision = fields.Boolean()

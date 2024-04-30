@@ -264,6 +264,18 @@
                                     </field>
                                 </group>
                             </page>
+                            <page string="معلومات حول الشركات ذات الصلة (KDA)">
+                                <field name="companies" readonly="not can_edit or state_branch != 'branch_3' and sequence not in [1, 8]">
+                                    <tree editable="bottom">
+                                        <field name="name" width="10%"/>
+                                        <field name="date_creation" width="10%"/>
+                                        <field name="activite" options="{'no_create': True}" width="20%"/>
+                                        <field name="chiffre_affaire" width="20%"/>
+                                        <field name="n1_num_affaire" width="20%"/>
+                                        <field name="n_num_affaire" width="20%"/>
+                                    </tree>
+                                </field>
+                            </page>
                         </notebook>
                         <group col="2" string="نبذة عن نشاط الشركة"
                                invisible="state_branch not in ['branch_3', 'branch_4','branch_rejected','branch_5'] and sequence not in [3,5,8]">
@@ -488,18 +500,6 @@
                             </page>
                         </notebook>
                         <notebook invisible="state_finance == 'finance_1' or sequence != 2">
-                            <page string="معلومات حول الشركات ذات الصلة (KDA)">
-                                <field name="companies" readonly="not can_edit or state_finance != 'finance_2'">
-                                    <tree editable="bottom">
-                                        <field name="name" width="10%"/>
-                                        <field name="date_creation" width="10%"/>
-                                        <field name="activite" options="{'no_create': True}" width="20%"/>
-                                        <field name="chiffre_affaire" width="20%"/>
-                                        <field name="n1_num_affaire" width="20%"/>
-                                        <field name="n_num_affaire" width="20%"/>
-                                    </tree>
-                                </field>
-                            </page>
                             <page string="البيانات المالية الموجزة للشركات ذات الصلة (KDA)">
                                 <group col="3">
                                     <group>
@@ -931,6 +931,8 @@
                                            options="{'no_create': True}" widget="many2many_tags"/>
                                     <field name="montant_dz" sum="Total"/>
                                     <field name="montant_dollar" sum="Total"/>
+                                    <field name="preg" />
+                                    <field name="duree"/>
                                     <field name="compute_exist" column_invisible="True"/>
                                     <field name="condition"/>
                                 </tree>

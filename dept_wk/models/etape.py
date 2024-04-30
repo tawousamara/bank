@@ -1083,6 +1083,7 @@ class Etape(models.Model):
                     rec.state_compute = 0.66
                 elif rec.state_commercial == 'commercial_4':
                     rec.state_compute = 1
+                rec.workflow.state_commercial = rec.state_commercial
             elif rec.etape.sequence == 4:
                 if rec.state_risque == 'risque_1':
                     rec.state_compute = 0
@@ -1092,6 +1093,7 @@ class Etape(models.Model):
                     rec.state_compute = 0.66
                 elif rec.state_risque == 'risque_2':
                     rec.state_compute = 1
+                rec.workflow.state_risque = rec.state_risque
             elif rec.etape.sequence == 5:
                 if rec.state_vice == 'vice_1':
                     rec.state_compute = 0
@@ -1113,13 +1115,14 @@ class Etape(models.Model):
         for rec in self:
             if rec.etape.sequence == 1:
                 rec.user_id = rec.assigned_to_agence.id
-
             elif rec.etape.sequence == 2:
                 rec.user_id = rec.assigned_to_finance.id
             elif rec.etape.sequence == 3:
                 rec.user_id = rec.assigned_to_commercial.id
+                rec.workflow.assigned_to_commercial = rec.assigned_to_commercial.id
             elif rec.etape.sequence == 4:
                 rec.user_id = rec.assigned_to_risque.id
+                rec.workflow.assigned_to_risque = rec.assigned_to_risque.id
             elif rec.etape.sequence == 5:
                 rec.user_id = rec.assigned_to_vice.id
             else:
@@ -1454,6 +1457,8 @@ class Etape(models.Model):
                                 'type_facilite': fac.type_facilite.id,
                                 'type_demande_ids': fac.type_demande_ids.ids,
                                 'montant_dz': fac.montant_dz,
+                                'preg': fac.preg,
+                                'duree': fac.duree,
                                 'condition': fac.condition,
                                 'etape_id': etape.id})
             elif rec.etape.sequence == 6:
@@ -1707,6 +1712,8 @@ class Etape(models.Model):
                     'type_facilite': fac.type_facilite.id,
                     'type_demande_ids': fac.type_demande_ids.ids,
                     'montant_dz': fac.montant_dz,
+                    'preg': fac.preg,
+                    'duree': fac.duree,
                     'condition': fac.condition,
                     'etape_id': etape.id})
 

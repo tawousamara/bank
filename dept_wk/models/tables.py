@@ -782,6 +782,8 @@ class FacilitePropose(models.Model):
     type_demande_ids = fields.Many2many('wk.product', string='نوع التسهيلات')
     montant_dz = fields.Float(string='المبلغ المقترح KDA')
     montant_dollar = fields.Float(string='K/$', compute='compute_montant_dollar')
+    preg = fields.Float(string='التامين النقدي')
+    duree = fields.Integer(string='المدة (الايام)')
     condition = fields.Char(string='الشروط')
     compute_exist = fields.Boolean(compute='compute_products')
 

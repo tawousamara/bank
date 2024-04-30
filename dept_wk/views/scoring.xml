@@ -384,7 +384,7 @@
                             <group col="2">
                                 <group col="2">
                                     <field name="ca_banque"/>
-                                    <field name="resultat_scoring" readonly="1"/>
+                                    <field name="resultat_scor" readonly="1"/>
                                 </group>
                                 <group col="2">
                                     <field name="chiffre_affaire" readonly="1"/>
@@ -395,7 +395,7 @@
                             <button name="calcul_limit" class="col-3 btn-primary" string="Calculer la limite"
                                     type="object"/>
                             <group>
-                                <field name="resultat_scoring" readonly="1"/>
+                                <field name="resultat_scor" readonly="1"/>
                                 <field name="limit_25" readonly="1"/>
                                 <field name="max_limit" readonly="1"/>
                                 <field name="case_25" readonly="1"/>
@@ -431,6 +431,11 @@
                                 </div>
                             </div>
                         </page>
+                        <page string="التنقيط المعدل" groups="dept_wk.dept_wk_group_responsable_credit">
+                            <group>
+                                <field name="resultat_scoring"/>
+                            </group>
+                        </page>
                     </notebook>
                 </sheet>
             </form>
@@ -452,5 +457,70 @@
                 </group>
             </search>
         </field>
+    </record>
+
+    <record id="view_wk_workflow_dashboard_risk_tree" model="ir.ui.view">
+        <field name="name">wk.workflow.dashboard.tree</field>
+        <field name="model">wk.workflow.dashboard</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="date"/>
+                <field name="date_fin"/>
+                <field name="branche"/>
+                <field name="demande"/>
+                <field name="nom_client" />
+                <field name="chiffre_affaire"/>
+                <field name="montant_demande"/>
+                <field name="assigned_to_agence"/>
+                <field name="assigned_to_risque"/>
+                <field name="state_risque"/>
+                <field name="state"/>
+                <field name="is_same" column_invisible="True"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="wk_workflow_dashboard_action_risque" model="ir.actions.act_window">
+        <field name="name">طلب التمويل</field>
+        <field name="res_model">wk.workflow.dashboard</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('is_in_risk', '=', True)]</field>
+        <field name="context">{'search_default_filter_creation_date': 1}</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('dept_wk.view_wk_workflow_dashboard_risk_tree')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('dept_wk.view_wk_workflow_dashboard_form')})]"/>
+    </record>
+    <record id="view_wk_workflow_dashboard_comm_tree" model="ir.ui.view">
+        <field name="name">wk.workflow.dashboard.tree</field>
+        <field name="model">wk.workflow.dashboard</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="date"/>
+                <field name="date_fin"/>
+                <field name="branche"/>
+                <field name="demande"/>
+                <field name="nom_client" />
+                <field name="chiffre_affaire"/>
+                <field name="montant_demande"/>
+                <field name="assigned_to_agence"/>
+                <field name="assigned_to_commercial"/>
+                <field name="state_commercial"/>
+                <field name="state"/>
+                <field name="is_same" column_invisible="True"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="wk_workflow_dashboard_action_comm" model="ir.actions.act_window">
+        <field name="name">طلب التمويل</field>
+        <field name="res_model">wk.workflow.dashboard</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('is_in_comm', '=', True)]</field>
+        <field name="context">{'search_default_filter_creation_date': 1}</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('dept_wk.view_wk_workflow_dashboard_comm_tree')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('dept_wk.view_wk_workflow_dashboard_form')})]"/>
     </record>
 </odoo>

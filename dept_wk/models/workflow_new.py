@@ -32,6 +32,8 @@ class Workflow(models.Model):
     explanation = fields.Text(string='الغرض من الطلب')
     assigned_to_finance = fields.Many2one('res.users', string='المحلل المالي', )
     assigned_to_agence = fields.Many2one('res.users', string='المكلف بالملف', )
+    assigned_to_commercial = fields.Many2one('res.users', string='المكلف بالاعمال التجارية')
+    assigned_to_risque = fields.Many2one('res.users', string='المكلف بادارة المخاطر')
     states = fields.One2many('wk.etape', 'workflow', string='المديريات', domain=lambda self: [('etape', '!=', self.env.ref('dept_wk.princip_8').id)])
     lanced = fields.Boolean(string='Traitement lancé', compute='compute_visible_states')
     is_new = fields.Boolean(string='is new', compute='compute_type_demande')
@@ -43,6 +45,39 @@ class Workflow(models.Model):
     is_same = fields.Boolean()
     raison_refus = fields.Text(string='سبب طلب المراجعة')
     is_in_financial = fields.Boolean(string='is financial state')
+    is_in_risk = fields.Boolean(string='is risk state', compute='compute_state', store=True)
+    is_in_comm = fields.Boolean(string='is risk state', compute='compute_state_comm', store=True)
+    state_risque = fields.Selection([('risque_1', 'مدير المخاطر'),
+                                     ('risque_3', 'المكلف بادارة المخاطر'),
+                                     ('risque_4', 'مدير المخاطر'),
+                                     ('risque_2', 'انتهاء التحليل'),
+                                     ], string='وضعية الملف (في ادارة المخاطر)')
+    state_commercial = fields.Selection([('commercial_1', 'مدير الاعمال التجارية'),
+                                         ('commercial_2', 'مديرية الاعمال التجارية'),
+                                         ('commercial_3', 'مدير الاعمال التجارية'),
+                                         ('commercial_4', 'انتهاء التحليل'),
+                                         ], string='وضعية الملف (في ادارة الاعمال التجارية)')
+
+    @api.depends('states')
+    def compute_state(self):
+        print('exec')
+        for rec in self:
+            exist = rec.states.filtered(lambda l:l.sequence == 3)
+            if exist:
+                rec.is_in_risk = True
+            else:
+                rec.is_in_risk = False
+
+    @api.depends('states')
+    def compute_state_comm(self):
+        print('exec')
+        for rec in self:
+            exist = rec.states.filtered(lambda l:l.sequence == 4)
+            if exist:
+                rec.is_in_comm = True
+            else:
+                rec.is_in_comm = False
+
     def is_same_compute(self):
         for rec in self:
             if self.env.user.partner_id.branche:
@@ -56,6 +91,7 @@ class Workflow(models.Model):
             else:
                 rec.is_same = False
                 rec.is_same_branche = False
+
 
     def compute_type_demande(self):
         for rec in self:

@@ -115,6 +115,7 @@
                                 <field name="is_renew" invisible="1"/>
                                 <field name="is_delete" invisible="1"/>
                                 <field name="is_modify" invisible="1"/>
+                                <field name="state_risque" invisible="1"/>
                                 <field name="is_same_branche" invisible="1"/>
                                 <field name="is_same" invisible="1"/>
                                 <field name="is_condition" invisible="1"/>

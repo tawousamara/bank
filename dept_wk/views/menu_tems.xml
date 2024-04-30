@@ -5,22 +5,35 @@
               web_icon="dept,static/description/icon.png"
               groups="dept_wk.dept_wk_group_responsable_credit"
               sequence="7">
+        <menuitem id="risk_request_menu"
+                  name="طلبات التمويل"
+                  action="wk_workflow_dashboard_action_risque"
+                  sequence="1"/>
         <menuitem id="risk_scoring_menu"
                   name="Scoring"
                   action="risk_scoring_action"
-                  sequence="1"/>
+                  sequence="2"/>
 
         <menuitem id="risk_critere_qualitatif_menu"
                   name="Critères qualitatifs"
                   action="risk_critere_qualitatif_action"
-                  sequence="2"/>
+                  sequence="3"/>
         <menuitem id="risk_critere_quantitatif_menu"
                   name="Critères quantitatifs"
                   action="risk_critere_quantitatif_action"
-                  sequence="3"/>
+                  sequence="4"/>
         <menuitem id="risk_configuration_risque_menu"
                   name="Configuration"
                   action="risk_configuration_risque_action"
-                  sequence="5"/>
+                  sequence="10"/>
+    </menuitem>
+    <menuitem id="commercial_management_menu"
+              name="Direction Commercial"
+              groups="dept_wk.dept_wk_group_charge_commercial"
+              sequence="7">
+        <menuitem id="commercial_request_menu"
+                  name="طلبات التمويل"
+                  action="wk_workflow_dashboard_action_comm"
+                  sequence="1"/>
     </menuitem>
 </odoo>

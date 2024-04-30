@@ -121,6 +121,7 @@ class Scoring(models.Model):
     res_quant_14 = fields.Integer(string='Resultat Pondération')
     res_quant_15 = fields.Integer(string='Resultat Pondération')
     res_quant_16 = fields.Integer(string='Resultat Pondération')
+    resultat_scor = fields.Integer(string='مجموع النقاط')
     resultat_scoring = fields.Integer(string='مجموع النقاط')
     critere_ids = fields.One2many('wk.scoring.detail', 'risk', string='المعايير الكمية')
     max_limit = fields.Float(string='الحد الاقصى للتمويل')
@@ -351,6 +352,7 @@ class Scoring(models.Model):
                           rec.dette_fisc.ponderation + rec.source_remb.ponderation + \
                           rec.part_profil.ponderation
             rec.scoring_qualitatif = result_qual
+            rec.resultat_scor= result_quant + result_qual
             rec.resultat_scoring = result_quant + result_qual
             cat1 = rec.critere_ids.filtered(lambda r: r.name == 'مؤشرات الهيكل المال')
             cat1.resultat = rec.res_quant_1 + rec.res_quant_2 + rec.res_quant_3 + rec.res_quant_4
@@ -369,7 +371,7 @@ class Scoring(models.Model):
                                         'critere': list_critere[-1][1],
                                         'risk': rec.id})
             rec.chiffre_affaire = tcr_5.montant_n
-            rec.max_limit = tcr_5.montant_n * (rec.resultat_scoring / 1000)
+            rec.max_limit = tcr_5.montant_n * (rec.resultat_scor / 1000)
             configuration = self.env['configuration.risque'].search([])
             if configuration:
                 found = False
