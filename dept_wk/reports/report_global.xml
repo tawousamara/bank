@@ -2809,6 +2809,152 @@
                                         </table>
                                     </div>
                                 </t>
+                                <t t-if="etape2.comite.id == 2">
+                                    <div class="table_deco">
+                                        <table class="reversed-table">
+                                            <thead>
+                                                <tr>
+                                                    <th class="title-cell">
+                                                        اعضاء لجنة التسهيلات
+                                                    </th>
+                                                    <th class="title-cell">
+                                                        رئيس قطاع الخزينة و العمليات المحلية و الدولية و المالية
+                                                    </th>
+                                                    <th class="title-cell">
+                                                        رئيس النشاط التجارية
+                                                    </th>
+                                                    <th class="title-cell">
+                                                        مدير الدراسات الاتمانية للمؤسسات
+                                                    </th>
+                                                    <th class="title-cell">
+                                                        رئيس خلية ادارة المخاطر
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <th class="title-cell">
+                                                        الوظيفة
+                                                    </th>
+                                                    <th class="title-cell">
+                                                        عضوا
+                                                    </th>
+                                                    <th class="title-cell">
+                                                        عضوا
+                                                    </th>
+                                                    <th class="title-cell">
+                                                        عضوا
+                                                    </th>
+                                                    <th class="title-cell">
+                                                        عضوا
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr height="200px">
+                                                    <td class="title-cell">
+                                                        التوقيع
+                                                    </td>
+                                                    <td>
+
+                                                    </td>
+                                                    <td>
+
+                                                    </td>
+                                                    <td>
+
+                                                    </td>
+                                                    <td>
+
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="title-cell">
+                                                        اعضاء لجنة التسهيلات
+                                                    </td>
+                                                    <td class="title-cell">
+                                                        رئيس خلية التحصيل الودي و الجبري
+                                                    </td>
+                                                    <td class="title-cell">
+                                                         مستشار نائب المدير العام المكلف بالاشراف التجاري
+                                                    </td>
+                                                    <td class="title-cell">
+                                                        مدير ادارة التمويلات
+                                                    </td>
+                                                    <td class="title-cell">
+                                                        نائب المدير العام
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="title-cell">
+                                                        الوظيفة
+                                                    </td>
+                                                    <td class="title-cell">
+                                                        عضوا
+                                                    </td>
+                                                    <td class="title-cell">
+                                                        عضوا
+                                                    </td>
+                                                    <td class="title-cell">
+                                                        عضوا
+                                                    </td>
+                                                    <td class="title-cell">
+                                                        عضوا
+                                                    </td>
+                                                </tr>
+                                                <tr height="300px">
+                                                    <td class="title-cell">
+                                                        التوقيع
+                                                    </td>
+                                                    <td>
+
+                                                    </td>
+                                                    <td>
+
+                                                    </td>
+                                                    <td>
+
+                                                    </td>
+                                                    <td>
+
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <br/>
+                                    <div class="table_deco">
+                                        <table class="reversed-table">
+                                            <thead>
+                                                <tr>
+                                                    <th class="title-cell" width="25%">
+                                                        رئيس لجنة التسهيلات
+                                                    </th>
+                                                    <th class="title-cell" width="75%">
+                                                        المدير العام
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="title-cell" width="25%">
+                                                        الوظيفة
+                                                    </td>
+                                                    <td class="title-cell" width="75%">
+                                                        رئيس اللجنة
+                                                    </td>
+                                                </tr>
+                                                <tr height="200px">
+                                                    <td class="title-cell" width="25%">
+                                                        التوقيع
+                                                    </td>
+                                                    <td width="75%">
+
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </t>
+
                             </div>
                         </div>
                     </t>
