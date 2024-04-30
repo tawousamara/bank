@@ -1159,7 +1159,6 @@ class Etape(models.Model):
                     if self.env.user.has_group('dept_wk.dept_wk_group_agent_agence'):
                         rec.state_branch = 'branch_2'
                         rec.raison_a_revoir = False
-
                     else:
                         raise ValidationError(_('Vous n\'etes pas autoriser à valider cette etape'))
                 elif rec.state_branch == 'branch_2':
@@ -1453,6 +1452,7 @@ class Etape(models.Model):
                         for fac in rec.facilite_propose:
                             self.env['wk.facilite.propose'].create({
                                 'type_facilite': fac.type_facilite.id,
+                                'type_demande_ids': fac.type_demande_ids.ids,
                                 'montant_dz': fac.montant_dz,
                                 'condition': fac.condition,
                                 'etape_id': etape.id})
@@ -1705,6 +1705,7 @@ class Etape(models.Model):
             for fac in rec.facilite_propose:
                 self.env['wk.facilite.propose'].create({
                     'type_facilite': fac.type_facilite.id,
+                    'type_demande_ids': fac.type_demande_ids.ids,
                     'montant_dz': fac.montant_dz,
                     'condition': fac.condition,
                     'etape_id': etape.id})
