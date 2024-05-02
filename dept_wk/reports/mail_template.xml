@@ -40,11 +40,17 @@
             <field name="email_from">{{ user.email }}</field>
             <field name="email_to">{{ object.comite.alias }}</field>
             <field name="body_html" type="html">
-                <div style="margin: 0px; padding: 0px;">
+                <div style="margin: 0px; padding: 0px; direction: rtl;" >
                     <p style="margin: 0px; padding: 0px; font-size: 13px;">
                         السلام عليكم،
                         <br/>
                         نود أن نخبركم أن حالة الملف قد تم تحديثها بنجاح.
+                        <br/>
+                         <t t-out="object.workflow.nom_client.name"/>
+                        اسم المتعامل:
+                        <br/>
+                        الفرع:
+                        <t t-out="object.workflow.branche.name"/>
                         <br/>
                         يُمكنكم الاطلاع على التحديث الأخير عبر الرابط
                         أدناه:
