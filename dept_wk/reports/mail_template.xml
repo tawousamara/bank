@@ -8,11 +8,18 @@
             <field name="email_from">{{ user.email }}</field>
             <field name="email_to">{{ object.user_id.email }}</field>
             <field name="body_html" type="html">
-                <div style="margin: 0px; padding: 0px;">
+                <div style="margin: 0px; padding: 0px;direction: rtl;">
                     <p style="margin: 0px; padding: 0px; font-size: 13px;">
                         السلام عليكم،
                         <br/>
                         نود أن نخبركم أن حالة الملف قد تم تحديثها بنجاح.
+                        <br/>
+                        <br/>
+                        اسم المتعامل:
+                        <t t-out="object.workflow.nom_client.name"/>
+                        <br/>
+                        الفرع:
+                        <t t-out="object.workflow.branche.name"/>
                         <br/>
                         يُمكنكم الاطلاع على التحديث الأخير عبر الرابط
                         أدناه:
@@ -40,14 +47,14 @@
             <field name="email_from">{{ user.email }}</field>
             <field name="email_to">{{ object.comite.alias }}</field>
             <field name="body_html" type="html">
-                <div style="margin: 0px; padding: 0px; direction: rtl;" >
+                <div style="margin: 0px; padding: 0px; direction: rtl;">
                     <p style="margin: 0px; padding: 0px; font-size: 13px;">
                         السلام عليكم،
                         <br/>
                         نود أن نخبركم أن حالة الملف قد تم تحديثها بنجاح.
                         <br/>
-                         <t t-out="object.workflow.nom_client.name"/>
                         اسم المتعامل:
+                        <t t-out="object.workflow.nom_client.name"/>
                         <br/>
                         الفرع:
                         <t t-out="object.workflow.branche.name"/>
@@ -85,10 +92,12 @@
                         <br/>
                         <a t-att-href="'/web#id=' + str(object.workflow.id) + '&amp;view_type=form&amp;model=wk.workflow.dashboard'">
                             <t t-out="object.workflow.name"/>
-                        </a><br/>
+                        </a>
+                        <br/>
                         :سبب الرفض
                         <br/>
-                        <t t-out="object.workflow.raison_refus"/><br/>
+                        <t t-out="object.workflow.raison_refus"/>
+                        <br/>
                         نشكر لكم تفهمكم وتعاونكم.
                         <br/>
                         أطيب التحيات،
