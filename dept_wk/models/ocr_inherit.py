@@ -26,7 +26,7 @@ class TCR(models.Model):
     def action_validation_wk(self):
         for rec in self:
             list_validation = [7, 12, 13, 14, 33, 50, 36]
-            list_validation = [7, 33, 50, 12, 13, 36]
+            list_validation = [7, 33, 50, 12, 13, 36,30]
             tcr = rec.tcr_lines.mapped('rubrique.sequence')
             print(tcr)
 
@@ -36,6 +36,7 @@ class TCR(models.Model):
                                       "- Excédent brut de l'exploitation \n"
                                       "- Résultat  net de l'exercice \n"
                                       "- Matières premieres \n"
+                                      "- Valeur Ajoutée d'exploitation \n"
                                       "- Achats de marchandises vendues \n"
                                       "- Dotations aux amortissements \n"
                                       )
