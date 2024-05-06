@@ -308,6 +308,9 @@
                                     <field name="quant_4" readonly="1"/>
                                     <field name="res_quant_4" readonly="1"/>
                                 </group>
+                                <group>
+                                    <field name="res_quant_17" readonly="1" string="Pondération RS5"/>
+                                </group>
 
                                 <field name="vis1" widget="image" invisible="vis1 == False"/>
                             </group>

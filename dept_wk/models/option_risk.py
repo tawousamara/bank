@@ -735,5 +735,21 @@ class Quant16(models.Model):
             vals['name'] = du + '< X <=' + au
         res = super(Quant16, self).write(vals)
         return res
+class Quant17(models.Model):
+    _name = 'risk.quant.17'
+    _description = 'Quantité 17 et sa ponderation'
+
+    name = fields.Char(string='nom', readonly=True)
+    du = fields.Integer(string='Tres.')
+    au = fields.Integer(string='BFR')
+    ponderation = fields.Integer(string='Pondération')
+    critere = fields.Many2one('risk.critere.quantitatif', string='critere', ondelete='cascade')
+
+    @api.model
+    def create(self, vals):
+        vals['name'] = 'Signe tres et BFR'
+        res = super(Quant17, self).create(vals)
+        return res
+
 
 

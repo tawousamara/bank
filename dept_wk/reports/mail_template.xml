@@ -19,7 +19,7 @@
                         <t t-out="object.workflow.nom_client.name"/>
                         <br/>
                         الفرع:
-                        <t t-out="object.workflow.branche.name"/>
+                        <t t-out="object.workflow.branche.ref"/>
                         <br/>
                         يُمكنكم الاطلاع على التحديث الأخير عبر الرابط
                         أدناه:

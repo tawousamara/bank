@@ -282,6 +282,14 @@
                                 <field name="ponderation"/>
                             </tree>
                         </field>
+                        <field name="quant_17">
+                            <tree editable="bottom">
+                                <field name="name" readonly="1"/>
+                                <field name="du"/>
+                                <field name="au"/>
+                                <field name="ponderation"/>
+                            </tree>
+                        </field>
                         <field name="quant_5">
                             <tree editable="bottom">
                                 <field name="name" readonly="1"/>

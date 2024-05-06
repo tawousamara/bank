@@ -93,6 +93,7 @@ class Scoring(models.Model):
     quant_2 = fields.Float(string='RS2 - FP / Capitaux permanents *100')
     quant_3 = fields.Float(string='RS3 - FRN / Actif circulants hors tréso.')
     quant_4 = fields.Float(string='RS4 - DLMT / CAF')
+    quant_17 = fields.Float(string='RS5 - Signes de la Trésorerie et le BFR')
     quant_5 = fields.Float(string='RL1 - Actif circulants / DCT *100')
     quant_6 = fields.Float(string='RL2 - Disponibilité / DCT *100')
     quant_7 = fields.Float(string='RA1 - Stock en jours Achats')
@@ -109,6 +110,7 @@ class Scoring(models.Model):
     res_quant_2 = fields.Integer(string='Resultat Pondération')
     res_quant_3 = fields.Integer(string='Resultat Pondération')
     res_quant_4 = fields.Integer(string='Resultat Pondération')
+    res_quant_17 = fields.Integer(string='Resultat Pondération')
     res_quant_5 = fields.Integer(string='Resultat Pondération')
     res_quant_6 = fields.Integer(string='Resultat Pondération')
     res_quant_7 = fields.Integer(string='Resultat Pondération')
@@ -339,6 +341,24 @@ class Scoring(models.Model):
                     rec.res_quant_16 = r.ponderation
                     result_quant += r.ponderation
                     count_quant += 1
+            tres = actif_3.montant_n - passif_4.montant_n
+            bfr = (actif_1.montant_n - actif_3.montant_n) - (passif_24.montant_n - passif_4.montant_n)
+            if tres <= 0 and bfr > 0:
+                rec.res_quant_17 = rec.critere_quant.quant_17[0]
+                result_quant += rec.res_quant_17
+                count_quant += 1
+            elif tres <= 0 and bfr <= 0:
+                rec.res_quant_17 = rec.critere_quant.quant_17[1]
+                result_quant += rec.res_quant_17
+                count_quant += 1
+            elif tres > 0 and bfr > 0:
+                rec.res_quant_17 = rec.critere_quant.quant_17[2]
+                result_quant += rec.res_quant_17
+                count_quant += 1
+            elif tres > 0 and bfr <= 0:
+                rec.res_quant_17 = rec.critere_quant.quant_17[3]
+                result_quant += rec.res_quant_17
+                count_quant += 1
 
             result_qual = rec.original_capital.ponderation + rec.actionnariat.ponderation + \
                           rec.forme_jur.ponderation + rec.remp_succession.ponderation + \
@@ -356,7 +376,7 @@ class Scoring(models.Model):
             rec.resultat_scor= result_quant + result_qual
             rec.resultat_scoring = result_quant + result_qual
             cat1 = rec.critere_ids.filtered(lambda r: r.name == 'مؤشرات الهيكل المال')
-            cat1.resultat = rec.res_quant_1 + rec.res_quant_2 + rec.res_quant_3 + rec.res_quant_4
+            cat1.resultat = rec.res_quant_1 + rec.res_quant_2 + rec.res_quant_3 + rec.res_quant_4 + rec.res_quant_17
 
             cat2 = rec.critere_ids.filtered(lambda r: r.name == 'مؤشرات السيولة')
             cat2.resultat = rec.res_quant_5 + rec.res_quant_6

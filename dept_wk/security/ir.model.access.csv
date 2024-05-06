@@ -314,6 +314,7 @@ access_risk_quant_13_user,access.risk.quant.13,model_risk_quant_13,,1,1,1,1
 access_risk_quant_14_user,access.risk.quant.14,model_risk_quant_14,,1,1,1,1
 access_risk_quant_15_user,access.risk.quant.15,model_risk_quant_15,,1,1,1,1
 access_risk_quant_16_user,access.risk.quant.16,model_risk_quant_16,,1,1,1,1
+access_risk_quant_17_user,access.risk.quant.17,model_risk_quant_17,,1,1,1,1
 
 
 access_risk_critere_qualitatif_user,access.risk.critere.qualitatif,model_risk_critere_qualitatif,dept_wk.dept_wk_group_responsable_credit,1,1,1,1

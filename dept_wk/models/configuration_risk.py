@@ -438,6 +438,12 @@ list_quant_16 = [
     [10, 20, 2],
     [20, 30, 3],
     [30, 100, 6],
+    ]
+list_quant_17 = [
+    [0, 1, 5],
+    [0, 0, 10],
+    [1, 1, 16],
+    [1, 0, 25],
 ]
 
 
@@ -451,6 +457,7 @@ class CritereQuantitatif(models.Model):
     quant_2 = fields.One2many('risk.quant.2', 'critere', string='RS2 - FP / Capitaux permanents *100')
     quant_3 = fields.One2many('risk.quant.3', 'critere', string='RS3 - FRN / Actif circulants hors tréso.')
     quant_4 = fields.One2many('risk.quant.4', 'critere', string='RS4 - DLMT / CAF')
+    quant_17 = fields.One2many('risk.quant.17', 'critere', string='RS5 - Signes de la Trésorerie et le BFR')
     quant_5 = fields.One2many('risk.quant.5', 'critere', string='RL1 - Actif circulants / DCT *100')
     quant_6 = fields.One2many('risk.quant.6', 'critere', string='RL2 - Disponibilité / DCT *100')
     quant_7 = fields.One2many('risk.quant.7', 'critere', string='RA1 - Stock en jours Achats')
@@ -532,6 +539,10 @@ class CritereQuantitatif(models.Model):
             self.env['risk.quant.16'].create({'du': item[0],
                                              'au': item[1],'ponderation': item[2],
                                              'critere': res.id})
+        for item in list_quant_17:
+            self.env['risk.quant.17'].create({'du': item[0],
+                                              'au': item[1], 'ponderation': item[2],
+                                              'critere': res.id})
         return res
 
     def recreate(self):
@@ -552,6 +563,7 @@ class CritereQuantitatif(models.Model):
             rec.quant_14.unlink()
             rec.quant_15.unlink()
             rec.quant_16.unlink()
+            rec.quant_17.unlink()
             for item in list_quant_1:
                 self.env['risk.quant.1'].create({'du': item[0],
                                                  'au': item[1],
@@ -613,8 +625,13 @@ class CritereQuantitatif(models.Model):
                 self.env['risk.quant.15'].create({'du': item[0],
                                                   'au': item[1], 'ponderation': item[2],
                                                   'critere': rec.id})
+
             for item in list_quant_16:
                 self.env['risk.quant.16'].create({'du': item[0],
+                                                  'au': item[1], 'ponderation': item[2],
+                                                  'critere': rec.id})
+            for item in list_quant_17:
+                self.env['risk.quant.17'].create({'du': item[0],
                                                   'au': item[1], 'ponderation': item[2],
                                                   'critere': rec.id})
 
