@@ -522,11 +522,11 @@ class Scoring(models.Model):
             data = {'RS1': rec.res_quant_1 / 150,
                     'RS2': rec.res_quant_2 / 150,
                     'RS3': rec.res_quant_3 / 150,
-                    'RS4': rec.res_quant_4 / 150}
+                    'RS4': rec.res_quant_4 / 150,
+                    'RS5': rec.res_quant_17 / 150}
             group_data = list(data.values())
             group_names = list(data.keys())
             group_mean = np.mean(group_data)
-
             # Ajustement de la taille de la figure
             fig, ax = plt.subplots(figsize=(6, 3))  # Largeur x Hauteur
 
