@@ -226,6 +226,7 @@ class CritereQualitatif(models.Model):
             self.env['risk.conduite'].create({ 'name': item[0],'ponderation': item[1], 'critere': res.id})
         for item in dette_fisc:
             self.env['risk.dette.fisc'].create({ 'name': item[0],'ponderation': item[1], 'critere': res.id})
+        for item in dette_parafisc:
             self.env['risk.dette.parafisc'].create({ 'name': item[0],'ponderation': item[1], 'critere': res.id})
         for item in position_list:
             self.env['risk.position.admin'].create({ 'name': item[0],'ponderation': item[1], 'critere': res.id})
@@ -234,6 +235,84 @@ class CritereQualitatif(models.Model):
         for item in part_profit:
             self.env['risk.part.profil'].create({ 'name': item[0],'ponderation': item[1], 'critere': res.id})
         return res
+
+    def recreate(self):
+        for rec in self:
+            rec.original_capital.unlink()
+            rec.actionnariat.unlink()
+            rec.forme_jur.unlink()
+            rec.remp_succession.unlink()
+            rec.competence.unlink()
+            rec.experience.unlink()
+            rec.soutien_etatic.unlink()
+            rec.activite.unlink()
+            rec.influence_tech.unlink()
+            rec.anciennete.unlink()
+            rec.concurrence.unlink()
+            rec.source_appro.unlink()
+            rec.produit.unlink()
+            rec.flexibilite.unlink()
+            rec.sollicitude.unlink()
+            rec.situation.unlink()
+            rec.mouvement.unlink()
+            rec.garanties.unlink()
+            rec.incident.unlink()
+            rec.conduite.unlink()
+            rec.dette_fisc.unlink()
+            rec.dette_parafisc.unlink()
+            rec.position_admin.unlink()
+            rec.source_remb.unlink()
+            rec.part_profil.unlink()
+            for item in original:
+                self.env['risk.original.capital'].create({'name': item[0], 'ponderation': item[1], 'critere': rec.id})
+            for item in forme:
+                self.env['risk.forme.jur'].create({'name': item[0], 'ponderation': item[1], 'critere': rec.id})
+            for item in actiona:
+                self.env['risk.actionnariat'].create({'name': item[0], 'ponderation': item[1], 'critere': rec.id})
+            for item in bool_list:
+                self.env['risk.remplacement.succession'].create(
+                    {'name': item[0], 'ponderation': item[1], 'critere': rec.id})
+                self.env['risk.soutien.etatique'].create({'name': item[0], 'ponderation': item[1], 'critere': rec.id})
+            for item in comp_list:
+                self.env['risk.competence'].create({'name': item[0], 'ponderation': item[1], 'critere': rec.id})
+            for item in exp_list:
+                self.env['risk.experience'].create({'name': item[0], 'ponderation': item[1], 'critere': rec.id})
+            for item in activite_list:
+                self.env['risk.activite'].create({'name': item[0], 'ponderation': item[1], 'critere': rec.id})
+            for item in influence_list:
+                self.env['risk.influence.tech'].create({'name': item[0], 'ponderation': item[1], 'critere': rec.id})
+            for item in anciente_list:
+                self.env['risk.anciennete'].create({'name': item[0], 'ponderation': item[1], 'critere': rec.id})
+            for item in concurrence_list:
+                self.env['risk.concurrence'].create({'name': item[0], 'ponderation': item[1], 'critere': rec.id})
+            for item in source_appro_list:
+                self.env['risk.source.appro'].create({'name': item[0], 'ponderation': item[1], 'critere': rec.id})
+            for item in produit_list:
+                self.env['risk.produit'].create({'name': item[0], 'ponderation': item[1], 'critere': rec.id})
+            for item in flexibilite_list:
+                self.env['risk.flexibilite'].create({'name': item[0], 'ponderation': item[1], 'critere': rec.id})
+            for item in solicitude_list:
+                self.env['risk.sollicitude'].create({'name': item[0], 'ponderation': item[1], 'critere': rec.id})
+            for item in situation_list:
+                self.env['risk.situation'].create({'name': item[0], 'ponderation': item[1], 'critere': rec.id})
+            for item in mouv_list:
+                self.env['risk.mouvement'].create({'name': item[0], 'ponderation': item[1], 'critere': rec.id})
+            for item in garanties_list:
+                self.env['risk.garanties'].create({'name': item[0], 'ponderation': item[1], 'critere': rec.id})
+            for item in incident_list:
+                self.env['risk.incident'].create({'name': item[0], 'ponderation': item[1], 'critere': rec.id})
+            for item in conduite_list:
+                self.env['risk.conduite'].create({'name': item[0], 'ponderation': item[1], 'critere': rec.id})
+            for item in dette_fisc:
+                self.env['risk.dette.fisc'].create({'name': item[0], 'ponderation': item[1], 'critere': rec.id})
+            for item in dette_parafisc:
+                self.env['risk.dette.parafisc'].create({'name': item[0], 'ponderation': item[1], 'critere': rec.id})
+            for item in position_list:
+                self.env['risk.position.admin'].create({'name': item[0], 'ponderation': item[1], 'critere': rec.id})
+            for item in source_remb:
+                self.env['risk.source.remb'].create({'name': item[0], 'ponderation': item[1], 'critere': rec.id})
+            for item in part_profit:
+                self.env['risk.part.profil'].create({'name': item[0], 'ponderation': item[1], 'critere': rec.id})
 
 
 list_quant_1 = [

@@ -51,6 +51,9 @@
         <field name="model">risk.critere.qualitatif</field>
         <field name="arch" type="xml">
             <form>
+                <header>
+                    <button name="recreate" class="btn-primary" type="object" string="Reinitialiser les ponderations"/>
+                </header>
                 <sheet>
                     <group>
                         <field name="name"/>
