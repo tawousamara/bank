@@ -245,11 +245,11 @@ class Quant1(models.Model):
     @api.model
     def write(self, vals):
         for rec in self:
-            if vals['du']:
+            if 'du' in vals:
                 du = str(vals['du'])
             else:
                 du = str(rec.du)
-            if vals['au']:
+            if 'au' in vals:
                 au = str(vals['au'])
             else:
                 au = str(rec.au)
@@ -277,11 +277,11 @@ class Quant2(models.Model):
     @api.model
     def write(self, vals):
         for rec in self:
-            if vals['du']:
+            if 'du' in vals:
                 du = str(vals['du'])
             else:
                 du = str(rec.du)
-            if vals['au']:
+            if 'au' in vals:
                 au = str(vals['au'])
             else:
                 au = str(rec.au)
@@ -309,11 +309,11 @@ class Quant3(models.Model):
     @api.model
     def write(self, vals):
         for rec in self:
-            if vals['du']:
+            if 'du' in vals:
                 du = str(vals['du'])
             else:
                 du = str(rec.du)
-            if vals['au']:
+            if 'au' in vals:
                 au = str(vals['au'])
             else:
                 au = str(rec.au)
@@ -341,11 +341,11 @@ class Quant4(models.Model):
     @api.model
     def write(self, vals):
         for rec in self:
-            if vals['du']:
+            if 'du' in vals:
                 du = str(vals['du'])
             else:
                 du = str(rec.du)
-            if vals['au']:
+            if 'au' in vals:
                 au = str(vals['au'])
             else:
                 au = str(rec.au)
@@ -373,11 +373,11 @@ class Quant5(models.Model):
     @api.model
     def write(self, vals):
         for rec in self:
-            if vals['du']:
+            if 'du' in vals:
                 du = str(vals['du'])
             else:
                 du = str(rec.du)
-            if vals['au']:
+            if 'au' in vals:
                 au = str(vals['au'])
             else:
                 au = str(rec.au)
@@ -405,11 +405,11 @@ class Quant6(models.Model):
     @api.model
     def write(self, vals):
         for rec in self:
-            if vals['du']:
+            if 'du' in vals:
                 du = str(vals['du'])
             else:
                 du = str(rec.du)
-            if vals['au']:
+            if 'au' in vals:
                 au = str(vals['au'])
             else:
                 au = str(rec.au)
@@ -437,11 +437,11 @@ class Quant7(models.Model):
     @api.model
     def write(self, vals):
         for rec in self:
-            if vals['du']:
+            if 'du' in vals:
                 du = str(vals['du'])
             else:
                 du = str(rec.du)
-            if vals['au']:
+            if 'au' in vals:
                 au = str(vals['au'])
             else:
                 au = str(rec.au)
@@ -469,11 +469,11 @@ class Quant8(models.Model):
     @api.model
     def write(self, vals):
         for rec in self:
-            if vals['du']:
+            if 'du' in vals:
                 du = str(vals['du'])
             else:
                 du = str(rec.du)
-            if vals['au']:
+            if 'au' in vals:
                 au = str(vals['au'])
             else:
                 au = str(rec.au)
@@ -501,11 +501,11 @@ class Quant9(models.Model):
     @api.model
     def write(self, vals):
         for rec in self:
-            if vals['du']:
+            if 'du' in vals:
                 du = str(vals['du'])
             else:
                 du = str(rec.du)
-            if vals['au']:
+            if 'au' in vals:
                 au = str(vals['au'])
             else:
                 au = str(rec.au)
@@ -533,11 +533,11 @@ class Quant10(models.Model):
     @api.model
     def write(self, vals):
         for rec in self:
-            if vals['du']:
+            if 'du' in vals:
                 du = str(vals['du'])
             else:
                 du = str(rec.du)
-            if vals['au']:
+            if 'au' in vals:
                 au = str(vals['au'])
             else:
                 au = str(rec.au)
@@ -565,11 +565,11 @@ class Quant11(models.Model):
     @api.model
     def write(self, vals):
         for rec in self:
-            if vals['du']:
+            if 'du' in vals:
                 du = str(vals['du'])
             else:
                 du = str(rec.du)
-            if vals['au']:
+            if 'au' in vals:
                 au = str(vals['au'])
             else:
                 au = str(rec.au)
@@ -597,11 +597,11 @@ class Quant12(models.Model):
     @api.model
     def write(self, vals):
         for rec in self:
-            if vals['du']:
+            if 'du' in vals:
                 du = str(vals['du'])
             else:
                 du = str(rec.du)
-            if vals['au']:
+            if 'au' in vals:
                 au = str(vals['au'])
             else:
                 au = str(rec.au)
@@ -628,11 +628,11 @@ class Quant13(models.Model):
     @api.model
     def write(self, vals):
         for rec in self:
-            if vals['du']:
+            if 'du' in vals:
                 du = str(vals['du'])
             else:
                 du = str(rec.du)
-            if vals['au']:
+            if 'au' in vals:
                 au = str(vals['au'])
             else:
                 au = str(rec.au)
@@ -660,11 +660,11 @@ class Quant14(models.Model):
     @api.model
     def write(self, vals):
         for rec in self:
-            if vals['du']:
+            if 'du' in vals:
                 du = str(vals['du'])
             else:
                 du = str(rec.du)
-            if vals['au']:
+            if 'au' in vals:
                 au = str(vals['au'])
             else:
                 au = str(rec.au)
@@ -692,11 +692,11 @@ class Quant15(models.Model):
     @api.model
     def write(self, vals):
         for rec in self:
-            if vals['du']:
+            if 'du' in vals:
                 du = str(vals['du'])
             else:
                 du = str(rec.du)
-            if vals['au']:
+            if 'au' in vals:
                 au = str(vals['au'])
             else:
                 au = str(rec.au)
@@ -724,11 +724,11 @@ class Quant16(models.Model):
     @api.model
     def write(self, vals):
         for rec in self:
-            if vals['du']:
+            if 'du' in vals:
                 du = str(vals['du'])
             else:
                 du = str(rec.du)
-            if vals['au']:
+            if 'au' in vals:
                 au = str(vals['au'])
             else:
                 au = str(rec.au)

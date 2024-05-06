@@ -315,7 +315,7 @@ list_quant_9 = [
 ]
 list_quant_10 = [
     [0, 15, 14],
-    [15, 30, 10],
+    [15, 30, 11],
     [30, 60, 6],
     [60, 100, 0],
 ]
@@ -349,10 +349,10 @@ list_quant_14 = [
     [30, 100, 6],
 ]
 list_quant_15 = [
-    [0, 10, 1],
-    [10, 20, 3],
-    [20, 30, 5],
-    [30, 100, 6],
+    [0, 5, 1],
+    [5, 8, 3],
+    [8, 10, 5],
+    [10, 100, 6],
 ]
 list_quant_16 = [
     [0, 10, 1],
@@ -388,7 +388,6 @@ class CritereQuantitatif(models.Model):
     @api.model
     def create(self, vals):
         res = super(CritereQuantitatif, self).create(vals)
-
         for item in list_quant_1:
             self.env['risk.quant.1'].create({'du': item[0],
                                              'au': item[1],
@@ -406,6 +405,10 @@ class CritereQuantitatif(models.Model):
             self.env['risk.quant.4'].create({'du': item[0],
                                              'au': item[1],'ponderation': item[2],
                                              'critere': res.id})
+        for item in list_quant_5:
+            self.env['risk.quant.5'].create({'du': item[0],
+                                             'au': item[1],'ponderation': item[2],
+                                             'critere': res.id})
         for item in list_quant_6:
             self.env['risk.quant.6'].create({'du': item[0],
                                              'au': item[1],'ponderation': item[2],
@@ -418,16 +421,16 @@ class CritereQuantitatif(models.Model):
             self.env['risk.quant.8'].create({'du': item[0],
                                              'au': item[1],'ponderation': item[2],
                                              'critere': res.id})
-        for item in list_quant_11:
-            self.env['risk.quant.11'].create({'du': item[0],
+        for item in list_quant_9:
+            self.env['risk.quant.9'].create({'du': item[0],
                                              'au': item[1],'ponderation': item[2],
                                              'critere': res.id})
         for item in list_quant_10:
             self.env['risk.quant.10'].create({'du': item[0],
                                              'au': item[1],'ponderation': item[2],
                                              'critere': res.id})
-        for item in list_quant_9:
-            self.env['risk.quant.9'].create({'du': item[0],
+        for item in list_quant_11:
+            self.env['risk.quant.11'].create({'du': item[0],
                                              'au': item[1],'ponderation': item[2],
                                              'critere': res.id})
         for item in list_quant_12:
@@ -452,6 +455,89 @@ class CritereQuantitatif(models.Model):
                                              'critere': res.id})
         return res
 
+    def recreate(self):
+        for rec in self:
+            rec.quant_1.unlink()
+            rec.quant_2.unlink()
+            rec.quant_3.unlink()
+            rec.quant_4.unlink()
+            rec.quant_5.unlink()
+            rec.quant_6.unlink()
+            rec.quant_7.unlink()
+            rec.quant_8.unlink()
+            rec.quant_9.unlink()
+            rec.quant_10.unlink()
+            rec.quant_11.unlink()
+            rec.quant_12.unlink()
+            rec.quant_13.unlink()
+            rec.quant_14.unlink()
+            rec.quant_15.unlink()
+            rec.quant_16.unlink()
+            for item in list_quant_1:
+                self.env['risk.quant.1'].create({'du': item[0],
+                                                 'au': item[1],
+                                                 'ponderation': item[2],
+                                                 'critere': rec.id})
+            for item in list_quant_2:
+                self.env['risk.quant.2'].create({'du': item[0],
+                                                 'au': item[1], 'ponderation': item[2],
+                                                 'critere': rec.id})
+            for item in list_quant_3:
+                self.env['risk.quant.3'].create({'du': item[0],
+                                                 'au': item[1], 'ponderation': item[2],
+                                                 'critere': rec.id})
+            for item in list_quant_4:
+                self.env['risk.quant.4'].create({'du': item[0],
+                                                 'au': item[1], 'ponderation': item[2],
+                                                 'critere': rec.id})
+            for item in list_quant_5:
+                self.env['risk.quant.5'].create({'du': item[0],
+                                                 'au': item[1], 'ponderation': item[2],
+                                                 'critere': rec.id})
+            for item in list_quant_6:
+                self.env['risk.quant.6'].create({'du': item[0],
+                                                 'au': item[1], 'ponderation': item[2],
+                                                 'critere': rec.id})
+            for item in list_quant_7:
+                self.env['risk.quant.7'].create({'du': item[0],
+                                                 'au': item[1], 'ponderation': item[2],
+                                                 'critere': rec.id})
+            for item in list_quant_8:
+                self.env['risk.quant.8'].create({'du': item[0],
+                                                 'au': item[1], 'ponderation': item[2],
+                                                 'critere': rec.id})
+            for item in list_quant_9:
+                self.env['risk.quant.9'].create({'du': item[0],
+                                                 'au': item[1], 'ponderation': item[2],
+                                                 'critere': rec.id})
+            for item in list_quant_10:
+                self.env['risk.quant.10'].create({'du': item[0],
+                                                  'au': item[1], 'ponderation': item[2],
+                                                  'critere': rec.id})
+            for item in list_quant_11:
+                self.env['risk.quant.11'].create({'du': item[0],
+                                                  'au': item[1], 'ponderation': item[2],
+                                                  'critere': rec.id})
+            for item in list_quant_12:
+                self.env['risk.quant.12'].create({'du': item[0],
+                                                  'au': item[1], 'ponderation': item[2],
+                                                  'critere': rec.id})
+            for item in list_quant_13:
+                self.env['risk.quant.13'].create({'du': item[0],
+                                                  'au': item[1], 'ponderation': item[2],
+                                                  'critere': rec.id})
+            for item in list_quant_14:
+                self.env['risk.quant.14'].create({'du': item[0],
+                                                  'au': item[1], 'ponderation': item[2],
+                                                  'critere': rec.id})
+            for item in list_quant_15:
+                self.env['risk.quant.15'].create({'du': item[0],
+                                                  'au': item[1], 'ponderation': item[2],
+                                                  'critere': rec.id})
+            for item in list_quant_16:
+                self.env['risk.quant.16'].create({'du': item[0],
+                                                  'au': item[1], 'ponderation': item[2],
+                                                  'critere': rec.id})
 
 class Hist(models.Model):
     _name = 'wk.hist'

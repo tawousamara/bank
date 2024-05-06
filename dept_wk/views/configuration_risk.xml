@@ -141,12 +141,6 @@
                                 <field name="ponderation"/>
                             </tree>
                         </field>
-                        <field name="produit">
-                            <tree editable="bottom">
-                                <field name="name"/>
-                                <field name="ponderation"/>
-                            </tree>
-                        </field>
                         <field name="flexibilite">
                             <tree editable="bottom">
                                 <field name="name"/>
@@ -244,6 +238,9 @@
         <field name="model">risk.critere.quantitatif</field>
         <field name="arch" type="xml">
             <form>
+                <header>
+                    <button name="recreate" class="btn-primary" type="object" string="Reinitialiser les ponderations"/>
+                </header>
                 <sheet>
                     <group>
                         <field name="name"/>
