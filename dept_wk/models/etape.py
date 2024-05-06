@@ -839,6 +839,18 @@ class Etape(models.Model):
                                                          'etape': self.env.ref('dept_wk.princip_4').id,
                                                          'risk_scoring': etape_1.risk_scoring.id,
                                                          'state_risque': 'risque_1'})
+                partner_ids = []
+                user_ids = self.env.ref('dept_wk.dept_wk_group_responsable_risque').users.mapped('partner_id')
+                partner_ids += user_ids.mapped('email')
+                user_ids = self.env.ref('dept_wk.dept_wk_group_responsable_commercial').users.mapped('partner_id')
+                partner_ids += user_ids.mapped('email')
+                list_final = ', '.join(partner_ids)
+                email_template = self.env.ref('dept_wk.notification_mail_template')
+                email_values = {
+                    'email_to': list_final,
+                }
+                email_template.send_mail(self.id, force_send=True, email_values=email_values)
+
     def validate_information(self):
         for rec in self:
                 view_id = self.env.ref('dept_wk.confirmation_etape_wizard_form').id
@@ -2652,12 +2664,8 @@ class Etape(models.Model):
                     partner_ids = user_ids.mapped('email')
                     list_final = ', '.join(partner_ids)
                 elif rec.state_finance == 'finance_2':
-                    partner_ids.append(rec.assigned_to_finance.partner_id.email)
-                    user_ids = self.env.ref('dept_wk.dept_wk_group_responsable_risque').users.mapped('partner_id')
-                    partner_ids += user_ids.mapped('email')
-                    user_ids = self.env.ref('dept_wk.dept_wk_group_responsable_commercial').users.mapped('partner_id')
-                    partner_ids += user_ids.mapped('email')
-                    list_final = ', '.join(partner_ids)
+                    partner_ids = rec.assigned_to_finance.partner_id.email
+                    list_final = partner_ids
             if rec.sequence == 3:
                 if rec.state_commercial == 'commercial_2':
                     partner_ids = rec.assigned_to_commercial.partner_id.email
