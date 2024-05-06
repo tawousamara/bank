@@ -148,7 +148,7 @@ class Mouvement(models.Model):
     _name = 'risk.mouvement'
     _description = 'Mouvements confiés et sa ponderation'
 
-    name = fields.Char(string='الإيداعات')
+    name = fields.Char(string='الإيداعات المتوقعة')
     ponderation = fields.Integer(string='Pondération')
     critere = fields.Many2one('risk.critere.qualitatif', string='critere', ondelete='cascade')
 

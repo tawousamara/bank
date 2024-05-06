@@ -70,7 +70,7 @@ class Scoring(models.Model):
     comment_sollicitude = fields.Text(string='تفسير/تعليق')
     situation = fields.Many2one('risk.situation', string='الأملاك العقارية للشركاء/المساهمين', domain="[('critere', '=', 1)]")
     comment_situation = fields.Text(string='تفسير/تعليق')
-    mouvement = fields.Many2one('risk.mouvement', string='الإيداعات', domain="[('critere', '=', 1)]")
+    mouvement = fields.Many2one('risk.mouvement', string='الإيداعات المتوقعة', domain="[('critere', '=', 1)]")
     comment_mouvement = fields.Text(string='تفسير/تعليق')
     garanties = fields.Many2one('risk.garanties', string='الضمانات المقترحة', domain="[('critere', '=', 1)]")
     comment_garantie = fields.Text(string='تفسير/تعليق')

@@ -186,54 +186,104 @@ class CritereQualitatif(models.Model):
     def create(self, vals):
         res = super(CritereQualitatif, self).create(vals)
         for item in original:
-            self.env['risk.original.capital'].create({'name': item[0],'ponderation': item[1], 'critere': res.id})
+            self.env['risk.original.capital'].create({'name': item[0],
+                                                      'ponderation': item[1],
+                                                      'critere': res.id})
         for item in forme:
-            self.env['risk.forme.jur'].create({ 'name': item[0],'ponderation': item[1], 'critere': res.id})
+            self.env['risk.forme.jur'].create({'name': item[0],
+                                               'ponderation': item[1],
+                                               'critere': res.id})
         for item in actiona:
-            self.env['risk.actionnariat'].create({ 'name': item[0],'ponderation': item[1], 'critere': res.id})
+            self.env['risk.actionnariat'].create({'name': item[0],
+                                                  'ponderation': item[1],
+                                                  'critere': res.id})
         for item in bool_list:
-            self.env['risk.remplacement.succession'].create({ 'name': item[0],'ponderation': item[1], 'critere': res.id})
-            self.env['risk.soutien.etatique'].create({ 'name': item[0],'ponderation': item[1], 'critere': res.id})
+            self.env['risk.remplacement.succession'].create({'name': item[0],
+                                                             'ponderation': item[1],
+                                                             'critere': res.id})
+            self.env['risk.soutien.etatique'].create({'name': item[0],
+                                                      'ponderation': item[1],
+                                                      'critere': res.id})
         for item in comp_list:
-            self.env['risk.competence'].create({ 'name': item[0],'ponderation': item[1], 'critere': res.id})
+            self.env['risk.competence'].create({'name': item[0],
+                                                'ponderation': item[1],
+                                                'critere': res.id})
         for item in exp_list:
-            self.env['risk.experience'].create({ 'name': item[0],'ponderation': item[1], 'critere': res.id})
+            self.env['risk.experience'].create({'name': item[0],
+                                                'ponderation': item[1],
+                                                'critere': res.id})
         for item in activite_list:
-            self.env['risk.activite'].create({ 'name': item[0],'ponderation': item[1], 'critere': res.id})
+            self.env['risk.activite'].create({'name': item[0],
+                                              'ponderation': item[1],
+                                              'critere': res.id})
         for item in influence_list:
-            self.env['risk.influence.tech'].create({ 'name': item[0],'ponderation': item[1], 'critere': res.id})
+            self.env['risk.influence.tech'].create({'name': item[0],
+                                                    'ponderation': item[1],
+                                                    'critere': res.id})
         for item in anciente_list:
-            self.env['risk.anciennete'].create({ 'name': item[0],'ponderation': item[1], 'critere': res.id})
+            self.env['risk.anciennete'].create({'name': item[0],
+                                                'ponderation': item[1],
+                                                'critere': res.id})
         for item in concurrence_list:
-            self.env['risk.concurrence'].create({ 'name': item[0],'ponderation': item[1], 'critere': res.id})
+            self.env['risk.concurrence'].create({'name': item[0],
+                                                 'ponderation': item[1],
+                                                 'critere': res.id})
         for item in source_appro_list:
-            self.env['risk.source.appro'].create({ 'name': item[0],'ponderation': item[1], 'critere': res.id})
+            self.env['risk.source.appro'].create({'name': item[0],
+                                                  'ponderation': item[1],
+                                                  'critere': res.id})
         for item in produit_list:
-            self.env['risk.produit'].create({ 'name': item[0],'ponderation': item[1], 'critere': res.id})
+            self.env['risk.produit'].create({'name': item[0],
+                                             'ponderation': item[1],
+                                             'critere': res.id})
         for item in flexibilite_list:
-            self.env['risk.flexibilite'].create({ 'name': item[0],'ponderation': item[1], 'critere': res.id})
+            self.env['risk.flexibilite'].create({'name': item[0],
+                                                 'ponderation': item[1],
+                                                 'critere': res.id})
         for item in solicitude_list:
-            self.env['risk.sollicitude'].create({ 'name': item[0],'ponderation': item[1], 'critere': res.id})
+            self.env['risk.sollicitude'].create({'name': item[0],
+                                                 'ponderation': item[1],
+                                                 'critere': res.id})
         for item in situation_list:
-            self.env['risk.situation'].create({ 'name': item[0],'ponderation': item[1], 'critere': res.id})
+            self.env['risk.situation'].create({'name': item[0],
+                                               'ponderation': item[1],
+                                               'critere': res.id})
         for item in mouv_list:
-            self.env['risk.mouvement'].create({ 'name': item[0],'ponderation': item[1], 'critere': res.id})
+            self.env['risk.mouvement'].create({'name': item[0],
+                                               'ponderation': item[1],
+                                               'critere': res.id})
         for item in garanties_list:
-            self.env['risk.garanties'].create({ 'name': item[0],'ponderation': item[1], 'critere': res.id})
+            self.env['risk.garanties'].create({'name': item[0],
+                                               'ponderation': item[1],
+                                               'critere': res.id})
         for item in incident_list:
-            self.env['risk.incident'].create({ 'name': item[0],'ponderation': item[1], 'critere': res.id})
+            self.env['risk.incident'].create({'name': item[0],
+                                              'ponderation': item[1],
+                                              'critere': res.id})
         for item in conduite_list:
-            self.env['risk.conduite'].create({ 'name': item[0],'ponderation': item[1], 'critere': res.id})
+            self.env['risk.conduite'].create({'name': item[0],
+                                              'ponderation': item[1],
+                                              'critere': res.id})
         for item in dette_fisc:
-            self.env['risk.dette.fisc'].create({ 'name': item[0],'ponderation': item[1], 'critere': res.id})
+            self.env['risk.dette.fisc'].create({'name': item[0],
+                                                'ponderation': item[1],
+                                                'critere': res.id})
         for item in dette_parafisc:
-            self.env['risk.dette.parafisc'].create({ 'name': item[0],'ponderation': item[1], 'critere': res.id})
+            self.env['risk.dette.parafisc'].create({'name': item[0],
+                                                    'ponderation': item[1],
+                                                    'critere': res.id})
         for item in position_list:
-            self.env['risk.position.admin'].create({ 'name': item[0],'ponderation': item[1], 'critere': res.id})
+            self.env['risk.position.admin'].create({'name': item[0],
+                                                    'ponderation': item[1],
+                                                    'critere': res.id})
         for item in source_remb:
-            self.env['risk.source.remb'].create({ 'name': item[0],'ponderation': item[1], 'critere': res.id})
+            self.env['risk.source.remb'].create({'name': item[0],
+                                                 'ponderation': item[1],
+                                                 'critere': res.id})
         for item in part_profit:
-            self.env['risk.part.profil'].create({ 'name': item[0],'ponderation': item[1], 'critere': res.id})
+            self.env['risk.part.profil'].create({'name': item[0],
+                                                 'ponderation': item[1],
+                                                 'critere': res.id})
         return res
 
     def recreate(self):
@@ -264,55 +314,104 @@ class CritereQualitatif(models.Model):
             rec.source_remb.unlink()
             rec.part_profil.unlink()
             for item in original:
-                self.env['risk.original.capital'].create({'name': item[0], 'ponderation': item[1], 'critere': rec.id})
+                self.env['risk.original.capital'].create({'name': item[0],
+                                                          'ponderation': item[1],
+                                                          'critere': rec.id})
             for item in forme:
-                self.env['risk.forme.jur'].create({'name': item[0], 'ponderation': item[1], 'critere': rec.id})
+                self.env['risk.forme.jur'].create({'name': item[0],
+                                                   'ponderation': item[1],
+                                                   'critere': rec.id})
             for item in actiona:
-                self.env['risk.actionnariat'].create({'name': item[0], 'ponderation': item[1], 'critere': rec.id})
+                self.env['risk.actionnariat'].create({'name': item[0],
+                                                      'ponderation': item[1],
+                                                      'critere': rec.id})
             for item in bool_list:
-                self.env['risk.remplacement.succession'].create(
-                    {'name': item[0], 'ponderation': item[1], 'critere': rec.id})
-                self.env['risk.soutien.etatique'].create({'name': item[0], 'ponderation': item[1], 'critere': rec.id})
+                self.env['risk.remplacement.succession'].create({'name': item[0],
+                                                                 'ponderation': item[1],
+                                                                 'critere': rec.id})
+                self.env['risk.soutien.etatique'].create({'name': item[0],
+                                                          'ponderation': item[1],
+                                                          'critere': rec.id})
             for item in comp_list:
-                self.env['risk.competence'].create({'name': item[0], 'ponderation': item[1], 'critere': rec.id})
+                self.env['risk.competence'].create({'name': item[0],
+                                                    'ponderation': item[1],
+                                                    'critere': rec.id})
             for item in exp_list:
-                self.env['risk.experience'].create({'name': item[0], 'ponderation': item[1], 'critere': rec.id})
+                self.env['risk.experience'].create({'name': item[0],
+                                                    'ponderation': item[1],
+                                                    'critere': rec.id})
             for item in activite_list:
-                self.env['risk.activite'].create({'name': item[0], 'ponderation': item[1], 'critere': rec.id})
+                self.env['risk.activite'].create({'name': item[0],
+                                                  'ponderation': item[1],
+                                                  'critere': rec.id})
             for item in influence_list:
-                self.env['risk.influence.tech'].create({'name': item[0], 'ponderation': item[1], 'critere': rec.id})
+                self.env['risk.influence.tech'].create({'name': item[0],
+                                                        'ponderation': item[1],
+                                                        'critere': rec.id})
             for item in anciente_list:
-                self.env['risk.anciennete'].create({'name': item[0], 'ponderation': item[1], 'critere': rec.id})
+                self.env['risk.anciennete'].create({'name': item[0],
+                                                    'ponderation': item[1],
+                                                    'critere': rec.id})
             for item in concurrence_list:
-                self.env['risk.concurrence'].create({'name': item[0], 'ponderation': item[1], 'critere': rec.id})
+                self.env['risk.concurrence'].create({'name': item[0],
+                                                     'ponderation': item[1],
+                                                     'critere': rec.id})
             for item in source_appro_list:
-                self.env['risk.source.appro'].create({'name': item[0], 'ponderation': item[1], 'critere': rec.id})
+                self.env['risk.source.appro'].create({'name': item[0],
+                                                      'ponderation': item[1],
+                                                      'critere': rec.id})
             for item in produit_list:
-                self.env['risk.produit'].create({'name': item[0], 'ponderation': item[1], 'critere': rec.id})
+                self.env['risk.produit'].create({'name': item[0],
+                                                 'ponderation': item[1],
+                                                 'critere': rec.id})
             for item in flexibilite_list:
-                self.env['risk.flexibilite'].create({'name': item[0], 'ponderation': item[1], 'critere': rec.id})
+                self.env['risk.flexibilite'].create({'name': item[0],
+                                                     'ponderation': item[1],
+                                                     'critere': rec.id})
             for item in solicitude_list:
-                self.env['risk.sollicitude'].create({'name': item[0], 'ponderation': item[1], 'critere': rec.id})
+                self.env['risk.sollicitude'].create({'name': item[0],
+                                                     'ponderation': item[1],
+                                                     'critere': rec.id})
             for item in situation_list:
-                self.env['risk.situation'].create({'name': item[0], 'ponderation': item[1], 'critere': rec.id})
+                self.env['risk.situation'].create({'name': item[0],
+                                                   'ponderation': item[1],
+                                                   'critere': rec.id})
             for item in mouv_list:
-                self.env['risk.mouvement'].create({'name': item[0], 'ponderation': item[1], 'critere': rec.id})
+                self.env['risk.mouvement'].create({'name': item[0],
+                                                   'ponderation': item[1],
+                                                   'critere': rec.id})
             for item in garanties_list:
-                self.env['risk.garanties'].create({'name': item[0], 'ponderation': item[1], 'critere': rec.id})
+                self.env['risk.garanties'].create({'name': item[0],
+                                                   'ponderation': item[1],
+                                                   'critere': rec.id})
             for item in incident_list:
-                self.env['risk.incident'].create({'name': item[0], 'ponderation': item[1], 'critere': rec.id})
+                self.env['risk.incident'].create({'name': item[0],
+                                                  'ponderation': item[1],
+                                                  'critere': rec.id})
             for item in conduite_list:
-                self.env['risk.conduite'].create({'name': item[0], 'ponderation': item[1], 'critere': rec.id})
+                self.env['risk.conduite'].create({'name': item[0],
+                                                  'ponderation': item[1],
+                                                  'critere': rec.id})
             for item in dette_fisc:
-                self.env['risk.dette.fisc'].create({'name': item[0], 'ponderation': item[1], 'critere': rec.id})
+                self.env['risk.dette.fisc'].create({'name': item[0],
+                                                    'ponderation': item[1],
+                                                    'critere': rec.id})
             for item in dette_parafisc:
-                self.env['risk.dette.parafisc'].create({'name': item[0], 'ponderation': item[1], 'critere': rec.id})
+                self.env['risk.dette.parafisc'].create({'name': item[0],
+                                                        'ponderation': item[1],
+                                                        'critere': rec.id})
             for item in position_list:
-                self.env['risk.position.admin'].create({'name': item[0], 'ponderation': item[1], 'critere': rec.id})
+                self.env['risk.position.admin'].create({'name': item[0],
+                                                        'ponderation': item[1],
+                                                        'critere': rec.id})
             for item in source_remb:
-                self.env['risk.source.remb'].create({'name': item[0], 'ponderation': item[1], 'critere': rec.id})
+                self.env['risk.source.remb'].create({'name': item[0],
+                                                     'ponderation': item[1],
+                                                     'critere': rec.id})
             for item in part_profit:
-                self.env['risk.part.profil'].create({'name': item[0], 'ponderation': item[1], 'critere': rec.id})
+                self.env['risk.part.profil'].create({'name': item[0],
+                                                     'ponderation': item[1],
+                                                     'critere': rec.id})
 
 
 list_quant_1 = [
@@ -481,67 +580,83 @@ class CritereQuantitatif(models.Model):
                                              'critere': res.id})
         for item in list_quant_2:
             self.env['risk.quant.2'].create({'du': item[0],
-                                             'au': item[1],'ponderation': item[2],
+                                             'au': item[1],
+                                             'ponderation': item[2],
                                              'critere': res.id})
         for item in list_quant_3:
             self.env['risk.quant.3'].create({'du': item[0],
-                                             'au': item[1],'ponderation': item[2],
+                                             'au': item[1],
+                                             'ponderation': item[2],
                                              'critere': res.id})
         for item in list_quant_4:
             self.env['risk.quant.4'].create({'du': item[0],
-                                             'au': item[1],'ponderation': item[2],
+                                             'au': item[1],
+                                             'ponderation': item[2],
                                              'critere': res.id})
         for item in list_quant_5:
             self.env['risk.quant.5'].create({'du': item[0],
-                                             'au': item[1],'ponderation': item[2],
+                                             'au': item[1],
+                                             'ponderation': item[2],
                                              'critere': res.id})
         for item in list_quant_6:
             self.env['risk.quant.6'].create({'du': item[0],
-                                             'au': item[1],'ponderation': item[2],
+                                             'au': item[1],
+                                             'ponderation': item[2],
                                              'critere': res.id})
         for item in list_quant_7:
             self.env['risk.quant.7'].create({'du': item[0],
-                                             'au': item[1],'ponderation': item[2],
+                                             'au': item[1],
+                                             'ponderation': item[2],
                                              'critere': res.id})
         for item in list_quant_8:
             self.env['risk.quant.8'].create({'du': item[0],
-                                             'au': item[1],'ponderation': item[2],
+                                             'au': item[1],
+                                             'ponderation': item[2],
                                              'critere': res.id})
         for item in list_quant_9:
             self.env['risk.quant.9'].create({'du': item[0],
-                                             'au': item[1],'ponderation': item[2],
+                                             'au': item[1],
+                                             'ponderation': item[2],
                                              'critere': res.id})
         for item in list_quant_10:
             self.env['risk.quant.10'].create({'du': item[0],
-                                             'au': item[1],'ponderation': item[2],
-                                             'critere': res.id})
+                                              'au': item[1],
+                                              'ponderation': item[2],
+                                              'critere': res.id})
         for item in list_quant_11:
             self.env['risk.quant.11'].create({'du': item[0],
-                                             'au': item[1],'ponderation': item[2],
-                                             'critere': res.id})
+                                              'au': item[1],
+                                              'ponderation': item[2],
+                                              'critere': res.id})
         for item in list_quant_12:
             self.env['risk.quant.12'].create({'du': item[0],
-                                             'au': item[1],'ponderation': item[2],
-                                             'critere': res.id})
+                                              'au': item[1],
+                                              'ponderation': item[2],
+                                              'critere': res.id})
         for item in list_quant_13:
             self.env['risk.quant.13'].create({'du': item[0],
-                                             'au': item[1],'ponderation': item[2],
-                                             'critere': res.id})
+                                              'au': item[1],
+                                              'ponderation': item[2],
+                                              'critere': res.id})
         for item in list_quant_14:
             self.env['risk.quant.14'].create({'du': item[0],
-                                             'au': item[1],'ponderation': item[2],
-                                             'critere': res.id})
+                                              'au': item[1],
+                                              'ponderation': item[2],
+                                              'critere': res.id})
         for item in list_quant_15:
             self.env['risk.quant.15'].create({'du': item[0],
-                                             'au': item[1],'ponderation': item[2],
-                                             'critere': res.id})
+                                              'au': item[1],
+                                              'ponderation': item[2],
+                                              'critere': res.id})
         for item in list_quant_16:
             self.env['risk.quant.16'].create({'du': item[0],
-                                             'au': item[1],'ponderation': item[2],
-                                             'critere': res.id})
+                                              'au': item[1],
+                                              'ponderation': item[2],
+                                              'critere': res.id})
         for item in list_quant_17:
             self.env['risk.quant.17'].create({'du': item[0],
-                                              'au': item[1], 'ponderation': item[2],
+                                              'au': item[1],
+                                              'ponderation': item[2],
                                               'critere': res.id})
         return res
 
@@ -571,68 +686,84 @@ class CritereQuantitatif(models.Model):
                                                  'critere': rec.id})
             for item in list_quant_2:
                 self.env['risk.quant.2'].create({'du': item[0],
-                                                 'au': item[1], 'ponderation': item[2],
+                                                 'au': item[1],
+                                                 'ponderation': item[2],
                                                  'critere': rec.id})
             for item in list_quant_3:
                 self.env['risk.quant.3'].create({'du': item[0],
-                                                 'au': item[1], 'ponderation': item[2],
+                                                 'au': item[1],
+                                                 'ponderation': item[2],
                                                  'critere': rec.id})
             for item in list_quant_4:
                 self.env['risk.quant.4'].create({'du': item[0],
-                                                 'au': item[1], 'ponderation': item[2],
+                                                 'au': item[1],
+                                                 'ponderation': item[2],
                                                  'critere': rec.id})
             for item in list_quant_5:
                 self.env['risk.quant.5'].create({'du': item[0],
-                                                 'au': item[1], 'ponderation': item[2],
+                                                 'au': item[1],
+                                                 'ponderation': item[2],
                                                  'critere': rec.id})
             for item in list_quant_6:
                 self.env['risk.quant.6'].create({'du': item[0],
-                                                 'au': item[1], 'ponderation': item[2],
+                                                 'au': item[1],
+                                                 'ponderation': item[2],
                                                  'critere': rec.id})
             for item in list_quant_7:
                 self.env['risk.quant.7'].create({'du': item[0],
-                                                 'au': item[1], 'ponderation': item[2],
+                                                 'au': item[1],
+                                                 'ponderation': item[2],
                                                  'critere': rec.id})
             for item in list_quant_8:
                 self.env['risk.quant.8'].create({'du': item[0],
-                                                 'au': item[1], 'ponderation': item[2],
+                                                 'au': item[1],
+                                                 'ponderation': item[2],
                                                  'critere': rec.id})
             for item in list_quant_9:
                 self.env['risk.quant.9'].create({'du': item[0],
-                                                 'au': item[1], 'ponderation': item[2],
+                                                 'au': item[1],
+                                                 'ponderation': item[2],
                                                  'critere': rec.id})
             for item in list_quant_10:
                 self.env['risk.quant.10'].create({'du': item[0],
-                                                  'au': item[1], 'ponderation': item[2],
+                                                  'au': item[1],
+                                                  'ponderation': item[2],
                                                   'critere': rec.id})
             for item in list_quant_11:
                 self.env['risk.quant.11'].create({'du': item[0],
-                                                  'au': item[1], 'ponderation': item[2],
+                                                  'au': item[1],
+                                                  'ponderation': item[2],
                                                   'critere': rec.id})
             for item in list_quant_12:
                 self.env['risk.quant.12'].create({'du': item[0],
-                                                  'au': item[1], 'ponderation': item[2],
+                                                  'au': item[1],
+                                                  'ponderation': item[2],
                                                   'critere': rec.id})
             for item in list_quant_13:
                 self.env['risk.quant.13'].create({'du': item[0],
-                                                  'au': item[1], 'ponderation': item[2],
+                                                  'au': item[1],
+                                                  'ponderation': item[2],
                                                   'critere': rec.id})
             for item in list_quant_14:
                 self.env['risk.quant.14'].create({'du': item[0],
-                                                  'au': item[1], 'ponderation': item[2],
+                                                  'au': item[1],
+                                                  'ponderation': item[2],
                                                   'critere': rec.id})
             for item in list_quant_15:
                 self.env['risk.quant.15'].create({'du': item[0],
-                                                  'au': item[1], 'ponderation': item[2],
+                                                  'au': item[1],
+                                                  'ponderation': item[2],
                                                   'critere': rec.id})
 
             for item in list_quant_16:
                 self.env['risk.quant.16'].create({'du': item[0],
-                                                  'au': item[1], 'ponderation': item[2],
+                                                  'au': item[1],
+                                                  'ponderation': item[2],
                                                   'critere': rec.id})
             for item in list_quant_17:
                 self.env['risk.quant.17'].create({'du': item[0],
-                                                  'au': item[1], 'ponderation': item[2],
+                                                  'au': item[1],
+                                                  'ponderation': item[2],
                                                   'critere': rec.id})
 
 class Hist(models.Model):
