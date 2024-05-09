@@ -488,8 +488,7 @@
         <field name="name">طلب التمويل</field>
         <field name="res_model">wk.workflow.dashboard</field>
         <field name="view_mode">tree,form</field>
-        <field name="domain">[('is_in_risk', '=', True)]</field>
-        <field name="context">{'search_default_filter_creation_date': 1}</field>
+        <field name="domain">[('is_in_risk', '=', True)]</field>\
         <field name="view_ids" eval="[(5, 0, 0),
                 (0, 0, {'view_mode': 'tree', 'view_id': ref('dept_wk.view_wk_workflow_dashboard_risk_tree')}),
                 (0, 0, {'view_mode': 'form', 'view_id': ref('dept_wk.view_wk_workflow_dashboard_form')})]"/>
@@ -521,7 +520,6 @@
         <field name="res_model">wk.workflow.dashboard</field>
         <field name="view_mode">tree,form</field>
         <field name="domain">[('is_in_comm', '=', True)]</field>
-        <field name="context">{'search_default_filter_creation_date': 1}</field>
         <field name="view_ids" eval="[(5, 0, 0),
                 (0, 0, {'view_mode': 'tree', 'view_id': ref('dept_wk.view_wk_workflow_dashboard_comm_tree')}),
                 (0, 0, {'view_mode': 'form', 'view_id': ref('dept_wk.view_wk_workflow_dashboard_form')})]"/>
