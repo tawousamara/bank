@@ -9,7 +9,7 @@
         <field name="name">risk.scoring.tree</field>
         <field name="model">risk.scoring</field>
         <field name="arch" type="xml">
-            <tree>
+            <tree duplicate="false" delete="0">
                 <field name="name"/>
                 <field name="date"/>
                 <field name="partner_id"/>
@@ -31,7 +31,7 @@
         <field name="name">risk.scoring.form</field>
         <field name="model">risk.scoring</field>
         <field name="arch" type="xml">
-            <form>
+            <form duplicate="false" delete="0">
                 <header>
                     <button name="calcul_scoring" string="Calcul le scoring"
                             class="btn-primary" type="object" groups="dept_wk.dept_wk_group_responsable_credit"/>

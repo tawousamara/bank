@@ -9,7 +9,7 @@
         <field name="name">wk.etape.form</field>
         <field name="model">wk.etape</field>
         <field name="arch" type="xml">
-            <form create="0">
+            <form create="0" duplicate="false" delete="0">
                 <header>
                     <field name="state_branch" widget="statusbar"
                            statusbar_visible="branch_1,branch_2,branch_3,branch_4,branch_5" invisible="sequence != 1"/>
