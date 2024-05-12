@@ -125,8 +125,9 @@
                                 <field name="comment_situation"/>
                             </group>
                             <group string="علاقة الشركة مع المصرف">
-                                <field name="mouvement" options="{'no_create': True, 'no_open': True}"/>
-                                <field name="comment_mouvement"/>
+                                <field name="mouvement" options="{'no_create': True, 'no_open': True}"
+                                       groups="dept_wk.dept_wk_group_responsable_credit"/>
+                                <field name="comment_mouvement" groups="dept_wk.dept_wk_group_responsable_credit"/>
                                 <field name="garanties" options="{'no_create': True, 'no_open': True}"/>
                                 <field name="comment_garantie"/>
                                 <field name="incident" options="{'no_create': True, 'no_open': True}"/>
@@ -147,8 +148,8 @@
                                 <field name="comment_source_remb"/>
                             </group>
                             <group string="مركزية محفظة المصرف">
-                                <field name="part_profil" options="{'no_create': True, 'no_open': True}"/>
-                                <field name="comment_part_profil"/>
+                                <field name="part_profil" options="{'no_create': True, 'no_open': True}" groups="dept_wk.dept_wk_group_responsable_credit"/>
+                                <field name="comment_part_profil" groups="dept_wk.dept_wk_group_responsable_credit"/>
                             </group>
                         </page>
                         <page string="المعايير النوعية للشركات التابعة للمجموعة">
@@ -250,9 +251,9 @@
                                                     <field name="comment_situation"/>
                                                 </group>
                                                 <group string="علاقة الشركة مع المصرف">
-                                                    <field name="mouvement"
+                                                    <field name="mouvement" groups="dept_wk.dept_wk_group_responsable_credit"
                                                            options="{'no_create': True, 'no_open': True}"/>
-                                                    <field name="comment_mouvement"/>
+                                                    <field name="comment_mouvement" groups="dept_wk.dept_wk_group_responsable_credit"/>
                                                     <field name="garanties"
                                                            options="{'no_create': True, 'no_open': True}"/>
                                                     <field name="comment_garantie"/>
@@ -280,9 +281,9 @@
                                                     <field name="comment_source_remb"/>
                                                 </group>
                                                 <group string="مركزية محفظة المصرف">
-                                                    <field name="part_profil"
+                                                    <field name="part_profil" groups="dept_wk.dept_wk_group_responsable_credit"
                                                            options="{'no_create': True, 'no_open': True}"/>
-                                                    <field name="comment_part_profil"/>
+                                                    <field name="comment_part_profil" groups="dept_wk.dept_wk_group_responsable_credit"/>
                                                 </group>
                                             </page>
                                         </notebook>
@@ -375,7 +376,7 @@
                                 <field name="critere_ids" options="{'no_create': True, 'no_open': True}">
                                     <tree editable="bottom" create="0" delete="0">
                                         <field name="name" readonly="1"/>
-                                        <field name="critere" readonly="1"/>
+                                        <field name="critere" />
                                         <field name="resultat" readonly="1"/>
                                         <field name="computed_total" column_invisible="True"/>
                                     </tree>
@@ -510,6 +511,7 @@
                 <field name="assigned_to_commercial"/>
                 <field name="state_commercial"/>
                 <field name="state"/>
+                <field name="classification"/>
                 <field name="is_same" column_invisible="True"/>
             </tree>
         </field>

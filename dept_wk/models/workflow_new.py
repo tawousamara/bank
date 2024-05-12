@@ -45,6 +45,9 @@ class Workflow(models.Model):
     is_same = fields.Boolean()
     raison_refus = fields.Text(string='سبب طلب المراجعة')
     is_in_financial = fields.Boolean(string='is financial state')
+    classification = fields.Many2one('wk.classification',
+                                     string='تصنيف الشركة',
+                                     related='nom_client.classification')
     is_in_risk = fields.Boolean(string='is risk state', compute='compute_state', store=True)
     is_in_comm = fields.Boolean(string='is risk state', compute='compute_state_comm', store=True)
     state_risque = fields.Selection([('risque_1', 'مدير المخاطر'),

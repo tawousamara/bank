@@ -313,11 +313,6 @@ class Confirmation(models.TransientModel):
                             'type': 'danger',
                             'message': "يجب اضافة  الأملاك العقارية للشركاء/المساهمين في المعايير النوعية",
                             'sticky': True, })
-                    elif not etape.risk_scoring.mouvement:
-                        model._sendone(self.env.user.partner_id, 'simple_notification', {
-                            'type': 'danger',
-                            'message': "يجب اضافة الإيداعات المتوقعة في المعايير النوعية",
-                            'sticky': True, })
                     elif not etape.risk_scoring.garanties:
                         model._sendone(self.env.user.partner_id, 'simple_notification', {
                             'type': 'danger',
@@ -352,11 +347,6 @@ class Confirmation(models.TransientModel):
                         model._sendone(self.env.user.partner_id, 'simple_notification', {
                             'type': 'danger',
                             'message': "يجب اضافة مصادر التسديد في المعايير النوعية",
-                            'sticky': True, })
-                    elif not etape.risk_scoring.part_profil:
-                        model._sendone(self.env.user.partner_id, 'simple_notification', {
-                            'type': 'danger',
-                            'message': "يجب اضافة ربحية المصرف من التمويلات الممنوحة في المعايير النوعية",
                             'sticky': True, })
                     else:
                         etape.validate_information_function()
