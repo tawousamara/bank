@@ -18,14 +18,21 @@ class ImportTcrOCR(models.Model):
     date = fields.Date(string="Date d'importation", default=datetime.today())
     annee = fields.Char(string="Année de l'exercice")
     company = fields.Char(string="Désignation de l'entreprise")
-    tcr_lines = fields.One2many("import.ocr.tcr.line", "tcr_id", string="Lignes")
+    tcr_lines = fields.One2many("import.ocr.tcr.line", "tcr_id", string="Lignes", domain=lambda self: self._get_domain())
     file_import = fields.Binary(string="Import de fichier")
     file_import2 = fields.Binary(string="Import de fichier")
     file_import_name = fields.Char(string="Fichier")
+    hide_others = fields.Boolean(string="Filter que les lignes concernées")
     state = fields.Selection([("get_data", "Import données"),
                               ("validation", "Validation"),
                               ("valide", "Validé"),
                               ('modified', 'Modifié par le risque')], string="Etat", default="get_data")
+
+    def _get_domain(self):
+        if self.hide_others:
+            return [('sequence', 'in', [7, 33, 50, 36, 12, 13, 14, 30])]
+        else:
+            []
 
     @api.model
     def create(self, vals):

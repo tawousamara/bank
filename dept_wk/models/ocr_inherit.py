@@ -25,20 +25,18 @@ class TCR(models.Model):
 
     def action_validation_wk(self):
         for rec in self:
-            list_validation = [7, 12, 13, 14, 33, 50, 36]
-            list_validation = [7, 33, 50, 12, 13, 36,30]
+            list_validation = [7, 33, 50, 36, 12, 13, 14, 30]
             tcr = rec.tcr_lines.mapped('rubrique.sequence')
-            print(tcr)
-
             if not set(list_validation).issubset(set(tcr)):
                 raise ValidationError("Vous devriez confirmer les valeurs suivantes: \n "
                                       "- Chiffre d'affaires net des rabais, Remises, Ristournes \n"
                                       "- Excédent brut de l'exploitation \n"
                                       "- Résultat  net de l'exercice \n"
+                                      "- Dotations aux amortissements \n"
                                       "- Matières premieres \n"
                                       "- Valeur Ajoutée d'exploitation \n"
                                       "- Achats de marchandises vendues \n"
-                                      "- Dotations aux amortissements \n"
+                                      "- Valeur ajoutée d'exploitation (I-II) \n"
                                       )
             view_id = self.env.ref('financial_modeling.confirmation_wizard_form')
             context = dict(self.env.context or {})
@@ -82,7 +80,7 @@ class Actif(models.Model):
 
     def action_validation_wk(self):
         for rec in self:
-            list_validation = [4, 7, 16, 27, 18, 19, 24, 26, 20]
+            list_validation = [4, 7, 16, 27, 18, 19, 20, 24, 26]
             actifs = rec.actif_lines.mapped('rubrique.sequence')
             print(actifs)
             print(set(list_validation).issubset(set(actifs)))
@@ -92,12 +90,13 @@ class Actif(models.Model):
                                       "- Immobilisations corporelles \n"
                                       "- Autres immobilisations corporelles \n"
                                       "- Total actif non courant \n"
-                                      "- Total Actif courant \n"
                                       "- Stocks et encours \n"
+                                      "- Clients \n"
                                       "- Créances et emplois assimilés \n"
                                       "- Disponibilité et assimilés \n"
                                       "- Trésorerie \n"
-                                      "- Clients \n")
+                                      "- Total Actif courant \n"
+                                      )
             view_id = self.env.ref('financial_modeling.confirmation_wizard_form')
             context = dict(self.env.context or {})
             context['actif_id'] = rec.id
@@ -138,16 +137,16 @@ class Passif(models.Model):
 
     def action_validation_wk(self):
         for rec in self:
-            list_validation = [2, 4, 8, 25, 18, 24, 23, 14, 20, 21, 22]
+            list_validation = [2, 4, 8, 12, 14, 18, 20, 21, 22, 23, 24, 25]
             passifs = rec.passif_lines.mapped('rubrique.sequence')
             if not set(list_validation).issubset(set(passifs)):
                 raise ValidationError("Vous devriez confirmer les valeurs suivantes: \n"
                                       "- Capital émis \n"
-                                      "- Total I \n"
                                       "- Primes et reserves \n"
                                       "- Autres capitaux propres - Report à nouveau \n"
-                                      "- Total II \n"
+                                      "- Total I \n"
                                       "- Emprunts et dettes financières \n"
+                                      "- Total II \n"
                                       "- Fournisseurs et comptes rattachés \n"
                                       "- Impots \n"
                                       "- Autres dettes \n"

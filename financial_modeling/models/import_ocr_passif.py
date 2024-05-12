@@ -14,13 +14,20 @@ class ImportPassifOCR(models.Model):
     date = fields.Date(string="Date d'importation", default=datetime.today())
     annee = fields.Char(string="Année de l'exercice")
     company = fields.Char(string="Désignation de l'entreprise")
-    passif_lines = fields.One2many("import.ocr.passif.line", "passif_id", string="Lignes")
+    passif_lines = fields.One2many("import.ocr.passif.line", "passif_id", string="Lignes", domain=lambda self: self._get_domain())
     file_import = fields.Binary(string="Import de fichier")
     file_import_name = fields.Char(string="Fichier")
+    hide_others = fields.Boolean(string="Filter que les lignes concernées")
     state = fields.Selection([("get_data", "Import données"),
                               ("validation", "Validation"),
                               ("valide", "Validé"),
                               ('modified', 'Modifié par le risque')], string="Etat", default="get_data")
+
+    def _get_domain(self):
+        if self.hide_others:
+            return [('sequence', 'in', [2, 4, 8, 12, 14, 18, 20, 21, 22, 23, 24, 25])]
+        else:
+            []
 
     @api.model
     def create(self, vals):
@@ -186,6 +193,7 @@ class ImportPassifOcrLine(models.Model):
     name = fields.Char(string="RUBRIQUES")
     mintop = fields.Integer(string='Rang')
     height = fields.Integer(string='Height')
+    sequence = fields.Integer(related='rubrique.sequence')
     rubrique = fields.Many2one('import.ocr.config', string='Rubriques confirmés', domain="[('type','=','passif')]")
     montant_n = fields.Float(string="N")
     montant_n1 = fields.Float(string="N-1")

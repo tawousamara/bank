@@ -15,13 +15,20 @@ class ImportActifOCR(models.Model):
     date = fields.Date(string="Date d'importation", default=datetime.today())
     annee = fields.Char(string="Année de l'exercice")
     company = fields.Char(string="Désignation de l'entreprise")
-    actif_lines = fields.One2many("import.ocr.actif.line", "actif_id", string="Lignes")
+    actif_lines = fields.One2many("import.ocr.actif.line", "actif_id", string="Lignes", domain=lambda self: self._get_domain())
     file_import = fields.Binary(string="Import de fichier")
     file_import_name = fields.Char(string="Fichier")
+    hide_others = fields.Boolean(string="Filter que les lignes concernées")
     state = fields.Selection([("get_data", "Import données"),
                               ("validation", "Validation"),
                               ("valide", "Validé"),
                               ('modified', 'Modifié par le risque')], string="Etat", default="get_data")
+
+    def _get_domain(self):
+        if self.hide_others:
+            return [('sequence', 'in', [4, 7, 16, 27, 18, 19, 20, 24, 26])]
+        else:
+            []
 
     @api.model
     def create(self, vals):
@@ -111,8 +118,15 @@ class ImportActifOCR(models.Model):
                                     except:
                                         value.write({'montant_1n': 0})
                                 elif len(line['Words']) == 4:
-                                    separator = line['Words'][3]['Left'] - line['Words'][0]['Left']
-                                    if separator > 500:
+                                    montant_1 = int(re.sub(r'[^0-9]', '', line['Words'][1]['WordText']))
+                                    montant_2 = int(re.sub(r'[^0-9]', '', line['Words'][2]['WordText']))
+                                    montant1_1 = int(re.sub(r'[^0-9]', '', line['Words'][1]['WordText'])) / 1000
+                                    montant1_2 = int(re.sub(r'[^0-9]', '', line['Words'][2]['WordText'])) / 1000
+                                    print('montant_1', montant_1)
+                                    print('montant_2', montant_2)
+                                    print('montant1_2', montant1_2)
+                                    print('montant1_1', montant1_1)
+                                    if (montant_1 == montant_2) or (int(montant1_1) == int(montant1_2)):
                                         try:
                                             value.write(
                                                 {'montant_n1': int(
@@ -150,6 +164,7 @@ class ImportActifOCR(models.Model):
                                                     re.sub(r'[^0-9]', '', line['Words'][1]['WordText']))})
                                         except:
                                             value.write({'montant_1n': 0})
+
                                 elif len(line['Words']) == 3:
                                     separator = line['Words'][2]['Left'] - line['Words'][0]['Left']
                                     if separator > 700:
@@ -249,11 +264,21 @@ class ImportActifOcrLine(models.Model):
     mintop = fields.Integer(string='Rang')
     height = fields.Integer(string='Height')
     rubrique = fields.Many2one('import.ocr.config', string='Rubriques confirmés', domain="[('type','=','actif')]")
+    sequence = fields.Integer(related='rubrique.sequence')
     montant_1n = fields.Float(string="Montants Bruts")
     montant_2n = fields.Float(string="Amortissements provisions et pertes de valeurs")
     montant_n = fields.Float(string="N")
     montant_n1 = fields.Float(string="N-1")
     actif_id = fields.Many2one('import.ocr.actif', string="Actif ID")
+    hide_others = fields.Boolean(string="Filter que les lignes concernées", compute='compute_hide', store=True)
+
+    @api.depends('actif_id')
+    def compute_hide(self):
+        for rec in self:
+            if rec.actif_id.hide_others and rec.rubrique.sequence not in [4, 7, 16, 27, 18, 19, 20, 24, 26]:
+                rec.hide_others = True
+            else:
+                rec.hide_others = False
 
 
 def ocr_space_file(filename, overlay=False, api_key='helloworld', language='eng',isTable=False):

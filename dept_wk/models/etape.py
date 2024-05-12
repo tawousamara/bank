@@ -834,14 +834,14 @@ class Etape(models.Model):
                             'type_payment': f.type_payment.ids,
                             'etape_id': etape.id
                         })
-                if not exist_risk:
+                '''if not exist_risk:
                     etape = self.env['wk.etape'].create({'workflow': rec.workflow.id,
                                                          'etape': self.env.ref('dept_wk.princip_4').id,
                                                          'risk_scoring': etape_1.risk_scoring.id,
-                                                         'state_risque': 'risque_1'})
+                                                         'state_risque': 'risque_1'})'''
                 partner_ids = []
-                user_ids = self.env.ref('dept_wk.dept_wk_group_responsable_risque').users.mapped('partner_id')
-                partner_ids += user_ids.mapped('email')
+                '''user_ids = self.env.ref('dept_wk.dept_wk_group_responsable_risque').users.mapped('partner_id')
+                partner_ids += user_ids.mapped('email')'''
                 user_ids = self.env.ref('dept_wk.dept_wk_group_responsable_commercial').users.mapped('partner_id')
                 partner_ids += user_ids.mapped('email')
                 list_final = ', '.join(partner_ids)
@@ -1383,17 +1383,20 @@ class Etape(models.Model):
                     if self.env.user.has_group('dept_wk.dept_wk_group_responsable_analyste'):
                         etape_risk = rec.workflow.states.filtered(lambda l: l.etape.sequence == 4)
                         etape_comm = rec.workflow.states.filtered(lambda l: l.etape.sequence == 3)
-                        if etape_risk.state_risque != 'risque_2' and etape_comm.state_commercial != 'commercial_4':
-                            rec.state_finance = 'finance_5'
-                            rec.raison_a_revoir = False
-                        elif etape_risk.state_risque != 'risque_2' and etape_comm.state_commercial == 'commercial_4':
-                            rec.state_finance = 'finance_7'
-                            rec.raison_a_revoir = False
-                        elif etape_risk.state_risque == 'risque_2' and etape_comm.state_commercial != 'commercial_4':
+                        if etape_comm.state_commercial != 'commercial_4':
                             rec.state_finance = 'finance_6'
+                            rec.workflow.state = '3'
                             rec.raison_a_revoir = False
-                        else:
-                            self.create_pouvoir()
+                        elif etape_comm.state_commercial == 'commercial_4':
+                            rec.state_finance = 'finance_4'
+                            rec.workflow.state = '4'
+                            rec.raison_a_revoir = False
+                            if not etape_risk:
+                                etape_risk = self.env['wk.etape'].create({'workflow': rec.workflow.id,
+                                                                     'etape': self.env.ref('dept_wk.princip_4').id,
+                                                                     'risk_scoring': etape_1.risk_scoring.id,
+                                                                     'state_risque': 'risque_1'})
+
             elif rec.etape.sequence == 3:
                 if rec.state_commercial == 'commercial_1':
                     rec.state_commercial = 'commercial_2'
@@ -1403,32 +1406,20 @@ class Etape(models.Model):
                     rec.raison_a_revoir = False
                 elif rec.state_commercial == 'commercial_3':
                     etape_fin = rec.workflow.states.filtered(lambda l: l.etape.sequence == 2)
-                    etape_risk = rec.workflow.states.filtered(lambda l: l.etape.sequence == 4)
                     rec.state_commercial = 'commercial_4'
-                    if etape_fin.state_finance != 'finance_4':
-                        if etape_risk.state_risque == 'risque_2':
-                            etape_fin.state_finance = 'finance_4'
-                            self.create_pouvoir()
-                        else:
-                            etape_fin.state_finance = 'finance_7'
+                    if etape_fin.state_finance == 'finance_6':
+                        rec.workflow.state = '4'
+                        etape_fin.state_finance = 'finance_4'
                     rec.raison_a_revoir = False
-                    rec.workflow.state = '4'
             elif rec.etape.sequence == 4:
                 if rec.state_risque == 'risque_1':
                     rec.state_risque = 'risque_3'
                 elif rec.state_risque == 'risque_3':
                     rec.state_risque = 'risque_4'
                 elif rec.state_risque == 'risque_4':
-                    etape_fin = rec.workflow.states.filtered(lambda l: l.etape.sequence == 2)
-                    etape_comm = rec.workflow.states.filtered(lambda l: l.etape.sequence == 3)
-                    if etape_fin.state_finance != 'finance_4':
-                        if etape_comm.state_commercial == 'commercial_4':
-                            etape_fin.state_finance = 'finance_4'
-                            self.create_pouvoir()
-                        else:
-                            etape_fin.state_finance = 'finance_6'
                     rec.state_risque = 'risque_2'
                     rec.raison_a_revoir = False
+                    self.create_pouvoir()
             elif rec.etape.sequence == 5:
                 if rec.state_vice == 'vice_1':
                     rec.state_vice = 'vice_2'
@@ -2665,6 +2656,10 @@ class Etape(models.Model):
                     list_final = ', '.join(partner_ids)
                 elif rec.state_finance == 'finance_2':
                     partner_ids = rec.assigned_to_finance.partner_id.email
+                    list_final = partner_ids
+                elif rec.state_finance == 'finance_4':
+                    user_ids = self.env.ref('dept_wk.dept_wk_group_responsable_risque').users.mapped('partner_id')
+                    partner_ids = user_ids.mapped('email')
                     list_final = partner_ids
             if rec.sequence == 3:
                 if rec.state_commercial == 'commercial_2':

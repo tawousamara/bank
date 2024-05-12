@@ -7,10 +7,10 @@ from datetime import datetime
 from arabic_reshaper import reshape
 from bidi.algorithm import get_display
 list_critere = [
-    ('مؤشرات الهيكل المال', 150),
+    ('مؤشرات الهيكل المال', 200),
     ('مؤشرات السيولة', 75),
-    ('مؤشرات النشاط', 75),
-    ('مؤشرات المردودية', 100),
+    ('مؤشرات النشاط', 95),
+    ('مؤشرات المردودية', 30),
     ('الاجمالي', 400)
 ]
 
@@ -165,10 +165,7 @@ class Scoring(models.Model):
             rec.annee_fiscal = etape.annee_fiscal
 
     def _critere_qual_domain(self):
-
-        print(self.critere_qual)
         for rec in self:
-            print(rec.critere_qual)
             return [('critere', '=', rec.critere_qual.id)]
 
     @api.model
@@ -180,7 +177,6 @@ class Scoring(models.Model):
             res.tcr_id = self.env.context.get('tcr_id')
             res.parent_id = self.env.context.get('parent_id')
             res.partner_id = res.parent_id.nom_client.id
-            print(self.env.context.get('parent_id'))
             res.parent_id.risk_scoring = res.id
             etape_1 = res.parent_id.states.filtered(lambda l: l.etape.sequence == 1)
             if etape_1:
@@ -226,7 +222,8 @@ class Scoring(models.Model):
             actif_2 = rec.actif_id.actif_lines.filtered(lambda r: r.rubrique.sequence == 16)
             actif_3 = rec.actif_id.actif_lines.filtered(lambda r: r.rubrique.sequence == 26)
             passif_12 = rec.passif_id.passif_lines.filtered(lambda r: r.rubrique.sequence == 12)
-            rec.quant_3 = ((passif_12.montant_n - actif_2.montant_n) / (
+            passif_18 = rec.passif_id.passif_lines.filtered(lambda r: r.rubrique.sequence == 18)
+            rec.quant_3 = ((passif_12.montant_n + passif_18.montant_n - actif_2.montant_n) / (
                     actif_1.montant_n - actif_3.montant_n)) * 100 if (
                     actif_1.montant_n - actif_3.montant_n) != 0 else 0
             for r in rec.critere_quant.quant_3:
@@ -308,10 +305,10 @@ class Scoring(models.Model):
                     rec.res_quant_12 = r.ponderation
                     result_quant += r.ponderation
                     count_quant += 1
-
+            bfr = actif_1.montant_n + actif_3.montant_n - (passif_24.montant_n - passif_4.montant_n)
             tcr_7 = rec.tcr_id.tcr_lines.filtered(lambda r: r.rubrique.sequence == 33)
-            rec.quant_13 = (tcr_7.montant_n / (
-                    actif_2.montant_n)) * 100 if (
+            rec.quant_13 = (tcr_7.montant_n / (bfr +
+                    actif_2.montant_n)) * 100 if ( bfr +
                     actif_2.montant_n) != 0 else 0
             for r in rec.critere_quant.quant_13:
                 if r.du < rec.quant_13 <= r.au:
@@ -319,7 +316,6 @@ class Scoring(models.Model):
                     result_quant += r.ponderation
                     count_quant += 1
 
-            tcr_8 = rec.tcr_id.tcr_lines.filtered(lambda r: r.rubrique.sequence == 40)
             tcr_33 = rec.tcr_id.tcr_lines.filtered(lambda r: r.rubrique.sequence == 33)
             rec.quant_14 = (tcr_33.montant_n / passif_12.montant_n) * 100 if passif_12.montant_n != 0 else 0
             for r in rec.critere_quant.quant_14:
@@ -344,19 +340,19 @@ class Scoring(models.Model):
             tres = actif_3.montant_n - passif_4.montant_n
             bfr = (actif_1.montant_n - actif_3.montant_n) - (passif_24.montant_n - passif_4.montant_n)
             if tres <= 0 and bfr > 0:
-                rec.res_quant_17 = rec.critere_quant.quant_17[0]
+                rec.res_quant_17 = rec.critere_quant.quant_17[0].ponderation
                 result_quant += rec.res_quant_17
                 count_quant += 1
             elif tres <= 0 and bfr <= 0:
-                rec.res_quant_17 = rec.critere_quant.quant_17[1]
+                rec.res_quant_17 = rec.critere_quant.quant_17[1].ponderation
                 result_quant += rec.res_quant_17
                 count_quant += 1
             elif tres > 0 and bfr > 0:
-                rec.res_quant_17 = rec.critere_quant.quant_17[2]
+                rec.res_quant_17 = rec.critere_quant.quant_17[2].ponderation
                 result_quant += rec.res_quant_17
                 count_quant += 1
             elif tres > 0 and bfr <= 0:
-                rec.res_quant_17 = rec.critere_quant.quant_17[3]
+                rec.res_quant_17 = rec.critere_quant.quant_17[3].ponderation
                 result_quant += rec.res_quant_17
                 count_quant += 1
 
@@ -373,7 +369,7 @@ class Scoring(models.Model):
                           rec.dette_fisc.ponderation + rec.source_remb.ponderation + \
                           rec.part_profil.ponderation
             rec.scoring_qualitatif = result_qual
-            rec.resultat_scor= result_quant + result_qual
+            rec.resultat_scor = result_quant + result_qual
             rec.resultat_scoring = result_quant + result_qual
             cat1 = rec.critere_ids.filtered(lambda r: r.name == 'مؤشرات الهيكل المال')
             cat1.resultat = rec.res_quant_1 + rec.res_quant_2 + rec.res_quant_3 + rec.res_quant_4 + rec.res_quant_17

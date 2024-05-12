@@ -198,45 +198,167 @@ class Confirmation(models.TransientModel):
                             'type': 'danger',
                             'message': "يجب ملء توزيع راس مال الشركة",
                             'sticky': True, })
-                    if not etape.gestion:
+                    elif not etape.gestion:
                         model._sendone(self.env.user.partner_id, 'simple_notification', {
                             'type': 'danger',
                             'message': "يجب ملء فريق التسيير",
                             'sticky': True, })
-                    if not etape.tailles:
+                    elif not etape.tailles:
                         model._sendone(self.env.user.partner_id, 'simple_notification', {
                             'type': 'danger',
                             'message': "يجب ملء حجم و هيكل التمويلات المطلوبة",
                             'sticky': True, })
-                    if not etape.fournisseur:
+                    elif not etape.fournisseur:
                         model._sendone(self.env.user.partner_id, 'simple_notification', {
                             'type': 'danger',
                             'message': "يجب ملء الموردين",
                             'sticky': True, })
-                    if not etape.client:
+                    elif not etape.client:
                         model._sendone(self.env.user.partner_id, 'simple_notification', {
                             'type': 'danger',
                             'message': "يجب ملء الزبائن",
                             'sticky': True, })
-                    if not etape.risk_scoring:
+                    elif not etape.risk_scoring:
                         model._sendone(self.env.user.partner_id, 'simple_notification', {
                             'type': 'danger',
                             'message': "يجب ملأ بطاقة المعايير النوعية",
                             'sticky': True, })
-                    if not set(list_validation).issubset(set(bloquants)):
+                    elif not set(list_validation).issubset(set(bloquants)):
                         model._sendone(self.env.user.partner_id, 'simple_notification', {
                             'type': 'danger',
                             'message': "يوجد ملفات غير مرفقة",
                             'sticky': True, })
-                    if not etape.recommendation_visit:
+                    elif not etape.recommendation_visit:
                         model._sendone(self.env.user.partner_id, 'simple_notification', {
                             'type': 'danger',
                             'message': "يجب اضافة توصية الفرع",
                             'sticky': True, })
-
-
-                    all_valid = etape.client and etape.fournisseur and etape.risk_scoring and etape.tailles and etape.gestion and etape.apropos and set(list_validation).issubset(set(bloquants)) and etape.recommendation_visit
-                    if all_valid:
+                    elif not etape.risk_scoring.original_capital:
+                        model._sendone(self.env.user.partner_id, 'simple_notification', {
+                            'type': 'danger',
+                            'message': "يجب اضافة أصل رأس المال في المعايير النوعية",
+                            'sticky': True, })
+                    elif not etape.risk_scoring.actionnariat:
+                        model._sendone(self.env.user.partner_id, 'simple_notification', {
+                            'type': 'danger',
+                            'message': "يجب اضافة المساهمات في المعايير النوعية",
+                            'sticky': True, })
+                    elif not etape.risk_scoring.forme_jur:
+                        model._sendone(self.env.user.partner_id, 'simple_notification', {
+                            'type': 'danger',
+                            'message': "يجب اضافة الشكل القانوني في المعايير النوعية",
+                            'sticky': True, })
+                    elif not etape.risk_scoring.remp_succession:
+                        model._sendone(self.env.user.partner_id, 'simple_notification', {
+                            'type': 'danger',
+                            'message': "يجب اضافة الخلافة في المعايير النوعية",
+                            'sticky': True, })
+                    elif not etape.risk_scoring.competence:
+                        model._sendone(self.env.user.partner_id, 'simple_notification', {
+                            'type': 'danger',
+                            'message': "يجب اضافة الكفاءة في المعايير النوعية",
+                            'sticky': True, })
+                    elif not etape.risk_scoring.experience:
+                        model._sendone(self.env.user.partner_id, 'simple_notification', {
+                            'type': 'danger',
+                            'message': "يجب اضافة الخبرة المهنية في المعايير النوعية",
+                            'sticky': True, })
+                    elif not etape.risk_scoring.soutien_etatic:
+                        model._sendone(self.env.user.partner_id, 'simple_notification', {
+                            'type': 'danger',
+                            'message': "يجب اضافة دعم الدولة في المعايير النوعية",
+                            'sticky': True, })
+                    elif not etape.risk_scoring.activite:
+                        model._sendone(self.env.user.partner_id, 'simple_notification', {
+                            'type': 'danger',
+                            'message': "يجب اضافة النشاط في المعايير النوعية",
+                            'sticky': True, })
+                    elif not etape.risk_scoring.influence_tech:
+                        model._sendone(self.env.user.partner_id, 'simple_notification', {
+                            'type': 'danger',
+                            'message': "يجب اضافة التكنولوجيا المستعملة في المعايير النوعية",
+                            'sticky': True, })
+                    elif not etape.risk_scoring.anciennete:
+                        model._sendone(self.env.user.partner_id, 'simple_notification', {
+                            'type': 'danger',
+                            'message': "يجب اضافة الأقدمية في المعايير النوعية",
+                            'sticky': True, })
+                    elif not etape.risk_scoring.concurrence:
+                        model._sendone(self.env.user.partner_id, 'simple_notification', {
+                            'type': 'danger',
+                            'message': "يجب اضافة المنافسة في المعايير النوعية",
+                            'sticky': True, })
+                    elif not etape.risk_scoring.source_appro:
+                        model._sendone(self.env.user.partner_id, 'simple_notification', {
+                            'type': 'danger',
+                            'message': "يجب اضافة الموردون في المعايير النوعية",
+                            'sticky': True, })
+                    elif not etape.risk_scoring.produit:
+                        model._sendone(self.env.user.partner_id, 'simple_notification', {
+                            'type': 'danger',
+                            'message': "يجب اضافة المنتوج في المعايير النوعية",
+                            'sticky': True, })
+                    elif not etape.risk_scoring.flexibilite:
+                        model._sendone(self.env.user.partner_id, 'simple_notification', {
+                            'type': 'danger',
+                            'message': "يجب اضافة المرونة في المعايير النوعية",
+                            'sticky': True, })
+                    elif not etape.risk_scoring.sollicitude:
+                        model._sendone(self.env.user.partner_id, 'simple_notification', {
+                            'type': 'danger',
+                            'message': "يجب اضافة طلب القروض لدى البنوك الزميلة في المعايير النوعية",
+                            'sticky': True, })
+                    elif not etape.risk_scoring.situation:
+                        model._sendone(self.env.user.partner_id, 'simple_notification', {
+                            'type': 'danger',
+                            'message': "يجب اضافة  الأملاك العقارية للشركاء/المساهمين في المعايير النوعية",
+                            'sticky': True, })
+                    elif not etape.risk_scoring.mouvement:
+                        model._sendone(self.env.user.partner_id, 'simple_notification', {
+                            'type': 'danger',
+                            'message': "يجب اضافة الإيداعات المتوقعة في المعايير النوعية",
+                            'sticky': True, })
+                    elif not etape.risk_scoring.garanties:
+                        model._sendone(self.env.user.partner_id, 'simple_notification', {
+                            'type': 'danger',
+                            'message': "يجب اضافة الضمانات المقترحة في المعايير النوعية",
+                            'sticky': True, })
+                    elif not etape.risk_scoring.incident:
+                        model._sendone(self.env.user.partner_id, 'simple_notification', {
+                            'type': 'danger',
+                            'message': "يجب اضافة التعثرات في المعايير النوعية",
+                            'sticky': True, })
+                    elif not etape.risk_scoring.conduite:
+                        model._sendone(self.env.user.partner_id, 'simple_notification', {
+                            'type': 'danger',
+                            'message': "يجب اضافة سيرة المتعامل في المعايير النوعية",
+                            'sticky': True, })
+                    elif not etape.risk_scoring.dette_fisc:
+                        model._sendone(self.env.user.partner_id, 'simple_notification', {
+                            'type': 'danger',
+                            'message': "يجب اضافة طلب الضرائب في المعايير النوعية",
+                            'sticky': True, })
+                    elif not etape.risk_scoring.dette_parafisc:
+                        model._sendone(self.env.user.partner_id, 'simple_notification', {
+                            'type': 'danger',
+                            'message': "يجب اضافة الضمان الاجتماعي في المعايير النوعية",
+                            'sticky': True, })
+                    elif not etape.risk_scoring.position_admin:
+                        model._sendone(self.env.user.partner_id, 'simple_notification', {
+                            'type': 'danger',
+                            'message': "يجب اضافة إدارات أخرى في المعايير النوعية",
+                            'sticky': True, })
+                    elif not etape.risk_scoring.source_remb:
+                        model._sendone(self.env.user.partner_id, 'simple_notification', {
+                            'type': 'danger',
+                            'message': "يجب اضافة مصادر التسديد في المعايير النوعية",
+                            'sticky': True, })
+                    elif not etape.risk_scoring.part_profil:
+                        model._sendone(self.env.user.partner_id, 'simple_notification', {
+                            'type': 'danger',
+                            'message': "يجب اضافة ربحية المصرف من التمويلات الممنوحة في المعايير النوعية",
+                            'sticky': True, })
+                    else:
                         etape.validate_information_function()
                 elif etape.state_branch == 'branch_4':
                     not_assign = True

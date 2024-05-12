@@ -14,17 +14,19 @@
                     <br/>
                     - Chiffre d'affaires net des rabais, Remises, Ristournes
                     <br/>
-                    - Achats de marchandises vendues
-                    <br/>
-                    - Matières premieres
-                    <br/>
-                    - Valeur Ajoutée d'exploitation
-                    <br/>
                     - Excédent brut de l'exploitation
                     <br/>
                     - Résultat net de l'exercice
                     <br/>
                     - Dotations aux amortissements
+                    <br/>
+                    - Matières premieres
+                    <br/>
+                    - Valeur Ajoutée d'exploitation
+                    <br/>
+                    - Achats de marchandises vendues
+                    <br/>
+                    - Valeur ajoutée d'exploitation (I-II)
                     <br/>
                 </p>
             </xpath>
@@ -51,9 +53,9 @@
                     <br/>
                     - Total actif non courant
                     <br/>
-                    - Total Actif courant
-                    <br/>
                     - Stocks et encours
+                    <br/>
+                    - Clients
                     <br/>
                     - Créances et emplois assimilés
                     <br/>
@@ -61,8 +63,7 @@
                     <br/>
                     - Trésorerie
                     <br/>
-                    - Clients
-                    <br/>
+                    - Total Actif courant
                 </p>
             </xpath>
             <xpath expr="//button[@name='action_validation']" position="attributes">
@@ -84,15 +85,15 @@
                     <br/>
                     - Capital émis
                     <br/>
-                    - Total I
+                    - Primes et reserves
                     <br/>
                     - Autres capitaux propres - Report à nouveau
                     <br/>
-                    - Total II
-                    <br/>
-                    - Primes et reserves
+                    - Total I
                     <br/>
                     - Emprunts et dettes financières
+                    <br/>
+                    - Total II
                     <br/>
                     - Fournisseurs et comptes rattachés
                     <br/>
@@ -107,6 +108,7 @@
                     - Total General Passif (I+II+III)
                     <br/>
                 </p>
+
             </xpath>
             <xpath expr="//button[@name='action_validation']" position="attributes">
                 <attribute name="name">action_validation_wk</attribute>
