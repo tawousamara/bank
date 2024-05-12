@@ -99,22 +99,22 @@ class ImportActifOCR(models.Model):
                                 if len(line['Words']) == 5:
                                     try:
                                         value.write(
-                                            {'montant_n': int(re.sub(r'[^0-9]', '', line['Words'][1]['WordText']))})
+                                            {'montant_n': int(re.sub(r'[^0-9]', '', line['Words'][4]['WordText']))})
                                     except:
                                         value.write({'montant_n': 0})
                                     try:
                                         value.write(
-                                            {'montant_n1': int(re.sub(r'[^0-9]', '', line['Words'][2]['WordText']))})
+                                            {'montant_n1': int(re.sub(r'[^0-9]', '', line['Words'][3]['WordText']))})
                                     except:
                                         value.write({'montant_n1': 0})
                                     try:
                                         value.write(
-                                            {'montant_2n': int(re.sub(r'[^0-9]', '', line['Words'][3]['WordText']))})
+                                            {'montant_2n': int(re.sub(r'[^0-9]', '', line['Words'][2]['WordText']))})
                                     except:
                                         value.write({'montant_2n': 0})
                                     try:
                                         value.write(
-                                            {'montant_1n': int(re.sub(r'[^0-9]', '', line['Words'][4]['WordText']))})
+                                            {'montant_1n': int(re.sub(r'[^0-9]', '', line['Words'][1]['WordText']))})
                                     except:
                                         value.write({'montant_1n': 0})
                                 elif len(line['Words']) == 4:
