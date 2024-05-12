@@ -249,6 +249,7 @@ class ImportTcrOcrLine(models.Model):
     _description = "Line de tcr importé"
 
     name = fields.Char(string="RUBRIQUES")
+    sequence = fields.Integer(related='rubrique.sequence')
     mintop = fields.Integer(string='Rang')
     height = fields.Integer(string='Height')
     montant_n = fields.Float(string="N")
