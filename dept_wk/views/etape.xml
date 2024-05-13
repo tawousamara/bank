@@ -54,6 +54,7 @@
                         <field name="dossier_verouiller" invisible="1"/>
                         <field name="active" invisible="1"/>
                         <field name="can_edit" invisible="1"/>
+                        <field name="can_edit_finance" invisible="1"/>
                     </div>
                     <div invisible="raison_a_revoir == False" style="border: 2px solid;
                                 border-radius: 12px;
@@ -334,7 +335,7 @@
                         <group>
                             <field name="assigned_to_finance" options="{'no_create': True, 'no_open': True}"
                                    invisible="sequence != 2"
-                                   readonly="not can_edit or state_finance != 'finance_1'"/>
+                                   readonly="not can_edit_finance or state_finance not in ['finance_1', 'finance_2']"/>
                         </group>
                         <group invisible="state_finance == 'finance_1' or sequence != 2" class="col-4">
                             <field name="taux_change" readonly="not can_edit or state_finance != 'finance_2'"/>

@@ -543,6 +543,7 @@ class Etape(models.Model):
     dossier_verouiller = fields.Boolean(string='Verrouiller')
     active = fields.Boolean(default=True)
     can_edit = fields.Boolean(string='',compute='compute_readonly')
+    can_edit_finance = fields.Boolean(string='',compute='compute_readonly_finance')
 
     @api.model
     def create(self, vals):
@@ -1021,6 +1022,13 @@ class Etape(models.Model):
                     result = True
             elif rec.etape.sequence == 8:
                 if self.env.user.has_group('dept_wk.dept_wk_group_analyste'):
+                    result = True
+            rec.can_edit = result
+    def compute_readonly_finance(self):
+        for rec in self:
+            result = False
+            if rec.etape.sequence == 2:
+                if rec.state_finance in ['finance_1', 'finance_2'] and self.env.user.has_group('dept_wk.dept_wk_group_responsable_analyste'):
                     result = True
             rec.can_edit = result
 
