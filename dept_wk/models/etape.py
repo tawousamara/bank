@@ -1030,7 +1030,7 @@ class Etape(models.Model):
             if rec.etape.sequence == 2:
                 if rec.state_finance in ['finance_1', 'finance_2'] and self.env.user.has_group('dept_wk.dept_wk_group_responsable_analyste'):
                     result = True
-            rec.can_edit = result
+            rec.can_edit_finance = result
 
     def compute_pourcentage_state(self):
         for rec in self:
