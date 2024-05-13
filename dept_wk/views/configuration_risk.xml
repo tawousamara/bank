@@ -84,12 +84,6 @@
                                 <field name="ponderation"/>
                             </tree>
                         </field>
-                        <field name="remp_succession">
-                            <tree editable="bottom">
-                                <field name="name"/>
-                                <field name="ponderation"/>
-                            </tree>
-                        </field>
                         <field name="competence">
                             <tree editable="bottom">
                                 <field name="name"/>

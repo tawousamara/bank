@@ -357,17 +357,19 @@ class Scoring(models.Model):
                 count_quant += 1
 
             result_qual = rec.original_capital.ponderation + rec.actionnariat.ponderation + \
-                          rec.forme_jur.ponderation + rec.remp_succession.ponderation + \
-                          rec.competence.ponderation + rec.experience.ponderation + \
-                          rec.soutien_etatic.ponderation + rec.activite.ponderation + \
-                          rec.influence_tech.ponderation + rec.anciennete.ponderation + \
-                          rec.concurrence.ponderation + rec.source_appro.ponderation + \
-                          rec.produit.ponderation + rec.flexibilite.ponderation + \
-                          rec.sollicitude.ponderation + rec.situation.ponderation + \
-                          rec.mouvement.ponderation + rec.garanties.ponderation + \
-                          rec.incident.ponderation + rec.conduite.ponderation + \
-                          rec.dette_fisc.ponderation + rec.source_remb.ponderation + \
-                          rec.part_profil.ponderation
+                            rec.forme_jur.ponderation + rec.remp_succession.ponderation +\
+                            rec.competence.ponderation + rec.experience.ponderation +\
+                            rec.soutien_etatic.ponderation + rec.activite.ponderation +\
+                            rec.influence_tech.ponderation + rec.anciennete.ponderation + \
+                            rec.concurrence.ponderation + rec.source_appro.ponderation +\
+                            rec.produit.ponderation + rec.flexibilite.ponderation + \
+                            rec.sollicitude.ponderation + rec.situation.ponderation +\
+                            rec.mouvement.ponderation + rec.garanties.ponderation +\
+                            rec.incident.ponderation + rec.conduite.ponderation + \
+                            rec.dette_fisc.ponderation + rec.dette_parafisc.ponderation + \
+                            rec.position_admin.ponderation + rec.source_remb.ponderation +\
+                            rec.part_profil.ponderation
+
             rec.scoring_qualitatif = result_qual
             rec.resultat_scor = result_quant + result_qual
             rec.resultat_scoring = result_quant + result_qual
