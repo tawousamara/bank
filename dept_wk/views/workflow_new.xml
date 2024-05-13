@@ -49,6 +49,7 @@
                 <filter string="تاريخ الانتهاء" name="filter_fin_date" date="date_fin" default_period="this_year,this_month"/>
                 <filter string="Sequence 2" name="sequence_2" domain="[('state', '=', '2')]"/>
                 <filter string="finance 2" name="fin_2" domain="[('is_in_financial', '=', True)]"/>
+                <filter string="Dossier Archivé" name="archived" domain="[('active', '=', False)]"/>
 
                 <group expand="1" string="Group By">
                     <filter string="الفرع" name="group_by_branch"
