@@ -463,6 +463,45 @@ class Scoring(models.Model):
             self.create_graphs()
             rec.company_id = self.env.company
 
+    def create_file_tcr(self):
+        for rec in self:
+            view_id = self.env.ref('financial_modeling.import_ocr_tcr_view_form').id
+            return {
+                'name': 'TCR',
+                'domain': [('parent_id', '=', rec.id)],
+                'res_model': 'import.ocr.tcr',
+                'view_mode': 'form',
+                'view_id': view_id,
+                'type': 'ir.actions.act_window',
+                'context': {'score_id': rec.id, 'year': 1}
+            }
+
+    def create_file_actif(self):
+        for rec in self:
+            view_id = self.env.ref('financial_modeling.import_ocr_actif_view_form').id
+            return {
+                'name': 'Actif',
+                'domain': [('parent_id', '=', rec.id)],
+                'res_model': 'import.ocr.actif',
+                'view_mode': 'form',
+                'view_id': view_id,
+                'type': 'ir.actions.act_window',
+                'context': {'score_id': rec.id, 'year': 1,}
+            }
+
+    def create_file_passif(self):
+        for rec in self:
+            view_id = self.env.ref('financial_modeling.import_ocr_passif_view_form').id
+            return {
+                'name': 'Passif',
+                'domain': [('parent_id', '=', rec.id)],
+                'res_model': 'import.ocr.passif',
+                'view_mode': 'form',
+                'view_id': view_id,
+                'type': 'ir.actions.act_window',
+                'context': {'score_id': rec.id, 'year': 1, }
+            }
+
     def calcul_limit(self):
         for rec in self:
             rec.limit_25 = rec.ca_banque * (25 / 100)

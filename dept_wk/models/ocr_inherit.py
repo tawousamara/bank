@@ -21,6 +21,9 @@ class TCR(models.Model):
                 res.parent_id.tcr1_id = res.id
             else:
                 res.parent_id.tcr_group = res.id
+        if self.env.context.get('score_id'):
+            score = self.env['risk.scoring'].browse(self.env.context.get('score_id'))
+            score.tcr_id = res.id
         return res
 
     def action_validation_wk(self):
@@ -76,6 +79,9 @@ class Actif(models.Model):
                 res.parent_id.actif1_id = res.id
             else:
                 res.parent_id.actif_group = res.id
+        if self.env.context.get('score_id'):
+            score = self.env['risk.scoring'].browse(self.env.context.get('score_id'))
+            score.actif_id = res.id
         return res
 
     def action_validation_wk(self):
@@ -133,6 +139,9 @@ class Passif(models.Model):
                 res.parent_id.passif1_id = res.id
             else:
                 res.parent_id.passif_group = res.id
+        if self.env.context.get('score_id'):
+            score = self.env['risk.scoring'].browse(self.env.context.get('score_id'))
+            score.passif_id = res.id
         return res
 
     def action_validation_wk(self):
