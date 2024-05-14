@@ -398,10 +398,14 @@ class Scoring(models.Model):
             cat4 = rec.critere_ids.filtered(lambda r: r.name == 'مؤشرات المردودية')
             cat4.resultat = rec.res_quant_12 + rec.res_quant_13 + rec.res_quant_14 + rec.res_quant_15 + rec.res_quant_16
             cat5 = rec.critere_ids.filtered(lambda r: r.name == 'الاجمالي')
+            cat_total = cat1.resultat + cat2.resultat + cat3.resultat + cat4.resultat
             if not cat5:
                 rec.critere_ids.create({'name': list_critere[-1][0],
                                         'critere': list_critere[-1][1],
-                                        'risk': rec.id})
+                                        'risk': rec.id,
+                                        'resultat': cat_total})
+            else:
+                cat5.resultat = cat_total
             rec.chiffre_affaire = tcr_5.montant_n
             rec.max_limit = tcr_5.montant_n * (rec.resultat_scor / 1000)
             configuration = self.env['configuration.risque'].search([])
