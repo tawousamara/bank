@@ -284,14 +284,25 @@ class Scoring(models.Model):
                     result_quant += r.ponderation
                     count_quant += 1
 
+            actif_16 = rec.actif_id.actif_lines.filtered(lambda r: r.rubrique.sequence == 16)
             passif_24 = rec.passif_id.passif_lines.filtered(lambda r: r.rubrique.sequence == 24)
+            passif_23 = rec.passif_id.passif_lines.filtered(lambda r: r.rubrique.sequence == 23)
             passif_5 = rec.passif_id.passif_lines.filtered(lambda r: r.rubrique.sequence == 20)
-            rec.quant_10 = ((actif_1.montant_n + actif_3.montant_n - (passif_24.montant_n - passif_4.montant_n)) * 360) / tcr_5.montant_n if tcr_5.montant_n != 0 else 0
+            bfr = actif_1.montant_n - actif_3.montant_n - (passif_24.montant_n - passif_23.montant_n)
+            rec.quant_10 = bfr * 360 / tcr_5.montant_n if tcr_5.montant_n != 0 else 0
+            print('bfr', bfr)
+            print(rec.quant_10)
             for r in rec.critere_quant.quant_10:
-                if r.du < rec.quant_10 <= r.au:
-                    rec.res_quant_10 = r.ponderation
-                    result_quant += r.ponderation
-                    count_quant += 1
+                if r == rec.critere_quant.quant_10[0]:
+                    if r.du <= rec.quant_10 <= r.au:
+                        rec.res_quant_10 = r.ponderation
+                        result_quant += r.ponderation
+                        count_quant += 1
+                else:
+                    if r.du < rec.quant_10 <= r.au:
+                        rec.res_quant_10 = r.ponderation
+                        result_quant += r.ponderation
+                        count_quant += 1
 
             rec.quant_11 = (actif_4.montant_n * 360) / tcr_5.montant_n if tcr_5.montant_n != 0 else 0
             for r in rec.critere_quant.quant_11:

@@ -149,7 +149,7 @@ class DocChecker(models.Model):
 
 
     list_document = fields.Selection(selection=LIST, string='اسم الملف')
-    list_doc = fields.Char(string='اسم الملف')
+    list_doc = fields.Char(string='اسم الملف', required=True)
     document = fields.Binary(string='الملف',)
     filename = fields.Char(string='الاسم', compute='compute_filename', store=True)
     answer = fields.Selection([('oui', 'نعم'),
