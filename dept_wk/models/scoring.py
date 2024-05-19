@@ -263,7 +263,7 @@ class Scoring(models.Model):
             passif_21 = rec.passif_id.passif_lines.filtered(lambda r: r.rubrique.sequence == 21)
             tcr_3 = rec.tcr_id.tcr_lines.filtered(lambda r: r.rubrique.sequence == 12)
             tcr_4 = rec.tcr_id.tcr_lines.filtered(lambda r: r.rubrique.sequence == 13)
-            rec.quant_7 = (passif1_20.montant_n * 360) / (tcr_3.montant_n * 1.19) if tcr_3.montant_n != 0 else 0
+            rec.quant_7 = (actif_4.montant_n * 360) / (tcr_3.montant_n * 1.19) if tcr_3.montant_n != 0 else 0
             for r in rec.critere_quant.quant_7:
                 if r.du < rec.quant_7 <= r.au:
                     rec.res_quant_7 = r.ponderation
@@ -291,7 +291,7 @@ class Scoring(models.Model):
             passif_23 = rec.passif_id.passif_lines.filtered(lambda r: r.rubrique.sequence == 23)
             passif_5 = rec.passif_id.passif_lines.filtered(lambda r: r.rubrique.sequence == 20)
             passif_22 = rec.passif_id.passif_lines.filtered(lambda r: r.rubrique.sequence == 22)
-            bfr =  actif_4.montant_n  + actif_19.montant_n - passif1_20.montant_n - passif_21.montant_n - passif_22.montant_n
+            bfr = actif_16.montant_n - actif_3.montant_n - (passif_24.montant_n - passif_23.montant_n)
             rec.quant_10 = bfr * 360 / tcr_5.montant_n if tcr_5.montant_n != 0 else 0
             print('bfr', bfr)
             print(rec.quant_10)
@@ -321,11 +321,11 @@ class Scoring(models.Model):
                     rec.res_quant_12 = r.ponderation
                     result_quant += r.ponderation
                     count_quant += 1
-            bfr = bfr = actif_4.montant_n  + actif_19.montant_n - passif1_20.montant_n - passif_21.montant_n - passif_22.montant_n
+            bfr = actif_16.montant_n - actif_3.montant_n - (passif_24.montant_n - passif_23.montant_n)
 
             tcr_7 = rec.tcr_id.tcr_lines.filtered(lambda r: r.rubrique.sequence == 33)
             rec.quant_13 = (tcr_7.montant_n / (bfr +
-                    actif_2.montant_n)) * 100 if ( bfr +
+                    actif_2.montant_n)) * 100 if (bfr +
                     actif_2.montant_n) != 0 else 0
             for r in rec.critere_quant.quant_13:
                 if r.du < rec.quant_13 <= r.au:

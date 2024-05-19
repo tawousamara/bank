@@ -29,6 +29,10 @@
         <field name="name">DGA</field>
         <field name="parent_id" ref="module_dept_wk_category"/>
     </record>
+    <record id="module_dept_wk_dg_category" model="ir.module.category">
+        <field name="name">DG</field>
+        <field name="parent_id" ref="module_dept_wk_category"/>
+    </record>
     <record id="module_dept_wk_administration_category" model="ir.module.category">
         <field name="name">Administration</field>
         <field name="parent_id" ref="module_dept_wk_category"/>
@@ -109,7 +113,14 @@
     <record id="dept_wk_group_dga" model="res.groups">
         <field name="name">DGA</field>
         <field name="category_id"
-               ref="module_dept_wk_commite_category"/>
+               ref="module_dept_wk_dga_category"/>
+        <field name="implied_ids"
+               eval="[(4, ref('dept_wk_group_all_users'))]"/>
+    </record>
+    <record id="dept_wk_group_dg" model="res.groups">
+        <field name="name">DG</field>
+        <field name="category_id"
+               ref="module_dept_wk_dg_category"/>
         <field name="implied_ids"
                eval="[(4, ref('dept_wk_group_all_users'))]"/>
     </record>

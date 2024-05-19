@@ -1,103 +1,103 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <template id="salam_layout_header_risk">
-            <style>
-                .row{
-                margin-bottom: 10px;
-                width: 100px;
-                height: 150px;
+        <style>
+            .row{
+            margin-bottom: 10px;
+            width: 100px;
+            height: 150px;
 
-                }
-                .row img {
-                bottom: 0;
-                right: 0;
-                }
-                .row span {
-                bottom: 0;
-                left: 0;
-                padding: 5px;
-                }
-                table > tbody > tr > td {
-                padding: 10px
-                }
-                .page-content {
-                font-family: 'NotoArabic-Regular';
-                direction: rtl;
-                padding: 20px;
-                margin: 40px;
-                text-align: justify;
-                line-height: 1.5
-                }
-            </style>
-            <div class="header page-content" style="margin-bottom: 10px; ">
-                <table class="page-content" style="border: 1px black;border-collapse: collapse;">
-                    <tbody>
-                        <tr>
-                            <td width="60%"
-                                style="font-size: 20px;font-family: 'NotoArabic-Regular';padding: 5px; text-align: right;vertical-align: middle;">
-                                ادارة المخاطر
-                            </td>
-                            <td width="30%"
-                                style="font-size: 20px;font-family: 'NotoArabic-Regular';padding: 5px; text-align: right;vertical-align: middle;">
-                                التاريخ:
-                                <t t-esc="doc.date"/>
-                            </td>
-                            <td width="10%" rowspan="3">
-                                <img style="margin-bottom: 10px; width: 150px; height: 100px;"
-                                     t-if="doc.company_id.logo"
-                                     t-att-src="image_data_uri(doc.company_id.logo)" height="100"
-                                     border="1" width="100"
-                                     alt="Logo"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="font-size: 20px;font-family: 'NotoArabic-Regular';padding: 5px;vertical-align: middle;">
-                                الشركة:
-                                <t t-esc="doc.partner_id.name"/>
-                            </td>
-                            <td style="font-size: 20px;font-family: 'NotoArabic-Regular';padding: 5px;vertical-align: middle;">
-                                دراسة طلب التسهيلات رقم:
-                                <t t-esc="doc.name"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="font-size: 20px;font-family: 'NotoArabic-Regular';padding: 5px;vertical-align: middle;">
-                                المجمع:
-                                <t t-esc="doc.groupe.name"/>
-                            </td>
-                            <td>
+            }
+            .row img {
+            bottom: 0;
+            right: 0;
+            }
+            .row span {
+            bottom: 0;
+            left: 0;
+            padding: 5px;
+            }
+            table > tbody > tr > td {
+            padding: 10px
+            }
+            .page-content {
+            font-family: 'NotoArabic-Regular';
+            direction: rtl;
+            padding: 20px;
+            margin: 40px;
+            text-align: justify;
+            line-height: 1.5
+            }
+        </style>
+        <div class="header page-content" style="margin-bottom: 10px; ">
+            <table class="page-content" style="border: 1px black;border-collapse: collapse;">
+                <tbody>
+                    <tr>
+                        <td width="60%"
+                            style="font-size: 20px;font-family: 'NotoArabic-Regular';padding: 5px; text-align: right;vertical-align: middle;">
+                            ادارة المخاطر
+                        </td>
+                        <td width="30%"
+                            style="font-size: 20px;font-family: 'NotoArabic-Regular';padding: 5px; text-align: right;vertical-align: middle;">
+                            التاريخ:
+                            <t t-esc="doc.date"/>
+                        </td>
+                        <td width="10%" rowspan="3">
+                            <img style="margin-bottom: 10px; width: 150px; height: 100px;"
+                                 t-if="doc.company_id.logo"
+                                 t-att-src="image_data_uri(doc.company_id.logo)" height="100"
+                                 border="1" width="100"
+                                 alt="Logo"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 20px;font-family: 'NotoArabic-Regular';padding: 5px;vertical-align: middle;">
+                            الشركة:
+                            <t t-esc="doc.partner_id.name"/>
+                        </td>
+                        <td style="font-size: 20px;font-family: 'NotoArabic-Regular';padding: 5px;vertical-align: middle;">
+                            دراسة طلب التسهيلات رقم:
+                            <t t-esc="doc.name"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 20px;font-family: 'NotoArabic-Regular';padding: 5px;vertical-align: middle;">
+                            المجمع:
+                            <t t-esc="doc.groupe.name"/>
+                        </td>
+                        <td>
 
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="article o_report_layout_standard">
-                <t t-out="0"/>
-            </div>
-            <div class="footer" style="text-align: center">
-                <div class="column">
-                    <span style="font-size: 10px;color: #a0a0a0">بنك السلام الجزائر</span>
-                    <br/>
-                    <span style="font-size: 10px; color: #a0a0a0">الشارع الرئيسي 233 شـارع اْحمـد واكـد دالـي ابراهيـم
-                        الجزائـر - الجزائر / الهاتف 88 88 38 021 - الفاكس 93 45 30 023
-                    </span>
-                    <br/>
-                    <span style="font-size: 10px; color: #a0a0a0">راس المال 000 000 20000دج / السجل التجاري رقم 0976530
-                        8 07 رقم التعريف الجبائي 000716097653066
-                    </span>
-                    <br/>
-                    <div t-if="report_type == 'pdf'" class="text-muted" style="font-size: 10px;color: #a0a0a0">
-                        الصفحة:
-                        <span class="page"/>
-                        من
-                        <span class="topage"/>
-                    </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="article o_report_layout_standard">
+            <t t-out="0"/>
+        </div>
+        <div class="footer" style="text-align: center">
+            <div class="column">
+                <span style="font-size: 10px;color: #a0a0a0">بنك السلام الجزائر</span>
+                <br/>
+                <span style="font-size: 10px; color: #a0a0a0">الشارع الرئيسي 233 شـارع اْحمـد واكـد دالـي ابراهيـم
+                    الجزائـر - الجزائر / الهاتف 88 88 38 021 - الفاكس 93 45 30 023
+                </span>
+                <br/>
+                <span style="font-size: 10px; color: #a0a0a0">راس المال 000 000 20000دج / السجل التجاري رقم 0976530
+                    8 07 رقم التعريف الجبائي 000716097653066
+                </span>
+                <br/>
+                <div t-if="report_type == 'pdf'" class="text-muted" style="font-size: 10px;color: #a0a0a0">
+                    الصفحة:
+                    <span class="page"/>
+                    من
+                    <span class="topage"/>
                 </div>
-
             </div>
 
-        </template>
+        </div>
+
+    </template>
     <record id="scoring_report" model="ir.actions.report">
         <field name="name">Scoring</field>
         <field name="model">risk.scoring</field>

@@ -228,7 +228,7 @@ class Partner(models.Model):
     num_compte = fields.Char(string='رقم الحساب')
     date_ouverture_compte = fields.Date(string='تاريخ فتح الحساب')
     demandes = fields.Many2many('wk.historique', string="تسهيلات الشركة")
-
+    nom_arabe = fields.Char(string='الاسم بالاحرف العربية')
     nom_groupe = fields.Char(string='اسم الشركة')
     groupe = fields.Many2one('res.partner', string='المجموعة')
     classification = fields.Many2one('wk.classification', string="تصنيف الشركة")

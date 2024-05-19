@@ -523,6 +523,11 @@ class Etape(models.Model):
     assigned_to_vice = fields.Many2one('res.users', string='نائب المدير العام', track_visibility='always')
     recommandation_tresorerie = fields.Text(string='رأي مسؤول الخزينة', track_visibility='always',)
     recommandation_vice_dir_fin = fields.Text(string='توصية/قرار نائب المدير العام', track_visibility='always',)
+    state_dg = fields.Selection([('dg_1', 'المدير العام'),
+                                   ('dg_2', 'انتهاء التحليل'),
+                                   ('dg_rejected', 'طلب مرفوض'),
+                                   ], track_visibility='always', string='وضعية الملف')
+    recommandation_dg = fields.Text(string='توصية/قرار المدير العام', track_visibility='always', )
 
     # Comite fields
     state_comite = fields.Selection([('comite_1', 'لجنة التسهيلات'),
@@ -1017,6 +1022,9 @@ class Etape(models.Model):
             elif rec.etape.sequence == 5:
                 if self.env.user.has_group('dept_wk.dept_wk_group_dga'):
                     result = True
+            elif rec.etape.sequence == 9:
+                if self.env.user.has_group('dept_wk.dept_wk_group_dg'):
+                    result = True
             elif rec.etape.sequence == 6:
                 if self.env.user.has_group('dept_wk.dept_wk_group_comite'):
                     result = True
@@ -1118,6 +1126,13 @@ class Etape(models.Model):
                 if rec.state_vice == 'vice_1':
                     rec.state_compute = 0
                 elif rec.state_vice == 'vice_2':
+                    rec.state_compute = 1
+                else:
+                    rec.state_compute = 0
+            elif rec.etape.sequence == 9:
+                if rec.state_dg == 'dg_1':
+                    rec.state_compute = 0
+                elif rec.state_dg == 'dg_2':
                     rec.state_compute = 1
                 else:
                     rec.state_compute = 0
@@ -1432,6 +1447,46 @@ class Etape(models.Model):
                 if rec.state_vice == 'vice_1':
                     rec.state_vice = 'vice_2'
                     etape_fin = rec.workflow.states.filtered(lambda l: l.etape.sequence == 2)
+                    rec.workflow.state = '9'
+                    etape_comm = rec.workflow.states.filtered(lambda l: l.etape.sequence == 3)
+                    etape_risk = rec.workflow.states.filtered(lambda l: l.etape.sequence == 4)
+                    etape_1 = rec.workflow.states.filtered(lambda l: l.etape.sequence == 1)
+                    etape = rec.workflow.states.filtered(lambda l: l.etape.sequence == 6)
+                    vals = {'workflow': rec.workflow.id,
+                                 'etape': self.env.ref('dept_wk.princip_9').id,
+                                 'state_dg': 'dg_1',
+                                 'nom_client': etape_1.nom_client.id,
+                                 'gerant': etape_1.gerant.id,
+                                 'recommendation_visit': etape_1.recommendation_visit,
+                                 'recommendation_responsable_agence': etape_1.recommendation_responsable_agence,
+                                 'recommendation_dir_commercial': etape_comm.recommendation_dir_commercial,
+                                 'recommendation_commercial': etape_comm.recommendation_commercial,
+                                 'resultat_scoring': etape_risk.resultat_scoring,
+                                 'recommandation_dir_risque': etape_risk.recommandation_dir_risque,
+                                 'recommandation_analyste_fin': rec.recommandation_analyste_fin,
+                                 'garantie_ids': rec.garantie_ids.ids,
+                                 'comite': rec.comite.id,
+                                 'recommandation_dir_fin': rec.recommandation_dir_fin,
+                                 'recommandation_vice_dir_fin': rec.recommandation_vice_dir_fin,
+                                 }
+                    if not etape:
+                        etape = self.env['wk.etape'].create(vals)
+                    else:
+                        etape.write(vals)
+                    etape.facilite_propose.unlink()
+                    for fac in rec.facilite_propose:
+                        self.env['wk.facilite.propose'].create({
+                            'type_facilite': fac.type_facilite.id,
+                            'type_demande_ids': fac.type_demande_ids.ids,
+                            'montant_dz': fac.montant_dz,
+                            'preg': fac.preg,
+                            'duree': fac.duree,
+                            'condition': fac.condition,
+                            'etape_id': etape.id})
+            elif rec.etape.sequence == 9:
+                if rec.state_dg == 'dg_1':
+                    rec.state_dg = 'dg_2'
+                    etape_fin = rec.workflow.states.filtered(lambda l: l.etape.sequence == 2)
                     if etape_fin.comite == self.env.ref('dept_wk.pouvoir_1'):
                         rec.workflow.state = '7'
                         rec.workflow.date_fin = datetime.date.today()
@@ -1457,6 +1512,7 @@ class Etape(models.Model):
                                      'comite': rec.comite.id,
                                      'recommandation_dir_fin': rec.recommandation_dir_fin,
                                      'recommandation_vice_dir_fin': rec.recommandation_vice_dir_fin,
+                                     'recommandation_dg': rec.recommandation_dg,
                                      }
                         if not etape:
                             etape = self.env['wk.etape'].create(vals)

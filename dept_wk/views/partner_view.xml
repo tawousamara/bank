@@ -64,6 +64,7 @@
             </xpath>
             <xpath expr="//sheet/group" position="inside">
                 <group>
+                    <field name="nom_arabe" />
                     <field name="date_debut_activite" invisible="is_user == True"/>
                     <field name="activite" options="{'no_create': True, 'no_open': True}" invisible="is_user == True"/>
                     <field name="date_inscription" invisible="is_user == True"/>
