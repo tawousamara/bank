@@ -22,6 +22,8 @@
                            statusbar_visible="risque_1,risque_3,risque_4,risque_2" invisible="sequence != 4"/>
                     <field name="state_vice" widget="statusbar"
                            statusbar_visible="vice_1,vice_2" invisible="sequence != 5"/>
+                    <field name="state_dg" widget="statusbar"
+                           statusbar_visible="dg_1,dg_2" invisible="sequence != 9"/>
                     <field name="state_comite" widget="statusbar"
                            statusbar_visible="comite_1,comite_2" invisible="sequence != 6"/>
                     <button name="revoir_action" type="object" string="للمراجعة"
@@ -996,22 +998,22 @@
                     </div>
                     <div invisible="sequence not in [5,6,9]">
                         <group>
-                            <field name="recommandation_tresorerie" readonly="not can_edit"/>
-                            <field name="recommandation_vice_dir_fin" readonly="not can_edit"/>
+                            <field name="recommandation_tresorerie" readonly="not can_edit or state_vice != 'vice_1'"/>
+                            <field name="recommandation_vice_dir_fin" readonly="not can_edit or state_vice != 'vice_1'"/>
                         </group>
                     </div>
                     <div invisible="sequence not in [9,6]">
                         <group>
-                            <field name="recommandation_dg" readonly="not can_edit"/>
+                            <field name="recommandation_dg" readonly="not can_edit or state_dg != 'dg_1'"/>
                         </group>
                     </div>
                     <div invisible="sequence != 6">
                         <group>
-                            <field name="recommandation_fin_comite" readonly="not can_edit"/>
+                            <field name="recommandation_fin_comite" readonly="not can_edit or state_comite != 'comite_1'"/>
                         </group>
                     </div>
                     <button type="object" name="validate_information" string="تأكيد المعلومات"
-                            invisible="state_branch in ['branch_rejected', 'branch_5'] or state_finance in ['finance_4', 'finance_rejected'] or state_risque in ['risque_2'] or state_commercial in ['commercial_4'] or state_vice in ['vice_2']"
+                            invisible="state_branch in ['branch_rejected', 'branch_5'] or state_finance in ['finance_4', 'finance_rejected'] or state_risque in ['risque_2'] or state_commercial in ['commercial_4'] or state_vice in ['vice_2'] or state_dg in ['dg_2']"
                             class="button_confirm"/>
                 </sheet>
                 <div class="oe_chatter">

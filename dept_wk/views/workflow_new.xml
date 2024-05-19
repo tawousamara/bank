@@ -74,7 +74,7 @@
                     <button type="action" name="%(dept_wk.global_report)d" class="btn-primary" string="التقرير النهائي"
                             width="10%"/>
 
-                    <field name="state" widget="statusbar" statusbar_visible="1,2,3,4,5,6,7"/>
+                    <field name="state" widget="statusbar" statusbar_visible="1,2,3,4,5,9,6,7"/>
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
