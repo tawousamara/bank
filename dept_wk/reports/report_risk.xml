@@ -35,7 +35,7 @@
                     <tr>
                         <td width="60%"
                             style="font-size: 20px;font-family: 'NotoArabic-Regular';padding: 5px; text-align: right;vertical-align: middle;">
-                            ادارة المخاطر
+                            دائرة مخاطر التمويلات
                         </td>
                         <td width="30%"
                             style="font-size: 20px;font-family: 'NotoArabic-Regular';padding: 5px; text-align: right;vertical-align: middle;">
@@ -54,6 +54,12 @@
                         <td style="font-size: 20px;font-family: 'NotoArabic-Regular';padding: 5px;vertical-align: middle;">
                             الشركة:
                             <t t-esc="doc.partner_id.name"/>
+                            <br/>
+                            قطاع النشاط:
+                            <t t-esc="doc.partner_id.activity_description"/>
+                            <br/>
+                            الولاية:
+                            <t t-esc="doc.partner_id.wilaya.domaine"/>
                         </td>
                         <td style="font-size: 20px;font-family: 'NotoArabic-Regular';padding: 5px;vertical-align: middle;">
                             دراسة طلب التسهيلات رقم:
@@ -154,14 +160,12 @@
                         <center style="margin-bottom: 10px">
                             <div class="column">
                                 <h2 class="title" style="margin-bottom: 50px;">
-                                    تحليل ميزانية مدققة للشركة لسنة
-                                    <t t-esc="doc.annee_fiscal"/>
+                                    تقرير مخاطر الاتمان
                                 </h2>
                             </div>
                         </center>
                         <t t-set="etape1"
                            t-value="doc.parent_id.nom_client"/>
-
                         <div class="table_deco">
                             <table class="table_content">
                                 <tbody>
@@ -228,46 +232,46 @@
                                                 <t t-esc="etape1.activity_code"/>
                                             </span>
                                         </td>
-                                        <td style="font-weight: bold;" t-if="etape1.activity_description">
+                                        <td style="font-weight: bold;">
                                             النشاط
                                         </td>
-                                        <td t-if="etape1.activity_description">
+                                        <td>
                                             <span>
                                                 <t t-esc="etape1.activity_description"/>
                                             </span>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td style="font-weight: bold;" t-if="etape1.nif">
+                                        <td style="font-weight: bold;">
                                             NIF
                                         </td>
-                                        <td t-if="etape1.nif">
+                                        <td>
                                             <span>
                                                 <t t-esc="etape1.nif"/>
                                             </span>
                                         </td>
-                                        <td style="font-weight: bold;" t-if="etape1.rc">
+                                        <td style="font-weight: bold;">
                                             RC
                                         </td>
-                                        <td t-if="etape1.rc">
+                                        <td>
                                             <span>
                                                 <t t-esc="etape1.rc"/>
                                             </span>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td style="font-weight: bold; direction: rtl;" t-if="etape1.phone">
+                                        <td style="font-weight: bold; direction: rtl;">
                                             الهاتف
                                         </td>
-                                        <td t-if="etape1.phone" style="text-align: right; direction: ltr;">
+                                        <td style="text-align: right; direction: ltr;">
                                             <span>
                                                 <t t-esc="etape1.phone"/>
                                             </span>
                                         </td>
-                                        <td style="font-weight: bold;" t-if="etape1.email">
+                                        <td style="font-weight: bold;">
                                             البريد الإلكتروني
                                         </td>
-                                        <td t-if="etape1.email">
+                                        <td>
                                             <span>
                                                 <t t-esc="etape1.email"/>
                                             </span>
@@ -295,7 +299,7 @@
                                         <td style="font-weight: bold;" t-if="doc.parent_id.demande">
                                             نوع الطلب
                                         </td>
-                                        <td t-if="doc.parent_id.demande">
+                                        <td t-if="doc.parent_id.demande" colspan="3">
                                             <span>
                                                 <t t-esc="doc.parent_id.demande.name"/>
                                             </span>
@@ -449,15 +453,15 @@
                                                 <t t-esc="doc.partner_id.name"/>
                                             </td>
                                             <td>
-                                                <t t-esc="'{0:,.2f}'.format(doc.resultat_scoring  / 1000)"/>%
+                                                <t t-esc="'{0:,.3f}'.format(doc.resultat_scoring  / 1000)"/>%
                                             </td>
                                             <td>
+                                                <t t-esc="doc.classif"/>
                                             </td>
                                             <td>
                                                 <t t-esc="doc.niveau_risque"/>
                                             </td>
                                             <td>
-                                                <t t-esc="doc.classif"/>
                                             </td>
                                             <td>
                                                 <t t-esc="int(doc.pourcentage * 100)"/>%
@@ -508,10 +512,8 @@
                                             <td>
                                                 <t t-esc="doc.partner_id.name"/>
                                             </td>
-                                            <td t-if="etape1.classification">
-                                                <span>
-                                                    <t t-esc="etape1.classification.name"/>
-                                                </span>
+                                            <td>
+                                                <span t-field="doc.taille"/>
                                             </td>
                                             <td>
                                                 <t t-esc="'{0:,.2f}'.format(doc.chiffre_affaire)"/>
@@ -524,7 +526,51 @@
                                 </table>
                             </div>
                             <br/>
-                            <div class="table_deco" style="margin-top: 20px">
+                            <div class="table_deco">
+                                <table class="reversed-table" t-if="etape.facilite_propose">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="5" class="title-cell">التسهيلات المقترحة</th>
+                                        </tr>
+                                        <tr>
+                                            <th class="title-cell">نوع التسهيلات</th>
+                                            <th class="title-cell">المبلغ المقترح م/دج</th>
+                                            <th class="title-cell">التامين النقدي</th>
+                                            <th class="title-cell">المدة (الايام)</th>
+                                            <th class="title-cell">الشروط</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="etape.facilite_propose" t-as="line">
+                                            <tr>
+                                                <td>
+                                                    <t t-foreach="line.type_demande_ids" t-as="demande">
+                                                        <t t-if="len(line.type_demande_ids) != 1 and demande != line.type_demande_ids[-1]">
+                                                            <t t-esc="demande.name"/>/
+                                                        </t>
+                                                        <t t-if="len(line.type_demande_ids) == 1 or demande == line.type_demande_ids[-1]">
+                                                            <t t-esc="demande.name"/>
+                                                        </t>
+                                                    </t>
+                                                </td>
+                                                <td>
+                                                    <t t-esc="'{0:,.0f}'.format(line.montant_dz)"/>
+                                                </td>
+                                                <td>
+                                                    <t t-esc="int(line.preg * 100)"/>%
+                                                </td>
+                                                <td>
+                                                    <t t-esc="line.duree"/>
+                                                </td>
+                                                <td>
+                                                    <t t-esc="line.condition"/>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!--<div class="table_deco" style="margin-top: 20px">
                                 <table class="reversed-table" style="text-align: center">
                                     <thead>
                                         <tr>
@@ -595,7 +641,7 @@
                                         </t>
                                     </tbody>
                                 </table>
-                            </div>
+                            </div>-->
                             <br/>
                             <div class="table_deco">
                                 <table class="reversed-table">
@@ -665,30 +711,32 @@
                             <div class="table_deco" style="margin-top: 20px">
                                 <table class="reversed-table">
                                     <tbody>
-                                        <tr>
+                                        <tr height="100px">
                                             <td>
                                                 تقرير منجز من طرف
                                             </td>
-                                            <td width="40%">
-                                                <t t-esc="etape4.assigned_to_risque.name"/>
+                                            <td width="40%">المحلل
+                                                <t t-esc="etape4.assigned_to_risque.partner_id.nom_arabe"/>
                                             </td>
                                             <td width="40%">
                                             </td>
                                         </tr>
-                                        <tr>
+                                        <tr height="100px">
                                             <td>
                                                 تقرير مراجع من طرف
                                             </td>
                                             <td width="40%">
+                                                رئيس دائرة مخاطر التمويلات
                                             </td>
                                             <td width="40%">
                                             </td>
                                         </tr>
-                                        <tr>
+                                        <tr height="100px">
                                             <td>
                                                 تقرير مصادق من طرف
                                             </td>
                                             <td width="40%">
+                                                رئيس خلية ادارة المخاطر
                                             </td>
                                             <td width="40%">
                                             </td>

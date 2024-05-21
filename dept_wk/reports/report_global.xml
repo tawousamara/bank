@@ -253,7 +253,6 @@
                                                 <t t-esc="doc.nom_client.rc"/>
                                             </td>
                                         </tr>
-
                                     </tbody>
                                 </table>
                                 <br/>
@@ -272,15 +271,21 @@
                                                     المحلل المالي
                                                 </td>
                                                 <td colspan="2">
-                                                    <t t-esc="doc.assigned_to_finance.name"/>
+                                                    <t t-esc="doc.assigned_to_finance.partner_id.nom_arabe"/>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td class="title-cell">
                                                     سلطة القرار
                                                 </td>
-                                                <td colspan="5">
+                                                <td colspan="2">
                                                     <t t-esc="etape2.comite.name"/>
+                                                </td>
+                                                <td class="title-cell">
+                                                    مسؤول العلاقة
+                                                </td>
+                                                <td colspan="2">
+                                                    <t t-esc="doc.assigned_to_agence.partner_id.nom_arabe"/>
                                                 </td>
                                             </tr>
 
@@ -303,7 +308,7 @@
                                                     النشاط الرئيسي
                                                 </td>
                                                 <td colspan="2">
-                                                    <t t-esc="etape1.activite.domaine"/>
+                                                    <t t-esc="etape1.activity_description"/>
                                                 </td>
                                                 <td class="title-cell">
                                                     رمز النشاط
@@ -317,7 +322,7 @@
                                                     النشاط الثانوي
                                                 </td>
                                                 <td colspan="2">
-                                                    <t t-esc="etape1.activity_description"/>
+                                                    <t t-esc="etape1.activite_sec"/>
                                                 </td>
                                                 <td class="title-cell">
                                                     رمز النشاط
@@ -345,13 +350,13 @@
                                                     راس المال الشركة
                                                 </td>
                                                 <td colspan="2">
-                                                    <t t-esc="'{0:,.0f}'.format(etape1.chiffre_affaire / 1000)"/>
+                                                    <t t-esc="'{0:,.2f}'.format(etape1.chiffre_affaire / 1000)"/>
                                                 </td>
                                                 <td class="title-cell">
                                                     راس المال الحالي
                                                 </td>
                                                 <td colspan="2">
-                                                    <t t-esc="'{0:,.0f}'.format(etape1.chiffre_affaire / 1000)"/>
+                                                    <t t-esc="'{0:,.2f}'.format(etape1.chiffre_affaire / 1000)"/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -492,8 +497,9 @@
                                 </div>
                                 <br/>
                                 <!-- اعرف عميلك KYC -->
+                                <t t-set="has_kyc" t-value="etape1.kyc.filtered(lambda l:l.answer != False)"/>
                                 <div class="table_deco">
-                                    <table class="reversed-table" t-if="etape1.kyc">
+                                    <table class="reversed-table" t-if="len(has_kyc) != 0">
                                         <thead>
                                             <tr>
                                                 <th colspan="3" style="text-align: center" class="title-cell">اعرف عميلك
@@ -571,8 +577,13 @@
                                 </div>
                                 <br/>
                                 <!-- عدد العمال (حسب الفئة المهنية) -->
+                                <t t-set="has_employee_stable"
+                                   t-value="etape1.employees.filtered(lambda l:l.poste_permanent != 0)"/>
+                                <t t-set="has_employee_non_stable"
+                                   t-value="etape1.employees.filtered(lambda l:l.poste_non_permanent != 0)"/>
                                 <div class="table_deco">
-                                    <table class="reversed-table" t-if="etape1.employees">
+                                    <table class="reversed-table"
+                                           t-if="len(has_employee_stable) != 0 or len(has_employee_non_stable) != 0">
                                         <thead>
                                             <tr>
                                                 <th colspan="3" style="text-align: center" class="title-cell">عدد العمال
@@ -620,7 +631,7 @@
                                         </thead>
                                         <tbody>
                                             <t t-foreach="etape1.sieges" t-as="line">
-                                                <tr>
+                                                <tr t-if="line.adresse">
                                                     <td>
                                                         <t t-esc="line.name"/>
                                                     </td>
@@ -673,7 +684,7 @@
                                     </table>
                                 </div>
                                 <br/>
-                                <!-- 3 ans البيانات المالية المدققة -->
+                                <!-- 3 ans البيانات المالية المدققة
                                 <div class="table_deco">
                                     <table class="reversed-table" t-if="etape1.situations_fin">
                                         <t t-set="situation_fin_year"
@@ -736,7 +747,7 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                <br/>
+                                <br/>-->
                                 <!-- تفاصيل التسهيلات الممنوحة -->
                                 <div class="table_deco">
                                     <table class="reversed-table" t-if="etape2.facilite_accorde">
@@ -797,7 +808,8 @@
                                 <br/>
                                 <!-- تفاصيل الضمانات -->
                                 <div class="table_deco">
-                                    <table class="reversed-table" t-if="etape2.detail_garantie_actuel_ids">
+                                    <table class="reversed-table"
+                                           t-if="etape2.detail_garantie_actuel_ids or etape2.detail_garantie_propose_ids">
                                         <thead>
                                             <tr>
                                                 <th colspan="6" style="text-align: center; font-size: 17px"
@@ -906,8 +918,15 @@
                                 </div>
                                 <br/>
                                 <!-- الشروط السابقة/المقترحة -->
+                                <t t-set="has_conf"
+                                   t-value="etape1.garantie_conf.filtered(lambda l:l.answer != False)"/>
+                                <t t-set="has_fin" t-value="etape1.garantie_fin.filtered(lambda l:l.answer != False)"/>
+                                <t t-set="has_autre"
+                                   t-value="etape1.garantie_autres.filtered(lambda l:l.answer != False)"/>
+
                                 <div class="table_deco">
-                                    <table class="reversed-table" t-if="etape2.garantie_conf">
+                                    <table class="reversed-table"
+                                           t-if="len(has_conf) != 0 or len(has_fin) != 0 or len(has_autre) != 0">
                                         <thead>
                                             <tr>
                                                 <th colspan="3" style="text-align: center" class="title-cell">
@@ -922,69 +941,75 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <t t-foreach="etape2.garantie_conf" t-as="line">
-                                                <tr>
-                                                    <td>
-                                                        <t t-esc="line.info"/>
-                                                    </td>
-                                                    <td>
-                                                        <t t-if="line.answer == 'oui'">
-                                                            نعم
-                                                        </t>
-                                                        <t t-elif="line.answer == 'non'">
-                                                            لا
-                                                        </t>
-                                                    </td>
-                                                    <td>
-                                                        <t t-esc="line.detail"/>
-                                                    </td>
-                                                </tr>
+                                            <t t-if="len(has_conf) != 0">
+                                                <t t-foreach="etape2.garantie_conf" t-as="line">
+                                                    <tr>
+                                                        <td>
+                                                            <t t-esc="line.info"/>
+                                                        </td>
+                                                        <td>
+                                                            <t t-if="line.answer == 'oui'">
+                                                                نعم
+                                                            </t>
+                                                            <t t-elif="line.answer == 'non'">
+                                                                لا
+                                                            </t>
+                                                        </td>
+                                                        <td>
+                                                            <t t-esc="line.detail"/>
+                                                        </td>
+                                                    </tr>
+                                                </t>
                                             </t>
-                                            <tr>
+                                            <tr t-if="len(has_fin) != 0">
                                                 <th colspan="3" style="text-align: center" class="title-cell">
                                                     الشروط المالية
                                                 </th>
                                             </tr>
-                                            <t t-foreach="etape2.garantie_fin" t-as="line">
-                                                <tr>
-                                                    <td>
-                                                        <t t-esc="line.info"/>
-                                                    </td>
-                                                    <td>
-                                                        <t t-if="line.answer == 'oui'">
-                                                            نعم
-                                                        </t>
-                                                        <t t-elif="line.answer == 'non'">
-                                                            لا
-                                                        </t>
-                                                    </td>
-                                                    <td>
-                                                        <t t-esc="line.detail"/>
-                                                    </td>
-                                                </tr>
+                                            <t t-if="len(has_fin) != 0">
+                                                <t t-foreach="etape2.garantie_fin" t-as="line">
+                                                    <tr>
+                                                        <td>
+                                                            <t t-esc="line.info"/>
+                                                        </td>
+                                                        <td>
+                                                            <t t-if="line.answer == 'oui'">
+                                                                نعم
+                                                            </t>
+                                                            <t t-elif="line.answer == 'non'">
+                                                                لا
+                                                            </t>
+                                                        </td>
+                                                        <td>
+                                                            <t t-esc="line.detail"/>
+                                                        </td>
+                                                    </tr>
+                                                </t>
                                             </t>
-                                            <tr>
+                                            <tr t-if="len(has_autre) != 0">
                                                 <th colspan="3" style="text-align: center" class="title-cell">
                                                     الشروط الاخرى
                                                 </th>
                                             </tr>
-                                            <t t-foreach="etape2.garantie_autres" t-as="line">
-                                                <tr>
-                                                    <td>
-                                                        <t t-esc="line.info"/>
-                                                    </td>
-                                                    <td>
-                                                        <t t-if="line.answer == 'oui'">
-                                                            نعم
-                                                        </t>
-                                                        <t t-elif="line.answer == 'non'">
-                                                            لا
-                                                        </t>
-                                                    </td>
-                                                    <td>
-                                                        <t t-esc="line.detail"/>
-                                                    </td>
-                                                </tr>
+                                            <t t-if="len(has_autre) != 0">
+                                                <t t-foreach="etape2.garantie_autres" t-as="line">
+                                                    <tr>
+                                                        <td>
+                                                            <t t-esc="line.info"/>
+                                                        </td>
+                                                        <td>
+                                                            <t t-if="line.answer == 'oui'">
+                                                                نعم
+                                                            </t>
+                                                            <t t-elif="line.answer == 'non'">
+                                                                لا
+                                                            </t>
+                                                        </td>
+                                                        <td>
+                                                            <t t-esc="line.detail"/>
+                                                        </td>
+                                                    </tr>
+                                                </t>
                                             </t>
                                         </tbody>
                                     </table>
@@ -1319,7 +1344,6 @@
                                                     </table>
                                                 </td>
                                             </tr>
-
                                             <tr t-if="etape3.analyse_relation">
                                                 <td class="title-cell" width="25%">
                                                     اهمية العلاقة
@@ -1395,8 +1419,10 @@
                                 <br/>
                                 <!-- البيانات المالية الموجزة للشركات ذات
                                                     الصلة-->
+                                <t t-set="has_comp_fisc"
+                                   t-value="etape2.companies_fisc.filtered(lambda l: (l.year_3 != 0 or l.year_4 != 0) and l.sequence != 0)"/>
                                 <div class="table_deco">
-                                    <table class="reversed-table" t-if="etape2.companies_fisc">
+                                    <table class="reversed-table" t-if="len(has_comp_fisc) != 0">
                                         <t t-set="comp_fisc_year"
                                            t-value="etape2.companies_fisc.filtered(lambda l:l.sequence == 0)"/>
                                         <t t-set="comp_fisc_lines"
@@ -1499,6 +1525,21 @@
                                 </div>
                                 <br/>
                                 <div class="table_deco">
+                                    <t t-set="has_year_1_2"
+                                       t-value="etape2.bilan1_id.filtered(lambda l:l.sequence != 0 and (l.year_1 != 0 or l.year_2 != 0))"/>
+                                    <t t-set="has_year_3_4"
+                                       t-value="etape2.bilan1_id.filtered(lambda l:l.sequence != 0 and (l.year_3 != 0 or l.year_4 != 0))"/>
+                                    <t t-if="len(has_year_3_4) != 0 and len(has_year_1_2) != 0">
+                                        <t t-set="col_value" t-value="6"/>
+                                    </t>
+                                    <t t-elif="(len(has_year_3_4) == 0 and len(has_year_1_2) != 0) or (len(has_year_3_4) != 0 and len(has_year_1_2) == 0)">
+                                        <t t-set="col_value" t-value="4"/>
+                                    </t>
+                                    <t t-else="">
+                                        <t t-set="col_value" t-value="2"/>
+                                    </t>
+
+
                                     <table class="reversed-table" t-if="etape2.bilan1_id">
                                         <t t-set="bilan1_year"
                                            t-value="etape2.bilan1_id.filtered(lambda l:l.sequence == 0)"/>
@@ -1524,20 +1565,22 @@
                                         <t t-set="bilan5_all" t-value="bilan5_lines[1:]"/>
                                         <thead>
                                             <tr>
-                                                <th class="title-cell" colspan="7">البيانات المالية للشركة</th>
+                                                <th class="title-cell" t-att-colspan="col_value + 1">البيانات المالية
+                                                    للشركة
+                                                </th>
                                             </tr>
                                             <tr>
                                                 <th class="title-cell" colspan="2">البيان</th>
-                                                <th class="title-cell">
+                                                <th class="title-cell" t-if="len(has_year_1_2) != 0">
                                                     <t t-esc="int(bilan1_year.year_1)"/>
                                                 </th>
-                                                <th class="title-cell">
+                                                <th class="title-cell" t-if="len(has_year_1_2) != 0">
                                                     <t t-esc="int(bilan1_year.year_2)"/>
                                                 </th>
-                                                <th class="title-cell">
+                                                <th class="title-cell" t-if="len(has_year_3_4) != 0">
                                                     <t t-esc="int(bilan1_year.year_3)"/>
                                                 </th>
-                                                <th class="title-cell">
+                                                <th class="title-cell" t-if="len(has_year_3_4) != 0">
                                                     <t t-esc="int(bilan1_year.year_4)"/>
                                                 </th>
                                                 <th class="title-cell">التغير</th>
@@ -1553,7 +1596,8 @@
                                                 <td>
                                                     <t t-esc="bilan1_first.declaration"/>
                                                 </td>
-                                                <td style="text-align: right; direction: ltr;">
+                                                <td style="text-align: right; direction: ltr;"
+                                                    t-if="len(has_year_1_2) != 0">
                                                     <t t-if="bilan1_first.is_null_1">
                                                         N.D
                                                     </t>
@@ -1565,7 +1609,8 @@
                                                         <t t-esc="'{0:,.0f}'.format(bilan1_first.year_1 / 1000)"/>
                                                     </t>
                                                 </td>
-                                                <td style="text-align: right; direction: ltr;">
+                                                <td style="text-align: right; direction: ltr;"
+                                                    t-if="len(has_year_1_2) != 0">
                                                     <t t-if="bilan1_first.is_null_2">
                                                         N.D
                                                     </t>
@@ -1577,7 +1622,8 @@
                                                         <t t-esc="'{0:,.0f}'.format(bilan1_first.year_2 / 1000)"/>
                                                     </t>
                                                 </td>
-                                                <td style="text-align: right; direction: ltr;">
+                                                <td style="text-align: right; direction: ltr;"
+                                                    t-if="len(has_year_3_4) != 0">
                                                     <t t-if="bilan1_first.is_null_3">
                                                         N.D
                                                     </t>
@@ -1589,7 +1635,8 @@
                                                         <t t-esc="'{0:,.0f}'.format(bilan1_first.year_3 / 1000)"/>
                                                     </t>
                                                 </td>
-                                                <td style="text-align: right; direction: ltr;">
+                                                <td style="text-align: right; direction: ltr;"
+                                                    t-if="len(has_year_3_4) != 0">
                                                     <t t-if="bilan1_first.is_null_4">
                                                         N.D
                                                     </t>
@@ -1610,7 +1657,8 @@
                                                     <td>
                                                         <t t-esc="line.declaration"/>
                                                     </td>
-                                                    <td style="text-align: right; direction: ltr;">
+                                                    <td style="text-align: right; direction: ltr;"
+                                                        t-if="len(has_year_1_2) != 0">
                                                         <t t-if="line.is_null_1">
                                                             N.D
                                                         </t>
@@ -1622,7 +1670,8 @@
                                                             <t t-esc="'{0:,.0f}'.format(line.year_1 / 1000)"/>
                                                         </t>
                                                     </td>
-                                                    <td style="text-align: right; direction: ltr;">
+                                                    <td style="text-align: right; direction: ltr;"
+                                                        t-if="len(has_year_1_2) != 0">
                                                         <t t-if="line.is_null_2">
                                                             N.D
                                                         </t>
@@ -1634,7 +1683,8 @@
                                                             <t t-esc="'{0:,.0f}'.format(line.year_2 / 1000)"/>
                                                         </t>
                                                     </td>
-                                                    <td style="text-align: right; direction: ltr;">
+                                                    <td style="text-align: right; direction: ltr;"
+                                                        t-if="len(has_year_3_4) != 0">
                                                         <t t-if="line.is_null_3">
                                                             N.D
                                                         </t>
@@ -1646,7 +1696,8 @@
                                                             <t t-esc="'{0:,.0f}'.format(line.year_3 / 1000)"/>
                                                         </t>
                                                     </td>
-                                                    <td style="text-align: right; direction: ltr;">
+                                                    <td style="text-align: right; direction: ltr;"
+                                                        t-if="len(has_year_3_4) != 0">
                                                         <t t-if="line.is_null_4">
                                                             N.D
                                                         </t>
@@ -1667,7 +1718,7 @@
                                                 <td class="title-cell">
                                                     تعليق
                                                 </td>
-                                                <td colspan="6">
+                                                <td t-att-colspan="col_value">
                                                     <t t-esc="etape2.comment_cat1"/>
                                                 </td>
                                             </tr>
@@ -1681,7 +1732,8 @@
                                                 <td>
                                                     <t t-esc="bilan2_first.declaration"/>
                                                 </td>
-                                                <td style="text-align: right; direction: ltr;">
+                                                <td style="text-align: right; direction: ltr;"
+                                                    t-if="len(has_year_1_2) != 0">
                                                     <t t-if="bilan2_first.is_null_1">
                                                         N.D
                                                     </t>
@@ -1693,7 +1745,8 @@
                                                         <t t-esc="'{0:,.0f}'.format(bilan2_first.year_1 / 1000)"/>
                                                     </t>
                                                 </td>
-                                                <td style="text-align: right; direction: ltr;">
+                                                <td style="text-align: right; direction: ltr;"
+                                                    t-if="len(has_year_1_2) != 0">
                                                     <t t-if="bilan2_first.is_null_2">
                                                         N.D
                                                     </t>
@@ -1705,7 +1758,8 @@
                                                         <t t-esc="'{0:,.0f}'.format(bilan2_first.year_2 / 1000)"/>
                                                     </t>
                                                 </td>
-                                                <td style="text-align: right; direction: ltr;">
+                                                <td style="text-align: right; direction: ltr;"
+                                                    t-if="len(has_year_3_4) != 0">
                                                     <t t-if="bilan2_first.is_null_3">
                                                         N.D
                                                     </t>
@@ -1717,7 +1771,8 @@
                                                         <t t-esc="'{0:,.0f}'.format(bilan2_first.year_3 / 1000)"/>
                                                     </t>
                                                 </td>
-                                                <td style="text-align: right; direction: ltr;">
+                                                <td style="text-align: right; direction: ltr;"
+                                                    t-if="len(has_year_3_4) != 0">
                                                     <t t-if="bilan2_first.is_null_4">
                                                         N.D
                                                     </t>
@@ -1738,7 +1793,8 @@
                                                     <td>
                                                         <t t-esc="line.declaration"/>
                                                     </td>
-                                                    <td style="text-align: right; direction: ltr;">
+                                                    <td style="text-align: right; direction: ltr;"
+                                                        t-if="len(has_year_1_2) != 0">
                                                         <t t-if="line.is_null_1">
                                                             N.D
                                                         </t>
@@ -1750,7 +1806,8 @@
                                                             <t t-esc="'{0:,.0f}'.format(line.year_1 / 1000)"/>
                                                         </t>
                                                     </td>
-                                                    <td style="text-align: right; direction: ltr;">
+                                                    <td style="text-align: right; direction: ltr;"
+                                                        t-if="len(has_year_1_2) != 0">
                                                         <t t-if="line.is_null_2">
                                                             N.D
                                                         </t>
@@ -1762,7 +1819,8 @@
                                                             <t t-esc="'{0:,.0f}'.format(line.year_2 / 1000)"/>
                                                         </t>
                                                     </td>
-                                                    <td style="text-align: right; direction: ltr;">
+                                                    <td style="text-align: right; direction: ltr;"
+                                                        t-if="len(has_year_3_4) != 0">
                                                         <t t-if="line.is_null_3">
                                                             N.D
                                                         </t>
@@ -1774,7 +1832,8 @@
                                                             <t t-esc="'{0:,.0f}'.format(line.year_3 / 1000)"/>
                                                         </t>
                                                     </td>
-                                                    <td style="text-align: right; direction: ltr;">
+                                                    <td style="text-align: right; direction: ltr;"
+                                                        t-if="len(has_year_3_4) != 0">
                                                         <t t-if="line.is_null_4">
                                                             N.D
                                                         </t>
@@ -1795,7 +1854,7 @@
                                                 <td class="title-cell">
                                                     تعليق
                                                 </td>
-                                                <td colspan="6">
+                                                <td t-att-colspan="col_value">
                                                     <t t-esc="etape2.comment_cat2"/>
                                                 </td>
                                             </tr>
@@ -1809,7 +1868,8 @@
                                                 <td>
                                                     <t t-esc="bilan3_first.declaration"/>
                                                 </td>
-                                                <td style="text-align: right; direction: ltr;">
+                                                <td style="text-align: right; direction: ltr;"
+                                                    t-if="len(has_year_1_2) != 0">
                                                     <t t-if="bilan3_first.is_null_1">
                                                         N.D
                                                     </t>
@@ -1817,7 +1877,8 @@
                                                         <t t-esc="'{0:,.0f}'.format(bilan3_first.year_1 / 1000)"/>
                                                     </t>
                                                 </td>
-                                                <td style="text-align: right; direction: ltr;">
+                                                <td style="text-align: right; direction: ltr;"
+                                                    t-if="len(has_year_1_2) != 0">
                                                     <t t-if="bilan3_first.is_null_2">
                                                         N.D
                                                     </t>
@@ -1825,7 +1886,8 @@
                                                         <t t-esc="'{0:,.0f}'.format(bilan3_first.year_2 / 1000)"/>
                                                     </t>
                                                 </td>
-                                                <td style="text-align: right; direction: ltr;">
+                                                <td style="text-align: right; direction: ltr;"
+                                                    t-if="len(has_year_3_4) != 0">
                                                     <t t-if="bilan3_first.is_null_3">
                                                         N.D
                                                     </t>
@@ -1833,7 +1895,8 @@
                                                         <t t-esc="'{0:,.0f}'.format(bilan3_first.year_3 / 1000)"/>
                                                     </t>
                                                 </td>
-                                                <td style="text-align: right; direction: ltr;">
+                                                <td style="text-align: right; direction: ltr;"
+                                                    t-if="len(has_year_3_4) != 0">
                                                     <t t-if="bilan3_first.is_null_4">
                                                         N.D
                                                     </t>
@@ -1850,7 +1913,8 @@
                                                     <td>
                                                         <t t-esc="line.declaration"/>
                                                     </td>
-                                                    <td style="text-align: right; direction: ltr;">
+                                                    <td style="text-align: right; direction: ltr;"
+                                                        t-if="len(has_year_1_2) != 0">
                                                         <t t-if="line.is_null_1">
                                                             N.D
                                                         </t>
@@ -1862,7 +1926,8 @@
                                                             <t t-esc="'{0:,.0f}'.format(line.year_1 / 1000)"/>
                                                         </t>
                                                     </td>
-                                                    <td style="text-align: right; direction: ltr;">
+                                                    <td style="text-align: right; direction: ltr;"
+                                                        t-if="len(has_year_1_2) != 0">
                                                         <t t-if="line.is_null_2">
                                                             N.D
                                                         </t>
@@ -1874,7 +1939,8 @@
                                                             <t t-esc="'{0:,.0f}'.format(line.year_2 / 1000)"/>
                                                         </t>
                                                     </td>
-                                                    <td style="text-align: right; direction: ltr;">
+                                                    <td style="text-align: right; direction: ltr;"
+                                                        t-if="len(has_year_3_4) != 0">
                                                         <t t-if="line.is_null_3">
                                                             N.D
                                                         </t>
@@ -1886,7 +1952,8 @@
                                                             <t t-esc="'{0:,.0f}'.format(line.year_3 / 1000)"/>
                                                         </t>
                                                     </td>
-                                                    <td style="text-align: right; direction: ltr;">
+                                                    <td style="text-align: right; direction: ltr;"
+                                                        t-if="len(has_year_3_4) != 0">
                                                         <t t-if="line.is_null_4">
                                                             N.D
                                                         </t>
@@ -1907,7 +1974,7 @@
                                                 <td class="title-cell">
                                                     تعليق
                                                 </td>
-                                                <td colspan="6">
+                                                <td t-att-colspan="col_value">
                                                     <t t-esc="etape2.comment_cat3"/>
                                                 </td>
                                             </tr>
@@ -1921,7 +1988,8 @@
                                                 <td>
                                                     <t t-esc="bilan4_first.declaration"/>
                                                 </td>
-                                                <td style="text-align: right; direction: ltr;">
+                                                <td style="text-align: right; direction: ltr;"
+                                                    t-if="len(has_year_1_2) != 0">
                                                     <t t-if="bilan4_first.is_null_1">
                                                         N.D
                                                     </t>
@@ -1929,7 +1997,8 @@
                                                         <t t-esc="'{0:,.0f}'.format(bilan4_first.year_1 / 1000)"/>
                                                     </t>
                                                 </td>
-                                                <td style="text-align: right; direction: ltr;">
+                                                <td style="text-align: right; direction: ltr;"
+                                                    t-if="len(has_year_1_2) != 0">
                                                     <t t-if="bilan4_first.is_null_2">
                                                         N.D
                                                     </t>
@@ -1937,7 +2006,8 @@
                                                         <t t-esc="'{0:,.0f}'.format(bilan4_first.year_2 / 1000)"/>
                                                     </t>
                                                 </td>
-                                                <td style="text-align: right; direction: ltr;">
+                                                <td style="text-align: right; direction: ltr;"
+                                                    t-if="len(has_year_3_4) != 0">
                                                     <t t-if="bilan4_first.is_null_3">
                                                         N.D
                                                     </t>
@@ -1945,7 +2015,8 @@
                                                         <t t-esc="'{0:,.0f}'.format(bilan4_first.year_3 / 1000)"/>
                                                     </t>
                                                 </td>
-                                                <td style="text-align: right; direction: ltr;">
+                                                <td style="text-align: right; direction: ltr;"
+                                                    t-if="len(has_year_3_4) != 0">
                                                     <t t-if="bilan4_first.is_null_4">
                                                         N.D
                                                     </t>
@@ -1962,7 +2033,8 @@
                                                     <td>
                                                         <t t-esc="line.declaration"/>
                                                     </td>
-                                                    <td style="text-align: right; direction: ltr;">
+                                                    <td style="text-align: right; direction: ltr;"
+                                                        t-if="len(has_year_1_2) != 0">
                                                         <t t-if="line.is_null_1">
                                                             N.D
                                                         </t>
@@ -1974,7 +2046,8 @@
                                                             <t t-esc="'{0:,.0f}'.format(line.year_1 / 1000)"/>
                                                         </t>
                                                     </td>
-                                                    <td style="text-align: right; direction: ltr;">
+                                                    <td style="text-align: right; direction: ltr;"
+                                                        t-if="len(has_year_1_2) != 0">
                                                         <t t-if="line.is_null_2">
                                                             N.D
                                                         </t>
@@ -1986,7 +2059,8 @@
                                                             <t t-esc="'{0:,.0f}'.format(line.year_2 / 1000)"/>
                                                         </t>
                                                     </td>
-                                                    <td style="text-align: right; direction: ltr;">
+                                                    <td style="text-align: right; direction: ltr;"
+                                                        t-if="len(has_year_3_4) != 0">
                                                         <t t-if="line.is_null_3">
                                                             N.D
                                                         </t>
@@ -1998,7 +2072,8 @@
                                                             <t t-esc="'{0:,.0f}'.format(line.year_3 / 1000)"/>
                                                         </t>
                                                     </td>
-                                                    <td style="text-align: right; direction: ltr;">
+                                                    <td style="text-align: right; direction: ltr;"
+                                                        t-if="len(has_year_3_4) != 0">
                                                         <t t-if="line.is_null_4">
                                                             N.D
                                                         </t>
@@ -2019,7 +2094,7 @@
                                                 <td class="title-cell">
                                                     تعليق
                                                 </td>
-                                                <td colspan="6">
+                                                <td t-att-colspan="col_value">
                                                     <t t-esc="etape2.comment_cat4"/>
                                                 </td>
                                             </tr>
@@ -2033,7 +2108,8 @@
                                                 <td>
                                                     <t t-esc="bilan5_first.declaration"/>
                                                 </td>
-                                                <td style="text-align: right; direction: ltr;">
+                                                <td style="text-align: right; direction: ltr;"
+                                                    t-if="len(has_year_1_2) != 0">
                                                     <t t-if="bilan5_first.is_null_1">
                                                         N.D
                                                     </t>
@@ -2041,7 +2117,8 @@
                                                         <t t-esc="'{0:,.0f}'.format(bilan5_first.year_1 / 1000)"/>
                                                     </t>
                                                 </td>
-                                                <td style="text-align: right; direction: ltr;">
+                                                <td style="text-align: right; direction: ltr;"
+                                                    t-if="len(has_year_1_2) != 0">
                                                     <t t-if="bilan5_first.is_null_2">
                                                         N.D
                                                     </t>
@@ -2049,7 +2126,8 @@
                                                         <t t-esc="'{0:,.0f}'.format(bilan5_first.year_2 / 1000)"/>
                                                     </t>
                                                 </td>
-                                                <td style="text-align: right; direction: ltr;">
+                                                <td style="text-align: right; direction: ltr;"
+                                                    t-if="len(has_year_3_4) != 0">
                                                     <t t-if="bilan5_first.is_null_3">
                                                         N.D
                                                     </t>
@@ -2057,7 +2135,8 @@
                                                         <t t-esc="'{0:,.0f}'.format(bilan5_first.year_3 / 1000)"/>
                                                     </t>
                                                 </td>
-                                                <td style="text-align: right; direction: ltr;">
+                                                <td style="text-align: right; direction: ltr;"
+                                                    t-if="len(has_year_3_4) != 0">
                                                     <t t-if="bilan5_first.is_null_4">
                                                         N.D
                                                     </t>
@@ -2074,7 +2153,8 @@
                                                     <td>
                                                         <t t-esc="line.declaration"/>
                                                     </td>
-                                                    <td style="text-align: right; direction: ltr;">
+                                                    <td style="text-align: right; direction: ltr;"
+                                                        t-if="len(has_year_1_2) != 0">
                                                         <t t-if="line.is_null_1">
                                                             N.D
                                                         </t>
@@ -2086,7 +2166,8 @@
                                                             <t t-esc="'{0:,.0f}'.format(line.year_1 / 1000)"/>
                                                         </t>
                                                     </td>
-                                                    <td style="text-align: right; direction: ltr;">
+                                                    <td style="text-align: right; direction: ltr;"
+                                                        t-if="len(has_year_1_2) != 0">
                                                         <t t-if="line.is_null_2">
                                                             N.D
                                                         </t>
@@ -2098,7 +2179,8 @@
                                                             <t t-esc="'{0:,.0f}'.format(line.year_2 / 1000)"/>
                                                         </t>
                                                     </td>
-                                                    <td style="text-align: right; direction: ltr;">
+                                                    <td style="text-align: right; direction: ltr;"
+                                                        t-if="len(has_year_3_4) != 0">
                                                         <t t-if="line.is_null_3">
                                                             N.D
                                                         </t>
@@ -2110,7 +2192,8 @@
                                                             <t t-esc="'{0:,.0f}'.format(line.year_3 / 1000)"/>
                                                         </t>
                                                     </td>
-                                                    <td style="text-align: right; direction: ltr;">
+                                                    <td style="text-align: right; direction: ltr;"
+                                                        t-if="len(has_year_3_4) != 0">
                                                         <t t-if="line.is_null_4">
                                                             N.D
                                                         </t>
@@ -2131,7 +2214,7 @@
                                                 <td class="title-cell">
                                                     تعليق
                                                 </td>
-                                                <td colspan="6">
+                                                <td t-att-colspan="col_value">
                                                     <t t-esc="etape2.comment_cat5"/>
                                                 </td>
                                             </tr>
@@ -2588,7 +2671,7 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td class="title-cell">
+                                                <td>
                                                     <t t-esc="etape1.recommendation_responsable_agence"/>
                                                 </td>
                                             </tr>
@@ -2607,7 +2690,7 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td class="title-cell">
+                                                <td>
                                                     <t t-esc="etape3.recommendation_dir_commercial"/>
                                                 </td>
                                             </tr>
@@ -2626,7 +2709,7 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td class="title-cell">
+                                                <td>
                                                     <t t-esc="etape4.recommandation_dir_risque"/>
                                                 </td>
                                             </tr>
@@ -2645,7 +2728,7 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td class="title-cell">
+                                                <td>
                                                     <t t-esc="etape2.recommandation_dir_fin"/>
                                                 </td>
                                             </tr>
@@ -2658,6 +2741,8 @@
 
                                 <t t-set="etape6"
                                    t-value="doc.states.filtered(lambda l: l.sequence == 6 )"/>
+                                <t t-set="etape9"
+                                   t-value="doc.states.filtered(lambda l: l.sequence == 9)"/>
                                 <div class="table_deco">
                                     <table class="reversed-table" t-if="etape5.recommandation_vice_dir_fin">
                                         <thead>
@@ -2670,8 +2755,27 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td class="title-cell">
+                                                <td>
                                                     <t t-esc="etape5.recommandation_vice_dir_fin"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="table_deco">
+                                    <table class="reversed-table" t-if="etape9.recommandation_dg">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align: center" class="title-cell">
+                                                    <t t-if="etape2.comite.id == 1">توصية المدير العام</t>
+                                                    <t t-else="">قرار المدير العام</t>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <t t-esc="etape9.recommandation_dg"/>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -2679,7 +2783,7 @@
                                 </div>
                                 <br/>
                                 <t t-if="etape2.comite.id != 1">
-                                    <div class="table_deco">
+                                    <div class="table_deco" t-if="etape6.recommandation_fin_comite">
                                         <table class="reversed-table">
                                             <thead>
                                                 <tr>
@@ -2690,15 +2794,14 @@
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td class="title-cell">
-                                                        <t t-esc="etape5.recommandation_fin_comite"/>
+                                                    <td>
+                                                        <t t-esc="etape6.recommandation_fin_comite"/>
                                                     </td>
                                                 </tr>
                                             </tbody>
                                         </table>
                                     </div>
                                 </t>
-
                                 <pageBreak/>
                                 <t t-if="etape2.comite.id == 1">
                                     <div class="table_deco">
@@ -2706,13 +2809,13 @@
                                             <thead>
                                                 <tr>
                                                     <th class="title-cell">
-                                                        اعضاء لجنة التسهيلات
+                                                        اعضاء لجنة التسهيلات المصغرة
                                                     </th>
                                                     <th class="title-cell">
-                                                        رئيس قطاع الخزينة و العمليات المحلية و الدولية ز المالية
+                                                        رئيس قطاع الخزينة و العمليات المحلية و الدولية و المالية
                                                     </th>
                                                     <th class="title-cell">
-                                                        رئيس النشاط التجارية
+                                                        مدير النشاط التجاري للمؤسسات
                                                     </th>
                                                 </tr>
                                                 <tr>
@@ -2725,54 +2828,52 @@
                                                     <th class="title-cell">
                                                         عضوا
                                                     </th>
+                                                </tr>
+                                                <tr height="300px">
+                                                    <td class="title-cell">
+                                                        التوقيع
+                                                    </td>
+                                                    <td>
+
+                                                    </td>
+                                                    <td>
+
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th class="title-cell">
+                                                        اعضاء لجنة التسهيلات المصغرة
+                                                    </th>
+                                                    <th class="title-cell">
+                                                        مديرة الدراسات الإئتمانية للمؤسسات
+                                                    </th>
+                                                    <th class="title-cell">
+                                                        رئيس خلية إدارة المخاطر
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <th class="title-cell">
+                                                        الوظيفة
+                                                    </th>
+                                                    <th class="title-cell">
+                                                        عضوا
+                                                    </th>
+                                                    <th class="title-cell">
+                                                        عضوا
+                                                    </th>
+                                                </tr>
+                                                <tr height="300px">
+                                                    <td class="title-cell">
+                                                        التوقيع
+                                                    </td>
+                                                    <td>
+
+                                                    </td>
+                                                    <td>
+
+                                                    </td>
                                                 </tr>
                                             </thead>
-                                            <tbody>
-                                                <tr height="300px">
-                                                    <td class="title-cell">
-                                                        التوقيع
-                                                    </td>
-                                                    <td>
-
-                                                    </td>
-                                                    <td>
-
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="title-cell">
-                                                        اعضاء لجنة التسهيلات
-                                                    </td>
-                                                    <td class="title-cell">
-                                                        مدير ادارة التمويلات
-                                                    </td>
-                                                    <td class="title-cell">
-                                                        رئيس خلية ادارة المخاطر
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="title-cell">
-                                                        الوظيفة
-                                                    </td>
-                                                    <td class="title-cell">
-                                                        عضوا
-                                                    </td>
-                                                    <td class="title-cell">
-                                                        عضوا
-                                                    </td>
-                                                </tr>
-                                                <tr height="300px">
-                                                    <td class="title-cell">
-                                                        التوقيع
-                                                    </td>
-                                                    <td>
-
-                                                    </td>
-                                                    <td>
-
-                                                    </td>
-                                                </tr>
-                                            </tbody>
                                         </table>
                                     </div>
                                     <br/>
@@ -2787,15 +2888,13 @@
                                                         نائب المدير العام
                                                     </th>
                                                 </tr>
-                                            </thead>
-                                            <tbody>
                                                 <tr>
-                                                    <td class="title-cell" width="25%">
+                                                    <th class="title-cell" width="25%">
                                                         الوظيفة
-                                                    </td>
-                                                    <td class="title-cell" width="75%">
+                                                    </th>
+                                                    <th class="title-cell" width="75%">
                                                         رئيس اللجنة المصغرة
-                                                    </td>
+                                                    </th>
                                                 </tr>
                                                 <tr height="300px">
                                                     <td class="title-cell" width="25%">
@@ -2805,7 +2904,7 @@
 
                                                     </td>
                                                 </tr>
-                                            </tbody>
+                                            </thead>
                                         </table>
                                     </div>
                                 </t>
@@ -2821,13 +2920,13 @@
                                                         رئيس قطاع الخزينة و العمليات المحلية و الدولية و المالية
                                                     </th>
                                                     <th class="title-cell">
-                                                        رئيس النشاط التجارية
+                                                        مدير النشاط التجاري للمؤسسات
                                                     </th>
                                                     <th class="title-cell">
-                                                        مدير الدراسات الاتمانية للمؤسسات
+                                                        مديرة الدراسات الائتمانية للمؤسسات
                                                     </th>
                                                     <th class="title-cell">
-                                                        رئيس خلية ادارة المخاطر
+                                                        رئيس خلية إدارة المخاطر
                                                     </th>
                                                 </tr>
                                                 <tr>
@@ -2847,8 +2946,6 @@
                                                         عضوا
                                                     </th>
                                                 </tr>
-                                            </thead>
-                                            <tbody>
                                                 <tr height="200px">
                                                     <td class="title-cell">
                                                         التوقيع
@@ -2867,38 +2964,38 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="title-cell">
+                                                    <th class="title-cell">
                                                         اعضاء لجنة التسهيلات
-                                                    </td>
-                                                    <td class="title-cell">
+                                                    </th>
+                                                    <th class="title-cell">
                                                         رئيس خلية التحصيل الودي و الجبري
-                                                    </td>
-                                                    <td class="title-cell">
-                                                         مستشار نائب المدير العام المكلف بالاشراف التجاري
-                                                    </td>
-                                                    <td class="title-cell">
-                                                        مدير ادارة التمويلات
-                                                    </td>
-                                                    <td class="title-cell">
-                                                        نائب المدير العام
-                                                    </td>
+                                                    </th>
+                                                    <th class="title-cell">
+                                                        مستشار نائب المدير العام المكلف بالاستشراف التجاري
+                                                    </th>
+                                                    <th class="title-cell">
+                                                        رئيس خلية إدارة التمويلات
+                                                    </th>
+                                                    <th class="title-cell">
+                                                        نائب المدير العام المكلف بالنشاط التجاري
+                                                    </th>
                                                 </tr>
                                                 <tr>
-                                                    <td class="title-cell">
+                                                    <th class="title-cell">
                                                         الوظيفة
-                                                    </td>
-                                                    <td class="title-cell">
+                                                    </th>
+                                                    <th class="title-cell">
                                                         عضوا
-                                                    </td>
-                                                    <td class="title-cell">
+                                                    </th>
+                                                    <th class="title-cell">
                                                         عضوا
-                                                    </td>
-                                                    <td class="title-cell">
+                                                    </th>
+                                                    <th class="title-cell">
                                                         عضوا
-                                                    </td>
-                                                    <td class="title-cell">
+                                                    </th>
+                                                    <th class="title-cell">
                                                         عضوا
-                                                    </td>
+                                                    </th>
                                                 </tr>
                                                 <tr height="300px">
                                                     <td class="title-cell">
@@ -2917,7 +3014,7 @@
 
                                                     </td>
                                                 </tr>
-                                            </tbody>
+                                            </thead>
                                         </table>
                                     </div>
                                     <br/>
@@ -2932,15 +3029,13 @@
                                                         المدير العام
                                                     </th>
                                                 </tr>
-                                            </thead>
-                                            <tbody>
                                                 <tr>
-                                                    <td class="title-cell" width="25%">
+                                                    <th class="title-cell" width="25%">
                                                         الوظيفة
-                                                    </td>
-                                                    <td class="title-cell" width="75%">
+                                                    </th>
+                                                    <th class="title-cell" width="75%">
                                                         رئيس اللجنة
-                                                    </td>
+                                                    </th>
                                                 </tr>
                                                 <tr height="200px">
                                                     <td class="title-cell" width="25%">
@@ -2950,11 +3045,10 @@
 
                                                     </td>
                                                 </tr>
-                                            </tbody>
+                                            </thead>
                                         </table>
                                     </div>
                                 </t>
-
                             </div>
                         </div>
                     </t>
