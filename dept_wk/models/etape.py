@@ -2296,7 +2296,7 @@ class Etape(models.Model):
                 #الالتزامات اتجاه البنوك / الحقوق
                 bilan_19 = rec.bilan_id.filtered(lambda r: r.sequence == 19)
                 bilan_19.write({'year_4': bilan_14.year_4 / passif_1.montant_n if passif_1.montant_n != 0 else 0,
-                                'year_3': bilan_14.year_3 / passif_1.montant_n1 if passif_1.montant_n != 0 else 0,
+                                'year_3': bilan_14.year_3 / passif_1.montant_n1 if passif_1.montant_n1 != 0 else 0,
                                 'year_2': bilan_14.year_2 / passif1_1.montant_n if passif1_1.montant_n != 0 else 0,
                                 'year_1': bilan_14.year_1 / passif1_1.montant_n1 if passif1_1.montant_n1 != 0 else 0,
                                 })
