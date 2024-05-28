@@ -99,5 +99,8 @@
         <record id="product_31" model="wk.product">
             <field name="name">سقف اعتمادات مستنديه/عند ورود المستندات</field>
         </record>
+        <record id="product_32" model="wk.product">
+            <field name="name">بيع لاجل متوسط المدى</field>
+        </record>
     </data>
 </odoo>
