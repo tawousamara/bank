@@ -623,8 +623,7 @@
                                 class="button_secondary" invisible="state_finance == 'finance_1' or sequence != 2"/>
                         <button name="verrouiller_dossier" type="object" string="قبول الملف"
                                 groups="dept_wk.dept_wk_group_analyste"
-                                class="button_secondary"
-                                invisible="state_finance != 'finance_2' or dossier_verouiller"/>
+                                class="button_secondary"/>
                         <notebook invisible="state_finance == 'finance_1' or sequence != 2">
                             <page string="البيانات المالية للشركة (KDA)">
                                 <group string="مؤشرات البنية المالية">
