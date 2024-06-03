@@ -274,11 +274,11 @@ class Etape(models.Model):
                                          domain=lambda self: [('groups_id', 'in', self.env.ref('dept_wk.dept_wk_group_agent_agence').id)])
     state = fields.Selection(related='workflow.state', store=True)
     state_branch = fields.Selection([('branch_1', 'الفرع'),
-                                  ('branch_2', 'مدير الفرع'),
-                                  ('branch_3', ' الفرع'),
-                                  ('branch_4', 'مدير الفرع'),
-                                  ('branch_5', 'انتهاء التحليل'),
-                                  ('branch_rejected', 'طلب مرفوض'),
+                                     ('branch_2', 'مدير الفرع'),
+                                     ('branch_3', ' الفرع'),
+                                     ('branch_4', 'مدير الفرع'),
+                                     ('branch_5', 'انتهاء التحليل'),
+                                     ('branch_rejected', 'طلب مرفوض'),
                                      ], track_visibility='always', string='وضعية الملف')
 
     # fields of branch
@@ -402,6 +402,7 @@ class Etape(models.Model):
                 third.n2_dz = first.n2_dz / second.n2_dz if second.n2_dz != 0 else 0
                 third.n3_dz = first.n3_dz / second.n3_dz if second.n3_dz != 0 else 0
             rec.computed_field = True
+
     companies = fields.One2many('wk.companies', 'etape_id')
     companies_fisc = fields.One2many('wk.companies.fisc', 'etape_id')
     tcr_group = fields.Many2one('import.ocr.tcr', string='TCR')
@@ -412,9 +413,10 @@ class Etape(models.Model):
     visualisation2 = fields.Binary(string='visualisation')
 
     facitlite_existante = fields.One2many('wk.facilite.existante', 'etape_id')
+    risque_ids = fields.One2many('risk.scoring', 'etape_id', string='الشركات ذات الصلة',
+                                 domain="[('is_initial', '=', False)]")
     mouvement_group = fields.One2many('wk.mouvement.group', 'etape_id',
                                       string='الحركة والأعمال الجانبية للمجموعة مع مصرف السلام الجزائر (KDA)')
-
     tcr_id = fields.Many2one('import.ocr.tcr', string='TCR')
     passif_id = fields.Many2one('import.ocr.passif', string='Passif')
     actif_id = fields.Many2one('import.ocr.actif', string='Actif')
@@ -463,7 +465,7 @@ class Etape(models.Model):
     recommandation_dir_fin = fields.Text(string='راي مدير ادارة التمويلات', track_visibility='always')
     montant_demande = fields.Float(string='المبلغ المطلوب')
     montant_propose = fields.Float(string='المبلغ المقترح')
-
+    company_ids = fields.Integer(string='', compute="_compute_company_fisc", )
     date_situation_comptable = fields.Date(string='اخر تاريخ للوضعية المحاسبية')
     visualisation_situation = fields.Binary(string='Chart')
     file_tcr = fields.Binary(string='الملف')
@@ -550,6 +552,26 @@ class Etape(models.Model):
     can_edit = fields.Boolean(string='',compute='compute_readonly')
     can_edit_finance = fields.Boolean(string='',compute='compute_readonly_finance')
 
+    #@api.depends('risque_ids')
+    def _compute_company_fisc(self):
+        print('hiii')
+        for rec in self:
+            if rec.sequence == 2:
+                rec.company_ids = len(rec.risque_ids)
+                print(rec.risque_ids)
+                etape1 = rec.workflow.states.filtered(lambda l:l.sequence == 1)
+                scoring = etape1.risk_scoring
+                for company in rec.risque_ids:
+                    print('company != scoring', company != scoring)
+                    if company != scoring:
+                        company.scoring_id = scoring.id
+                        company.parent_id = rec.workflow.id
+                    else:
+                        company.scoring_id = False
+                        company.etape_id = False
+                        company.is_initial = True
+            else:
+                rec.company_ids = 0
     @api.model
     def create(self, vals):
         res = super(Etape, self).create(vals)
@@ -1413,13 +1435,13 @@ class Etape(models.Model):
                         elif etape_comm.state_commercial == 'commercial_4':
                             rec.state_finance = 'finance_4'
                             rec.workflow.state = '4'
+                            etape_1 = rec.workflow.states.filtered(lambda l:l.sequence == 1)
                             rec.raison_a_revoir = False
                             if not etape_risk:
                                 etape_risk = self.env['wk.etape'].create({'workflow': rec.workflow.id,
                                                                      'etape': self.env.ref('dept_wk.princip_4').id,
                                                                      'risk_scoring': etape_1.risk_scoring.id,
                                                                      'state_risque': 'risque_1'})
-
             elif rec.etape.sequence == 3:
                 if rec.state_commercial == 'commercial_1':
                     rec.state_commercial = 'commercial_2'
@@ -1992,6 +2014,8 @@ class Etape(models.Model):
     def action_open_risk(self):
         for rec in self:
             view_id = self.env.ref('dept_wk.view_risk_scoring_form').id
+            print(rec.workflow.risk_scoring)
+            rec.risk_scoring = rec.workflow.risk_scoring.id
             return {
                 'name': 'ادارة المخاطر',
                 'res_model': 'risk.scoring',
