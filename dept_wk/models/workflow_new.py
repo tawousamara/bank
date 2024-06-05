@@ -62,6 +62,7 @@ class Workflow(models.Model):
                                          ('commercial_4', 'انتهاء التحليل'),
                                          ], string='وضعية الملف (في ادارة الاعمال التجارية)')
 
+
     @api.depends('states')
     def compute_state(self):
         print('exec')
@@ -120,6 +121,11 @@ class Workflow(models.Model):
 
     def compute_visible_states(self):
         for rec in self:
+            print('not scoring')
+            print(rec.risk_scoring)
+            if not rec.risk_scoring:
+                print('not scoring')
+                rec.risk_scoring = rec.states.filtered(lambda l:l.sequence == 1).risk_scoring
             if rec.state == '2':
                 rec.is_in_financial = True
             else:

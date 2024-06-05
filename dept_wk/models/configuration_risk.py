@@ -785,7 +785,11 @@ class Hist(models.Model):
 class ChiffreBank(models.Model):
     _name = 'configuration.risque'
 
-    date_from = fields.Date(string='من')
-    date_to = fields.Date(string='الى')
+    annee = fields.Integer(string='السنة')
+    trimestre = fields.Selection([('1', 'T1'),
+                                  ('2', 'T2'),
+                                  ('3', 'T3'),
+                                  ('4', 'T4'),
+                                  ],string='الفصل')
     montant = fields.Float(string='المبلغ')
 

@@ -56,6 +56,7 @@
                         <field name="dossier_verouiller" invisible="1"/>
                         <field name="active" invisible="1"/>
                         <field name="can_edit" invisible="1"/>
+                        <field name="company_ids" invisible="1"/>
                         <field name="can_edit_finance" invisible="1"/>
                     </div>
                     <div invisible="raison_a_revoir == False" style="border: 2px solid;
@@ -268,7 +269,8 @@
                                 </group>
                             </page>
                             <page string="معلومات حول الشركات ذات الصلة (KDA)">
-                                <field name="companies" readonly="not can_edit or state_branch != 'branch_3' and sequence not in [1, 8]">
+                                <field name="companies"
+                                       readonly="not can_edit or state_branch != 'branch_3' and sequence not in [1, 8]">
                                     <tree editable="bottom">
                                         <field name="name" width="10%"/>
                                         <field name="date_creation" width="10%"/>
@@ -484,11 +486,14 @@
                                 <field name="mouvement" readonly="not can_edit or state_finance != 'finance_2'">
                                     <tree create="0" editable="bottom">
                                         <field name="mouvement" decoration-bf="sequence == 0" readonly="1"/>
-                                        <field name="n3_dz" decoration-bf="sequence == 0" readonly="sequence in [0, 3]"/>
+                                        <field name="n3_dz" decoration-bf="sequence == 0"
+                                               readonly="sequence in [0, 3]"/>
                                         <field name="n3_dollar" optional="hide" readonly="sequence in [0, 3]"/>
-                                        <field name="n2_dz" decoration-bf="sequence == 0" readonly="sequence in [0, 3]"/>
+                                        <field name="n2_dz" decoration-bf="sequence == 0"
+                                               readonly="sequence in [0, 3]"/>
                                         <field name="n2_dollar" optional="hide" readonly="sequence in [0, 3]"/>
-                                        <field name="n1_dz" decoration-bf="sequence == 0" readonly="sequence in [0, 3]"/>
+                                        <field name="n1_dz" decoration-bf="sequence == 0"
+                                               readonly="sequence in [0, 3]"/>
                                         <field name="n1_dollar" optional="hide" readonly="sequence in [0, 3]"/>
                                         <field name="n_dz" decoration-bf="sequence == 0" readonly="sequence in [0, 3]"/>
                                         <field name="n_dollar" optional="hide" readonly="sequence in [0, 3]"/>
@@ -504,7 +509,333 @@
                         </notebook>
                         <notebook invisible="state_finance == 'finance_1' or sequence != 2">
                             <page string="البيانات المالية الموجزة للشركات ذات الصلة (KDA)">
-                                <group col="3">
+                                <field name="workflow" invisible="1"/>
+                                <field name="risque_ids" mode="kanban"
+                                       context="{'default_etape_id': active_id, 'default_parent_id': workflow}">
+                                    <kanban>
+                                        <field name="name"/>
+                                        <field name="partner_id"/>
+                                        <field name="groupe"/>
+                                        <field name="secteur"/>
+                                        <templates>
+                                            <t t-name="kanban-box">
+                                                <div t-attf-class="oe_kanban_global_click">
+                                                    <div class="oe_kanban_details">
+                                                        <field name="name"/>
+                                                        <div t-if="record.partner_id">Client:
+                                                            <field name="partner_id"/>
+                                                        </div>
+                                                        <div t-if="record.groupe">Groupe:
+                                                            <field name="groupe"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </t>
+                                        </templates>
+                                    </kanban>
+                                    <form>
+                                        <sheet>
+                                            <group>
+                                                <field name="name"/>
+                                                <field name="date"/>
+                                                <field name="groupe" invisible="1"/>
+                                                <field name="is_branch" invisible="1"/>
+                                                <field name="partner_id" domain="[('groupe','=', groupe)]"/>
+                                                <field name="critere_qual"/>
+                                                <field name="critere_quant"/>
+                                            </group>
+                                            <group class="col-3">
+                                                <field name="tcr_id" invisible="1"/>
+                                                <group invisible="not tcr_id">
+                                                    <field name="tcr_id"
+                                                           groups="dept_wk.dept_wk_group_responsable_credit"
+                                                           style="display: inline-block;"/>
+                                                </group>
+                                                <group invisible="not tcr_id">
+                                                    <button name="open_file" string="" icon="fa-eye" type="object"
+                                                            style="display: inline-block;color: #808080; background-color: white"/>
+                                                </group>
+                                                <group invisible="tcr_id">
+                                                    <button name="create_file_tcr" string="انشاء TCR"
+                                                            type="object"
+                                                            style="display: inline-block;color: #808080; background-color: white"/>
+                                                </group>
+                                            </group>
+                                            <group class="col-3">
+                                                <field name="passif_id" invisible="1"/>
+                                                <group invisible="not passif_id">
+                                                    <field name="passif_id"
+                                                           groups="dept_wk.dept_wk_group_responsable_credit"
+                                                           style="display: inline-block;"/>
+                                                </group>
+                                                <group invisible="not passif_id">
+                                                    <button name="open_file_passif" string="" icon="fa-eye"
+                                                            type="object"
+                                                            style="display: inline-block;color: #808080; background-color: white"/>
+                                                </group>
+                                                <group invisible="passif_id">
+                                                    <button name="create_file_passif" string="انشاء Passif"
+                                                            type="object"
+                                                            style="display: inline-block;color: #808080; background-color: white"/>
+                                                </group>
+                                            </group>
+                                            <group class="col-3">
+                                                <field name="actif_id" invisible="1"/>
+                                                <group invisible="not actif_id">
+                                                    <field name="actif_id"
+                                                           groups="dept_wk.dept_wk_group_responsable_credit"/>
+                                                </group>
+                                                <group invisible="not actif_id">
+                                                    <button name="open_file_actif" string="" icon="fa-eye"
+                                                            type="object"
+                                                            style="display: inline-block;color: #808080; background-color: white"/>
+                                                </group>
+                                                <group invisible="actif_id">
+                                                    <button name="create_file_actif" string="انشاء Actif"
+                                                            type="object"
+                                                            style="display: inline-block;color: #808080; background-color: white"/>
+                                                </group>
+                                            </group>
+                                            <notebook>
+                                                <page string="البيانات المالية الموجزة (KDA)">
+                                                    <button name="import_data_group" type="object"
+                                                            string="حمل البيانات"
+                                                            class="button_secondary"/>
+                                                    <field name="companies_fisc">
+                                                        <tree editable="bottom" create="0" delete="0">
+                                                            <field name="declaration" readonly="1"
+                                                                   decoration-bf="sequence == 0"/>
+                                                            <field name="year_3" readonly="sequence == 0"
+                                                                   decoration-bf="sequence == 0"/>
+                                                            <field name="year_4" readonly="sequence == 0"
+                                                                   decoration-bf="sequence == 0"/>
+                                                            <field name="sequence" column_invisible="True"/>
+                                                        </tree>
+                                                    </field>
+                                                </page>
+                                                <page string="المعايير النوعية">
+                                                    <group>
+                                                        <field name="scoring_qualitatif" invisible="is_branch"
+                                                               readonly="1"/>
+                                                    </group>
+                                                    <group col="2" string="الإدارة، التسيير و الخبرة">
+                                                        <field name="original_capital"
+                                                               options="{'no_create': True, 'no_open': True}"/>
+                                                        <field name="comment_origin"/>
+                                                        <field name="actionnariat"
+                                                               options="{'no_create': True, 'no_open': True}"/>
+                                                        <field name="comment_actionnariat"/>
+                                                        <field name="forme_jur"
+                                                               options="{'no_create': True, 'no_open': True}"/>
+                                                        <field name="comment_forme_jur"/>
+                                                        <field name="remp_succession"
+                                                               options="{'no_create': True, 'no_open': True}"/>
+                                                        <field name="comment_remp_succession"/>
+                                                        <field name="competence"
+                                                               options="{'no_create': True, 'no_open': True}"/>
+                                                        <field name="comment_competence"/>
+                                                        <field name="experience"
+                                                               options="{'no_create': True, 'no_open': True}"/>
+                                                        <field name="comment_experience"/>
+                                                    </group>
+                                                    <group string="إستقرار قطاع النشاط">
+                                                        <field name="soutien_etatic"
+                                                               options="{'no_create': True, 'no_open': True}"/>
+                                                        <field name="comment_soutien_etatic"/>
+                                                        <field name="activite"
+                                                               options="{'no_create': True, 'no_open': True}"/>
+                                                        <field name="comment_activite"/>
+                                                        <field name="influence_tech"
+                                                               options="{'no_create': True, 'no_open': True}"/>
+                                                        <field name="comment_influence_tech"/>
+                                                    </group>
+                                                    <group string="مكانة الشركة في القطاع">
+                                                        <field name="anciennete"
+                                                               options="{'no_create': True, 'no_open': True}"/>
+                                                        <field name="comment_anciennete"/>
+                                                        <field name="concurrence"
+                                                               options="{'no_create': True, 'no_open': True}"/>
+                                                        <field name="comment_concurrence"/>
+                                                        <field name="source_appro"
+                                                               options="{'no_create': True, 'no_open': True}"/>
+                                                        <field name="comment_source_appro"/>
+                                                        <field name="produit"
+                                                               options="{'no_create': True, 'no_open': True}"/>
+                                                        <field name="comment_produit"/>
+                                                        <field name="flexibilite"
+                                                               options="{'no_create': True, 'no_open': True}"/>
+                                                        <field name="comment_flexibilite"/>
+                                                    </group>
+                                                    <group string="القروض و الأملاك">
+                                                        <field name="sollicitude"
+                                                               options="{'no_create': True, 'no_open': True}"/>
+                                                        <field name="comment_sollicitude"/>
+                                                        <field name="situation"
+                                                               options="{'no_create': True, 'no_open': True}"/>
+                                                        <field name="comment_situation"/>
+                                                    </group>
+                                                    <group string="علاقة الشركة مع المصرف">
+                                                        <field name="mouvement"
+                                                               options="{'no_create': True, 'no_open': True}"
+                                                               groups="dept_wk.dept_wk_group_responsable_credit"/>
+                                                        <field name="comment_mouvement"
+                                                               groups="dept_wk.dept_wk_group_responsable_credit"/>
+                                                        <field name="garanties"
+                                                               options="{'no_create': True, 'no_open': True}"/>
+                                                        <field name="comment_garantie"/>
+                                                        <field name="incident"
+                                                               options="{'no_create': True, 'no_open': True}"/>
+                                                        <field name="comment_incident"/>
+                                                        <field name="conduite"
+                                                               options="{'no_create': True, 'no_open': True}"/>
+                                                        <field name="comment_conduite"/>
+                                                    </group>
+                                                    <group string="علاقة الشركة مع الإدارات المميزة">
+                                                        <field name="dette_fisc"
+                                                               options="{'no_create': True, 'no_open': True}"/>
+                                                        <field name="comment_dette_fisc"/>
+                                                        <field name="dette_parafisc"
+                                                               options="{'no_create': True, 'no_open': True}"/>
+                                                        <field name="comment_dette_parafisc"/>
+                                                        <field name="position_admin"
+                                                               options="{'no_create': True, 'no_open': True}"/>
+                                                        <field name="comment_position_admin"/>
+                                                    </group>
+                                                    <group string="مصادر التسديد">
+                                                        <field name="source_remb"
+                                                               options="{'no_create': True, 'no_open': True}"/>
+                                                        <field name="comment_source_remb"/>
+                                                    </group>
+                                                    <group string="مركزية محفظة المصرف">
+                                                        <field name="part_profil"
+                                                               options="{'no_create': True, 'no_open': True}"
+                                                               groups="dept_wk.dept_wk_group_responsable_credit"/>
+                                                        <field name="comment_part_profil"
+                                                               groups="dept_wk.dept_wk_group_responsable_credit"/>
+                                                    </group>
+                                                </page>
+                                                <page string="المعايير الكمية"
+                                                      groups="dept_wk.dept_wk_group_responsable_credit">
+                                                    <group string="مؤشرات الهيكل المال">
+                                                        <group>
+                                                            <field name="quant_1" readonly="1"/>
+                                                            <field name="res_quant_1" readonly="1"/>
+                                                        </group>
+                                                        <group>
+                                                            <field name="quant_2" readonly="1"/>
+                                                            <field name="res_quant_2" readonly="1"/>
+                                                        </group>
+                                                        <group>
+                                                            <field name="quant_3" readonly="1"/>
+                                                            <field name="res_quant_3" readonly="1"/>
+                                                        </group>
+                                                        <group>
+                                                            <field name="quant_4" readonly="1"/>
+                                                            <field name="res_quant_4" readonly="1"/>
+                                                        </group>
+                                                        <group>
+                                                            <field name="res_quant_17" readonly="1"
+                                                                   string="Pondération RS5"/>
+                                                        </group>
+                                                        <field name="vis1" widget="image" invisible="vis1 == False"/>
+                                                    </group>
+                                                    <group string="مؤشرات السيولة">
+                                                        <group>
+                                                            <field name="quant_5" readonly="1"/>
+                                                            <field name="res_quant_5" readonly="1"/>
+                                                        </group>
+                                                        <group>
+                                                            <field name="quant_6" readonly="1"/>
+                                                            <field name="res_quant_6" readonly="1"/>
+                                                        </group>
+                                                        <field name="vis2" widget="image" invisible="vis2 == False"/>
+                                                    </group>
+                                                    <group string="مؤشرات النشاط">
+                                                        <group>
+                                                            <field name="quant_7" readonly="1"/>
+                                                            <field name="res_quant_7" readonly="1"/>
+                                                        </group>
+                                                        <group>
+                                                            <field name="quant_8" readonly="1"/>
+                                                            <field name="res_quant_8" readonly="1"/>
+                                                        </group>
+                                                        <group>
+                                                            <field name="quant_9" readonly="1"/>
+                                                            <field name="res_quant_9" readonly="1"/>
+                                                        </group>
+                                                        <group>
+                                                            <field name="quant_10" readonly="1"/>
+                                                            <field name="res_quant_10" readonly="1"/>
+                                                        </group>
+                                                        <group>
+                                                            <field name="quant_11" readonly="1"/>
+                                                            <field name="res_quant_11" readonly="1"/>
+                                                        </group>
+                                                        <field name="vis3" widget="image" invisible="vis3 == False"/>
+                                                    </group>
+                                                    <group string="مؤشرات المردودية">
+                                                        <group>
+                                                            <field name="quant_12" readonly="1"/>
+                                                            <field name="res_quant_12" readonly="1"/>
+                                                        </group>
+                                                        <group>
+                                                            <field name="quant_13" readonly="1"/>
+                                                            <field name="res_quant_13" readonly="1"/>
+                                                        </group>
+                                                        <group>
+                                                            <field name="quant_14" readonly="1"/>
+                                                            <field name="res_quant_14" readonly="1"/>
+                                                        </group>
+                                                        <group>
+                                                            <field name="quant_15" readonly="1"/>
+                                                            <field name="res_quant_15" readonly="1"/>
+                                                        </group>
+                                                        <group>
+                                                            <field name="quant_16" readonly="1"/>
+                                                            <field name="res_quant_16" readonly="1"/>
+                                                        </group>
+                                                        <field name="vis4" widget="image" invisible="vis4 == False"/>
+                                                    </group>
+                                                    <group>
+                                                        <field name="critere_ids"
+                                                               options="{'no_create': True, 'no_open': True}">
+                                                            <tree editable="bottom" create="0" delete="0">
+                                                                <field name="name" readonly="1"/>
+                                                                <field name="critere"/>
+                                                                <field name="resultat" readonly="1"/>
+                                                                <field name="computed_total" column_invisible="True"/>
+                                                            </tree>
+                                                        </field>
+                                                    </group>
+                                                    <field name="vis5" widget="image" invisible="vis5 == False"/>
+                                                </page>
+                                                <page string="تنقيط" groups="dept_wk.dept_wk_group_responsable_credit">
+                            <group col="2">
+                                <group col="2">
+                                    <field name="ca_banque"/>
+                                    <field name="resultat_scor" readonly="1"/>
+                                </group>
+                                <group col="2">
+                                    <field name="chiffre_affaire" readonly="1"/>
+                                    <field name="niveau_risque" readonly="1"/>
+                                    <field name="classif_risque"/>
+                                    <field name="taille"/>
+                                </group>
+                            </group>
+                            <button name="calcul_limit" class="col-3 btn-primary" string="Calculer la limite"
+                                    type="object"/>
+                            <group>
+                                <field name="resultat_scor" readonly="1"/>
+                                <field name="limit_25" readonly="1"/>
+                                <field name="max_limit" readonly="1"/>
+                                <field name="case_25" readonly="1"/>
+                            </group>
+                        </page>
+                                            </notebook>
+                                        </sheet>
+                                    </form>
+                                </field>
+                                <!--<group col="3">
                                     <group>
                                         <button name="create_tcr_group" type="object" string="اضف TCR"
                                                 class="button_secondary" invisible="tcr_group != False"/>
@@ -535,7 +866,7 @@
                                         <field name="year_4" readonly="sequence == 0" decoration-bf="sequence == 0"/>
                                         <field name="sequence" column_invisible="True"/>
                                     </tree>
-                                </field>
+                                </field>-->
                                 <group>
                                     <field name="comment_fisc" readonly="not can_edit or state_finance != 'finance_2'"/>
                                 </group>
@@ -623,7 +954,8 @@
                                 class="button_secondary" invisible="state_finance == 'finance_1' or sequence != 2"/>
                         <button name="verrouiller_dossier" type="object" string="قبول الملف"
                                 groups="dept_wk.dept_wk_group_analyste"
-                                class="button_secondary"/>
+                                class="button_secondary"
+                                invisible="state_finance != 'finance_2' or dossier_verouiller"/>
                         <notebook invisible="state_finance == 'finance_1' or sequence != 2">
                             <page string="البيانات المالية للشركة (KDA)">
                                 <group string="مؤشرات البنية المالية">
@@ -933,7 +1265,7 @@
                                            options="{'no_create': True}" widget="many2many_tags"/>
                                     <field name="montant_dz" sum="Total"/>
                                     <field name="montant_dollar" sum="Total"/>
-                                    <field name="preg" />
+                                    <field name="preg"/>
                                     <field name="duree"/>
                                     <field name="compute_exist" column_invisible="True"/>
                                     <field name="condition"/>
@@ -997,8 +1329,9 @@
                     </div>
                     <div invisible="sequence not in [5,6,9]">
                         <group>
-                            <field name="recommandation_tresorerie" readonly="not can_edit or state_vice != 'vice_1'"/>
-                            <field name="recommandation_vice_dir_fin" readonly="not can_edit or state_vice != 'vice_1'"/>
+                            <field name="recommandation_tresorerie" readonly="not can_edit or state_vice != 'vice_1'" invisible="1"/>
+                            <field name="recommandation_vice_dir_fin"
+                                   readonly="not can_edit or state_vice != 'vice_1'"/>
                         </group>
                     </div>
                     <div invisible="sequence not in [9,6]">
@@ -1008,7 +1341,8 @@
                     </div>
                     <div invisible="sequence != 6">
                         <group>
-                            <field name="recommandation_fin_comite" readonly="not can_edit or state_comite != 'comite_1'"/>
+                            <field name="recommandation_fin_comite"
+                                   readonly="not can_edit or state_comite != 'comite_1'"/>
                         </group>
                     </div>
                     <button type="object" name="validate_information" string="تأكيد المعلومات"

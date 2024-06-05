@@ -35,7 +35,7 @@
                     <tr>
                         <td width="60%"
                             style="font-size: 20px;font-family: 'NotoArabic-Regular';padding: 5px; text-align: right;vertical-align: middle;">
-                            دائرة مخاطر التمويلات
+                            خلية ادارة المخاطر
                         </td>
                         <td width="30%"
                             style="font-size: 20px;font-family: 'NotoArabic-Regular';padding: 5px; text-align: right;vertical-align: middle;">
@@ -71,8 +71,9 @@
                             المجمع:
                             <t t-esc="doc.groupe.name"/>
                         </td>
-                        <td>
-
+                        <td style="font-size: 20px;font-family: 'NotoArabic-Regular';padding: 5px;vertical-align: middle;">
+                            تاريخ الاصدار:
+                            <t t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d')"/>
                         </td>
                     </tr>
                 </tbody>
@@ -108,6 +109,7 @@
         <field name="name">Scoring</field>
         <field name="model">risk.scoring</field>
         <field name="report_type">qweb-pdf</field>
+        <field name="print_report_name">'%s - %s' % (object.name, object.partner_id.name)</field>
         <field name="report_name">dept_wk.report_scoring</field>
         <field name="report_file">dept_wk.report_scoring</field>
     </record>
@@ -155,8 +157,7 @@
                         padding: 10px;
                         }
                     </style>
-                    <div class="page page-content">
-
+                    <div class="page page-content" style="font-size: 20px">
                         <center style="margin-bottom: 10px">
                             <div class="column">
                                 <h2 class="title" style="margin-bottom: 50px;">
@@ -167,7 +168,8 @@
                         <t t-set="etape1"
                            t-value="doc.parent_id.nom_client"/>
                         <div class="table_deco">
-                            <table class="table_content">
+                            <p>الارقام بالمليون</p>
+                            <table class="reversed-table">
                                 <tbody>
                                     <tr>
                                         <td style="font-weight: bold;" t-if="etape1.branche">
@@ -183,7 +185,7 @@
                                         </td>
                                         <td t-if="etape1.wilaya">
                                             <span>
-                                                <t t-esc="etape1.wilaya.domaine"/>
+                                                <t t-esc="etape1.branche.wilaya_id.domaine"/>
                                             </span>
                                         </td>
                                     </tr>
@@ -219,7 +221,7 @@
                                         </td>
                                         <td t-if="etape1.chiffre_affaire">
                                             <span>
-                                                <t t-esc="etape1.chiffre_affaire"/>
+                                                <t t-esc="etape1.chiffre_affaire / 1000"/>
                                             </span>
                                         </td>
                                     </tr>
@@ -309,7 +311,7 @@
                             </table>
                         </div>
                         <div class="justify-content-start" style="margin-bottom: 10px; margin-top: 10px">
-                            <div class="table_deco">
+                            <!--<div class="table_deco">
                                 <table class="reversed-table" style="border: none">
                                     <thead style="border: none">
                                         <tr style="border: none">
@@ -367,7 +369,7 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                            </div>
+                            </div>-->
                             <br/>
                             <div class="table_deco" style="margin-top: 20px">
                                 <table class="reversed-table">
@@ -453,30 +455,56 @@
                                                 <t t-esc="doc.partner_id.name"/>
                                             </td>
                                             <td>
-                                                <t t-esc="'{0:,.3f}'.format(doc.resultat_scoring  / 1000)"/>%
+                                                <t t-esc="'{0:,.2f}'.format(doc.resultat_scoring  / 10)"/>%
                                             </td>
                                             <td>
-                                                <t t-esc="doc.classif"/>
+                                                <span t-field="doc.classif_risque"/>
                                             </td>
                                             <td>
                                                 <t t-esc="doc.niveau_risque"/>
                                             </td>
                                             <td>
+                                                <t t-esc="doc.classif"/>
                                             </td>
                                             <td>
                                                 <t t-esc="int(doc.pourcentage * 100)"/>%
                                             </td>
                                             <td>
-                                                <t t-esc="'{0:,.2f}'.format(doc.max_limit)"/>
+                                                <t t-esc="'{0:,.2f}'.format(doc.limit_expo / 1000)"/>
                                             </td>
                                         </tr>
+                                        <t t-foreach="doc.scoring_group_ids" t-as="group">
+                                            <tr>
+                                                <td>
+                                                    <t t-esc="group.partner_id.name"/>
+                                                </td>
+                                                <td>
+                                                    <t t-esc="'{0:,.2f}'.format(group.resultat_scoring  / 10)"/>%
+                                                </td>
+                                                <td>
+                                                    <span t-field="group.classif_risque"/>
+                                                </td>
+                                                <td>
+                                                    <t t-esc="group.niveau_risque"/>
+                                                </td>
+                                                <td>
+                                                    <t t-esc="group.classif"/>
+                                                </td>
+                                                <td>
+                                                    <t t-esc="int(group.pourcentage * 100)"/>%
+                                                </td>
+                                                <td>
+                                                    <t t-esc="'{0:,.2f}'.format(group.limit_expo/ 1000)"/>
+                                                </td>
+                                            </tr>
+                                        </t>
                                         <tr>
                                             <td colspan="5">
                                                 الاموال الخاصة للمصرف بتاريخ
                                                 <t t-esc="doc.date"/>
                                             </td>
                                             <td colspan="2">
-                                                <t t-esc="'{0:,.2f}'.format(doc.ca_banque)"/>
+                                                <t t-esc="'{0:,.2f}'.format(doc.ca_banque/ 1000)"/>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -516,56 +544,427 @@
                                                 <span t-field="doc.taille"/>
                                             </td>
                                             <td>
-                                                <t t-esc="'{0:,.2f}'.format(doc.chiffre_affaire)"/>
+                                                <t t-esc="'{0:,.2f}'.format(doc.chiffre_affaire/ 1000)"/>
                                             </td>
                                             <td>
-                                                <t t-esc="'{0:,.2f}'.format(doc.max_limit)"/>
+                                                <t t-esc="'{0:,.2f}'.format(doc.max_limit / 1000)"/>
                                             </td>
                                         </tr>
+                                        <t t-foreach="doc.scoring_group_ids" t-as="company">
+                                            <tr>
+                                                <td>
+                                                    <t t-esc="company.partner_id.name"/>
+                                                </td>
+                                                <td>
+                                                    <span t-field="company.taille"/>
+                                                </td>
+                                                <td>
+                                                    <t t-esc="'{0:,.2f}'.format(company.chiffre_affaire/ 1000)"/>
+                                                </td>
+                                                <td>
+                                                    <t t-esc="'{0:,.2f}'.format(company.max_limit / 1000)"/>
+                                                </td>
+                                            </tr>
+                                        </t>
                                     </tbody>
                                 </table>
                             </div>
                             <br/>
                             <div class="table_deco">
-                                <table class="reversed-table" t-if="etape.facilite_propose">
+                                <table class="reversed-table">
                                     <thead>
                                         <tr>
-                                            <th colspan="5" class="title-cell">التسهيلات المقترحة</th>
+                                            <th colspan="9" class="title-cell" style="text-align: center">ملخص التسهيلات
+                                                <t t-esc="doc.partner_id.name"/>
+                                            </th>
                                         </tr>
                                         <tr>
                                             <th class="title-cell">نوع التسهيلات</th>
-                                            <th class="title-cell">المبلغ المقترح م/دج</th>
-                                            <th class="title-cell">التامين النقدي</th>
-                                            <th class="title-cell">المدة (الايام)</th>
-                                            <th class="title-cell">الشروط</th>
+                                            <th class="title-cell">الحالي الخام</th>
+                                            <th class="title-cell">التأمين النقدي</th>
+                                            <th class="title-cell">الحالي الصافي</th>
+                                            <th class="title-cell">الرصيد</th>
+                                            <th class="title-cell">المطلوب الصافي</th>
+                                            <th class="title-cell">المقترح الصافي</th>
+                                            <th class="title-cell">المطلوب/ممنوح المرجح</th>
+                                            <th class="title-cell">المقترح/ممنوح المرجح</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <t t-foreach="etape.facilite_propose" t-as="line">
+                                        <t t-foreach="doc.facilite_ids" t-as="line">
                                             <tr>
                                                 <td>
-                                                    <t t-foreach="line.type_demande_ids" t-as="demande">
-                                                        <t t-if="len(line.type_demande_ids) != 1 and demande != line.type_demande_ids[-1]">
-                                                            <t t-esc="demande.name"/>/
+                                                    <t t-foreach="line.product_ids" t-as="demande">
+                                                        <t t-if="len(line.product_ids) != 1 and demande != line.product_ids[-1]">
+                                                            <t t-esc="demande.name"/>
+                                                            /
                                                         </t>
-                                                        <t t-if="len(line.type_demande_ids) == 1 or demande == line.type_demande_ids[-1]">
+                                                        <t t-if="len(line.product_ids) == 1 or demande == line.product_ids[-1]">
                                                             <t t-esc="demande.name"/>
                                                         </t>
                                                     </t>
                                                 </td>
                                                 <td>
-                                                    <t t-esc="'{0:,.0f}'.format(line.montant_dz)"/>
+                                                    <t t-esc="'{0:,.0f}'.format(line.actuel_brut / 1000)"/>
                                                 </td>
                                                 <td>
-                                                    <t t-esc="int(line.preg * 100)"/>%
+                                                    <t t-esc="int(line.assurance/ 1000)"/>
                                                 </td>
                                                 <td>
-                                                    <t t-esc="line.duree"/>
+                                                    <t t-esc="'{0:,.0f}'.format(line.actuel_net / 1000)"/>
                                                 </td>
                                                 <td>
-                                                    <t t-esc="line.condition"/>
+                                                    <t t-esc="'{0:,.0f}'.format(line.bilan / 1000)"/>
+                                                </td>
+                                                <td>
+                                                    <t t-esc="'{0:,.0f}'.format(line.request_net / 1000)"/>
+                                                </td>
+                                                <td>
+                                                    <t t-esc="'{0:,.0f}'.format(line.proposed_net / 1000)"/>
+                                                </td>
+                                                <td>
+                                                    <t t-esc="'{0:,.0f}'.format(line.ratio_request_net / 1000)"/>
+                                                </td>
+                                                <td>
+                                                    <t t-esc="'{0:,.0f}'.format(line.ratio_propose_net / 1000)"/>
                                                 </td>
                                             </tr>
+
+                                        </t>
+                                        <tr>
+                                                <td>
+                                                    <span>
+                                                        المجموع
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <t t-set="actuel_brut_ttl"
+                                                       t-value="sum(doc.facilite_ids.mapped('actuel_brut'))"/>
+                                                    <t t-esc="'{0:,.0f}'.format(actuel_brut_ttl / 1000)"/>
+                                                </td>
+                                                <td>
+                                                    <t t-set="assurance_ttl"
+                                                       t-value="sum(doc.facilite_ids.mapped('assurance'))"/>
+                                                    <t t-esc="'{0:,.0f}'.format(assurance_ttl / 1000)"/>
+                                                </td>
+                                                <td>
+                                                    <t t-set="actuel_net_ttl"
+                                                       t-value="sum(doc.facilite_ids.mapped('actuel_net'))"/>
+                                                    <t t-esc="'{0:,.0f}'.format(actuel_net_ttl / 1000)"/>
+                                                </td>
+                                                <td>
+                                                    <t t-set="bilan_ttl"
+                                                       t-value="sum(doc.facilite_ids.mapped('bilan'))"/>
+                                                    <t t-esc="'{0:,.0f}'.format(bilan_ttl / 1000)"/>
+                                                </td>
+                                                <td>
+                                                    <t t-set="request_net_ttl"
+                                                       t-value="sum(doc.facilite_ids.mapped('request_net'))"/>
+                                                    <t t-esc="'{0:,.0f}'.format(request_net_ttl / 1000)"/>
+                                                </td>
+                                                <td>
+                                                    <t t-set="proposed_net_ttl"
+                                                       t-value="sum(doc.facilite_ids.mapped('proposed_net'))"/>
+                                                    <t t-esc="'{0:,.0f}'.format(proposed_net_ttl / 1000)"/>
+                                                </td>
+                                                <td>
+                                                    <t t-set="ratio_request_net_ttl"
+                                                       t-value="sum(doc.facilite_ids.mapped('ratio_request_net'))"/>
+                                                    <t t-esc="'{0:,.0f}'.format(ratio_request_net_ttl / 1000)"/>
+                                                </td>
+                                                <td>
+                                                    <t t-set="ratio_propose_net_ttl"
+                                                       t-value="sum(doc.facilite_ids.mapped('ratio_propose_net'))"/>
+                                                    <t t-esc="'{0:,.0f}'.format(ratio_propose_net_ttl / 1000)"/>
+                                                </td>
+                                            </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <br/>
+                            <t t-foreach="doc.scoring_group_ids" t-as="company">
+                                <div class="table_deco">
+                                    <table class="reversed-table">
+                                        <thead>
+                                            <tr>
+                                                <th colspan="9" class="title-cell" style="text-align: center">ملخص
+                                                    التسهيلات
+                                                    <t t-esc="company.partner_id.name"/>
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th class="title-cell">نوع التسهيلات</th>
+                                                <th class="title-cell">الحالي الخام</th>
+                                                <th class="title-cell">التأمين النقدي</th>
+                                                <th class="title-cell">الحالي الصافي</th>
+                                                <th class="title-cell">الرصيد</th>
+                                                <th class="title-cell">المطلوب الصافي</th>
+                                                <th class="title-cell">المقترح الصافي</th>
+                                                <th class="title-cell">المطلوب/ممنوح المرجح</th>
+                                                <th class="title-cell">المقترح/ممنوح المرجح</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="company.facilite_ids" t-as="line">
+                                                <tr>
+                                                    <td>
+                                                        <t t-foreach="line.product_ids" t-as="demande">
+                                                            <t t-if="len(line.product_ids) != 1 and demande != line.product_ids[-1]">
+                                                                <t t-esc="demande.name"/>
+                                                                /
+                                                            </t>
+                                                            <t t-if="len(line.product_ids) == 1 or demande == line.product_ids[-1]">
+                                                                <t t-esc="demande.name"/>
+                                                            </t>
+                                                        </t>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="'{0:,.0f}'.format(line.actuel_brut / 1000)"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="int(line.assurance/ 1000)"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="'{0:,.0f}'.format(line.actuel_net / 1000)"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="'{0:,.0f}'.format(line.bilan / 1000)"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="'{0:,.0f}'.format(line.request_net / 1000)"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="'{0:,.0f}'.format(line.proposed_net / 1000)"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="'{0:,.0f}'.format(line.ratio_request_net / 1000)"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="'{0:,.0f}'.format(line.ratio_propose_net / 1000)"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                            <tr>
+                                                <td>
+                                                    <span>
+                                                        المجموع
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <t t-set="actuel_brut_ttl"
+                                                       t-value="sum(company.facilite_ids.mapped('actuel_brut'))"/>
+                                                    <t t-esc="'{0:,.0f}'.format(actuel_brut_ttl / 1000)"/>
+                                                </td>
+                                                <td>
+                                                    <t t-set="assurance_ttl"
+                                                       t-value="sum(company.facilite_ids.mapped('assurance'))"/>
+                                                    <t t-esc="'{0:,.0f}'.format(assurance_ttl / 1000)"/>
+                                                </td>
+                                                <td>
+                                                    <t t-set="actuel_net_ttl"
+                                                       t-value="sum(company.facilite_ids.mapped('actuel_net'))"/>
+                                                    <t t-esc="'{0:,.0f}'.format(actuel_net_ttl / 1000)"/>
+                                                </td>
+                                                <td>
+                                                    <t t-set="bilan_ttl"
+                                                       t-value="sum(company.facilite_ids.mapped('bilan'))"/>
+                                                    <t t-esc="'{0:,.0f}'.format(bilan_ttl / 1000)"/>
+                                                </td>
+                                                <td>
+                                                    <t t-set="request_net_ttl"
+                                                       t-value="sum(company.facilite_ids.mapped('request_net'))"/>
+                                                    <t t-esc="'{0:,.0f}'.format(request_net_ttl / 1000)"/>
+                                                </td>
+                                                <td>
+                                                    <t t-set="proposed_net_ttl"
+                                                       t-value="sum(company.facilite_ids.mapped('proposed_net'))"/>
+                                                    <t t-esc="'{0:,.0f}'.format(proposed_net_ttl / 1000)"/>
+                                                </td>
+                                                <td>
+                                                    <t t-set="ratio_request_net_ttl"
+                                                       t-value="sum(company.facilite_ids.mapped('ratio_request_net'))"/>
+                                                    <t t-esc="'{0:,.0f}'.format(ratio_request_net_ttl / 1000)"/>
+                                                </td>
+                                                <td>
+                                                    <t t-set="ratio_propose_net_ttl"
+                                                       t-value="sum(company.facilite_ids.mapped('ratio_propose_net'))"/>
+                                                    <t t-esc="'{0:,.0f}'.format(ratio_propose_net_ttl / 1000)"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/>
+                            </t>
+                            <div class="table_deco">
+                                <table class="reversed-table">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="9" class="title-cell" style="text-align: center">ملخص
+                                                التسهيلات المجموعة
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th class="title-cell">نوع التسهيلات</th>
+                                            <th class="title-cell">الحالي الخام</th>
+                                            <th class="title-cell">التأمين النقدي</th>
+                                            <th class="title-cell">الحالي الصافي</th>
+                                            <th class="title-cell">الرصيد</th>
+                                            <th class="title-cell">المطلوب الصافي</th>
+                                            <th class="title-cell">المقترح الصافي</th>
+                                            <th class="title-cell">المطلوب/ممنوح المرجح</th>
+                                            <th class="title-cell">المقترح/ممنوح المرجح</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <span>
+                                                    <t t-esc="doc.partner_id.name"/>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <t t-set="actuel_brut_ttl"
+                                                   t-value="sum(doc.facilite_ids.mapped('actuel_brut'))"/>
+                                                <t t-esc="'{0:,.0f}'.format(actuel_brut_ttl / 1000)"/>
+                                            </td>
+                                            <td>
+                                                <t t-set="assurance_ttl"
+                                                   t-value="sum(doc.facilite_ids.mapped('assurance'))"/>
+                                                <t t-esc="'{0:,.0f}'.format(assurance_ttl / 1000)"/>
+                                            </td>
+                                            <td>
+                                                <t t-set="actuel_net_ttl"
+                                                   t-value="sum(doc.facilite_ids.mapped('actuel_net'))"/>
+                                                <t t-esc="'{0:,.0f}'.format(actuel_net_ttl / 1000)"/>
+                                            </td>
+                                            <td>
+                                                <t t-set="bilan_ttl" t-value="sum(doc.facilite_ids.mapped('bilan'))"/>
+                                                <t t-esc="'{0:,.0f}'.format(bilan_ttl / 1000)"/>
+                                            </td>
+                                            <td>
+                                                <t t-set="request_net_ttl"
+                                                   t-value="sum(doc.facilite_ids.mapped('request_net'))"/>
+                                                <t t-esc="'{0:,.0f}'.format(request_net_ttl / 1000)"/>
+                                            </td>
+                                            <td>
+                                                <t t-set="proposed_net_ttl"
+                                                   t-value="sum(doc.facilite_ids.mapped('proposed_net'))"/>
+                                                <t t-esc="'{0:,.0f}'.format(proposed_net_ttl / 1000)"/>
+                                            </td>
+                                            <td>
+                                                <t t-set="ratio_request_net_ttl"
+                                                   t-value="sum(doc.facilite_ids.mapped('ratio_request_net'))"/>
+                                                <t t-esc="'{0:,.0f}'.format(ratio_request_net_ttl / 1000)"/>
+                                            </td>
+                                            <td>
+                                                <t t-set="ratio_propose_net_ttl"
+                                                   t-value="sum(doc.facilite_ids.mapped('ratio_propose_net'))"/>
+                                                <t t-esc="'{0:,.0f}'.format(ratio_propose_net_ttl / 1000)"/>
+                                            </td>
+                                        </tr>
+                                        <t t-foreach="doc.scoring_group_ids" t-as="company">
+                                            <tr>
+                                                <td>
+                                                    <span>
+                                                        <t t-esc="company.partner_id.name"/>
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <t t-set="actuel_brut_ttl"
+                                                       t-value="sum(company.facilite_ids.mapped('actuel_brut'))"/>
+                                                    <t t-esc="'{0:,.0f}'.format(actuel_brut_ttl / 1000)"/>
+                                                </td>
+                                                <td>
+                                                    <t t-set="assurance_ttl"
+                                                       t-value="sum(company.facilite_ids.mapped('assurance'))"/>
+                                                    <t t-esc="'{0:,.0f}'.format(assurance_ttl / 1000)"/>
+                                                </td>
+                                                <td>
+                                                    <t t-set="actuel_net_ttl"
+                                                       t-value="sum(company.facilite_ids.mapped('actuel_net'))"/>
+                                                    <t t-esc="'{0:,.0f}'.format(actuel_net_ttl / 1000)"/>
+                                                </td>
+                                                <td>
+                                                    <t t-set="bilan_ttl"
+                                                       t-value="sum(company.facilite_ids.mapped('bilan'))"/>
+                                                    <t t-esc="'{0:,.0f}'.format(bilan_ttl / 1000)"/>
+                                                </td>
+                                                <td>
+                                                    <t t-set="request_net_ttl"
+                                                       t-value="sum(company.facilite_ids.mapped('request_net'))"/>
+                                                    <t t-esc="'{0:,.0f}'.format(request_net_ttl / 1000)"/>
+                                                </td>
+                                                <td>
+                                                    <t t-set="proposed_net_ttl"
+                                                       t-value="sum(company.facilite_ids.mapped('proposed_net'))"/>
+                                                    <t t-esc="'{0:,.0f}'.format(proposed_net_ttl / 1000)"/>
+                                                </td>
+                                                <td>
+                                                    <t t-set="ratio_request_net_ttl"
+                                                       t-value="sum(company.facilite_ids.mapped('ratio_request_net'))"/>
+                                                    <t t-esc="'{0:,.0f}'.format(ratio_request_net_ttl / 1000)"/>
+                                                </td>
+                                                <td>
+                                                    <t t-set="ratio_propose_net_ttl"
+                                                       t-value="sum(company.facilite_ids.mapped('ratio_propose_net'))"/>
+                                                    <t t-esc="'{0:,.0f}'.format(ratio_propose_net_ttl / 1000)"/>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <br/>
+                            <div class="table_deco">
+                                <table class="reversed-table">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="4" class="title-cell" style="text-align: center">ملخص
+                                                الالتزامات مع السقوف التناسبية
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th class="title-cell">الشركة</th>
+                                            <th class="title-cell">السقف</th>
+                                            <th class="title-cell">المطلوب/ممنوح المرجح</th>
+                                            <th class="title-cell">المقترح/ممنوح المرجح</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="doc.engagement_ids" t-as="line">
+                                            <tr>
+                                                <td>
+                                                    <t t-esc="line.company.name"/>
+                                                </td>
+                                                <td>
+                                                    <t t-esc="'{0:,.0f}'.format(line.limit / 1000)"/>
+                                                </td>
+                                                <td>
+                                                    <t t-esc="'{0:,.0f}'.format(line.ratio_request_net / 1000)"/>
+                                                </td>
+                                                <td>
+                                                    <t t-esc="'{0:,.0f}'.format(line.ratio_propose_net / 1000)"/>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                        <t t-foreach="doc.scoring_group_ids" t-as="company">
+                                            <t t-foreach="company.engagement_ids" t-as="line">
+                                                <tr>
+                                                    <td>
+                                                        <t t-esc="line.company.name"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="'{0:,.0f}'.format(line.limit / 1000)"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="'{0:,.0f}'.format(line.ratio_request_net / 1000)"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="'{0:,.0f}'.format(line.ratio_propose_net / 1000)"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
                                         </t>
                                     </tbody>
                                 </table>
@@ -644,18 +1043,18 @@
                             </div>-->
                             <br/>
                             <div class="table_deco">
-                                <table class="reversed-table">
+                                <table class="reversed-table" style="table-layout: fixed; width: 100%;">
                                     <tbody>
                                         <tr>
-                                            <th style="font-weight: bold; border: 1px solid green;">
+                                            <th style="font-weight: bold; border: 1px solid green;width:50%">
                                                 نقاط القوة
                                             </th>
-                                            <th style="font-weight: bold; border: 1px solid green;">
+                                            <th style="font-weight: bold; border: 1px solid green;width:50%;white-space:normal;word-wrap:break-word;">
                                                 نقاط الضعف
                                             </th>
                                         </tr>
                                         <tr>
-                                            <td style="border: 1px solid green;">
+                                            <td style="border: 1px solid green;width:50%;white-space:normal;word-wrap:break-word;">
                                                 <ol>
                                                     <t t-foreach="doc.strength_ids" t-as="line">
                                                         <li>
@@ -664,7 +1063,7 @@
                                                     </t>
                                                 </ol>
                                             </td>
-                                            <td style="border: 1px solid green;">
+                                            <td style="border: 1px solid green;width:50%;white-space:normal;word-wrap:break-word;">
                                                 <ol>
                                                     <t t-foreach="doc.weakness_ids" t-as="line">
                                                         <li>
@@ -675,15 +1074,15 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th style="font-weight: bold; border: 1px solid green;">
+                                            <th style="font-weight: bold; border: 1px solid green;width:50%;white-space:normal;word-wrap:break-word;">
                                                 التهديدات
                                             </th>
-                                            <th style="font-weight: bold; border: 1px solid green;">
+                                            <th style="font-weight: bold; border: 1px solid green;width:50%;white-space:normal;word-wrap:break-word;">
                                                 الفرص
                                             </th>
                                         </tr>
                                         <tr>
-                                            <td style="border: 1px solid green;">
+                                            <td style="border: 1px solid green;width:50%;white-space:normal;word-wrap:break-word;">
                                                 <ol>
                                                     <t t-foreach="doc.threat_ids" t-as="line">
                                                         <li>
@@ -692,7 +1091,7 @@
                                                     </t>
                                                 </ol>
                                             </td>
-                                            <td style="border: 1px solid green;">
+                                            <td style="border: 1px solid green;width:50%;white-space:normal;word-wrap:break-word;">
                                                 <ol>
                                                     <t t-foreach="doc.opportunitie_ids" t-as="line">
                                                         <li>
@@ -716,7 +1115,7 @@
                                                 تقرير منجز من طرف
                                             </td>
                                             <td width="40%">المحلل
-                                                <t t-esc="etape4.assigned_to_risque.partner_id.nom_arabe"/>
+                                                <t t-esc="doc.analyste.name"/>
                                             </td>
                                             <td width="40%">
                                             </td>
@@ -724,9 +1123,11 @@
                                         <tr height="100px">
                                             <td>
                                                 تقرير مراجع من طرف
+
                                             </td>
                                             <td width="40%">
                                                 رئيس دائرة مخاطر التمويلات
+                                                <t t-esc="doc.directeur.name"/>
                                             </td>
                                             <td width="40%">
                                             </td>
@@ -737,6 +1138,8 @@
                                             </td>
                                             <td width="40%">
                                                 رئيس خلية ادارة المخاطر
+
+                                                <t t-esc="doc.directeur.name"/>
                                             </td>
                                             <td width="40%">
                                             </td>

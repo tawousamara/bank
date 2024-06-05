@@ -1419,7 +1419,7 @@
                                 <br/>
                                 <!-- البيانات المالية الموجزة للشركات ذات
                                                     الصلة-->
-                                <t t-set="has_comp_fisc"
+                                <!--<t t-set="has_comp_fisc"
                                    t-value="etape2.companies_fisc.filtered(lambda l: (l.year_3 != 0 or l.year_4 != 0) and l.sequence != 0)"/>
                                 <div class="table_deco">
                                     <table class="reversed-table" t-if="len(has_comp_fisc) != 0">
@@ -1470,7 +1470,7 @@
                                             </t>
                                         </tbody>
                                     </table>
-                                </div>
+                                </div>-->
                                 <div class="table_deco">
                                     <table class="reversed-table" t-if="etape2.facitlite_existante">
                                         <thead>
@@ -3060,6 +3060,7 @@
             <field name="name">التقرير النهائي</field>
             <field name="model">wk.workflow.dashboard</field>
             <field name="report_type">qweb-pdf</field>
+            <field name="print_report_name">'%s - %s' % (object.name, object.nom_client.name)</field>
             <field name="report_name">dept_wk.report_global</field>
             <field name="report_file">dept_wk.report_global</field>
             <field name="binding_model_id" ref="model_wk_workflow_dashboard"/>

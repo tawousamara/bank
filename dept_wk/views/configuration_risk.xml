@@ -25,8 +25,8 @@
         <field name="model">configuration.risque</field>
         <field name="arch" type="xml">
             <tree editable="bottom">
-                <field name="date_from"/>
-                <field name="date_to"/>
+                <field name="annee"/>
+                <field name="trimestre"/>
                 <field name="montant"/>
             </tree>
         </field>

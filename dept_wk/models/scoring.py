@@ -6,6 +6,21 @@ import base64
 from datetime import datetime
 from arabic_reshaper import reshape
 from bidi.algorithm import get_display
+
+from odoo.exceptions import ValidationError
+list_fisc = [
+    'السنة',
+    'حقوق الملكية',
+    'مجموع الديون',
+    'نسبة المديونية leverage',
+    'نسبة الالتزامات تجاه البنوك /Gearing',
+    'رقم الاعمال',
+    'EBIDTA',
+    'صافي الربح',
+    'راس المال العامل',
+    'احتياجات راس المال العامل'
+]
+
 list_critere = [
     ('مؤشرات الهيكل المال', 200),
     ('مؤشرات السيولة', 75),
@@ -21,16 +36,18 @@ class Scoring(models.Model):
 
     name = fields.Char(related='parent_id.name', string='Reference')
     date = fields.Date(string='تاريخ', default=datetime.today())
+    is_initial = fields.Boolean(string='Is initial')
     parent_id = fields.Many2one('wk.workflow.dashboard', default=lambda self: self._context.get('parent_id'))
+    etape_id = fields.Many2one('wk.etape' )
     partner_id = fields.Many2one('res.partner',  store=True, string='العميل')
     secteur = fields.Many2one('wk.activite', related='partner_id.activite', store=True)
     groupe = fields.Many2one('res.partner', related='partner_id.groupe', store=True, string='المجموعة')
     branche = fields.Many2one('wk.agence', related='partner_id.branche', store=True, string='الفرع')
     num_compte = fields.Char(related='partner_id.num_compte', store=True, string='رقم الحساب')
-    taille = fields.Selection([('tpe', 'TPE'),
-                               ('pe', 'Petite entreprise'),
-                               ('me', 'ME'),
-                               ('ge', 'GE')], string='حجم الشركة')
+    taille = fields.Selection([('tpe', 'شركة جد صغيرة'),
+                               ('pe', 'شركة صغيرة'),
+                               ('me', 'شركة متوسطة'),
+                               ('ge', 'شركة كبيرة')], string='حجم الشركة')
     critere_qual = fields.Many2one('risk.critere.qualitatif', string='Critères Qualitatifs', default=1)
     critere_quant = fields.Many2one('risk.critere.quantitatif', string='Critères Quantitatifs', default=1)
 
@@ -127,6 +144,7 @@ class Scoring(models.Model):
     resultat_scoring = fields.Integer(string='مجموع النقاط')
     critere_ids = fields.One2many('wk.scoring.detail', 'risk', string='المعايير الكمية')
     max_limit = fields.Float(string='الحد الاقصى للتمويل')
+    limit_expo = fields.Float(string='حد التعرض')
     chiffre_affaire = fields.Float(string='رقم الاعمال')
     ca_banque = fields.Float(string='الاموال الخاصة للمصرف')
     niveau_risque = fields.Char(string='مستوى المخاطر')
@@ -143,21 +161,117 @@ class Scoring(models.Model):
     vis5 = fields.Binary(string='Vis')
     scoring_qualitatif = fields.Integer(string='اجمالي المعايير النوعية')
     company_id = fields.Many2one('res.company', default=lambda self: self.env.company)
-    scoring_group_ids = fields.One2many('risk.scoring', 'scoring_id', string='بطاقات المغايير النوعية')
-    scoring_id = fields.Many2one('risk.scoring',)
-
+    company_ids = fields.Integer(string='', compute="_compute_company_fisc")
+    scoring_group_ids = fields.One2many('risk.scoring', 'scoring_id', domain="[('is_initial', '=', False)]")
+    facilite_ids = fields.One2many('facilite.risk', 'scoring_id')
+    engagement_ids = fields.One2many('engagement.risk', 'scoring_id')
+    scoring_id = fields.Many2one('risk.scoring')
+    companies_fisc = fields.One2many('wk.companies.fisc', 'scoring_id')
     weakness_ids = fields.One2many('wk.swot.weakness', 'risk_id')
     strength_ids = fields.One2many('wk.swot.strength', 'risk_id')
     threat_ids = fields.One2many('wk.swot.threat', 'risk_id')
     opportunitie_ids = fields.One2many('wk.swot.opportunitie', 'risk_id')
     is_branch = fields.Boolean(string='Est dans l\'agence', compute='compute_level')
+    classif_risque = fields.Selection([('1', 'ديون فعالة'),
+                                       ('2', 'ديون مصنفة')], string='تصنيف المخاطر')
+    directeur = fields.Many2one('res.users', string='Directeur', compute='_compute_directeur')
+    analyste = fields.Many2one('res.users', string='Directeur')
+
+    def import_data_group(self):
+        for rec in self:
+            if rec.tcr_id.state not in ['valide', 'modified'] or rec.actif_id.state not in ['valide', 'modified'] or rec.passif_id.state not in ['valide', 'modified']:
+                raise ValidationError("Vous devriez d'abord valider les bilans")
+            else:
+                if not rec.companies_fisc:
+                    count = 0
+                    for item in list_fisc:
+                        line = self.env['wk.companies.fisc'].create({'declaration': item,
+                                                                     'sequence': count,
+                                                                     'etape_id': rec.etape_id.id,
+                                                                     'scoring_id': rec.id})
+                        count += 1
+                else:
+                    for item in rec.companies_fisc:
+                        item.write({'scoring_id': rec.id})
+                bilan_1 = rec.companies_fisc.filtered(lambda r: r.sequence == 1)
+                # total I حقوق الملكية
+                passif_1 = rec.passif_id.passif_lines.filtered(lambda r: r.rubrique.sequence == 12)
+                bilan_1.write({'year_4': passif_1.montant_n,
+                               'year_3': passif_1.montant_n1})
+
+                bilan_2 = rec.companies_fisc.filtered(lambda r: r.sequence == 2)
+                # مجموع الديون
+                passif_2 = rec.passif_id.passif_lines.filtered(lambda r: r.rubrique.sequence == 14)
+                passif_3 = rec.passif_id.passif_lines.filtered(lambda r: r.rubrique.sequence == 23)
+                bilan_2.write({'year_4': passif_2.montant_n + passif_3.montant_n,
+                               'year_3': passif_2.montant_n1 + passif_3.montant_n1})
+                #سبة المديونية leverage
+                bilan_3 = rec.companies_fisc.filtered(lambda r: r.sequence == 3)
+                actif_1 = rec.actif_id.actif_lines.filtered(lambda r: r.rubrique.sequence == 26)
+                passif_5 = rec.passif_id.passif_lines.filtered(lambda r: r.rubrique.sequence == 23)
+                passif_6 = rec.passif_id.passif_lines.filtered(lambda r: r.rubrique.sequence == 14)
+                bilan_3.write({'year_4': (passif_6.montant_n + passif_5.montant_n - actif_1.montant_n) / passif_1.montant_n if passif_1.montant_n != 0 else 0,
+                                'year_3': (passif_6.montant_n1 + passif_5.montant_n1 - actif_1.montant_n1) / passif_1.montant_n1 if passif_1.montant_n1 != 0 else 0})
+
+                #Gearing
+                bilan_4 = rec.companies_fisc.filtered(lambda r: r.sequence == 4)
+                bilan_4.write({'year_4': ((passif_6.montant_n + passif_5.montant_n) / passif_1.montant_n) * 100 if passif_1.montant_n != 0 else 0,
+                                'year_3': ((passif_6.montant_n1 + passif_5.montant_n1) / passif_1.montant_n1) * 100 if passif_1.montant_n1 != 0 else 0})
+
+                #رقم الاعمال
+                bilan_5 = rec.companies_fisc.filtered(lambda r: r.sequence == 5)
+                tcr_1 = rec.tcr_id.tcr_lines.filtered(lambda r: r.rubrique.sequence == 7)
+                bilan_5.write({'year_4': tcr_1.montant_n,
+                                'year_3': tcr_1.montant_n1,
+                                })
+                # EBIDTA
+                tcr_2 = rec.tcr_id.tcr_lines.filtered(lambda r: r.rubrique.sequence == 33)
+                bilan_6 = rec.companies_fisc.filtered(lambda r: r.sequence == 6)
+                bilan_6.write({'year_4': tcr_2.montant_n,
+                                'year_3': tcr_2.montant_n1})
+
+                #صافي الربح
+                bilan_7 = rec.companies_fisc.filtered(lambda r: r.sequence == 7)
+                tcr_3 = rec.tcr_id.tcr_lines.filtered(lambda r: r.rubrique.sequence == 50)
+                bilan_7.write({'year_4': tcr_3.montant_n,
+                               'year_3': tcr_3.montant_n1,})
+
+                # راس المال العامل
+                bilan_8 = rec.companies_fisc.filtered(lambda r: r.sequence == 8)
+                actif_2 = rec.actif_id.actif_lines.filtered(lambda r: r.rubrique.sequence == 16)
+                passif_18 = rec.passif_id.passif_lines.filtered(lambda r: r.rubrique.sequence == 18)
+                bilan_8.write({'year_4': passif_1.montant_n - actif_2.montant_n,
+                                'year_3': passif_1.montant_n1 - actif_2.montant_n1
+                                })
+
+                #احتياجات راس المال العامل
+                bilan_9 = rec.companies_fisc.filtered(lambda r: r.sequence == 9)
+                passif_4_1 = rec.passif_id.passif_lines.filtered(lambda r: r.rubrique.sequence == 24)
+                passif_20 = rec.passif_id.passif_lines.filtered(lambda r: r.rubrique.sequence == 20)
+                actif_18 = rec.actif_id.actif_lines.filtered(lambda r: r.rubrique.sequence == 18)
+                actif_20 = rec.actif_id.actif_lines.filtered(lambda r: r.rubrique.sequence == 20)
+                bilan_9.write({'year_4': actif_18.montant_n + actif_20.montant_n - passif_20.montant_n,
+                               'year_3': actif_18.montant_n1 + actif_20.montant_n1 - passif_20.montant_n1
+                                })
 
     def compute_level(self):
         for rec in self:
+            if not rec.etape_id:
+                state = rec.parent_id.states.filtered(lambda l: l.sequence == 2)
+                if state:
+                    rec.etape_id = state
             if not self.env.user.has_group('dept_wk.dept_wk_group_responsable_credit'):
                 rec.is_branch = True
             else:
                 rec.is_branch = False
+
+    def _compute_directeur(self):
+        for rec in self:
+            rec.directeur = self.env['res.groups'].search(
+                [('id', '=', self.env.ref('dept_wk.dept_wk_group_responsable_risque').id)]).users[0]
+            state = rec.parent_id.states.filtered(lambda l: l.sequence == 4)
+            print('state', rec.parent_id.assigned_to_risque)
+            rec.analyste = rec.parent_id.assigned_to_risque
 
     def compute_annee(self):
         for rec in self:
@@ -171,6 +285,7 @@ class Scoring(models.Model):
     @api.model
     def create(self, vals):
         res = super(Scoring, self).create(vals)
+        print(self.env.context)
         if self.env.context.get('parent_id'):
             res.passif_id = self.env.context.get('passif_id')
             res.actif_id = self.env.context.get('actif_id')
@@ -181,6 +296,22 @@ class Scoring(models.Model):
             etape_1 = res.parent_id.states.filtered(lambda l: l.etape.sequence == 1)
             if etape_1:
                 etape_1.risk_scoring = res.id
+            """
+            elif self.env.context.get('active_model') == 'wk.etape':
+                etape_exist = self.env['risk.scoring'].search([('etape_id', '=', self.env.context.get('active_id')),
+                                                               ('scoring_id', '=', False)], limit=1)
+                state2 = etape_exist.parent_id.states.filtered(lambda self:self.sequence == 2)
+                if etape_exist:
+                    res.scoring_id = etape_exist.id
+                    res.etape_id = state2.id
+                etape_exists = self.env['risk.scoring'].search([('etape_id', '=', state2.id),
+                                                                ('id', '!=', etape_exist.id),
+                                                                ('partner_id', '!=', state2.workflow.nom_client.id)
+                                                                ])
+            print(etape_exists)
+            for item in etape_exists:
+                item.scoring_id = etape_exist.id
+                item.parent_id = state2.workflow.id"""
         for item in list_critere:
             self.env['wk.scoring.detail'].create({
                 'risk': res.id,
@@ -190,10 +321,16 @@ class Scoring(models.Model):
         self.env['wk.hist'].create({'workflow': res.parent_id.id,
                                     'date': res.parent_id.date,
                                     'nom_client': res.parent_id.nom_client.id})
+        print('res', res)
         return res
 
     def calcul_scoring(self):
         for rec in self:
+            print('rec.scoring_id', rec.scoring_id)
+            print('rec.scoring_id == rec', rec.scoring_id == rec)
+            if rec.scoring_id == rec:
+                print('yes')
+                rec.is_initial = True
             if not rec.tcr_id:
                 etape = rec.parent_id.states.filtered(lambda l: l.etape.sequence == 2)
                 rec.tcr_id = etape.tcr_id.id
@@ -355,7 +492,7 @@ class Scoring(models.Model):
                     result_quant += r.ponderation
                     count_quant += 1
             tres = actif_3.montant_n - passif_4.montant_n
-            bfr = actif_4.montant_n  + actif_19.montant_n - passif1_20.montant_n - passif_21.montant_n - passif_22.montant_n
+            bfr = actif_4.montant_n + actif_19.montant_n - passif1_20.montant_n - passif_21.montant_n - passif_22.montant_n
             if tres <= 0 and bfr > 0:
                 rec.res_quant_17 = rec.critere_quant.quant_17[0].ponderation
                 result_quant += rec.res_quant_17
@@ -412,30 +549,18 @@ class Scoring(models.Model):
                 cat5.resultat = cat_total
             rec.chiffre_affaire = tcr_5.montant_n
             rec.max_limit = tcr_5.montant_n * (rec.resultat_scor / 1000)
-            configuration = self.env['configuration.risque'].search([])
-            if configuration:
-                found = False
-                count = 0
-                rec_year = rec.date.year
-                rec_month = rec.date.month
-                config = configuration[count]
-                while not found and count <= len(configuration):
-                    config = configuration[count]
-                    # Extract month and year from date_from and date_to
-                    config_month_from = config.date_from.month
-                    config_year_from = config.date_from.year
-                    config_month_to = config.date_to.month
-                    config_year_to = config.date_to.year
-
-                    # Compare only months and years
-                    if (config_year_from < rec_year < config_year_to) or \
-                            (config_year_from == rec_year == config_year_to and \
-                             config_month_from <= rec_month <= config_month_to):
-                        found = True
-                    else:
-                        count += 1
-                if found:
-                    rec.ca_banque = config.montant
+            if 1 <= rec.date.month < 4:
+                trimestre = '1'
+            elif 4 <= rec.date.month < 7:
+                trimestre = '2'
+            elif 7 <= rec.date.month < 9:
+                trimestre = '3'
+            else:
+                trimestre = '4'
+            configuration = self.env['configuration.risque'].search([('annee', '=', rec.date.year),
+                                                                     ('trimestre', '=', trimestre)], limit=1)
+            rec.configuration_ca = configuration.id
+            rec.ca_banque = configuration.montant
             if 300 <= rec.resultat_scoring <= 450:
                 rec.niveau_risque = 'ارباح غير مؤكدة'
                 rec.classif = 7
@@ -506,8 +631,27 @@ class Scoring(models.Model):
                 'context': {'score_id': rec.id, 'year': 1, }
             }
 
+    def _compute_company_fisc(self):
+        print('hiii')
+        for rec in self:
+            rec.company_ids = len(rec.scoring_group_ids)
+            print(rec.id)
+            etape1 = rec.parent_id.states.filtered(lambda l: l.sequence == 1)
+            etape2 = rec.parent_id.states.filtered(lambda l: l.sequence == 2)
+            scoring = etape1.risk_scoring
+            for company in rec.scoring_group_ids:
+                print('company != scoring', company != scoring)
+                if company != scoring:
+                    company.etape_id = etape2.id
+                    company.parent_id = rec.parent_id.id
+                else:
+                    company.scoring_id = False
+                    company.etape_id = False
+                    company.is_initial = True
+
     def calcul_limit(self):
         for rec in self:
+            rec.limit_expo = rec.pourcentage * rec.ca_banque
             rec.limit_25 = rec.ca_banque * (25 / 100)
             if rec.max_limit >= rec.limit_25:
                 if 300 <= rec.resultat_scoring <= 450:
@@ -809,3 +953,29 @@ class Detail(models.Model):
             else:
                 rec.computed_total = False
 
+
+class FaciliteRisk(models.Model):
+    _name = 'facilite.risk'
+
+    name = fields.Char()
+    product_ids = fields.Many2many('wk.product', string='نوع التسهيلات')
+    actuel_brut = fields.Float(string='الحالي الخام')
+    assurance = fields.Float(string='التأمين النقدي')
+    actuel_net = fields.Float(string='الحالي الصافي')
+    bilan = fields.Float(string='الرصيد')
+    request_net = fields.Float(string='المطلوب الصافي')
+    proposed_net = fields.Float(string='المقترح الصافي')
+    ratio_request_net = fields.Float(string='المطلوب/ممنوح المرجح')
+    ratio_propose_net = fields.Float(string='المقترح/ممنوح المرجح')
+    scoring_id = fields.Many2one('risk.scoring')
+
+
+class EngagementRisk(models.Model):
+    _name = 'engagement.risk'
+
+    name = fields.Char()
+    company = fields.Many2one('res.partner', string='الشركة', domain="[('is_client', '=', True)]")
+    limit = fields.Float(string='السقف')
+    ratio_request_net = fields.Float(string='المطلوب/ممنوح المرجح')
+    ratio_propose_net = fields.Float(string='المقترح/ممنوح المرجح')
+    scoring_id = fields.Many2one('risk.scoring')

@@ -1,5 +1,7 @@
 @font-face{
     font-family: "NotoArabic-Regular";
-    src:url(/dept_wk/static/src/fonts/IBMPlexSansArabic-Regular.ttf) format("truetype");
-    font-style:normal;
+    src:url(/dept_wk/static/src/fonts/Camel-Regular.otf) format("opentype");
+    font-weight: normal;
+    font-size: 50px;
+    font-style: normal;
     }

@@ -328,4 +328,5 @@ access_wk_scoring_detail_user,access.wk.scoring.detail,model_wk_scoring_detail,,
 access_wk_hist_user,access.wk.hist,model_wk_hist,,1,1,1,1
 
 access_wk_comite_user,access.wk.comite,model_wk_comite,,1,1,1,1
-
+access_facilite_risk_user,access.facilite.risk,model_facilite_risk,,1,1,1,1
+access_engagement_risk_user,access.engagement.risk,model_engagement_risk,,1,1,1,1

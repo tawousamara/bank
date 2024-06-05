@@ -374,6 +374,8 @@ class DeclarationFisc(models.Model):
     _name = 'wk.companies.fisc'
     _description = 'Companies fisc'
 
+    scoring_id = fields.Many2one('risk.scoring')
+
     etape_id = fields.Many2one('wk.etape')
     declaration = fields.Char(string='البيان')
     sequence = fields.Integer(string='Sequence')
@@ -445,17 +447,18 @@ class BilanFisc(models.Model):
         res = super(BilanFisc, self).create(vals)
         if 'bilan_id' in vals:
             vals.pop('bilan_id')
-        vals['bilan'] = res.id
-        if res.categorie == '1':
-            self.env['wk.bilan.cat1'].create(vals)
-        if res.categorie == '2':
-            self.env['wk.bilan.cat2'].create(vals)
-        if res.categorie == '3':
-            self.env['wk.bilan.cat3'].create(vals)
-        if res.categorie == '4':
-            self.env['wk.bilan.cat4'].create(vals)
-        if res.categorie == '5':
-            self.env['wk.bilan.cat5'].create(vals)
+        if 'etape_id' in vals:
+            vals['bilan'] = res.id
+            if res.categorie == '1':
+                self.env['wk.bilan.cat1'].create(vals)
+            if res.categorie == '2':
+                self.env['wk.bilan.cat2'].create(vals)
+            if res.categorie == '3':
+                self.env['wk.bilan.cat3'].create(vals)
+            if res.categorie == '4':
+                self.env['wk.bilan.cat4'].create(vals)
+            if res.categorie == '5':
+                self.env['wk.bilan.cat5'].create(vals)
         return res
 
 

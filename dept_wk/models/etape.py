@@ -413,8 +413,8 @@ class Etape(models.Model):
     visualisation2 = fields.Binary(string='visualisation')
 
     facitlite_existante = fields.One2many('wk.facilite.existante', 'etape_id')
-    '''risque_ids = fields.One2many('risk.scoring', 'etape_id', string='الشركات ذات الصلة',
-                                 domain="[('is_initial', '=', False)]")'''
+    risque_ids = fields.One2many('risk.scoring', 'etape_id', string='الشركات ذات الصلة',
+                                 domain="[('is_initial', '=', False)]")
     mouvement_group = fields.One2many('wk.mouvement.group', 'etape_id',
                                       string='الحركة والأعمال الجانبية للمجموعة مع مصرف السلام الجزائر (KDA)')
     tcr_id = fields.Many2one('import.ocr.tcr', string='TCR')
@@ -465,7 +465,7 @@ class Etape(models.Model):
     recommandation_dir_fin = fields.Text(string='راي مدير ادارة التمويلات', track_visibility='always')
     montant_demande = fields.Float(string='المبلغ المطلوب')
     montant_propose = fields.Float(string='المبلغ المقترح')
-    #company_ids = fields.Integer(string='', compute="_compute_company_fisc", )
+    company_ids = fields.Integer(string='', compute="_compute_company_fisc", )
     date_situation_comptable = fields.Date(string='اخر تاريخ للوضعية المحاسبية')
     visualisation_situation = fields.Binary(string='Chart')
     file_tcr = fields.Binary(string='الملف')
@@ -549,11 +549,11 @@ class Etape(models.Model):
     tracking_state = fields.Many2one('wk.tracking', compute='_compute_track', store=True)
     dossier_verouiller = fields.Boolean(string='Verrouiller')
     active = fields.Boolean(default=True)
-    can_edit = fields.Boolean(string='',compute='compute_readonly')
-    can_edit_finance = fields.Boolean(string='',compute='compute_readonly_finance')
+    can_edit = fields.Boolean(string='', compute='compute_readonly')
+    can_edit_finance = fields.Boolean(string='', compute='compute_readonly_finance')
 
-    #@api.depends('risque_ids')
-    '''def _compute_company_fisc(self):
+    @api.depends('risque_ids')
+    def _compute_company_fisc(self):
         print('hiii')
         for rec in self:
             if rec.sequence == 2:
@@ -571,7 +571,8 @@ class Etape(models.Model):
                         company.etape_id = False
                         company.is_initial = True
             else:
-                rec.company_ids = 0'''
+                rec.company_ids = 0
+
     @api.model
     def create(self, vals):
         res = super(Etape, self).create(vals)
