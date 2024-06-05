@@ -39,11 +39,14 @@ class RevoirState(models.TransientModel):
                         step_1.write({'raison_a_revoir': self.raison})
                 else:
                     demande.write({'raison_a_revoir': self.raison})
-                email_template = self.env.ref('dept_wk.notification_revoir_mail_template')
-                email_values = {
-                    'email_to': demande.get_mail_to_revoir(),
-                }
-                email_template.send_mail(demande.id, force_send=True, email_values=email_values)
+                try:
+                    email_template = self.env.ref('dept_wk.notification_revoir_mail_template')
+                    email_values = {
+                        'email_to': demande.get_mail_to_revoir(),
+                    }
+                    email_template.send_mail(demande.id, force_send=True, email_values=email_values)
+                except:
+                    print('hi')
                 '''last_track = self.env['wk.tracking'].search([('workflow_id', '=', demande.workflow.id)])
                 last_track[-1].write({'date_fin': datetime.today()})
                 state = dict(demande._fields['state_branch'].selection).get(demande.state_branch)
