@@ -1027,7 +1027,7 @@ class Etape(models.Model):
                     print('result', result)
                     result = True
             elif rec.etape.sequence == 2:
-                if rec.state_finance in ['finance_1', 'finance_3'] and self.env.user.has_group('dept_wk.dept_wk_group_responsable_analyste') and self.env.user != rec.assigned_to_finance:
+                if rec.state_finance in ['finance_1', 'finance_3'] and self.env.user.has_group('dept_wk.dept_wk_group_responsable_analyste'):
                     result = True
                     print('result', result)
                 elif rec.state_finance == 'finance_2' and self.env.user == rec.assigned_to_finance:
@@ -1055,6 +1055,7 @@ class Etape(models.Model):
                 if self.env.user.has_group('dept_wk.dept_wk_group_analyste'):
                     result = True
             rec.can_edit = result
+
     def compute_readonly_finance(self):
         for rec in self:
             result = False
@@ -1593,7 +1594,7 @@ class Etape(models.Model):
                         rec.dossier_verouiller = False
                 elif rec.state_finance == 'finance_3':
                     rec.state_finance = 'finance_2'
-                elif rec.state_finance == 'finance_4':
+                elif rec.state_finance in ['finance_4','finance_5', 'finance_6', 'finance_7']:
                     rec.state_finance = 'finance_3'
             elif rec.etape.sequence == 3:
                 if rec.state_commercial == 'commercial_2':

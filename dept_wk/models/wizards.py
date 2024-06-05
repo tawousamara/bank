@@ -33,6 +33,10 @@ class RevoirState(models.TransientModel):
                     step_1 = demande.workflow.states.filtered(lambda l: l.etape.sequence == 2)
                     if step_1.state_branch == 'finance_3':
                         step_1.write({'raison_a_revoir': self.raison})
+                elif demande.etape.sequence == 4 and demande.state_vice == 'finance_3':
+                    step_1 = demande.workflow.states.filtered(lambda l: l.etape.sequence == 2)
+                    if step_1.state_branch == 'finance_3':
+                        step_1.write({'raison_a_revoir': self.raison})
                 else:
                     demande.write({'raison_a_revoir': self.raison})
                 email_template = self.env.ref('dept_wk.notification_revoir_mail_template')
