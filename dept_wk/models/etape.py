@@ -1470,11 +1470,11 @@ class Etape(models.Model):
             elif rec.etape.sequence == 5:
                 if rec.state_vice == 'vice_1':
                     rec.state_vice = 'vice_2'
+                    etape_fin = rec.workflow.states.filtered(lambda l: l.etape.sequence == 2)
                     if etape_fin.comite == self.env.ref('dept_wk.pouvoir_1'):
                         rec.workflow.state = '7'
                         rec.workflow.date_fin = datetime.date.today()
                     else:
-                        etape_fin = rec.workflow.states.filtered(lambda l: l.etape.sequence == 2)
                         rec.workflow.state = '9'
                         etape_comm = rec.workflow.states.filtered(lambda l: l.etape.sequence == 3)
                         etape_risk = rec.workflow.states.filtered(lambda l: l.etape.sequence == 4)
