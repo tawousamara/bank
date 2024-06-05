@@ -682,7 +682,7 @@
                                 </table>
                             </div>
                             <br/>
-                            <t t-foreach="doc.scoring_group_ids" t-as="company">
+                            <t t-if="doc.scoring_group_ids" t-foreach="doc.scoring_group_ids" t-as="company">
                                 <div class="table_deco">
                                     <table class="reversed-table">
                                         <thead>
@@ -796,7 +796,7 @@
                                 </div>
                                 <br/>
                             </t>
-                            <div class="table_deco">
+                            <div t-if="doc.scoring_group_ids" class="table_deco">
                                 <table class="reversed-table">
                                     <thead>
                                         <tr>
