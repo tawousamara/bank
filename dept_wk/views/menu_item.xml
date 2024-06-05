@@ -89,6 +89,10 @@
                           name="الاستثناءات"
                           action="wk_exceptions_action"
                           sequence="14"/>
+                <menuitem id="wk_etapess_menu"
+                          name="الاستثناءات"
+                          action="wk_etape_action"
+                          sequence="14"/>
                 <menuitem id="wk_comite_menu"
                           name="صلاحيات اللجان"
                           action="wk_comite_action"
