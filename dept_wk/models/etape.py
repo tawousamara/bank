@@ -1663,15 +1663,13 @@ class Etape(models.Model):
     def create_pouvoir(self):
         for rec in self:
             etape_fin = rec.workflow.states.filtered(lambda l:l.etape.sequence == 2)
-            etape_fin.state_finance = 'finance_4'
+            #etape_fin.state_finance = 'finance_4'
             etape_fin.raison_a_revoir = False
             rec.workflow.state = '5'
             etape_1 = rec.workflow.states.filtered(lambda l: l.etape.sequence == 1)
             etape_comm = rec.workflow.states.filtered(lambda l: l.etape.sequence == 3)
             etape = rec.workflow.states.filtered(lambda l: l.etape.sequence == 5)
             vals = {
-                'state_vice': 'vice_1',
-                'workflow': rec.workflow.id,
                 'nom_client': etape_1.nom_client.id,
                 'branche': etape_1.branche.id,
                 'num_compte': etape_1.num_compte,

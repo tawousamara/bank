@@ -31,6 +31,8 @@
                             class="btn-secondary"/>
                     <button name="reject_request" type="object" string="رفض الطلب"
                             class="btn-secondary"/>
+                    <button name="create_pouvoir" type="object" string="معلومات"
+                            class="btn-secondary"/>
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
