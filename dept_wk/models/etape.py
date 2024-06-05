@@ -1479,7 +1479,7 @@ class Etape(models.Model):
                         etape_comm = rec.workflow.states.filtered(lambda l: l.etape.sequence == 3)
                         etape_risk = rec.workflow.states.filtered(lambda l: l.etape.sequence == 4)
                         etape_1 = rec.workflow.states.filtered(lambda l: l.etape.sequence == 1)
-                        etape = rec.workflow.states.filtered(lambda l: l.etape.sequence == 6)
+                        etape = rec.workflow.states.filtered(lambda l: l.etape.sequence == 9)
                         vals = {'workflow': rec.workflow.id,
                                      'etape': self.env.ref('dept_wk.princip_9').id,
                                      'state_dg': 'dg_1',
