@@ -1480,29 +1480,30 @@ class Etape(models.Model):
                         etape_risk = rec.workflow.states.filtered(lambda l: l.etape.sequence == 4)
                         etape_1 = rec.workflow.states.filtered(lambda l: l.etape.sequence == 1)
                         etape = rec.workflow.states.filtered(lambda l: l.etape.sequence == 9)
-                        vals = {'workflow': rec.workflow.id,
-                                     'etape': self.env.ref('dept_wk.princip_9').id,
-                                     'state_dg': 'dg_1',
-                                     'nom_client': etape_1.nom_client.id,
-                                     'gerant': etape_1.gerant.id,
-                                     'recommendation_visit': etape_1.recommendation_visit,
-                                     'recommendation_responsable_agence': etape_1.recommendation_responsable_agence,
-                                     'recommendation_dir_commercial': etape_comm.recommendation_dir_commercial,
-                                     'recommendation_commercial': etape_comm.recommendation_commercial,
-                                     'resultat_scoring': etape_risk.resultat_scoring,
-                                     'recommandation_dir_risque': etape_risk.recommandation_dir_risque,
-                                     'recommandation_analyste_fin': rec.recommandation_analyste_fin,
-                                     'garantie_ids': rec.garantie_ids.ids,
-                                     'comite': rec.comite.id,
-                                     'recommandation_dir_fin': rec.recommandation_dir_fin,
-                                     'recommandation_vice_dir_fin': rec.recommandation_vice_dir_fin,
-                                     }
+                        vals = {
+                                    'workflow': rec.workflow.id,
+                                    'etape': self.env.ref('dept_wk.princip_9').id,
+                                    'state_dg': 'dg_1',
+                                    'nom_client': etape_1.nom_client.id,
+                                    'gerant': etape_1.gerant.id,
+                                    'recommendation_visit': etape_1.recommendation_visit,
+                                    'recommendation_responsable_agence': etape_1.recommendation_responsable_agence,
+                                    'recommendation_dir_commercial': etape_comm.recommendation_dir_commercial,
+                                    'recommendation_commercial': etape_comm.recommendation_commercial,
+                                    'resultat_scoring': etape_risk.resultat_scoring,
+                                    'recommandation_dir_risque': etape_risk.recommandation_dir_risque,
+                                    'recommandation_analyste_fin': etape_fin.recommandation_analyste_fin,
+                                    'garantie_ids': etape_fin.garantie_ids.ids,
+                                    'comite': etape_fin.comite.id,
+                                    'recommandation_dir_fin': etape_fin.recommandation_dir_fin,
+                                    'recommandation_vice_dir_fin': rec.recommandation_vice_dir_fin,
+                                }
                         if not etape:
                             etape = self.env['wk.etape'].create(vals)
                         else:
                             etape.write(vals)
                         etape.facilite_propose.unlink()
-                        for fac in rec.facilite_propose:
+                        for fac in etape_fin.facilite_propose:
                             self.env['wk.facilite.propose'].create({
                                 'type_facilite': fac.type_facilite.id,
                                 'type_demande_ids': fac.type_demande_ids.ids,
@@ -1535,11 +1536,11 @@ class Etape(models.Model):
                                      'recommendation_commercial': etape_comm.recommendation_commercial,
                                      'resultat_scoring': etape_risk.resultat_scoring,
                                      'recommandation_dir_risque': etape_risk.recommandation_dir_risque,
-                                     'recommandation_analyste_fin': rec.recommandation_analyste_fin,
-                                     'garantie_ids': rec.garantie_ids.ids,
-                                     'comite': rec.comite.id,
-                                     'recommandation_dir_fin': rec.recommandation_dir_fin,
-                                     'recommandation_vice_dir_fin': rec.recommandation_vice_dir_fin,
+                                     'recommandation_analyste_fin': etape_fin.recommandation_analyste_fin,
+                                     'garantie_ids': etape_fin.garantie_ids.ids,
+                                     'comite': etape_fin.comite.id,
+                                     'recommandation_dir_fin': etape_fin.recommandation_dir_fin,
+                                     'recommandation_vice_dir_fin': etape_fin.recommandation_vice_dir_fin,
                                      'recommandation_dg': rec.recommandation_dg,
                                      }
                         if not etape:
@@ -1547,7 +1548,7 @@ class Etape(models.Model):
                         else:
                             etape.write(vals)
                         etape.facilite_propose.unlink()
-                        for fac in rec.facilite_propose:
+                        for fac in etape_fin.facilite_propose:
                             self.env['wk.facilite.propose'].create({
                                 'type_facilite': fac.type_facilite.id,
                                 'type_demande_ids': fac.type_demande_ids.ids,
@@ -1802,7 +1803,7 @@ class Etape(models.Model):
                     'type_payment': f.type_payment.ids,
                     'etape_id': etape.id
                 })
-            for fac in rec.facilite_propose:
+            for fac in etape_fin.facilite_propose:
                 self.env['wk.facilite.propose'].create({
                     'type_facilite': fac.type_facilite.id,
                     'type_demande_ids': fac.type_demande_ids.ids,
