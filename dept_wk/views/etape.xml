@@ -31,7 +31,7 @@
                             class="btn-secondary"/>
                     <button name="reject_request" type="object" string="رفض الطلب"
                             class="btn-secondary"/>
-                    <button name="create_pouvoir" type="object" string="معلومات"
+                    <button name="create_pouvoir" invisible="1" type="object" string="معلومات"
                             class="btn-secondary"/>
                 </header>
                 <sheet>
