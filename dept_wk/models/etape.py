@@ -2793,7 +2793,7 @@ class Etape(models.Model):
                     partner_ids.append(user_ids.mapped('email'))
                     list_final = ', '.join(str(id) for id in partner_ids)
             if rec.sequence == 2:
-                if rec.state_finance == 'finance_3':
+                if rec.state_finance in  ['finance_3']:
                     user_ids = self.env.ref('dept_wk.dept_wk_group_responsable_analyste').users.mapped('partner_id')
                     partner_ids.append(user_ids.mapped('email'))
                     list_final = ', '.join(str(id) for id in partner_ids)
