@@ -347,10 +347,10 @@
                                             </tr>
                                             <tr>
                                                 <td class="title-cell">
-                                                    راس المال الشركة
+                                                    راس المال التاسيسي
                                                 </td>
                                                 <td colspan="2">
-                                                    <t t-esc="'{0:,.2f}'.format(etape1.chiffre_affaire / 1000)"/>
+                                                    <t t-esc="'{0:,.2f}'.format(etape1.chiffre_affaire_creation / 1000)"/>
                                                 </td>
                                                 <td class="title-cell">
                                                     راس المال الحالي

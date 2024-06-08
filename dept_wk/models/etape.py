@@ -2310,10 +2310,10 @@ class Etape(models.Model):
                 bilan_17 = rec.bilan_id.filtered(lambda r: r.sequence == 17)
                 passif_8 = rec.passif_id.passif_lines.filtered(lambda r: r.rubrique.sequence == 22)
                 passif1_8 = rec.passif1_id.passif_lines.filtered(lambda r: r.rubrique.sequence == 22)
-                bilan_17.write({'year_4': passif_8.montant_n + passif_20.montant_n,
-                                'year_3': passif_8.montant_n1 + passif_20.montant_n1,
-                                'year_2': passif1_8.montant_n1 + passif1_20.montant_n,
-                                'year_1': passif1_8.montant_n1 + passif1_20.montant_n1,
+                bilan_17.write({'year_4': passif_8.montant_n,
+                                'year_3': passif_8.montant_n1,
+                                'year_2': passif1_8.montant_n1,
+                                'year_1': passif1_8.montant_n1,
                                 })
 
                 # (Emprunts et dettes financières passif + Trésorerie passif - Trésorerie coté actif ) / Total I coté passif نسبة المديونية Leverage
@@ -2389,18 +2389,20 @@ class Etape(models.Model):
 
                 bilan_24 = rec.bilan_id.filtered(lambda r: r.sequence == 24)
                 # صافي الأرباح/المبيعات
-                bilan_24.write({'year_4': tcr_3.montant_n / tcr_1.montant_n if tcr_1.montant_n != 0 else 0,
-                                'year_3': tcr_3.montant_n1 / tcr_1.montant_n1 if tcr_1.montant_n1 != 0 else 0,
-                                'year_2': tcr1_3.montant_n / tcr1_1.montant_n if tcr1_1.montant_n != 0 else 0,
-                                'year_1': tcr1_3.montant_n1 / tcr1_1.montant_n1 if tcr1_1.montant_n1 != 0 else 0})
-
+                bilan_24.write({'year_4': (tcr_3.montant_n / tcr_1.montant_n) * 100 if tcr_1.montant_n != 0 else 0,
+                                'year_3': (tcr_3.montant_n1 / tcr_1.montant_n1) * 100 if tcr_1.montant_n1 != 0 else 0,
+                                'year_2': (tcr1_3.montant_n / tcr1_1.montant_n) * 100 if tcr1_1.montant_n != 0 else 0,
+                                'year_1': (tcr1_3.montant_n1 / tcr1_1.montant_n1) * 100 if tcr1_1.montant_n1 != 0 else 0})
+                print(bilan_24.declaration)
+                print(tcr_3.montant_n / tcr_1.montant_n)
+                print(bilan_24.year_4)
                 if tcr_1.montant_n == 0:
                     bilan_24.is_null_4 = True
                 if tcr_1.montant_n1 == 0:
                     bilan_24.is_null_3 = True
-                if tcr_1.montant_n == 0:
+                if tcr1_1.montant_n == 0:
                     bilan_24.is_null_2 = True
-                if tcr_1.montant_n1 == 0:
+                if tcr1_1.montant_n1 == 0:
                     bilan_24.is_null_1 = True
                 # معدل العائد على الموجودات ROA
                 bilan_25 = rec.bilan_id.filtered(lambda r: r.sequence == 25)
