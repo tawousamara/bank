@@ -44,10 +44,10 @@ class Scoring(models.Model):
     groupe = fields.Many2one('res.partner', related='partner_id.groupe', store=True, string='المجموعة')
     branche = fields.Many2one('wk.agence', related='partner_id.branche', store=True, string='الفرع')
     num_compte = fields.Char(related='partner_id.num_compte', store=True, string='رقم الحساب')
-    taille = fields.Selection([('tpe', 'شركة جد صغيرة'),
-                               ('pe', 'شركة صغيرة'),
-                               ('me', 'شركة متوسطة'),
-                               ('ge', 'شركة كبيرة')], string='حجم الشركة')
+    taille = fields.Selection([('tpe', 'جد صغيرة'),
+                               ('pe', 'صغيرة'),
+                               ('me', 'متوسطة'),
+                               ('ge', 'كبيرة')], string='حجم الشركة')
     critere_qual = fields.Many2one('risk.critere.qualitatif', string='Critères Qualitatifs', default=1)
     critere_quant = fields.Many2one('risk.critere.quantitatif', string='Critères Quantitatifs', default=1)
 
