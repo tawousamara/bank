@@ -1460,13 +1460,25 @@ class Etape(models.Model):
                     rec.raison_a_revoir = False
             elif rec.etape.sequence == 4:
                 if rec.state_risque == 'risque_1':
-                    rec.state_risque = 'risque_3'
+                    if self.env.user.has_group('dept_wk.dept_wk_group_responsable_risque'):
+                        rec.state_risque = 'risque_3'
+                        rec.workflow.assigned_to_risque = rec.assigned_to_risque.id
+                        rec.raison_a_revoir = False
+                    else:
+                        raise ValidationError(_('Vous n\'etes pas autoriser'))
                 elif rec.state_risque == 'risque_3':
-                    rec.state_risque = 'risque_4'
+                    if self.env.user.has_group('dept_wk.dept_wk_group_responsable_credit'):
+                        rec.state_risque = 'risque_4'
+                        rec.raison_a_revoir = False
+                    else:
+                        raise ValidationError(_('Vous n\'etes pas autoriser'))
                 elif rec.state_risque == 'risque_4':
-                    rec.state_risque = 'risque_2'
-                    rec.raison_a_revoir = False
-                    self.create_pouvoir()
+                    if self.env.user.has_group('dept_wk.dept_wk_group_responsable_risque'):
+                        rec.state_risque = 'risque_2'
+                        rec.raison_a_revoir = False
+                        self.create_pouvoir()
+                    else:
+                        raise ValidationError(_('Vous n\'etes pas autoriser'))
             elif rec.etape.sequence == 5:
                 if rec.state_vice == 'vice_1':
                     rec.state_vice = 'vice_2'
