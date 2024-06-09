@@ -547,7 +547,7 @@ class Etape(models.Model):
     reference = fields.Char(string='Réference', related='workflow.name')
     date = fields.Date(string='تاريخ', related='workflow.date')
     tracking_state = fields.Many2one('wk.tracking', compute='_compute_track', store=True)
-    dossier_verouiller = fields.Boolean(string='Verrouiller')
+    dossier_verouiller = fields.Boolean(string='Dossier Verrouiller', track_visibility='always')
     active = fields.Boolean(default=True)
     can_edit = fields.Boolean(string='', compute='compute_readonly')
     can_edit_finance = fields.Boolean(string='', compute='compute_readonly_finance')

@@ -165,7 +165,6 @@ class Confirmation(models.TransientModel):
             etape = self.env['wk.etape'].search([('id', '=', self.env.context.get('etape'))])
             if etape:
                 etape.write({'dossier_verouiller': self.env.context.get('verrouiller')})
-                print('1')
                 etape.verrouiller_dossier_function()
         elif self.env.context.get('to_validate'):
             etape = self.env['wk.etape'].search([('id', '=', self.env.context.get('etape'))])
