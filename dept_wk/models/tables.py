@@ -349,7 +349,6 @@ class Client(models.Model):
     _name = 'wk.client'
     _description = 'clients'
 
-
     etape_id = fields.Many2one('wk.etape')
     name = fields.Char(string='الاسم')
     country = fields.Many2one('res.country', string='البلد', default=lambda self: self.env['res.country'].search([('code', '=', 'DZ')], limit=1))
