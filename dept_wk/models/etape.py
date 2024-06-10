@@ -752,13 +752,6 @@ class Etape(models.Model):
             if rec.state_finance == 'finance_4':
                 etape_1 = rec.workflow.states.filtered(lambda l: l.etape.sequence == 1)
                 exist_com = rec.workflow.states.filtered(lambda l: l.etape.sequence == 3)
-                exist_risk = rec.workflow.states.filtered(lambda l: l.etape.sequence == 4)
-                if not exist_risk:
-                    etape_risk = self.env['wk.etape'].create({'workflow': rec.workflow.id,
-                                                              'etape': self.env.ref('dept_wk.princip_4').id,
-                                                              'risk_scoring': etape_1.risk_scoring.id,
-                                                              'state_risque': 'risque_1'})
-
                 if not exist_com:
                     vals = {
                         'workflow': rec.workflow.id,
@@ -873,6 +866,13 @@ class Etape(models.Model):
                                                              'etape': self.env.ref('dept_wk.princip_4').id,
                                                              'risk_scoring': etape_1.risk_scoring.id,
                                                              'state_risque': 'risque_1'})'''
+                if exist_com.state_commercial == 'commercial_4':
+                    exist_risk = rec.workflow.states.filtered(lambda l: l.etape.sequence == 4)
+                    if not exist_risk:
+                        etape_risk = self.env['wk.etape'].create({'workflow': rec.workflow.id,
+                                                                  'etape': self.env.ref('dept_wk.princip_4').id,
+                                                                  'risk_scoring': etape_1.risk_scoring.id,
+                                                                  'state_risque': 'risque_1'})
 
     def validate_information(self):
         for rec in self:
