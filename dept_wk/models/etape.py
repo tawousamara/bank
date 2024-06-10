@@ -753,7 +753,7 @@ class Etape(models.Model):
                 etape_1 = rec.workflow.states.filtered(lambda l: l.etape.sequence == 1)
                 exist_com = rec.workflow.states.filtered(lambda l: l.etape.sequence == 3)
                 exist_risk = rec.workflow.states.filtered(lambda l: l.etape.sequence == 4)
-                if not etape_risk:
+                if not exist_risk:
                     etape_risk = self.env['wk.etape'].create({'workflow': rec.workflow.id,
                                                               'etape': self.env.ref('dept_wk.princip_4').id,
                                                               'risk_scoring': etape_1.risk_scoring.id,
