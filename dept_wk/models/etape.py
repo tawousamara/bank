@@ -2626,7 +2626,7 @@ class Etape(models.Model):
                 passif1_8 = rec.passif1_id.passif_lines.filtered(lambda r: r.rubrique.sequence == 22)
                 bilan_17.write({'year_4': passif_8.montant_n,
                                 'year_3': passif_8.montant_n1,
-                                'year_2': passif1_8.montant_n1,
+                                'year_2': passif1_8.montant_n,
                                 'year_1': passif1_8.montant_n1,
                                 })
 
