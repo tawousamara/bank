@@ -1320,7 +1320,7 @@
                             <field name="assigned_to_risque" readonly="not can_edit or state_risque != 'risque_1'"
                                    options="{'no_create': True, 'no_open': True}"
                                    invisible="sequence not in [4]"/>
-                            <field name="validator_risque" readonly="not can_edit or state_risque != 'risque_4'"
+                            <field name="validator_risque" readonly="not can_edit or state_risque not in ['risque_4', 'risque_2']"
                                    options="{'no_create': True, 'no_open': True}"
                                    invisible="sequence not in [4]"/>
                         </group>
