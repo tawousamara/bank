@@ -313,6 +313,7 @@
             <tree editable="bottom">
                 <field name="name"/>
                 <field name="domaine"/>
+                <field name="wilaya_arabe"/>
             </tree>
         </field>
     </record>

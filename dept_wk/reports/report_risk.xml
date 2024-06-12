@@ -59,7 +59,7 @@
                             <t t-esc="doc.partner_id.activity_description"/>
                             <br/>
                             الولاية:
-                            <t t-esc="doc.partner_id.wilaya.domaine"/>
+                            <t t-esc="doc.partner_id.wilaya.wilaya_arabe"/>
                         </td>
                         <td style="font-size: 20px;font-family: 'NotoArabic-Regular';padding: 5px;vertical-align: middle;">
                             دراسة طلب التسهيلات رقم:
@@ -185,7 +185,7 @@
                                         </td>
                                         <td t-if="etape1.wilaya">
                                             <span>
-                                                <t t-esc="etape1.branche.wilaya_id.domaine"/>
+                                                <t t-esc="etape1.branche.wilaya_id.wilaya_arabe"/>
                                             </span>
                                         </td>
                                     </tr>
