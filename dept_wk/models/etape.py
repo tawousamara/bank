@@ -753,6 +753,7 @@ class Etape(models.Model):
                 etape_1 = rec.workflow.states.filtered(lambda l: l.etape.sequence == 1)
                 exist_com = rec.workflow.states.filtered(lambda l: l.etape.sequence == 3)
                 exist_risk = rec.workflow.states.filtered(lambda l: l.etape.sequence == 4)
+                etape = rec.workflow.states.filtered(lambda l: l.etape.sequence == 5)
                 if not exist_com:
                     vals = {
                         'workflow': rec.workflow.id,
@@ -875,14 +876,9 @@ class Etape(models.Model):
                                                                   'state_risque': 'risque_1'})
                 if exist_risk.state_risque == 'risque_2':
                     etape_fin = rec.workflow.states.filtered(lambda l: l.etape.sequence == 2)
-                    # etape_fin.state_finance = 'finance_4'
-                    etape_fin.raison_a_revoir = False
                     rec.workflow.state = '5'
-                    etape_1 = rec.workflow.states.filtered(lambda l: l.etape.sequence == 1)
-                    etape_comm = rec.workflow.states.filtered(lambda l: l.etape.sequence == 3)
-                    etape_risk = rec.workflow.states.filtered(lambda l: l.etape.sequence == 4)
-                    etape = rec.workflow.states.filtered(lambda l: l.etape.sequence == 5)
                     vals = {
+                        'workflow': rec.workflow.id,
                         'nom_client': etape_1.nom_client.id,
                         'branche': etape_1.branche.id,
                         'num_compte': etape_1.num_compte,
@@ -900,14 +896,14 @@ class Etape(models.Model):
                         'description_company': etape_1.description_company,
                         'recommendation_visit': etape_1.recommendation_visit,
                         'recommendation_responsable_agence': etape_1.recommendation_responsable_agence,
-                        'analyse_secteur_act': etape_comm.analyse_secteur_act,
-                        'analyse_concurrence': etape_comm.analyse_concurrence,
-                        'ampleur_benefice': etape_comm.ampleur_benefice,
-                        'analyse_relation': etape_comm.analyse_relation,
-                        'recommendation_dir_commercial': etape_comm.recommendation_dir_commercial,
-                        'recommendation_commercial': etape_comm.recommendation_commercial,
-                        'risk_scoring': etape_risk.risk_scoring.id,
-                        'recommandation_dir_risque': etape_risk.recommandation_dir_risque,
+                        'analyse_secteur_act': exist_com.analyse_secteur_act,
+                        'analyse_concurrence': exist_com.analyse_concurrence,
+                        'ampleur_benefice': exist_com.ampleur_benefice,
+                        'analyse_relation': exist_com.analyse_relation,
+                        'recommendation_dir_commercial': exist_com.recommendation_dir_commercial,
+                        'recommendation_commercial': exist_com.recommendation_commercial,
+                        'risk_scoring': exist_risk.risk_scoring.id,
+                        'recommandation_dir_risque': exist_risk.recommandation_dir_risque,
                         'recommandation_analyste_fin': etape_fin.recommandation_analyste_fin,
                         'garantie_ids': etape_fin.garantie_ids.ids,
                         'exception_ids': etape_fin.exception_ids.ids,
@@ -1026,7 +1022,7 @@ class Etape(models.Model):
                             'duree': fac.duree,
                             'condition': fac.condition,
                             'etape_id': etape.id})
-                        
+
     def validate_information(self):
         for rec in self:
                 view_id = self.env.ref('dept_wk.confirmation_etape_wizard_form').id
@@ -1633,6 +1629,7 @@ class Etape(models.Model):
                         etape = rec.workflow.states.filtered(lambda l: l.etape.sequence == 5)
                         print('etape_risk.resultat_scoring', etape_risk.resultat_scoring)
                         vals = {
+                            'workflow': rec.workflow.id,
                             'nom_client': etape_1.nom_client.id,
                             'branche': etape_1.branche.id,
                             'num_compte': etape_1.num_compte,
