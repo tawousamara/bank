@@ -65,6 +65,7 @@ class Wilaya(models.Model):
     name = fields.Char(string="الرمز")
     domaine = fields.Char(string='الولاية')
     description = fields.Char(string='الاسم')
+    wilaya_arabe = fields.Char(string='اسم الولاية بالعربية')
 
 
 class Commune(models.Model):

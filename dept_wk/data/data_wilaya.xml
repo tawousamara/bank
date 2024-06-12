@@ -6,242 +6,289 @@
             <field name="name">01</field>
             <field name="domaine">ADRAR</field>
             <field name="description">ADRAR</field>
+            <field name="wilaya_arabe">أدرار</field>
         </record>
         <record id="wilaya_2" model="wk.wilaya">
             <field name="name">02</field>
             <field name="domaine">CHLEF</field>
             <field name="description">CHLEF</field>
+            <field name="wilaya_arabe">الشلف</field>
         </record>
         <record id="wilaya_3" model="wk.wilaya">
             <field name="name">03</field>
             <field name="domaine">LAGHOUAT</field>
             <field name="description">LAGHOUAT</field>
+            <field name="wilaya_arabe">الأغواط</field>
         </record>
         <record id="wilaya_4" model="wk.wilaya">
             <field name="name">04</field>
             <field name="domaine">OUM ELBOUAGHI</field>
             <field name="description">OUM ELBOUAGHI</field>
+            <field name="wilaya_arabe">أم البواقي</field>
         </record>
         <record id="wilaya_5" model="wk.wilaya">
             <field name="name">05</field>
             <field name="domaine">BATNA</field>
             <field name="description">BATNA</field>
+            <field name="wilaya_arabe">باتنة</field>
         </record>
         <record id="wilaya_6" model="wk.wilaya">
             <field name="name">06</field>
             <field name="domaine">BEJAIA</field>
             <field name="description">BEJAIA</field>
+            <field name="wilaya_arabe">بجاية</field>
         </record>
         <record id="wilaya_7" model="wk.wilaya">
             <field name="name">07</field>
             <field name="domaine">BISKRA</field>
             <field name="description">BISKRA</field>
+            <field name="wilaya_arabe">بسكرة</field>
         </record>
         <record id="wilaya_8" model="wk.wilaya">
             <field name="name">08</field>
             <field name="domaine">BECHAR</field>
             <field name="description">BECHAR</field>
+            <field name="wilaya_arabe">بشار</field>
         </record>
         <record id="wilaya_9" model="wk.wilaya">
             <field name="name">09</field>
             <field name="domaine">BLIDA</field>
             <field name="description">BLIDA</field>
+            <field name="wilaya_arabe">البليدة</field>
         </record>
         <record id="wilaya_10" model="wk.wilaya">
             <field name="name">10</field>
             <field name="domaine">BOUIRA</field>
             <field name="description">BOUIRA</field>
+            <field name="wilaya_arabe">البويرة</field>
         </record>
         <record id="wilaya_11" model="wk.wilaya">
             <field name="name">11</field>
             <field name="domaine">TAMANGHASSET</field>
             <field name="description">TAMANGHASSET</field>
+            <field name="wilaya_arabe">تمنراست</field>
         </record>
         <record id="wilaya_12" model="wk.wilaya">
             <field name="name">12</field>
             <field name="domaine">TEBESSA</field>
             <field name="description">TEBESSA</field>
+            <field name="wilaya_arabe">تبسة</field>
         </record>
         <record id="wilaya_13" model="wk.wilaya">
             <field name="name">13</field>
             <field name="domaine">TLEMCEN</field>
             <field name="description">TLEMCEN</field>
+            <field name="wilaya_arabe">تلمسان</field>
         </record>
         <record id="wilaya_14" model="wk.wilaya">
             <field name="name">14</field>
             <field name="domaine">TIARET</field>
             <field name="description">TIARET</field>
+            <field name="wilaya_arabe">تيارت</field>
         </record>
         <record id="wilaya_15" model="wk.wilaya">
             <field name="name">15</field>
             <field name="domaine">TIZI.OUZOU</field>
             <field name="description">TIZI.OUZOU</field>
+            <field name="wilaya_arabe">تيزي وزو</field>
         </record>
         <record id="wilaya_16" model="wk.wilaya">
             <field name="name">16</field>
             <field name="domaine">ALGER</field>
             <field name="description">ALGER</field>
+            <field name="wilaya_arabe">الجزائر</field>
         </record>
         <record id="wilaya_17" model="wk.wilaya">
             <field name="name">17</field>
             <field name="domaine">DJELFA</field>
             <field name="description">DJELFA</field>
+            <field name="wilaya_arabe">الجلفة</field>
         </record>
         <record id="wilaya_18" model="wk.wilaya">
             <field name="name">18</field>
             <field name="domaine">JIJEL</field>
             <field name="description">JIJEL</field>
+            <field name="wilaya_arabe">جيجل</field>
         </record>
         <record id="wilaya_19" model="wk.wilaya">
             <field name="name">19</field>
             <field name="domaine">SETIF</field>
             <field name="description">SETIF</field>
+            <field name="wilaya_arabe">سطيف</field>
         </record>
         <record id="wilaya_20" model="wk.wilaya">
             <field name="name">20</field>
             <field name="domaine">SAIDA</field>
             <field name="description">SAIDA</field>
+            <field name="wilaya_arabe">سعيدة</field>
         </record>
         <record id="wilaya_21" model="wk.wilaya">
             <field name="name">21</field>
             <field name="domaine">SKIKDA</field>
             <field name="description">SKIKDA</field>
+            <field name="wilaya_arabe">سكيكدة</field>
         </record>
         <record id="wilaya_22" model="wk.wilaya">
             <field name="name">22</field>
             <field name="domaine">SIDI BEL ABBES</field>
             <field name="description">SIDI BEL ABBES</field>
+            <field name="wilaya_arabe">سيدي بلعباس</field>
         </record>
         <record id="wilaya_23" model="wk.wilaya">
             <field name="name">23</field>
             <field name="domaine">ANNABA</field>
             <field name="description">ANNABA</field>
+            <field name="wilaya_arabe">عنابة</field>
         </record>
         <record id="wilaya_24" model="wk.wilaya">
             <field name="name">24</field>
             <field name="domaine">GUELMA</field>
             <field name="description">GUELMA</field>
+            <field name="wilaya_arabe">قالمة</field>
         </record>
         <record id="wilaya_25" model="wk.wilaya">
             <field name="name">25</field>
             <field name="domaine">CONSTANTINE</field>
             <field name="description">CONSTANTINE</field>
+            <field name="wilaya_arabe">قسنطينة</field>
         </record>
         <record id="wilaya_26" model="wk.wilaya">
             <field name="name">26</field>
             <field name="domaine">MEDEA</field>
             <field name="description">MEDEA</field>
+            <field name="wilaya_arabe">المدية</field>
         </record>
         <record id="wilaya_27" model="wk.wilaya">
             <field name="name">27</field>
             <field name="domaine">MOSTAGANEM</field>
             <field name="description">MOSTAGANEM</field>
+            <field name="wilaya_arabe">مستغانم</field>
         </record>
         <record id="wilaya_28" model="wk.wilaya">
             <field name="name">28</field>
             <field name="domaine">M'SILA</field>
             <field name="description">M'SILA</field>
+            <field name="wilaya_arabe">المسيلة</field>
         </record>
         <record id="wilaya_29" model="wk.wilaya">
             <field name="name">29</field>
             <field name="domaine">MASCARA</field>
             <field name="description">MASCARA</field>
+            <field name="wilaya_arabe">معسكر</field>
         </record>
         <record id="wilaya_30" model="wk.wilaya">
             <field name="name">30</field>
             <field name="domaine">OUARGLA</field>
             <field name="description">OUARGLA</field>
+            <field name="wilaya_arabe">ورقلة</field>
         </record>
         <record id="wilaya_31" model="wk.wilaya">
             <field name="name">31</field>
             <field name="domaine">ORAN</field>
             <field name="description">ORAN</field>
+            <field name="wilaya_arabe">وهران</field>
         </record>
         <record id="wilaya_32" model="wk.wilaya">
             <field name="name">32</field>
             <field name="domaine">EL BAYADH</field>
             <field name="description">EL BAYADH</field>
+            <field name="wilaya_arabe">البيض</field>
         </record>
         <record id="wilaya_33" model="wk.wilaya">
             <field name="name">33</field>
             <field name="domaine">ILLIZI</field>
             <field name="description">ILLIZI</field>
+            <field name="wilaya_arabe">إليزي</field>
         </record>
         <record id="wilaya_34" model="wk.wilaya">
             <field name="name">34</field>
             <field name="domaine">B.B.ARRERIDJ</field>
             <field name="description">B.B.ARRERIDJ</field>
+            <field name="wilaya_arabe">برج بوعريريج</field>
         </record>
         <record id="wilaya_35" model="wk.wilaya">
             <field name="name">35</field>
             <field name="domaine">BOUMERDES</field>
             <field name="description">BOUMERDES</field>
+            <field name="wilaya_arabe">بومرداس</field>
         </record>
         <record id="wilaya_36" model="wk.wilaya">
             <field name="name">36</field>
             <field name="domaine">AL TARF</field>
             <field name="description">AL TARF</field>
+            <field name="wilaya_arabe">الطارف</field>
         </record>
         <record id="wilaya_37" model="wk.wilaya">
             <field name="name">37</field>
             <field name="domaine">TINDOUF</field>
             <field name="description">TINDOUF</field>
+            <field name="wilaya_arabe">تندوف</field>
         </record>
         <record id="wilaya_38" model="wk.wilaya">
             <field name="name">38</field>
             <field name="domaine">TISSEMSILT</field>
             <field name="description">TISSEMSILT</field>
+            <field name="wilaya_arabe">تيسمسيلت</field>
         </record>
         <record id="wilaya_39" model="wk.wilaya">
             <field name="name">39</field>
             <field name="domaine">EL OUED</field>
             <field name="description">EL OUED</field>
+            <field name="wilaya_arabe">الوادي</field>
         </record>
         <record id="wilaya_40" model="wk.wilaya">
             <field name="name">40</field>
             <field name="domaine">KHENCHELA</field>
             <field name="description">KHENCHELA</field>
+            <field name="wilaya_arabe">خنشلة</field>
         </record>
         <record id="wilaya_41" model="wk.wilaya">
             <field name="name">41</field>
             <field name="domaine">SOUKAHRAS</field>
             <field name="description">SOUKAHRAS</field>
+            <field name="wilaya_arabe">سوق أهراس</field>
         </record>
         <record id="wilaya_42" model="wk.wilaya">
             <field name="name">42</field>
             <field name="domaine">TIPAZA</field>
             <field name="description">TIPAZA</field>
+            <field name="wilaya_arabe">تيبازة</field>
         </record>
         <record id="wilaya_43" model="wk.wilaya">
             <field name="name">43</field>
             <field name="domaine">MILA</field>
             <field name="description">MILA</field>
+            <field name="wilaya_arabe">ميلة</field>
         </record>
         <record id="wilaya_44" model="wk.wilaya">
             <field name="name">44</field>
             <field name="domaine">AIN DEFLA</field>
             <field name="description">AIN DEFLA</field>
+            <field name="wilaya_arabe">عين الدفلى</field>
         </record>
         <record id="wilaya_45" model="wk.wilaya">
             <field name="name">45</field>
             <field name="domaine">NAAMA</field>
             <field name="description">NAAMA</field>
+            <field name="wilaya_arabe">النعامة</field>
         </record>
         <record id="wilaya_46" model="wk.wilaya">
             <field name="name">46</field>
             <field name="domaine">AIN TEMOUCHENT</field>
             <field name="description">AIN TEMOUCHENT</field>
+            <field name="wilaya_arabe">عين تموشنت</field>
         </record>
         <record id="wilaya_47" model="wk.wilaya">
             <field name="name">47</field>
             <field name="domaine">GHARDAIA</field>
             <field name="description">GHARDAIA</field>
+            <field name="wilaya_arabe">غرداية</field>
         </record>
         <record id="wilaya_48" model="wk.wilaya">
             <field name="name">48</field>
             <field name="domaine">RELIZANE</field>
             <field name="description">RELIZANE</field>
+            <field name="wilaya_arabe">غليزان</field>
         </record>
-
     </data>
 </odoo>
