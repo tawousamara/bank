@@ -45,7 +45,7 @@ access_tcr_analysis_ratio_line_system,access.tcr.analysis.ratio.line.system,mode
 access_tcr_analysis_prev_user,access.tcr.analysis.prev.user,model_tcr_analysis_prev,base.group_user,1,1,1,0
 access_tcr_analysis_prev_system,access.tcr.analysis.prev.system,model_tcr_analysis_prev,base.group_system,1,1,1,1
 
-access_tcr_analysis_prev_ratio_user,access.tcr.analysis.prev.ratio.user,model_tcr_analysis_prev_ratio,base.group_user,1,1,1,0
+access_tcr_analysis_prev_ratio_user,access.tcr.analysis.prev.ratio.user,model_tcr_analysis_prev_ratio,base.group_user,1,1,1,1
 access_tcr_analysis_prev_ratio_system,access.tcr.analysis.prev.ratio.system,model_tcr_analysis_prev_ratio,base.group_system,1,1,1,1
 
 access_bilan_general_user,access.bilan.general.user,model_bilan_general,base.group_user,1,1,1,0
