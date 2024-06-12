@@ -514,6 +514,11 @@ class Etape(models.Model):
                                                  ('groups_id', 'in',
                                                   self.env.ref('dept_wk.dept_wk_group_responsable_credit').id)],
                                              track_visibility='always')
+    validator_risque = fields.Many2one('res.users', string='مراجع من طرف',
+                                             domain=lambda self: [
+                                                 ('groups_id', 'in',
+                                                  self.env.ref('dept_wk.dept_wk_group_responsable_risque').id)],
+                                             track_visibility='always')
     recommandation_dir_risque = fields.Text(string='توصية مدير إدارة المخاطر',
                                             track_visibility='always')
 

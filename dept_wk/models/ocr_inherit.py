@@ -41,6 +41,11 @@ class TCR(models.Model):
                                       "- Achats de marchandises vendues \n"
                                       "- Valeur ajoutée d'exploitation (I-II) \n"
                                       )
+            for index in list_validation:
+                passif = rec.tcr_lines.filtered(lambda l: l.sequence == index)
+                if len(passif) != 1:
+                    raise ValidationError(_('Vous devriez supprimer les doublons du poste ' + passif[0].name))
+
             view_id = self.env.ref('financial_modeling.confirmation_wizard_form')
             context = dict(self.env.context or {})
             context['tcr_id'] = rec.id
@@ -103,6 +108,11 @@ class Actif(models.Model):
                                       "- Trésorerie \n"
                                       "- Total Actif courant \n"
                                       )
+            for index in list_validation:
+                passif = rec.actif_lines.filtered(lambda l: l.sequence == index)
+                if len(passif) != 1:
+                    raise ValidationError(_('Vous devriez supprimer les doublons du poste ' + passif[0].name))
+
             view_id = self.env.ref('financial_modeling.confirmation_wizard_form')
             context = dict(self.env.context or {})
             context['actif_id'] = rec.id
@@ -165,7 +175,7 @@ class Passif(models.Model):
             for index in list_validation:
                 passif = rec.passif_lines.filtered(lambda l: l.sequence == index)
                 if len(passif) != 1:
-                    raise ValidationError(_('Vous devriez supprimer les doublons de ce poste "'+ passif[0].name +' "'))
+                    raise ValidationError(_('Vous devriez supprimer les doublons du poste ' + passif[0].name))
             view_id = self.env.ref('financial_modeling.confirmation_wizard_form')
             context = dict(self.env.context or {})
             context['passif_id'] = rec.id
