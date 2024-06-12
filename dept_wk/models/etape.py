@@ -1189,7 +1189,7 @@ class Etape(models.Model):
             elif rec.etape.sequence == 4:
                 if rec.state_risque == 'risque_3' and rec.assigned_to_risque == self.env.user and self.env.user.has_group('dept_wk.dept_wk_group_responsable_credit'):
                     result = True
-                elif rec.state_risque in ['risque_1', 'risque_4'] and self.env.user.has_group('dept_wk.dept_wk_group_responsable_risque'):
+                elif rec.state_risque in ['risque_1', 'risque_4', 'risque_2'] and self.env.user.has_group('dept_wk.dept_wk_group_responsable_risque'):
                     result = True
             elif rec.etape.sequence == 5:
                 if self.env.user.has_group('dept_wk.dept_wk_group_dga'):
