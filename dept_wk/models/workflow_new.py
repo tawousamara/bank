@@ -544,10 +544,12 @@ def get_lists(self, etape_new, etape_old):
                   'etape_id': etape_new.id})
 
         for doc in etape_old.facilite_propose:
-            self.env['wk.facilite.propose'].create({'type_facilite': doc.type_facilite.id,
-                    'montant_dz': doc.montant_dz,
-                    'condition': doc.condition,
-                    'etape_id': etape_new.id})
+            self.env['wk.facilite.propose'].create({'type_demande_ids': doc.type_demande_ids.ids,
+                                                    'montant_dz': doc.montant_dz,
+                                                    'condition': doc.condition,
+                                                    'preg': doc.preg,
+                                                    'duree': doc.duree,
+                                                    'etape_id': etape_new.id})
 
         vals = {'etape_id': etape_new.id,
                 'sequence': 0,

@@ -752,6 +752,7 @@ class Etape(models.Model):
             if rec.state_finance == 'finance_4':
                 etape_1 = rec.workflow.states.filtered(lambda l: l.etape.sequence == 1)
                 exist_com = rec.workflow.states.filtered(lambda l: l.etape.sequence == 3)
+                exist_risk = rec.workflow.states.filtered(lambda l: l.etape.sequence == 4)
                 if not exist_com:
                     vals = {
                         'workflow': rec.workflow.id,
@@ -867,13 +868,13 @@ class Etape(models.Model):
                                                              'risk_scoring': etape_1.risk_scoring.id,
                                                              'state_risque': 'risque_1'})'''
                 if exist_com.state_commercial == 'commercial_4':
-                    exist_risk = rec.workflow.states.filtered(lambda l: l.etape.sequence == 4)
                     if not exist_risk:
-                        etape_risk = self.env['wk.etape'].create({'workflow': rec.workflow.id,
+                        exist_risk = self.env['wk.etape'].create({'workflow': rec.workflow.id,
                                                                   'etape': self.env.ref('dept_wk.princip_4').id,
                                                                   'risk_scoring': etape_1.risk_scoring.id,
                                                                   'state_risque': 'risque_1'})
-
+                if exist_risk.state_risque == 'risque_2':
+                    rec.create_pouvoir()
     def validate_information(self):
         for rec in self:
                 view_id = self.env.ref('dept_wk.confirmation_etape_wizard_form').id
@@ -1470,7 +1471,7 @@ class Etape(models.Model):
                     if self.env.user.has_group('dept_wk.dept_wk_group_responsable_risque'):
                         rec.state_risque = 'risque_2'
                         rec.raison_a_revoir = False
-                        self.create_pouvoir()
+                        rec.create_pouvoir()
                     else:
                         raise ValidationError(_('Vous n\'etes pas autoriser'))
             elif rec.etape.sequence == 5:
@@ -1679,7 +1680,7 @@ class Etape(models.Model):
             etape_fin = rec.workflow.states.filtered(lambda l: l.etape.sequence == 2)
             # etape_fin.state_finance = 'finance_4'
             etape_fin.raison_a_revoir = False
-            rec.workflow.state = '9'
+            rec.workflow.state = '5'
             etape_1 = rec.workflow.states.filtered(lambda l: l.etape.sequence == 1)
             etape_comm = rec.workflow.states.filtered(lambda l: l.etape.sequence == 3)
             etape_risk = rec.workflow.states.filtered(lambda l: l.etape.sequence == 4)

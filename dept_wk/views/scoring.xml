@@ -280,7 +280,7 @@
                             </group>
                             <field name="vis5" widget="image" invisible="vis5 == False"/>
                         </page>
-                        <page string="معايير للشركات التابعة للمجموعة">
+                        <page string="معايير للشركات التابعة للمجموعة" name="group_scorings">
                             <field name="scoring_group_ids" mode="kanban"
                                    context="{'default_scoring_id': id, 'default_critere_qual': critere_qual, 'default_critere_quant': critere_quant, 'default_groupe': groupe}">
                                 <kanban>

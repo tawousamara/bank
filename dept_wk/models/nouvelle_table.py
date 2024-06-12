@@ -243,7 +243,7 @@ class Partner(models.Model):
     forme_jur = fields.Many2one('wk.forme.jur', string='الشكل القانوني')
     company_id = fields.Many2one('res.company', default=lambda self: self.env.company)
     currency_id = fields.Many2one('res.currency', related='company_id.currency_id')
-    chiffre_affaire = fields.Monetary(string='راس المال الشركة KDA', currency_field='currency_id',)
+    chiffre_affaire = fields.Monetary(string='راس المال الحالي KDA', currency_field='currency_id',)
     chiffre_affaire_creation = fields.Monetary(string='راس المال التاسيسي KDA', currency_field='currency_id',)
     is_user = fields.Boolean(string='مستخدم', compute='compute_user')
     is_not_user = fields.Boolean(string='مستخدم')
