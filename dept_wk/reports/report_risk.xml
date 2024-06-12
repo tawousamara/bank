@@ -1081,7 +1081,7 @@
                                                 <t t-esc="'{0:,.0f}'.format((request_net_total / (doc.ca_banque/ 1000))* 100)"/>%
                                             </td>
                                             <td>
-                                                <t t-esc="'{0:,.0f}'.format((propose_net_total / (doc.ca_banque/ 1000))* 100))"/>%
+                                                <t t-esc="'{0:,.0f}'.format((propose_net_total / (doc.ca_banque/ 1000))* 100)"/>%
                                             </td>
                                         </tr>
                                     </tbody>
