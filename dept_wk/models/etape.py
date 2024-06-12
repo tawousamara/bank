@@ -2559,21 +2559,20 @@ class Etape(models.Model):
                 actif_13 = rec.actif_id.actif_lines.filtered(lambda r: r.rubrique.sequence == 24)
                 actif1_13 = rec.actif1_id.actif_lines.filtered(lambda r: r.rubrique.sequence == 24)
 
-                if ((actif_4.montant_n + actif_12.montant_n + actif_13.montant_n) - passif_4_1.montant_n ) == 0:
+                if bilan_11.year_4 == 0:
                     bilan_12.is_null_4 = True
-                if ((actif_4.montant_n1 + actif_12.montant_n1 + actif_13.montant_n1) - passif_4_1.montant_n1 ) == 0:
+                if bilan_11.year_4 == 0:
                     bilan_12.is_null_3 = True
-                if ((actif1_4.montant_n + actif1_12.montant_n + actif1_13.montant_n) - passif1_4_1.montant_n) == 0:
+                if bilan_11.year_4 == 0:
                     bilan_12.is_null_2 = True
-                if ((actif1_4.montant_n1 + actif1_12.montant_n1 + actif1_13.montant_n1) - passif1_4_1.montant_n1) == 0:
+                if bilan_11.year_4 == 0:
                     bilan_12.is_null_1 = True
 
-                bilan_12.write({'year_4': bilan_10.year_4 / ((actif_4.montant_n + actif_12.montant_n + actif_13.montant_n) - passif_4_1.montant_n) if not bilan_12.is_null_4 else 0,
-                                'year_3': bilan_10.year_3 / ((actif_4.montant_n1 + actif_12.montant_n1 + actif_13.montant_n1) - passif_4_1.montant_n1) if not bilan_12.is_null_3 else 0,
-                                'year_2': bilan_10.year_2 / ((actif1_4.montant_n + actif1_12.montant_n + actif1_13.montant_n) - passif1_4_1.montant_n) if not bilan_12.is_null_2 else 0,
-                                'year_1': bilan_10.year_1 / ((actif1_4.montant_n1 + actif1_12.montant_n1 + actif1_13.montant_n1) - passif1_4_1.montant_n1) if not bilan_12.is_null_1 else 0,
+                bilan_12.write({'year_4': bilan_10.year_4 / bilan_11.year_4 if bilan_11.year_4 != 0 else 0,
+                                'year_3': bilan_10.year_3 / bilan_11.year_3 if bilan_11.year_3 != 0 else 0,
+                                'year_2': bilan_10.year_2 / bilan_11.year_2 if bilan_11.year_2 != 0 else 0,
+                                'year_1': bilan_10.year_1 / bilan_11.year_1 if bilan_11.year_1 != 0 else 0,
                                 })
-
                 # مجموع المطلوبات Passif - Total II + Total III
                 bilan_13 = rec.bilan_id.filtered(lambda r: r.sequence == 13)
                 passif_5 = rec.passif_id.passif_lines.filtered(lambda r: r.rubrique.sequence == 23)
