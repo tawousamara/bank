@@ -141,6 +141,13 @@ class Workflow(models.Model):
         res = super(Workflow, self).create(vals)
         return res
 
+    @api.model
+    def write(self, vals):
+        if self.name == 'New':
+            vals['name'] = self.env['ir.sequence'].next_by_code('wk.credit.corporate') or _('New')
+        res = super(Workflow, self).write(vals)
+        return res
+
     def open_messages(self):
         for rec in self:
             view_id = self.env.ref('mail.view_message_tree').id

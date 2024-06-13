@@ -178,13 +178,11 @@
             </xpath>
         </field>
     </record>
-
     <record id="wk_type_payment_action" model="ir.actions.act_window">
         <field name="name">طريقة السداد</field>
         <field name="res_model">wk.type.payment</field>
         <field name="view_mode">tree</field>
     </record>
-
     <record id="view_wk_type_payment_tree" model="ir.ui.view">
         <field name="name">wk.type.payment.tree</field>
         <field name="model">wk.type.payment</field>
@@ -194,14 +192,12 @@
             </tree>
         </field>
     </record>
-
     <record id="wk_time_action" model="ir.actions.act_window">
         <field name="name">wk.time</field>
         <field name="res_model">wk.time</field>
         <field name="view_mode">tree</field>
         <field name="context">{'search_default_group_by_etape': 1}</field>
     </record>
-
     <record id="view_wk_time_tree" model="ir.ui.view">
         <field name="name">wk.time.tree</field>
         <field name="model">wk.time</field>
@@ -238,7 +234,6 @@
             </tree>
         </field>
     </record>
-
     <record id="wk_activite_salam_action" model="ir.actions.act_window">
         <field name="name">النشاط حسب بنك السلام</field>
         <field name="res_model">wk.activite.salam</field>
@@ -253,7 +248,6 @@
             </tree>
         </field>
     </record>
-
     <record id="wk_secteur_action" model="ir.actions.act_window">
         <field name="name">النشاط</field>
         <field name="res_model">wk.secteur</field>
@@ -268,7 +262,6 @@
             </tree>
         </field>
     </record>
-
     <record id="wk_classification_action" model="ir.actions.act_window">
         <field name="name">تصنيف الشركة</field>
         <field name="res_model">wk.classification</field>
@@ -283,13 +276,11 @@
             </tree>
         </field>
     </record>
-
     <record id="wk_nature_juridique_action" model="ir.actions.act_window">
         <field name="name">الطبيعة القانونية للمقرات</field>
         <field name="res_model">wk.nature.juridique</field>
         <field name="view_mode">tree</field>
     </record>
-
     <record id="view_wk_nature_juridique_tree" model="ir.ui.view">
         <field name="name">wk.nature.juridique.tree</field>
         <field name="model">wk.nature.juridique</field>
@@ -299,13 +290,11 @@
             </tree>
         </field>
     </record>
-
     <record id="wk_wilaya_action" model="ir.actions.act_window">
         <field name="name">الولاية</field>
         <field name="res_model">wk.wilaya</field>
         <field name="view_mode">tree</field>
     </record>
-
     <record id="view_wk_wilaya_tree" model="ir.ui.view">
         <field name="name">wk.wilaya.tree</field>
         <field name="model">wk.wilaya</field>
@@ -317,13 +306,11 @@
             </tree>
         </field>
     </record>
-
     <record id="wk_type_fin_action" model="ir.actions.act_window">
         <field name="name">نوع التمويل</field>
         <field name="res_model">wk.fin.banque</field>
         <field name="view_mode">tree</field>
     </record>
-
     <record id="view_wk_type_fin_tree" model="ir.ui.view">
         <field name="name">wk.fin.banque.tree</field>
         <field name="model">wk.fin.banque</field>
@@ -338,7 +325,6 @@
         <field name="res_model">wk.state</field>
         <field name="view_mode">tree</field>
     </record>
-
     <record id="view_wk_state_tree" model="ir.ui.view">
         <field name="name">wk.state.tree</field>
         <field name="model">wk.state</field>
@@ -349,13 +335,11 @@
             </tree>
         </field>
     </record>
-
     <record id="wk_comite_action" model="ir.actions.act_window">
         <field name="name">صلاحيات مختلف اللجان</field>
         <field name="res_model">wk.comite</field>
         <field name="view_mode">tree</field>
     </record>
-
     <record id="view_wk_comite_tree" model="ir.ui.view">
         <field name="name">wk.comite.tree</field>
         <field name="model">wk.comite</field>
