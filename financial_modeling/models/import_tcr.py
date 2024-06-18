@@ -556,6 +556,13 @@ class TCRAnalysis(models.Model):
         if self.tcr_prev_ids:
             for rec in self.tcr_prev_ids:
                 if rec.poste_comptable not in ('1', '8', '11', '15', '17', '19'):
+                    line = rec.line_ids.filtered(lambda l: l.poste_comptable == rec.poste_comptable)
+                    rec.amount_n = line.amount_n
+                    rec.amount_n1 = line.amount_n1
+                    rec.amount_n2 = line.amount_n2
+                    rec.amount_n3 = line.amount_n3
+                    rec.amount_n4 = line.amount_n4
+                    rec.amount_n5 = line.amount_n5
                     rec.amount_n = rec.amount_n * (rec.augment_hypothesis_n1 / 100 + 1)
                     rec.amount_n1 = rec.amount_n1 * (rec.augment_hypothesis_n2 / 100 + 1)
                     rec.amount_n2 = rec.amount_n2 * (rec.augment_hypothesis_n3 / 100 + 1)
