@@ -562,7 +562,7 @@ class TCRAnalysis(models.Model):
                     rec.amount_n2 = line.amount_n2
                     rec.amount_n3 = line.amount_n3
                     rec.amount_n4 = line.amount_n4
-                    rec.amount_n5 = line.amount_n5
+                    rec.amount_n5 = line.amount_n4
                     rec.amount_n = rec.amount_n * (rec.augment_hypothesis_n1 / 100 + 1)
                     rec.amount_n1 = rec.amount_n1 * (rec.augment_hypothesis_n2 / 100 + 1)
                     rec.amount_n2 = rec.amount_n2 * (rec.augment_hypothesis_n3 / 100 + 1)
