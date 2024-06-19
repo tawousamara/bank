@@ -1889,6 +1889,7 @@ class Etape(models.Model):
             email_values = {
                 'email_to': self.get_mail_to(),
             }
+            print('email_template', self.get_mail_to())
             email_template.send_mail(self.id, force_send=True, email_values=email_values)
 
     def a_revoir(self, one_step=False):
@@ -3052,34 +3053,39 @@ class Etape(models.Model):
         for rec in self:
             partner_ids = []
             list_final = ''
+            admin_group = self.env.ref('dept_wk.dept_wk_group_administration')
             if rec.sequence == 1:
                 if rec.state_branch in ['branch_1', 'branch_3']:
                     partner_ids = rec.assigned_to_agence.partner_id.email
                     list_final = partner_ids
                 elif rec.state_branch in ['branch_2', 'branch_4']:
                     user_ids = self.env.ref('dept_wk.dept_wk_group_responsable_agence').users.filtered(
-                        lambda l: l.branche == rec.branche).mapped('partner_id')
+                        lambda l: l.branche == rec.branche and admin_group not in l.groups_id).mapped('partner_id')
                     partner_ids = user_ids.mapped('email')
                     list_final = ', '.join(partner_ids)
                 elif rec.state_branch in ['branch_4']:
-                    user_ids = self.env.ref('dept_wk.dept_wk_group_responsable_analyste').users.mapped('partner_id')
+                    user_ids = self.env.ref('dept_wk.dept_wk_group_responsable_analyste').users.filtered(
+                        lambda l: admin_group not in l.groups_id).mapped('partner_id')
                     partner_ids = user_ids.mapped('email')
                     list_final = ', '.join(partner_ids)
                 else:
-                    user_ids = self.env.ref('dept_wk.dept_wk_group_responsable_analyste').users.mapped('partner_id')
+                    user_ids = self.env.ref('dept_wk.dept_wk_group_responsable_analyste').users.filtered(
+                        lambda l: admin_group not in l.groups_id).mapped('partner_id')
                     partner_ids = user_ids.mapped('email')
                     list_final = ', '.join(partner_ids)
                 print(rec.state_branch)
             if rec.sequence == 2:
                 if rec.state_finance == 'finance_3':
-                    user_ids = self.env.ref('dept_wk.dept_wk_group_responsable_analyste').users.mapped('partner_id')
+                    user_ids = self.env.ref('dept_wk.dept_wk_group_responsable_analyste').users.filtered(
+                        lambda l: admin_group not in l.groups_id).mapped('partner_id')
                     partner_ids = user_ids.mapped('email')
                     list_final = ', '.join(partner_ids)
                 elif rec.state_finance == 'finance_2':
                     partner_ids = rec.assigned_to_finance.partner_id.email
                     list_final = partner_ids
                 elif rec.state_finance == 'finance_4':
-                    user_ids = self.env.ref('dept_wk.dept_wk_group_responsable_risque').users.mapped('partner_id')
+                    user_ids = self.env.ref('dept_wk.dept_wk_group_responsable_risque').users.filtered(
+                        lambda l: admin_group not in l.groups_id).mapped('partner_id')
                     partner_ids = user_ids.mapped('email')
                     list_final = partner_ids
             if rec.sequence == 3:
@@ -3087,11 +3093,13 @@ class Etape(models.Model):
                     partner_ids = rec.assigned_to_commercial.partner_id.email
                     list_final = partner_ids
                 elif rec.state_commercial in ['commercial_3']:
-                    user_ids = self.env.ref('dept_wk.dept_wk_group_responsable_commercial').users.mapped('partner_id')
+                    user_ids = self.env.ref('dept_wk.dept_wk_group_responsable_commercial').users.filtered(
+                        lambda l: admin_group not in l.groups_id).mapped('partner_id')
                     partner_ids.append(user_ids.mapped('email'))
                     list_final = ', '.join(str(id) for id in partner_ids)
                 else:
-                    user_ids = self.env.ref('dept_wk.dept_wk_group_responsable_analyste').users.mapped('partner_id')
+                    user_ids = self.env.ref('dept_wk.dept_wk_group_responsable_analyste').users.filtered(
+                        lambda l: admin_group not in l.groups_id).mapped('partner_id')
                     partner_ids = user_ids.mapped('email')
                     list_final = ', '.join(partner_ids)
             if rec.sequence == 4:
@@ -3099,11 +3107,13 @@ class Etape(models.Model):
                     partner_ids = rec.assigned_to_risque.partner_id.email
                     list_final = partner_ids
                 elif rec.state_risque == 'risque_4':
-                    user_ids = self.env.ref('dept_wk.dept_wk_group_responsable_risque').users.mapped('partner_id')
+                    user_ids = self.env.ref('dept_wk.dept_wk_group_responsable_risque').users.filtered(
+                        lambda l: admin_group not in l.groups_id).mapped('partner_id')
                     partner_ids = user_ids.mapped('email')
                     list_final = ', '.join(partner_ids)
                 elif rec.state_risque == 'risque_2':
-                    user_ids = self.env.ref('dept_wk.dept_wk_group_responsable_analyste').users.mapped('partner_id')
+                    user_ids = self.env.ref('dept_wk.dept_wk_group_responsable_analyste').users.filtered(
+                        lambda l: admin_group not in l.groups_id).mapped('partner_id')
                     partner_ids = user_ids.mapped('email')
                     list_final = ', '.join(partner_ids)
                 print(rec.state_finance)
@@ -3114,39 +3124,41 @@ class Etape(models.Model):
         for rec in self:
             partner_ids = []
             list_final = ''
+            admin_group = self.env.ref('dept_wk.dept_wk_group_administration')
             if rec.sequence == 1:
                 if rec.state_branch in ['branch_1', 'branch_3']:
                     partner_ids = rec.assigned_to_agence.partner_id.email
                     list_final = partner_ids
                 elif rec.state_branch in ['branch_2','branch_4']:
                     user_ids = self.env.ref('dept_wk.dept_wk_group_responsable_agence').users.filtered(
-                        lambda l: l.branche == rec.branche).mapped('partner_id')
-                    partner_ids.append(user_ids.mapped('email'))
-                    list_final = ', '.join(str(id) for id in partner_ids)
+                        lambda l: l.branche == rec.branche and admin_group not in l.groups_id).mapped('partner_id')
+                    partner_ids = user_ids.mapped('email')
+                    list_final = ', '.join(partner_ids)
             if rec.sequence == 2:
                 if rec.state_finance in  ['finance_3']:
-                    user_ids = self.env.ref('dept_wk.dept_wk_group_responsable_analyste').users.mapped('partner_id')
-                    partner_ids.append(user_ids.mapped('email'))
-                    list_final = ', '.join(str(id) for id in partner_ids)
+                    user_ids = self.env.ref('dept_wk.dept_wk_group_responsable_analyste').users.filtered(
+                        lambda l: admin_group not in l.groups_id).mapped('partner_id')
+                    partner_ids = user_ids.mapped('email')
+                    list_final = ', '.join(partner_ids)
                 elif rec.state_finance == 'finance_2':
                     partner_ids = rec.assigned_to_finance.partner_id.email
                     list_final = partner_ids
                 elif rec.state_finance == 'finance_1':
                     user_ids = self.env.ref('dept_wk.dept_wk_group_responsable_analyste').users.mapped('partner_id')
-                    partner_ids.append(user_ids.mapped('email'))
-                    list_final = ', '.join(str(id) for id in partner_ids)
+                    partner_ids = user_ids.mapped('email')
+                    list_final = ', '.join(partner_ids)
             if rec.sequence == 3:
                 if rec.state_commercial == 'commercial_2':
                     partner_ids = rec.assigned_to_commercial.partner_id.email
                     list_final = partner_ids
                 elif rec.state_commercial in ['commercial_3']:
                     user_ids = self.env.ref('dept_wk.dept_wk_group_responsable_commercial').users.mapped('partner_id')
-                    partner_ids.append(user_ids.mapped('email'))
-                    list_final = ', '.join(str(id) for id in partner_ids)
+                    partner_ids = user_ids.mapped('email')
+                    list_final = ', '.join(partner_ids)
                 else:
                     user_ids = self.env.ref('dept_wk.dept_wk_group_responsable_analyste').users.mapped('partner_id')
-                    partner_ids.append(user_ids.mapped('email'))
-                    list_final = ', '.join(str(id) for id in partner_ids)
+                    partner_ids = user_ids.mapped('email')
+                    list_final = ', '.join(partner_ids)
             if rec.sequence == 4:
                 if rec.state_risque == 'risque_3':
                     partner_ids = rec.assigned_to_risque.partner_id.email

@@ -141,7 +141,7 @@ class Workflow(models.Model):
         res = super(Workflow, self).create(vals)
         return res
 
- 
+
     def write(self, vals):
         if self.name == 'New':
             vals['name'] = self.env['ir.sequence'].next_by_code('wk.credit.corporate') or _('New')
