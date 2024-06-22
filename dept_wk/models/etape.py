@@ -2634,11 +2634,15 @@ class Etape(models.Model):
                 # (Emprunts et dettes financières passif + Trésorerie passif - Trésorerie coté actif ) / Total I coté passif نسبة المديونية Leverage
                 bilan_18 = rec.bilan_id.filtered(lambda r: r.sequence == 18)
                 actif_1 = rec.actif_id.actif_lines.filtered(lambda r: r.rubrique.sequence == 26)
+                passif_18 = rec.passif_id.passif_lines.filtered(lambda r: r.rubrique.sequence == 18)
+                passif1_18 = rec.passif1_id.passif_lines.filtered(lambda r: r.rubrique.sequence == 18)
+                passif_24 = rec.passif_id.passif_lines.filtered(lambda r: r.rubrique.sequence == 24)
+                passif1_24 = rec.passif1_id.passif_lines.filtered(lambda r: r.rubrique.sequence == 24)
                 actif1_1 = rec.actif1_id.actif_lines.filtered(lambda r: r.rubrique.sequence == 26)
-                bilan_18.write({'year_4': (passif_6.montant_n + passif_5.montant_n - actif_1.montant_n) / passif_1.montant_n if passif_1.montant_n != 0 else 0,
-                               'year_3': (passif_6.montant_n1 + passif_5.montant_n1 - actif_1.montant_n1) / passif_1.montant_n1 if passif_1.montant_n1 != 0 else 0,
-                               'year_2': (passif1_6.montant_n + passif1_5.montant_n - actif1_1.montant_n) / passif1_1.montant_n if passif1_1.montant_n != 0 else 0,
-                               'year_1': (passif1_6.montant_n1 + passif1_5.montant_n1 - actif1_1.montant_n1) / passif1_1.montant_n1 if passif1_1.montant_n1 != 0 else 0,
+                bilan_18.write({'year_4': (passif_18.montant_n + passif_24.montant_n) / passif_1.montant_n if passif_1.montant_n != 0 else 0,
+                               'year_3': (passif_18.montant_n1 + passif_24.montant_n1) / passif_1.montant_n1 if passif_1.montant_n1 != 0 else 0,
+                               'year_2': (passif1_18.montant_n + passif1_24.montant_n) / passif1_1.montant_n if passif1_1.montant_n != 0 else 0,
+                               'year_1': (passif1_18.montant_n1 + passif1_24.montant_n1) / passif1_1.montant_n1 if passif1_1.montant_n1 != 0 else 0,
                                })
                 if passif_1.montant_n == 0:
                     bilan_18.is_null_4 = True
