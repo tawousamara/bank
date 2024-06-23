@@ -222,108 +222,108 @@ access_view_bilan_wizard_user,access.view.bilan.wizard,model_view_bilan_wizard,,
 access_wk_activite_salam_user,access.wk.activite.salam,model_wk_activite_salam,,1,1,1,1
 
 
-access_risk_original_capital_user,access.risk.original.capital,model_risk_original_capital,,1,1,1,1
-access_risk_original_capital_financial,access.risk.original.capital,model_risk_original_capital,,1,1,1,1
+access_risk_original_capital_user,access.risk.original.capital,model_risk_original_capital,,1,1,1,0
+access_risk_original_capital_financial,access.risk.original.capital,model_risk_original_capital,,1,1,1,0
 
-access_risk_forme_jur_user,access.risk.forme.jur,model_risk_forme_jur,,1,1,1,1
-access_risk_forme_jur_financial,access.risk.forme.jur,model_risk_forme_jur,,1,1,1,1
+access_risk_forme_jur_user,access.risk.forme.jur,model_risk_forme_jur,,1,1,1,0
+access_risk_forme_jur_financial,access.risk.forme.jur,model_risk_forme_jur,,1,1,1,0
 
-access_risk_actionnariat_user,access.risk.actionnariat,model_risk_actionnariat,,1,1,1,1
-access_risk_actionnariat_financial,access.risk.actionnariat,model_risk_actionnariat,,1,1,1,1
+access_risk_actionnariat_user,access.risk.actionnariat,model_risk_actionnariat,,1,1,1,0
+access_risk_actionnariat_financial,access.risk.actionnariat,model_risk_actionnariat,,1,1,1,0
 
-access_risk_remplacement_succession_user,access.risk.remplacement.succession,model_risk_remplacement_succession,,1,1,1,1
-access_risk_remplacement_succession_financial,access.risk.remplacement.succession,model_risk_remplacement_succession,,1,1,1,1
+access_risk_remplacement_succession_user,access.risk.remplacement.succession,model_risk_remplacement_succession,,1,1,1,0
+access_risk_remplacement_succession_financial,access.risk.remplacement.succession,model_risk_remplacement_succession,,1,1,1,0
 
-access_risk_competence_user,access.risk.competence,model_risk_competence,,1,1,1,1
-access_risk_competence_financial,access.risk.competence,model_risk_competence,,1,1,1,1
+access_risk_competence_user,access.risk.competence,model_risk_competence,,1,1,1,0
+access_risk_competence_financial,access.risk.competence,model_risk_competence,,1,1,1,0
 
-access_risk_experience_user,access.risk.experience,model_risk_experience,,1,1,1,1
-access_risk_experience_financial,access.risk.experience,model_risk_experience,,1,1,1,1
+access_risk_experience_user,access.risk.experience,model_risk_experience,,1,1,1,0
+access_risk_experience_financial,access.risk.experience,model_risk_experience,,1,1,1,0
 
-access_risk_soutien_etatique_user,access.risk.soutien.etatique,model_risk_soutien_etatique,,1,1,1,1
-access_risk_soutien_etatique_financial,access.risk.soutien.etatique,model_risk_soutien_etatique,,1,1,1,1
+access_risk_soutien_etatique_user,access.risk.soutien.etatique,model_risk_soutien_etatique,,1,1,1,0
+access_risk_soutien_etatique_financial,access.risk.soutien.etatique,model_risk_soutien_etatique,,1,1,1,0
 
-access_risk_activite_user,access.risk.activite,model_risk_activite,,1,1,1,1
-access_risk_activite_financial,access.risk.activite,model_risk_activite,,1,1,1,1
+access_risk_activite_user,access.risk.activite,model_risk_activite,,1,1,1,0
+access_risk_activite_financial,access.risk.activite,model_risk_activite,,1,1,1,0
 
-access_risk_influence_tech_user,access.risk.influence.tech,model_risk_influence_tech,,1,1,1,1
-access_risk_influence_tech_financial,access.risk.influence.tech,model_risk_influence_tech,,1,1,1,1
+access_risk_influence_tech_user,access.risk.influence.tech,model_risk_influence_tech,,1,1,1,0
+access_risk_influence_tech_financial,access.risk.influence.tech,model_risk_influence_tech,,1,1,1,0
 
-access_risk_anciennete_user,access.risk.anciennete,model_risk_anciennete,,1,1,1,1
-access_risk_anciennete_financial,access.risk.anciennete,model_risk_anciennete,,1,1,1,1
+access_risk_anciennete_user,access.risk.anciennete,model_risk_anciennete,,1,1,1,0
+access_risk_anciennete_financial,access.risk.anciennete,model_risk_anciennete,,1,1,1,0
 
-access_risk_concurrence_user,access.risk.concurrence,model_risk_concurrence,,1,1,1,1
-access_risk_concurrence_financial,access.risk.concurrence,model_risk_concurrence,,1,1,1,1
+access_risk_concurrence_user,access.risk.concurrence,model_risk_concurrence,,1,1,1,0
+access_risk_concurrence_financial,access.risk.concurrence,model_risk_concurrence,,1,1,1,0
 
-access_risk_source_appro_user,access.risk.source.appro,model_risk_source_appro,,1,1,1,1
-access_risk_source_appro_financial,access.risk.source.appro,model_risk_source_appro,,1,1,1,1
+access_risk_source_appro_user,access.risk.source.appro,model_risk_source_appro,,1,1,1,0
+access_risk_source_appro_financial,access.risk.source.appro,model_risk_source_appro,,1,1,1,0
 
-access_risk_source_remb_user,access.risk.source.remb,model_risk_source_remb,,1,1,1,1
-access_risk_source_remb_financial,access.risk.source.remb,model_risk_source_remb,,1,1,1,1
+access_risk_source_remb_user,access.risk.source.remb,model_risk_source_remb,,1,1,1,0
+access_risk_source_remb_financial,access.risk.source.remb,model_risk_source_remb,,1,1,1,0
 
-access_risk_produit_user,access.risk.produit,model_risk_produit,,1,1,1,1
-access_risk_produit_financial,access.risk.produit,model_risk_produit,,1,1,1,1
+access_risk_produit_user,access.risk.produit,model_risk_produit,,1,1,1,0
+access_risk_produit_financial,access.risk.produit,model_risk_produit,,1,1,1,0
 
-access_risk_flexibilite_user,access.risk.flexibilite,model_risk_flexibilite,,1,1,1,1
-access_risk_flexibilite_financial,access.risk.flexibilite,model_risk_flexibilite,,1,1,1,1
+access_risk_flexibilite_user,access.risk.flexibilite,model_risk_flexibilite,,1,1,1,0
+access_risk_flexibilite_financial,access.risk.flexibilite,model_risk_flexibilite,,1,1,1,0
 
-access_risk_sollicitude_user,access.risk.sollicitude,model_risk_sollicitude,,1,1,1,1
-access_risk_sollicitude_financial,access.risk.sollicitude,model_risk_sollicitude,,1,1,1,1
+access_risk_sollicitude_user,access.risk.sollicitude,model_risk_sollicitude,,1,1,1,0
+access_risk_sollicitude_financial,access.risk.sollicitude,model_risk_sollicitude,,1,1,1,0
 
-access_risk_situation_user,access.risk.situation,model_risk_situation,,1,1,1,1
-access_risk_situation_financial,access.risk.situation,model_risk_situation,,1,1,1,1
+access_risk_situation_user,access.risk.situation,model_risk_situation,,1,1,1,0
+access_risk_situation_financial,access.risk.situation,model_risk_situation,,1,1,1,0
 
-access_risk_mouvement_user,access.risk.mouvement,model_risk_mouvement,,1,1,1,1
-access_risk_mouvement_financial,access.risk.mouvement,model_risk_mouvement,,1,1,1,1
+access_risk_mouvement_user,access.risk.mouvement,model_risk_mouvement,,1,1,1,0
+access_risk_mouvement_financial,access.risk.mouvement,model_risk_mouvement,,1,1,1,0
 
-access_risk_garanties_user,access.risk.garanties,model_risk_garanties,,1,1,1,1
-access_risk_garanties_financial,access.risk.garanties,model_risk_garanties,,1,1,1,1
+access_risk_garanties_user,access.risk.garanties,model_risk_garanties,,1,1,1,0
+access_risk_garanties_financial,access.risk.garanties,model_risk_garanties,,1,1,1,0
 
-access_risk_incident_user,access.risk.incident,model_risk_incident,,1,1,1,1
-access_risk_incident_financial,access.risk.incident,model_risk_incident,,1,1,1,1
+access_risk_incident_user,access.risk.incident,model_risk_incident,,1,1,1,0
+access_risk_incident_financial,access.risk.incident,model_risk_incident,,1,1,1,0
 
-access_risk_conduite_user,access.risk.conduite,model_risk_conduite,,1,1,1,1
-access_risk_conduite_financial,access.risk.conduite,model_risk_conduite,,1,1,1,1
+access_risk_conduite_user,access.risk.conduite,model_risk_conduite,,1,1,1,0
+access_risk_conduite_financial,access.risk.conduite,model_risk_conduite,,1,1,1,0
 
-access_risk_dette_fisc_user,access.risk.dette.fisc,model_risk_dette_fisc,,1,1,1,1
-access_risk_dette_fisc_financial,access.risk.dette.fisc,model_risk_dette_fisc,,1,1,1,1
+access_risk_dette_fisc_user,access.risk.dette.fisc,model_risk_dette_fisc,,1,1,1,0
+access_risk_dette_fisc_financial,access.risk.dette.fisc,model_risk_dette_fisc,,1,1,1,0
 
-access_risk_dette_parafisc_user,access.risk.dette.parafisc,model_risk_dette_parafisc,,1,1,1,1
-access_risk_dette_parafisc_financial,access.risk.dette.parafisc,model_risk_dette_parafisc,,1,1,1,1
+access_risk_dette_parafisc_user,access.risk.dette.parafisc,model_risk_dette_parafisc,,1,1,1,0
+access_risk_dette_parafisc_financial,access.risk.dette.parafisc,model_risk_dette_parafisc,,1,1,1,0
 
-access_risk_position_admin_user,access.risk.position.admin,model_risk_position_admin,,1,1,1,1
-access_risk_position_admin_financial,access.risk.position.admin,model_risk_position_admin,,1,1,1,1
+access_risk_position_admin_user,access.risk.position.admin,model_risk_position_admin,,1,1,1,0
+access_risk_position_admin_financial,access.risk.position.admin,model_risk_position_admin,,1,1,1,0
 
-access_risk_part_profil_user,access.risk.part.profil,model_risk_part_profil,,1,1,1,1
-access_risk_part_profil_financial,access.risk.part.profil,model_risk_part_profil,,1,1,1,1
+access_risk_part_profil_user,access.risk.part.profil,model_risk_part_profil,,1,1,1,0
+access_risk_part_profil_financial,access.risk.part.profil,model_risk_part_profil,,1,1,1,0
 
-access_risk_quant_1_user,access.risk.quant.1,model_risk_quant_1,,1,1,1,1
-access_risk_quant_2_user,access.risk.quant.2,model_risk_quant_2,,1,1,1,1
-access_risk_quant_3_user,access.risk.quant.3,model_risk_quant_3,,1,1,1,1
-access_risk_quant_4_user,access.risk.quant.4,model_risk_quant_4,,1,1,1,1
-access_risk_quant_5_user,access.risk.quant.5,model_risk_quant_5,,1,1,1,1
-access_risk_quant_6_user,access.risk.quant.6,model_risk_quant_6,,1,1,1,1
-access_risk_quant_7_user,access.risk.quant.7,model_risk_quant_7,,1,1,1,1
-access_risk_quant_8_user,access.risk.quant.8,model_risk_quant_8,,1,1,1,1
-access_risk_quant_9_user,access.risk.quant.9,model_risk_quant_9,,1,1,1,1
-access_risk_quant_10_user,access.risk.quant.10,model_risk_quant_10,,1,1,1,1
-access_risk_quant_11_user,access.risk.quant.11,model_risk_quant_11,,1,1,1,1
-access_risk_quant_12_user,access.risk.quant.12,model_risk_quant_12,,1,1,1,1
-access_risk_quant_13_user,access.risk.quant.13,model_risk_quant_13,,1,1,1,1
-access_risk_quant_14_user,access.risk.quant.14,model_risk_quant_14,,1,1,1,1
-access_risk_quant_15_user,access.risk.quant.15,model_risk_quant_15,,1,1,1,1
-access_risk_quant_16_user,access.risk.quant.16,model_risk_quant_16,,1,1,1,1
-access_risk_quant_17_user,access.risk.quant.17,model_risk_quant_17,,1,1,1,1
+access_risk_quant_1_user,access.risk.quant.1,model_risk_quant_1,,1,1,1,0
+access_risk_quant_2_user,access.risk.quant.2,model_risk_quant_2,,1,1,1,0
+access_risk_quant_3_user,access.risk.quant.3,model_risk_quant_3,,1,1,1,0
+access_risk_quant_4_user,access.risk.quant.4,model_risk_quant_4,,1,1,1,0
+access_risk_quant_5_user,access.risk.quant.5,model_risk_quant_5,,1,1,1,0
+access_risk_quant_6_user,access.risk.quant.6,model_risk_quant_6,,1,1,1,0
+access_risk_quant_7_user,access.risk.quant.7,model_risk_quant_7,,1,1,1,0
+access_risk_quant_8_user,access.risk.quant.8,model_risk_quant_8,,1,1,1,0
+access_risk_quant_9_user,access.risk.quant.9,model_risk_quant_9,,1,1,1,0
+access_risk_quant_10_user,access.risk.quant.10,model_risk_quant_10,,1,1,1,0
+access_risk_quant_11_user,access.risk.quant.11,model_risk_quant_11,,1,1,1,0
+access_risk_quant_12_user,access.risk.quant.12,model_risk_quant_12,,1,1,1,0
+access_risk_quant_13_user,access.risk.quant.13,model_risk_quant_13,,1,1,1,0
+access_risk_quant_14_user,access.risk.quant.14,model_risk_quant_14,,1,1,1,0
+access_risk_quant_15_user,access.risk.quant.15,model_risk_quant_15,,1,1,1,0
+access_risk_quant_16_user,access.risk.quant.16,model_risk_quant_16,,1,1,1,0
+access_risk_quant_17_user,access.risk.quant.17,model_risk_quant_17,,1,1,1,0
 
 
-access_risk_critere_qualitatif_user,access.risk.critere.qualitatif,model_risk_critere_qualitatif,dept_wk.dept_wk_group_responsable_credit,1,1,1,1
+access_risk_critere_qualitatif_user,access.risk.critere.qualitatif,model_risk_critere_qualitatif,dept_wk.dept_wk_group_responsable_credit,1,1,1,0
 access_risk_critere_qualitatif_financial,access.risk.critere.qualitatif,model_risk_critere_qualitatif,dept_wk.dept_wk_group_agent_agence,1,0,0,0
 
-access_risk_critere_quantitatif_user,access.risk.critere.quantitatif,model_risk_critere_quantitatif,dept_wk.dept_wk_group_responsable_credit,1,1,1,1
+access_risk_critere_quantitatif_user,access.risk.critere.quantitatif,model_risk_critere_quantitatif,dept_wk.dept_wk_group_responsable_credit,1,1,1,0
 access_risk_critere_quantitatif_financial,access.risk.critere.quantitatif,model_risk_critere_quantitatif,dept_wk.dept_wk_group_agent_agence,1,0,0,0
 
-access_risk_scoring_user,access.risk.scoring,model_risk_scoring,,1,1,1,1
-access_wk_scoring_detail_user,access.wk.scoring.detail,model_wk_scoring_detail,,1,1,1,1
+access_risk_scoring_user,access.risk.scoring,model_risk_scoring,,1,1,1,0
+access_wk_scoring_detail_user,access.wk.scoring.detail,model_wk_scoring_detail,,1,1,1,0
 
 access_wk_hist_user,access.wk.hist,model_wk_hist,,1,1,1,1
 
