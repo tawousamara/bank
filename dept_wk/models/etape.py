@@ -2796,9 +2796,7 @@ class Etape(models.Model):
                                 'year_3': (tcr_3.montant_n1 / tcr_1.montant_n1) * 100 if tcr_1.montant_n1 != 0 else 0,
                                 'year_2': (tcr1_3.montant_n / tcr1_1.montant_n) * 100 if tcr1_1.montant_n != 0 else 0,
                                 'year_1': (tcr1_3.montant_n1 / tcr1_1.montant_n1) * 100 if tcr1_1.montant_n1 != 0 else 0})
-                print(bilan_24.declaration)
-                print(tcr_3.montant_n / tcr_1.montant_n)
-                print(bilan_24.year_4)
+
                 if tcr_1.montant_n == 0:
                     bilan_24.is_null_4 = True
                 if tcr_1.montant_n1 == 0:
