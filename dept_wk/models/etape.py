@@ -1349,6 +1349,88 @@ class Etape(models.Model):
             if etape2.facilite_propose:
                 montant = sum(etape2.facilite_propose.mapped('montant_dz'))
             rec.montant_propose = montant
+            if not rec.garantie_conf:
+                for item in list_garantie:
+                    line = self.env['wk.garantie.conf'].create({'info': item, 'etape_id': rec.id})
+            if not rec.garantie_fin:
+                for item in list_garantie_fisc:
+                    line = self.env['wk.garantie.fin'].create({'info': item, 'etape_id': rec.id})
+            if not rec.garantie_autres:
+                for item in list_autre_term:
+                    line = self.env['wk.garantie.autres'].create({'info': item, 'etape_id': rec.id})
+            if not rec.risque_central:
+                for item in List_risque:
+                    line = self.env['wk.risque.line'].create({'declaration': item, 'etape_id': rec.id})
+            if not rec.position_tax:
+                for item in List_position:
+                    line = self.env['wk.position'].create({'name': item, 'etape_id': rec.id})
+            count = 0
+            if not rec.mouvement:
+                for item in list_mouvement:
+                    line = self.env['wk.mouvement'].create({'mouvement': item,
+                                                            'etape_id': rec.id,
+                                                            'sequence': count})
+                    count += 1
+                rec.mouvement.filtered(lambda l: l.sequence == 0).write({
+                    'n_dz': rec.annee_fiscal,
+                    'n1_dz': rec.annee_fiscal - 1,
+                    'n2_dz': rec.annee_fiscal - 2,
+                    'n3_dz': rec.annee_fiscal - 3,
+                })
+                self.env['wk.mouvement.group'].create({'company': 'السنة',
+                                                       'etape_id': rec.id,
+                                                       'n_dz': rec.annee_fiscal,
+                                                       'n1_dz': rec.annee_fiscal - 1,
+                                                       'n2_dz': rec.annee_fiscal - 2,
+                                                       'sequence': 0})
+            count = 0
+            if not rec.companies_fisc:
+                for item in list_fisc:
+                    line = self.env['wk.companies.fisc'].create({'declaration': item,
+                                                                 'sequence': count,
+                                                                 'etape_id': rec.id})
+                    count += 1
+                rec.companies_fisc.filtered(lambda l: l.sequence == 0).write({
+                    'year_4': rec.annee_fiscal,
+                    'year_3': rec.annee_fiscal - 1,
+                    'year_2': rec.annee_fiscal - 2,
+                    'year_1': rec.annee_fiscal - 3,
+                })
+            if not rec.bilan_id:
+                vals = {'etape_id': rec.id,
+                        'sequence': 0,
+                        'declaration': 'السنة',
+                        'year_1': rec.annee_fiscal - 3,
+                        'year_2': rec.annee_fiscal - 2,
+                        'year_3': rec.annee_fiscal - 1,
+                        'year_4': rec.annee_fiscal,
+                        }
+                self.env['wk.bilan.cat1'].create(vals)
+                self.env['wk.bilan.cat2'].create(vals)
+                self.env['wk.bilan.cat3'].create(vals)
+                self.env['wk.bilan.cat4'].create(vals)
+                self.env['wk.bilan.cat5'].create(vals)
+                count = 1
+                for index, item in list_bilan:
+                    line = self.env['wk.bilan'].create({'declaration': item,
+                                                        'categorie': index,
+                                                        'etape_id': rec.id,
+                                                        'sequence': count})
+                    count += 1
+                count = 1
+                for item in list_recap:
+                    line = self.env['wk.recap'].create({'declaration': item, 'etape_id': rec.id, 'sequence': count})
+                    count += 1
+                count = 1
+                for item in list_var:
+                    line = self.env['wk.variable'].create({'var': item, 'etape_id': rec.id, 'sequence': count})
+                    count += 1
+            years = self.env['wk.year'].search([])
+            if not years:
+                start = datetime.date.today().year - 2
+                stop =  datetime.date.today().year + 10
+                for i in range(start, stop):
+                    self.env['wk.year'].create({'name': str(i)})
 
 
     def action_get_view(self):
