@@ -2802,7 +2802,11 @@
                                         </table>
                                     </div>
                                 </t>
-                                <pageBreak/>
+                                <br/>
+                            </div>
+                        </div>
+                        <br/>
+                        <div class="page page-content" style="page-break-inside: avoid;">
                                 <t t-if="etape2.comite.id == 1">
                                     <div class="table_deco">
                                         <table class="reversed-table">
@@ -2829,7 +2833,7 @@
                                                         عضوا
                                                     </th>
                                                 </tr>
-                                                <tr height="300px">
+                                                <tr height="200px">
                                                     <td class="title-cell">
                                                         التوقيع
                                                     </td>
@@ -2862,7 +2866,7 @@
                                                         عضوا
                                                     </th>
                                                 </tr>
-                                                <tr height="300px">
+                                                <tr height="200px">
                                                     <td class="title-cell">
                                                         التوقيع
                                                     </td>
@@ -2896,7 +2900,7 @@
                                                         رئيس اللجنة المصغرة
                                                     </th>
                                                 </tr>
-                                                <tr height="300px">
+                                                <tr height="200px">
                                                     <td class="title-cell" width="25%">
                                                         التوقيع
                                                     </td>
@@ -2997,7 +3001,7 @@
                                                         عضوا
                                                     </th>
                                                 </tr>
-                                                <tr height="300px">
+                                                <tr height="200px">
                                                     <td class="title-cell">
                                                         التوقيع
                                                     </td>
@@ -3048,9 +3052,7 @@
                                             </thead>
                                         </table>
                                     </div>
-                                </t>
-                            </div>
-                        </div>
+                                </t></div>
                     </t>
                 </t>
             </t>
