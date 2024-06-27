@@ -85,6 +85,11 @@ class Workflow(models.Model):
 
     def is_same_compute(self):
         for rec in self:
+            exist = rec.states.filtered(lambda l: l.sequence == 3)
+            if exist:
+                rec.is_in_comm = True
+            else:
+                rec.is_in_comm = False
             if self.env.user.partner_id.branche:
                 if self.env.user.partner_id.branche == rec.branche:
                     print(True)
