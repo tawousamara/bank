@@ -67,7 +67,7 @@ class Workflow(models.Model):
     def compute_state(self):
         print('exec')
         for rec in self:
-            exist = rec.states.filtered(lambda l:l.sequence == 3)
+            exist = rec.states.filtered(lambda l:l.sequence == 4)
             if exist:
                 rec.is_in_risk = True
             else:
@@ -77,7 +77,7 @@ class Workflow(models.Model):
     def compute_state_comm(self):
         print('exec')
         for rec in self:
-            exist = rec.states.filtered(lambda l:l.sequence == 4)
+            exist = rec.states.filtered(lambda l:l.sequence == 3)
             if exist:
                 rec.is_in_comm = True
             else:
