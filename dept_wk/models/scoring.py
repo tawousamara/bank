@@ -176,6 +176,7 @@ class Scoring(models.Model):
                                        ('2', 'ديون مصنفة')], string='تصنيف المخاطر')
     directeur = fields.Many2one('res.users', string='Directeur', compute='_compute_directeur')
     analyste = fields.Many2one('res.users', string='Directeur')
+    active = fields.Boolean(string='Archivé',default=True)
 
     def import_data_group(self):
         for rec in self:
