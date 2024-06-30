@@ -895,7 +895,7 @@
                                     </tree>
                                 </field>
                             </page>
-                            <page string="الحركة والأعمال الجانبية للمجموعة مع مصرف السلام الجزائر (KDA)" invisible="1">
+                            <page string="الحركة والأعمال الجانبية للمجموعة مع مصرف السلام الجزائر (KDA)" >
                                 <field name="mouvement_group" readonly="not can_edit or state_finance != 'finance_2'">
                                     <tree editable="bottom">
                                         <field name="company" readonly="'السنة' == company"/>

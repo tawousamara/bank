@@ -1525,6 +1525,45 @@
                                 </div>
                                 <br/>
                                 <div class="table_deco">
+                                    <table class="reversed-table" t-if="etape2.mouvement_group">
+                                        <thead>
+                                            <tr>
+                                                <th colspan="5" class="title-cell">
+                                                    الحركة والأعمال الجانبية للمجموعة مع مصرف السلام الجزائر
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th class="title-cell">البيان</th>
+                                                <th class="title-cell">نوع التسهيلات</th>
+                                                <th class="title-cell">المدققة N-1</th>
+                                                <th class="title-cell">N</th>
+                                                <th class="title-cell">التعليق</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="etape2.mouvement_group" t-as="line">
+                                                <tr>
+                                                    <td>
+                                                        <t t-esc="line.company"/>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-esc="'{0:,.0f}'.format(line.n2_dz / 1000)"/>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-esc="'{0:,.0f}'.format(line.n1_dz / 1000)"/>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-esc="'{0:,.0f}'.format(line.n_dz / 1000)"/>
+                                                    </td><td>
+                                                        <t t-esc="line.remarques"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/>
+                                <div class="table_deco">
                                     <t t-set="has_year_1_2"
                                        t-value="etape2.bilan1_id.filtered(lambda l:l.sequence != 0 and (l.year_1 != 0 or l.year_2 != 0))"/>
                                     <t t-set="has_year_3_4"

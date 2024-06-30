@@ -85,7 +85,7 @@ class Workflow(models.Model):
 
     def is_same_compute(self):
         for rec in self:
-        
+
             if self.env.user.partner_id.branche:
                 if self.env.user.partner_id.branche == rec.branche:
                     print(True)
