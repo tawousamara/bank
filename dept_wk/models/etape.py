@@ -2542,12 +2542,12 @@ class Etape(models.Model):
                 bilan_4 = rec.bilan_id.filtered(lambda r: r.sequence == 4)
                 passif_3 = rec.passif_id.passif_lines.filtered(lambda r: r.rubrique.sequence == 8)
                 passif1_3 = rec.passif1_id.passif_lines.filtered(lambda r: r.rubrique.sequence == 8)
-                passif_77 = rec.passif_id.passif_lines.filtered(lambda r: r.rubrique.sequence == 7)
-                passif1_77 = rec.passif1_id.passif_lines.filtered(lambda r: r.rubrique.sequence == 7)
-                bilan_4.write({'year_4': passif_3.montant_n + passif_77.montant_n,
-                               'year_3': passif_3.montant_n1 + passif_77.montant_n1,
-                               'year_2': passif1_3.montant_n + passif1_77.montant_n,
-                               'year_1': passif1_3.montant_n1 + passif1_77.montant_n1})
+                tcr_3 = rec.tcr_id.tcr_lines.filtered(lambda r: r.rubrique.sequence == 50)
+                tcr1_3 = rec.tcr1_id.tcr_lines.filtered(lambda r: r.rubrique.sequence == 50)
+                bilan_4.write({'year_4': passif_3.montant_n + tcr_3.montant_n,
+                               'year_3': passif_3.montant_n1 + tcr_3.montant_n1,
+                               'year_2': passif1_3.montant_n + tcr1_3.montant_n,
+                               'year_1': passif1_3.montant_n1 + tcr1_3.montant_n1})
 
                 #حقوق الملكية / مجموع الميزانية
                 bilan_5 = rec.bilan_id.filtered(lambda r: r.sequence == 5)

@@ -62,7 +62,12 @@ class Workflow(models.Model):
                                          ('commercial_4', 'انتهاء التحليل'),
                                          ], string='وضعية الملف (في ادارة الاعمال التجارية)')
 
-
+    def open_report_risk(self):
+        for rec in self:
+            if rec.risk_scoring:
+                return self.env.ref('dept_wk.scoring_report').report_action(rec.risk_scoring, config=False)
+            else:
+                return False
     @api.depends('states')
     def compute_state(self):
         print('exec')

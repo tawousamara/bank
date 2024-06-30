@@ -73,6 +73,8 @@
                 <header>
                     <button type="action" name="%(dept_wk.global_report)d" class="btn-primary" string="التقرير النهائي"
                             width="10%"/>
+                    <button type="object" name="open_report_risk" class="btn-primary" string="التقرير المخاطر" groups="dept_wk.dept_wk_group_analyste"
+                            width="10%"/>
 
                     <field name="state" widget="statusbar" statusbar_visible="1,2,3,4,5,9,6,7"/>
                 </header>
