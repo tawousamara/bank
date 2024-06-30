@@ -721,8 +721,6 @@
                 <field name="branche"/>
                 <field name="groupe"/>
                 <field name="num_compte"/>
-
-                <filter name="archived" string="Archivé" domain="[('active', '=', False)]"/>
                 <group expand="0" name="group_by" string="Group By">
                     <filter name="client" string="العميل" domain="[]" context="{'group_by' : 'partner_id'}"/>
                     <filter name="secteur" string="النشاط" context="{'group_by': 'secteur'}"/>
