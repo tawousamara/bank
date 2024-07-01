@@ -75,7 +75,7 @@
                             <field name="tcr_id" readonly="1" groups="dept_wk.dept_wk_group_responsable_credit"
                                    style="display: inline-block;"/>
                         </group>
-                        <group>
+                        <group><!--open file pour les images on utilise simplement widget='image'-->
                             <button name="open_file" string="" icon="fa-eye" type="object"
                                     style="display: inline-block;color: #808080; background-color: white"/>
                         </group>

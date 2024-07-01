@@ -107,6 +107,9 @@
                                     <field name="note" readonly="checked != True"/>
                                     <field name="checked" column_invisible="True"/>
                                     <field name="list_document" column_invisible="True"/>
+                                    <button name="open_document" string="" icon="fa-eye" type="object"
+                                            style="display: inline-block;color: #808080; background-color: white"/>
+
                                 </tree>
                             </field>
                         </div>
@@ -288,6 +291,8 @@
                                invisible="state_branch not in ['branch_3', 'branch_4','branch_rejected','branch_5'] and sequence not in [3,5,8]">
                             <field name="description_company"
                                    readonly="not can_edit or state_branch != 'branch_3' and sequence not in [1, 8]"/>
+                            <field name="history_relation"
+                                   readonly="not can_edit or state_branch != 'branch_3' and sequence not in [1, 8]"/>
                             <field name="unit_prod"
                                    readonly="not can_edit or state_branch != 'branch_3' and sequence not in [1, 8]"/>
                             <field name="stock"
@@ -311,8 +316,6 @@
                                 <tree editable="bottom">
                                     <field name="picture" widget="binary" filename="name"/>
                                     <field name="to_show"/>
-                                    <button name="open_image" string="" icon="fa-eye" type="object"
-                                            style="display: inline-block;color: #808080; background-color: white"/>
                                     <field name="name" column_invisible="1"/>
                                 </tree>
                             </field>
@@ -365,6 +368,7 @@
                                                domain="[('for_branch', '=', False)]"
                                                width="15%" widget="many2many_tags"/>
                                         <field name="date" width="10%"/>
+                                        <field name="credit" width="10%"/>
                                         <field name="montant_da_actuel" width="15%"/>
                                         <field name="montant_dollar_actuel" optional="hide"/>
                                         <field name="montant_da_demande" width="15%"/>
@@ -497,15 +501,15 @@
                                         <field name="mouvement" decoration-bf="sequence == 0" readonly="1"/>
                                         <field name="n3_dz" decoration-bf="sequence == 0"
                                                readonly="sequence in [0, 3]"/>
-                                        <field name="n3_dollar" optional="hide" readonly="sequence in [0, 3]"/>
+                                        <field name="n3_dollar" optional="hide" readonly="sequence in [3]"/>
                                         <field name="n2_dz" decoration-bf="sequence == 0"
                                                readonly="sequence in [0, 3]"/>
-                                        <field name="n2_dollar" optional="hide" readonly="sequence in [0, 3]"/>
+                                        <field name="n2_dollar" optional="hide" readonly="sequence in [3]"/>
                                         <field name="n1_dz" decoration-bf="sequence == 0"
                                                readonly="sequence in [0, 3]"/>
-                                        <field name="n1_dollar" optional="hide" readonly="sequence in [0, 3]"/>
+                                        <field name="n1_dollar" optional="hide" readonly="sequence in [3]"/>
                                         <field name="n_dz" decoration-bf="sequence == 0" readonly="sequence in [0, 3]"/>
-                                        <field name="n_dollar" optional="hide" readonly="sequence in [0, 3]"/>
+                                        <field name="n_dollar" optional="hide" readonly="sequence in [3]"/>
                                         <field name="remarques" readonly="sequence == 0"/>
                                         <field name="sequence" column_invisible="True"/>
                                     </tree>
@@ -975,13 +979,13 @@
                                         <tree editable="bottom" create="0" delete="0">
                                             <field name="declaration" readonly="1"
                                                    decoration-bf="sequence == 0"/>
-                                            <field name="year_1" readonly="1"
+                                            <field name="year_1" readonly="sequence != 0"
                                                    decoration-bf="sequence == 0" decoration-danger="is_null_1 == True"/>
-                                            <field name="year_2" readonly="1"
+                                            <field name="year_2" readonly="sequence != 0"
                                                    decoration-bf="sequence == 0" decoration-danger="is_null_2 == True"/>
-                                            <field name="year_3" readonly="1"
+                                            <field name="year_3" readonly="sequence != 0"
                                                    decoration-bf="sequence == 0" decoration-danger="is_null_3 == True"/>
-                                            <field name="year_4" readonly="1"
+                                            <field name="year_4" readonly="sequence != 0"
                                                    decoration-bf="sequence == 0" decoration-danger="is_null_4 == True"/>
                                             <field name="variante" readonly="sequence == 0" widget="percentage"
                                                    decoration-bf="sequence == 0" invisible="sequence == 0"/>
@@ -1003,13 +1007,13 @@
                                         <tree editable="bottom" create="0" delete="0">
                                             <field name="declaration" readonly="1"
                                                    decoration-bf="sequence == 0"/>
-                                            <field name="year_1" readonly="1"
+                                            <field name="year_1" readonly="sequence != 0"
                                                    decoration-bf="sequence == 0" decoration-danger="is_null_1 == True"/>
-                                            <field name="year_2" readonly="1"
+                                            <field name="year_2" readonly="sequence != 0"
                                                    decoration-bf="sequence == 0" decoration-danger="is_null_2 == True"/>
-                                            <field name="year_3" readonly="1"
+                                            <field name="year_3" readonly="sequence != 0"
                                                    decoration-bf="sequence == 0" decoration-danger="is_null_3 == True"/>
-                                            <field name="year_4" readonly="1"
+                                            <field name="year_4" readonly="sequence != 0"
                                                    decoration-bf="sequence == 0" decoration-danger="is_null_4 == True"/>
                                             <field name="variante" readonly="sequence == 0" widget="percentage"
                                                    decoration-bf="sequence == 0" invisible="sequence == 0"/>
@@ -1031,13 +1035,13 @@
                                         <tree editable="bottom" create="0" delete="0">
                                             <field name="declaration" readonly="1"
                                                    decoration-bf="sequence == 0"/>
-                                            <field name="year_1" readonly="1"
+                                            <field name="year_1" readonly="sequence != 0"
                                                    decoration-bf="sequence == 0" decoration-danger="is_null_1 == True"/>
-                                            <field name="year_2" readonly="1"
+                                            <field name="year_2" readonly="sequence != 0"
                                                    decoration-bf="sequence == 0" decoration-danger="is_null_2 == True"/>
-                                            <field name="year_3" readonly="1"
+                                            <field name="year_3" readonly="sequence != 0"
                                                    decoration-bf="sequence == 0" decoration-danger="is_null_3 == True"/>
-                                            <field name="year_4" readonly="1"
+                                            <field name="year_4" readonly="sequence != 0"
                                                    decoration-bf="sequence == 0" decoration-danger="is_null_4 == True"/>
                                             <field name="variante" readonly="sequence == 0" widget="percentage"
                                                    decoration-bf="sequence == 0" invisible="sequence == 0"/>
@@ -1059,13 +1063,13 @@
                                         <tree editable="bottom" create="0" delete="0">
                                             <field name="declaration" readonly="1"
                                                    decoration-bf="sequence == 0"/>
-                                            <field name="year_1" readonly="1"
+                                            <field name="year_1" readonly="sequence != 0"
                                                    decoration-bf="sequence == 0" decoration-danger="is_null_1 == True"/>
-                                            <field name="year_2" readonly="1"
+                                            <field name="year_2" readonly="sequence != 0"
                                                    decoration-bf="sequence == 0" decoration-danger="is_null_2 == True"/>
-                                            <field name="year_3" readonly="1"
+                                            <field name="year_3" readonly="sequence != 0"
                                                    decoration-bf="sequence == 0" decoration-danger="is_null_3 == True"/>
-                                            <field name="year_4" readonly="1"
+                                            <field name="year_4" readonly="sequence != 0"
                                                    decoration-bf="sequence == 0" decoration-danger="is_null_4 == True"/>
                                             <field name="variante" readonly="sequence == 0" widget="percentage"
                                                    decoration-bf="sequence == 0" invisible="sequence == 0"/>
@@ -1087,13 +1091,13 @@
                                         <tree editable="bottom" create="0" delete="0">
                                             <field name="declaration" readonly="1"
                                                    decoration-bf="sequence == 0"/>
-                                            <field name="year_1" readonly="1"
+                                            <field name="year_1" readonly="sequence != 0"
                                                    decoration-bf="sequence == 0" decoration-danger="is_null_1 == True"/>
-                                            <field name="year_2" readonly="1"
+                                            <field name="year_2" readonly="sequence != 0"
                                                    decoration-bf="sequence == 0" decoration-danger="is_null_2 == True"/>
-                                            <field name="year_3" readonly="1"
+                                            <field name="year_3" readonly="sequence != 0"
                                                    decoration-bf="sequence == 0" decoration-danger="is_null_3 == True"/>
-                                            <field name="year_4" readonly="1"
+                                            <field name="year_4" readonly="sequence != 0"
                                                    decoration-bf="sequence == 0" decoration-danger="is_null_4 == True"/>
                                             <field name="variante" readonly="sequence == 0" widget="percentage"
                                                    decoration-bf="sequence == 0" invisible="sequence == 0"/>
@@ -1277,7 +1281,7 @@
                                            options="{'no_create': True}" widget="many2many_tags"/>
                                     <field name="montant_dz" sum="Total"/>
                                     <field name="montant_dollar" sum="Total"/>
-                                    <field name="preg"/>
+                                    <field name="preg" />
                                     <field name="duree"/>
                                     <field name="compute_exist" column_invisible="True"/>
                                     <field name="condition"/>

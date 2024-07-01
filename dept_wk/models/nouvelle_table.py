@@ -244,6 +244,7 @@ class Partner(models.Model):
     branche = fields.Many2one('wk.agence', string='الفرع', default=lambda self: self.env.user.partner_id.branche)
     num_compte = fields.Char(string='رقم الحساب')
     date_ouverture_compte = fields.Date(string='تاريخ فتح الحساب')
+    date_debut = fields.Date(string='تاريخ تأسيس الشركة')
     demandes = fields.Many2many('wk.historique', string="تسهيلات الشركة")
     nom_arabe = fields.Char(string='الاسم بالاحرف العربية')
     nom_groupe = fields.Char(string='اسم الشركة')

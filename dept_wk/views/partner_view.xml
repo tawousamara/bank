@@ -90,6 +90,7 @@
                            invisible="not is_company or is_user == True"/>
                     <field name="num_compte" invisible="is_user == True"/>
                     <field name="date_ouverture_compte" invisible="is_user == True"/>
+                    <field name="date_debut" invisible="is_user == True"/>
                 </group>
                 <group>
                     <field name="classification" options="{'no_create': True, 'no_open': True}"

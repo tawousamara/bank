@@ -726,6 +726,7 @@
                                             <tr>
                                                 <th class="title-cell">نوع التسهيلات</th>
                                                 <th class="title-cell">تاريخ الرخصة</th>
+                                                <th class="title-cell">الرصيد</th>
                                                 <th class="title-cell">الحالي: م/دج</th>
                                                 <th class="title-cell">المطلوبة: م/دج</th>
                                                 <th class="title-cell">الاجمالي الصافي: م/دج</th>
@@ -748,6 +749,9 @@
                                                     </td>
                                                     <td>
                                                         <t t-esc="line.date"/>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-esc="'{0:,.0f}'.format(line.credit /1000)"/>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;">
                                                         <t t-esc="'{0:,.0f}'.format(line.montant_da_actuel /1000)"/>
@@ -1200,6 +1204,14 @@
                                                 </td>
                                                 <td width="75%">
                                                     <t t-esc="etape1.description_company"/>
+                                                </td>
+                                            </tr>
+                                            <tr t-if="etape1.history_relation">
+                                                <td class="title-cell" width="25%">
+                                                    تاريخ العلاقة وحالة التحصيل
+                                                </td>
+                                                <td width="75%">
+                                                    <t t-esc="etape1.history_relation"/>
                                                 </td>
                                             </tr>
                                             <tr t-if="etape1.unit_prod">
@@ -2663,7 +2675,7 @@
                                                         <t t-esc="'{0:,.0f}'.format(line.montant_dz)"/>
                                                     </td>
                                                     <td>
-                                                        <t t-esc="int(line.preg * 100)"/>%
+                                                        <t t-esc="int(line.preg)"/>%
                                                     </td>
                                                     <td>
                                                         <t t-esc="line.duree"/>
@@ -2698,6 +2710,31 @@
                                                     </ul>
                                                 </td>
                                             </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/><div class="table_deco">
+                                    <t t-set="has_image"
+                                       t-value="etape1.images.filtered(lambda l: l.to_show == True)"/>
+                                    <table class="reversed-table" t-if="etape1.images">
+                                        <thead>
+                                            <tr>
+                                                <th  class="title-cell">صور من تقرير الزيارة
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="etape1.images" t-as="line">
+                                            <t t-if="line.to_show == True">
+                                                <tr>
+                                                    <td>
+                                                        <img
+                                     t-att-src="image_data_uri(line.picture)" height="500"
+                                     border="1" width="500"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                            </t>
                                         </tbody>
                                     </table>
                                 </div>

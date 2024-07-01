@@ -67,6 +67,7 @@ class FaciliteAccorde(models.Model):
     type_facilite = fields.Many2one('wk.product', string='نوع التسهيلات')
     type_demande_ids = fields.Many2many('wk.product', string='نوع التسهيلات')
     garantie_montant = fields.Float(string='التأمين النقدي')
+    credit = fields.Float(string='الرصيد')
     remarques = fields.Text(string='ملاحظات')
     compute_exist = fields.Boolean(compute='compute_products')
 

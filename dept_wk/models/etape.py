@@ -321,8 +321,9 @@ class Etape(models.Model):
     program_invest = fields.Text(string='البرنامج الاستثماري /المشاريع التطويرية')
     result_visit = fields.Text(string='نتائج الزيارة')
     description_company = fields.Text(string='تعريف الشركة')
-    recommendation_visit = fields.Text(string='توصية الفرع', track_visibility='always')
-    recommendation_responsable_agence = fields.Text(string='توصية مدير الفرع', track_visibility='always')
+    history_relation = fields.Text(string='تاريخ العلاقة وحالة التحصيل')
+    recommendation_visit = fields.Html(string='توصية الفرع',)
+    recommendation_responsable_agence = fields.Html(string='توصية مدير الفرع', )
     images = fields.One2many('wk.documents', 'etape_id', string='الصور المرفقة')
 
     company_id = fields.Many2one('res.company', default=lambda self: self.env.company)
@@ -369,10 +370,10 @@ class Etape(models.Model):
     facilite_accorde = fields.One2many('wk.facilite.accorde', 'etape_id',
                                        string='تفاصيل التسهيلات الممنوحة (KDA)')
     detail_garantie_actuel_ids = fields.One2many('wk.detail.garantie', 'etape_id', string='الضمانات العقارية الحالية')
-    garantie_actuel_comment = fields.Text(string='تعليق')
+    garantie_actuel_comment = fields.Html(string='تعليق')
     detail_garantie_propose_ids = fields.One2many('wk.detail.garantie.propose', 'etape_id',
                                                   string='الضمانات العقارية المقترحة')
-    garantie_propose_comment = fields.Text(string='تعليق')
+    garantie_propose_comment = fields.Html(string='تعليق')
     garantie_conf = fields.One2many('wk.garantie.conf', 'etape_id',
                                     string='الشروط السابقة/المقترحة و الموافق عليها من لجان التمويل')
     garantie_fin = fields.One2many('wk.garantie.fin', 'etape_id', string='الشروط المالية')
@@ -381,13 +382,13 @@ class Etape(models.Model):
     compute_risque = fields.Float(string='compute field', compute='compute_risk')
     risque_date = fields.Date(string='مركزية المخاطر بتاريخ')
     nbr_banque = fields.Integer(string='عدد البنوك المصرحة')
-    comment_risk_central = fields.Text(string='تعليق')
+    comment_risk_central = fields.Html(string='تعليق')
     capture_filename = fields.Char(default='ملف مركزية المخاطر')
     risk_capture = fields.Binary(string='ملف مركزية المخاطر')
     position_tax = fields.One2many('wk.position', 'etape_id', string='الوضعية الجبائية والشبه جبائية')
     mouvement = fields.One2many('wk.mouvement', 'etape_id',
                                 string='الحركة والأعمال الجانبية للحساب مع مصرف السلام الجزائر (KDA)')
-    detail_mouvement = fields.Text(string='التوطين البنكي')
+    detail_mouvement = fields.Html(string='التوطين البنكي')
     computed_field = fields.Boolean(compute='compute_ratio', store=True)
 
     @api.depends('mouvement')
@@ -409,7 +410,7 @@ class Etape(models.Model):
     passif_group = fields.Many2one('import.ocr.passif', string='Passif')
     actif_group = fields.Many2one('import.ocr.actif', string='Actif')
 
-    comment_fisc = fields.Text(string='تعليق')
+    comment_fisc = fields.Html(string='تعليق')
     visualisation2 = fields.Binary(string='visualisation')
 
     facitlite_existante = fields.One2many('wk.facilite.existante', 'etape_id')
@@ -427,15 +428,15 @@ class Etape(models.Model):
 
     bilan_id = fields.One2many('wk.bilan', 'etape_id')
     bilan1_id = fields.One2many('wk.bilan.cat1', 'etape_id')
-    comment_cat1 = fields.Text(string='تعليق')
+    comment_cat1 = fields.Html(string='تعليق')
     bilan2_id = fields.One2many('wk.bilan.cat2', 'etape_id')
-    comment_cat2 = fields.Text(string='تعليق')
+    comment_cat2 = fields.Html(string='تعليق')
     bilan3_id = fields.One2many('wk.bilan.cat3', 'etape_id')
-    comment_cat3 = fields.Text(string='تعليق')
+    comment_cat3 = fields.Html(string='تعليق')
     bilan4_id = fields.One2many('wk.bilan.cat4', 'etape_id')
-    comment_cat4 = fields.Text(string='تعليق')
+    comment_cat4 = fields.Html(string='تعليق')
     bilan5_id = fields.One2many('wk.bilan.cat5', 'etape_id')
-    comment_cat5 = fields.Text(string='تعليق')
+    comment_cat5 = fields.Html(string='تعليق')
 
     recap_ids = fields.One2many('wk.recap', 'etape_id')
     var_ids = fields.One2many('wk.variable', 'etape_id')
@@ -447,7 +448,7 @@ class Etape(models.Model):
     threat_ids = fields.One2many('wk.swot.threat', 'etape_id')
     opportunitie_ids = fields.One2many('wk.swot.opportunitie', 'etape_id')
 
-    description_prjt_invest = fields.Text(string='وصف المشروع الاستثماري')
+    description_prjt_invest = fields.Html(string='وصف المشروع الاستثماري')
     actif_invest = fields.Text(string='الاصول المراد الاستثمار بها')
     pays_prod = fields.Many2many('res.country', string='بلد المنشأ')
     valeur_total = fields.Float(string='القيمة الإجمالية للاستثمار')
@@ -455,14 +456,14 @@ class Etape(models.Model):
     financement_demande = fields.Float(string='التمويل المطلوب')
     duree_financement = fields.Integer(string='مدة التمويل')
     invest_id = fields.Many2one('tcr.analysis.import', string='Investissement')
-    avis_invest = fields.Text(string='راي المحلل المالي عن التمويل الاستثماري ')
-    recommandation_analyste_fin = fields.Text(string='توصية المحلل المالي', track_visibility='always')
+    avis_invest = fields.Html(string='راي المحلل المالي عن التمويل الاستثماري ')
+    recommandation_analyste_fin = fields.Html(string='توصية المحلل المالي', )
     facilite_propose = fields.One2many('wk.facilite.propose', 'etape_id', string='التسهيلات المقترحة')
     garantie_ids = fields.Many2many('wk.garanties', string='الضمانات المقترحة')
     garanties = fields.Html(string='الضمانات المقترحة', )
     garanties_demande = fields.Many2many('wk.garanties', 'garantie_demande_rel', string='الضمانات')
     comite = fields.Many2one('wk.comite', string='اللجنة')
-    recommandation_dir_fin = fields.Text(string='راي مدير ادارة التمويلات', track_visibility='always')
+    recommandation_dir_fin = fields.Html(string='راي مدير ادارة التمويلات', )
     montant_demande = fields.Float(string='المبلغ المطلوب')
     montant_propose = fields.Float(string='المبلغ المقترح')
     company_ids = fields.Integer(string='', compute="_compute_company_fisc", )
@@ -478,7 +479,7 @@ class Etape(models.Model):
     tcr_situation_estim = fields.One2many('wk.tcr', 'etape_id', domain="[('type', '=', 2)]")
     actif_situation_estim = fields.One2many('wk.actif', 'etape_id', domain="[('type', '=', 2)]")
     passif_situation_estim = fields.One2many('wk.passif', 'etape_id', domain="[('type', '=', 2)]")
-    commentaire_situation = fields.Text(string='تعليق')
+    commentaire_situation = fields.Html(string='تعليق')
     exception_ids = fields.Many2many('wk.exception', string='الاستثناءات مع سياسة الائتمان')
 
     # Commercial fields
@@ -498,8 +499,8 @@ class Etape(models.Model):
     analyse_concurrence = fields.Text(string='تحليل المنافسة')
     ampleur_benefice = fields.Float(string='حجم الارباح PNB المتوقعة')
     analyse_relation = fields.Text(string='تحليل اهمية العلاقة على المدى المتوسط')
-    recommendation_dir_commercial = fields.Text(string='توصية مدير إدارة الاعمال التجارية', track_visibility='always')
-    recommendation_commercial = fields.Text(string='توصية المكلف بالاعمال التجارية', track_visibility='always')
+    recommendation_dir_commercial = fields.Html(string='توصية مدير إدارة الاعمال التجارية', )
+    recommendation_commercial = fields.Html(string='توصية المكلف بالاعمال التجارية', )
 
     # Risk fields
     risk_scoring = fields.Many2one('risk.scoring', string='إدارة المخاطر')
@@ -519,8 +520,8 @@ class Etape(models.Model):
                                                  ('groups_id', 'in',
                                                   self.env.ref('dept_wk.dept_wk_group_responsable_risque').id)],
                                              track_visibility='always')
-    recommandation_dir_risque = fields.Text(string='توصية مدير إدارة المخاطر',
-                                            track_visibility='always')
+    recommandation_dir_risque = fields.Html(string='توصية مدير إدارة المخاطر',
+                                            )
 
     # Vice president fields
     state_vice = fields.Selection([('vice_1', 'نائب المدير العام'),
@@ -529,12 +530,12 @@ class Etape(models.Model):
                                      ], track_visibility='always', string='وضعية الملف')
     assigned_to_vice = fields.Many2one('res.users', string='نائب المدير العام', track_visibility='always')
     recommandation_tresorerie = fields.Text(string='رأي مسؤول الخزينة', track_visibility='always',)
-    recommandation_vice_dir_fin = fields.Text(string='توصية/قرار نائب المدير العام', track_visibility='always',)
+    recommandation_vice_dir_fin = fields.Html(string='توصية/قرار نائب المدير العام', )
     state_dg = fields.Selection([('dg_1', 'المدير العام'),
                                    ('dg_2', 'انتهاء التحليل'),
                                    ('dg_rejected', 'طلب مرفوض'),
                                    ], track_visibility='always', string='وضعية الملف')
-    recommandation_dg = fields.Text(string='توصية/قرار المدير العام', track_visibility='always', )
+    recommandation_dg = fields.Html(string='توصية/قرار المدير العام',  )
 
     # Comite fields
     state_comite = fields.Selection([('comite_1', 'لجنة التسهيلات'),
@@ -542,10 +543,10 @@ class Etape(models.Model):
                                      ('comite_rejected', 'طلب مرفوض'),
                                      ], track_visibility='always', string='وضعية الملف')
 
-    recommandation_fin_comite = fields.Text(string='توصية/قرار لجنة التسهيلات', track_visibility='always',)
+    recommandation_fin_comite = fields.Html(string='توصية/قرار لجنة التسهيلات')
 
     # Extra fields
-    raison_a_revoir = fields.Text(string='سبب طلب المراجعة')
+    raison_a_revoir = fields.Html(string='سبب طلب المراجعة')
     state = fields.Selection(string='حالة الملف', related='workflow.state')
     state_compute = fields.Float(string='Pourcentage', compute='compute_pourcentage_state')
     user_id = fields.Many2one('res.users', string='المكلف بالملف', compute='compute_user')
