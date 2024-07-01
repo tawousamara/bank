@@ -68,6 +68,7 @@ class Workflow(models.Model):
                 return self.env.ref('dept_wk.scoring_report').report_action(rec.risk_scoring, config=False)
             else:
                 return False
+
     @api.depends('states')
     def compute_state(self):
         print('exec')

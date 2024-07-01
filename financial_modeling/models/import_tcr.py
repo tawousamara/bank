@@ -185,8 +185,6 @@ class TCRAnalysis(models.Model):
                 taux = 12
                 annuite = rec.capital_differe * ((rec.taux * (1 + rec.tva)) / taux) / (1 - (1 + ((rec.taux * (1 + rec.tva)) / taux)) ** -rec.nbr_echeance)
                 valeur = ((rec.taux * (1 + rec.tva)) / taux) / (1 - (1 + ((rec.taux * (1 + rec.tva))/ taux) - rec.nbr_echeance))
-                print(annuite)
-                print(valeur)
             elif rec.periodicite == 't':
                 nbr_mois = rec.nbr_echeance * 3 - 1
                 periode = 3
@@ -202,27 +200,33 @@ class TCRAnalysis(models.Model):
                 periode = 12
                 taux = 1
                 annuite = rec.capital_differe * (rec.taux * (1 + rec.tva)) / (1 - (1 + (rec.taux * (1 + rec.tva))) ** -rec.nbr_echeance)
-            start_date = rec.date_debut
+            first_date = rec.date_debut
+            start_date = first_date + relativedelta(months=rec.duree_differe)
+            print(start_date)
+            print('nbr_mois', nbr_mois)
+            rec.date_differe = start_date.strftime('%Y-%m-%d')
             rec.amort = annuite
             end_date = start_date + relativedelta(months=nbr_mois)
-            rec.date_differe = end_date.strftime('%Y-%m-%d')
-            rec.date_fin = end_date.strftime('%Y-%m-%d')
-            capital = rec.capital
+            capital = rec.capital_differe
             rec.echeance_ids.unlink()
+            final_date = rec.date_differe
             for i in range(rec.nbr_echeance):
                 marge = capital * (rec.taux / taux)
                 vals = {
                     'tcr_analysis_id': rec.id,
                     'name': i+1,
-                    'date': rec.date_debut + relativedelta(months=periode * i),
+                    'date': rec.date_differe + relativedelta(months=periode * i),
                     'capital': capital,
                     'total': rec.amort,
                     'principal': rec.amort - marge - (marge * rec.tva),
                     'marge': marge,
                     'tva': marge * rec.tva,
                 }
+                final_date = rec.date_differe + relativedelta(months=periode * i)
                 self.env['tcr.analysis.echeance.line'].create(vals)
-                capital -= rec.amort
+                capital -= (rec.amort - marge - (marge * rec.tva))
+                print(final_date)
+            rec.date_fin = final_date.strftime('%Y-%m-%d')
 
     def calcul_cashflow(self):
         for rec in self:

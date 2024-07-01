@@ -8,5 +8,8 @@
         <record id="type_demande_2" model="wk.type.demande">
             <field name="name">تجديد التسهيلات</field>
         </record>
+        <record id="type_demande_3" model="wk.type.demande">
+            <field name="name">تجديد و رفع التسهيلات</field>
+        </record>
     </data>
 </odoo>

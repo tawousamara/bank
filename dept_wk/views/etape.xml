@@ -310,6 +310,9 @@
                                    readonly="not can_edit or state_branch != 'branch_3' and sequence not in [1, 8]">
                                 <tree editable="bottom">
                                     <field name="picture" widget="binary" filename="name"/>
+                                    <field name="to_show"/>
+                                    <button name="open_image" string="" icon="fa-eye" type="object"
+                                            style="display: inline-block;color: #808080; background-color: white"/>
                                     <field name="name" column_invisible="1"/>
                                 </tree>
                             </field>
@@ -336,6 +339,10 @@
                                 <field name="answer"/>
                                 <field name="note"/>
                                 <field name="filename" column_invisible="True"/>
+
+                                <button name="open_document" string="" icon="fa-eye" type="object"
+                                        style="display: inline-block;color: #808080; background-color: white"/>
+
                             </tree>
                         </field>
                         <group>
@@ -376,7 +383,7 @@
                                        readonly="not can_edit or state_finance != 'finance_2'">
                                     <tree editable="bottom">
                                         <field name="type_garantie" options="{'no_create': True}"/>
-                                        <field name="type_contrat" options="{'no_create': True}"/>
+                                        <field name="type_contrat"/>
                                         <field name="montant"/>
                                         <field name="date"/>
                                         <field name="recouvrement" widget="percentage"/>
@@ -812,27 +819,28 @@
                                                     <field name="vis5" widget="image" invisible="vis5 == False"/>
                                                 </page>
                                                 <page string="تنقيط" groups="dept_wk.dept_wk_group_responsable_credit">
-                            <group col="2">
-                                <group col="2">
-                                    <field name="ca_banque"/>
-                                    <field name="resultat_scor" readonly="1"/>
-                                </group>
-                                <group col="2">
-                                    <field name="chiffre_affaire" readonly="1"/>
-                                    <field name="niveau_risque" readonly="1"/>
-                                    <field name="classif_risque"/>
-                                    <field name="taille"/>
-                                </group>
-                            </group>
-                            <button name="calcul_limit" class="col-3 btn-primary" string="Calculer la limite"
-                                    type="object"/>
-                            <group>
-                                <field name="resultat_scor" readonly="1"/>
-                                <field name="limit_25" readonly="1"/>
-                                <field name="max_limit" readonly="1"/>
-                                <field name="case_25" readonly="1"/>
-                            </group>
-                        </page>
+                                                    <group col="2">
+                                                        <group col="2">
+                                                            <field name="ca_banque"/>
+                                                            <field name="resultat_scor" readonly="1"/>
+                                                        </group>
+                                                        <group col="2">
+                                                            <field name="chiffre_affaire" readonly="1"/>
+                                                            <field name="niveau_risque" readonly="1"/>
+                                                            <field name="classif_risque"/>
+                                                            <field name="taille"/>
+                                                        </group>
+                                                    </group>
+                                                    <button name="calcul_limit" class="col-3 btn-primary"
+                                                            string="Calculer la limite"
+                                                            type="object"/>
+                                                    <group>
+                                                        <field name="resultat_scor" readonly="1"/>
+                                                        <field name="limit_25" readonly="1"/>
+                                                        <field name="max_limit" readonly="1"/>
+                                                        <field name="case_25" readonly="1"/>
+                                                    </group>
+                                                </page>
                                             </notebook>
                                         </sheet>
                                     </form>
@@ -895,16 +903,16 @@
                                     </tree>
                                 </field>
                             </page>
-                            <page string="الحركة والأعمال الجانبية للمجموعة مع مصرف السلام الجزائر (KDA)" >
+                            <page string="الحركة والأعمال الجانبية للمجموعة مع مصرف السلام الجزائر (KDA)">
                                 <field name="mouvement_group" readonly="not can_edit or state_finance != 'finance_2'">
                                     <tree editable="bottom">
                                         <field name="company" readonly="'السنة' == company"/>
-                                        <field name="n2_dz" readonly="'السنة' == company"/>
-                                        <field name="n2_dollar" optional="hide" readonly="'السنة' == company"/>
-                                        <field name="n1_dz" readonly="'السنة' == company"/>
-                                        <field name="n1_dollar" optional="hide" readonly="'السنة' == company"/>
-                                        <field name="n_dz" readonly="'السنة' == company"/>
-                                        <field name="n_dollar" optional="hide" readonly="'السنة' == company"/>
+                                        <field name="n2_dz"/>
+                                        <field name="n2_dollar" optional="hide"/>
+                                        <field name="n1_dz"/>
+                                        <field name="n1_dollar" optional="hide"/>
+                                        <field name="n_dz"/>
+                                        <field name="n_dollar" optional="hide"/>
                                         <field name="remarques" readonly="'السنة' == company"/>
                                         <field name="sequence" column_invisible="True"/>
                                     </tree>
@@ -1320,7 +1328,8 @@
                             <field name="assigned_to_risque" readonly="not can_edit or state_risque != 'risque_1'"
                                    options="{'no_create': True, 'no_open': True}"
                                    invisible="sequence not in [4]"/>
-                            <field name="validator_risque" readonly="not can_edit or state_risque not in ['risque_4', 'risque_2']"
+                            <field name="validator_risque"
+                                   readonly="not can_edit or state_risque not in ['risque_4', 'risque_2']"
                                    options="{'no_create': True, 'no_open': True}"
                                    invisible="sequence not in [4]"/>
                         </group>
@@ -1336,7 +1345,8 @@
                     </div>
                     <div invisible="sequence not in [5,6,9]">
                         <group>
-                            <field name="recommandation_tresorerie" readonly="not can_edit or state_vice != 'vice_1'" invisible="1"/>
+                            <field name="recommandation_tresorerie" readonly="not can_edit or state_vice != 'vice_1'"
+                                   invisible="1"/>
                             <field name="recommandation_vice_dir_fin"
                                    readonly="not can_edit or state_vice != 'vice_1'"/>
                         </group>
