@@ -36,7 +36,7 @@
                   action="wk_workflow_dashboard_action_comm"
                   sequence="1"/>
     </menuitem>
-    <menuitem id="commercial_management_menu"
+    <menuitem id="dga_menu"
               name="Directeur Generale Adjoint "
               groups="dept_wk.dept_wk_group_dga"
               sequence="7">
