@@ -51,6 +51,7 @@ class Workflow(models.Model):
                                      related='nom_client.classification')
     is_in_risk = fields.Boolean(string='is risk state', compute='compute_state', store=True)
     is_in_comm = fields.Boolean(string='is risk state', compute='compute_state_comm', store=True)
+    is_in_dga = fields.Boolean(string='is dga state', compute='compute_state_dga', store=True)
     state_risque = fields.Selection([('risque_1', 'مدير المخاطر'),
                                      ('risque_3', 'المكلف بادارة المخاطر'),
                                      ('risque_4', 'مدير المخاطر'),
@@ -89,9 +90,23 @@ class Workflow(models.Model):
             else:
                 rec.is_in_comm = False
 
+    @api.depends('states')
+    def compute_state_dga(self):
+        print('exec')
+        for rec in self:
+            exist = rec.states.filtered(lambda l:l.sequence == 5)
+            if exist:
+                rec.is_in_dga = True
+            else:
+                rec.is_in_dga = False
+
     def is_same_compute(self):
         for rec in self:
-
+            exist = rec.states.filtered(lambda l: l.sequence == 5)
+            if exist:
+                rec.is_in_dga = True
+            else:
+                rec.is_in_dga = False
             if self.env.user.partner_id.branche:
                 if self.env.user.partner_id.branche == rec.branche:
                     print(True)

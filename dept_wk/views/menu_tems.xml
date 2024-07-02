@@ -36,4 +36,13 @@
                   action="wk_workflow_dashboard_action_comm"
                   sequence="1"/>
     </menuitem>
+    <menuitem id="commercial_management_menu"
+              name="Directeur Generale Adjoint "
+              groups="dept_wk.dept_wk_group_dga"
+              sequence="7">
+        <menuitem id="dga_request_menu"
+                  name="طلبات التمويل"
+                  action="wk_workflow_dashboard_action_dga"
+                  sequence="1"/>
+    </menuitem>
 </odoo>

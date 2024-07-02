@@ -795,4 +795,13 @@
                 (0, 0, {'view_mode': 'tree', 'view_id': ref('dept_wk.view_wk_workflow_dashboard_comm_tree')}),
                 (0, 0, {'view_mode': 'form', 'view_id': ref('dept_wk.view_wk_workflow_dashboard_form')})]"/>
     </record>
+    <record id="wk_workflow_dashboard_action_dga" model="ir.actions.act_window">
+        <field name="name">طلب التمويل</field>
+        <field name="res_model">wk.workflow.dashboard</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('is_in_dga', '=', True)]</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('dept_wk.view_wk_workflow_dashboard_tree')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('dept_wk.view_wk_workflow_dashboard_form')})]"/>
+    </record>
 </odoo>
