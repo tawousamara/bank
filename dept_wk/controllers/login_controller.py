@@ -80,10 +80,11 @@ class CustomAuthController(http.Controller):
     def authenticate(self, **kw):
         request_body = request.httprequest.data.decode('utf-8')
         data = json.loads(request_body)
-
         login = data.get('login')
         db = data.get('db')
         password = data.get('password')
+        if not db:
+            return Response(json.dumps({'code': 400, 'error': 'Database name is required.'}), status=400, content_type='application/json')
 
         if not http.db_filter([db]):
             raise AccessError("Database not found.")
