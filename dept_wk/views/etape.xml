@@ -1139,9 +1139,6 @@
                                     <field name="file_tcr" filename="file_tcr_name"
                                            readonly="not can_edit or state_finance != 'finance_2'"/>
                                     <field name="file_tcr_name" invisible="1"/>
-                                    <field name="template_name" invisible="1"/>
-                                    <field name="template_situation" filename="template_name" readonly="1"
-                                          />
                                 </group>
 
                                 <button name="action_situation" type="object" string="اضافة البيانات"
