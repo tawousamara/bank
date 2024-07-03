@@ -13,7 +13,7 @@ import arabic_reshaper
 from odoo.exceptions import ValidationError, UserError
 import magic
 import xlrd
-
+import pandas as pd
 
 
 List_items = ['هل العميل شخص مقرب سياسيا؟',
@@ -557,6 +557,44 @@ class Etape(models.Model):
     active = fields.Boolean(default=True)
     can_edit = fields.Boolean(string='', compute='compute_readonly')
     can_edit_finance = fields.Boolean(string='', compute='compute_readonly_finance')
+    template_situation = fields.Binary(string='Template situation comptable', compute='compute_template_xls')
+    template_name = fields.Char(default='Template situation comptable.xls')
+
+    def compute_template_xls(self):
+        for rec in self:
+            data1 = []
+            for line in tcr_list:
+                data1.append(line[1])
+            data2 = []
+            for line in actif_list:
+                data2.append(line[1])
+            data3 = []
+            for line in passif_list:
+                data3.append(line[1])
+            df1 = pd.DataFrame({
+                "Poste comptable": data1,
+                "Montant": [0] * len(data1)
+            })
+
+            df2 = pd.DataFrame({
+                "Poste comptable": data2,
+                "Montant": [0] * len(data2)
+            })
+
+            df3 = pd.DataFrame({
+                "Poste comptable": data3,
+                "Montant": [0] * len(data3)
+            })
+            buffer = BytesIO()
+            with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
+                df1.to_excel(writer, index=False, sheet_name='TCR')
+                df2.to_excel(writer, index=False, sheet_name='Actif')
+                df3.to_excel(writer, index=False, sheet_name='Passif')
+            buffer.seek(0)
+
+            file_base64 = base64.b64encode(buffer.read()).decode('utf-8')
+
+            rec.template_situation = file_base64
 
     @api.depends('risque_ids')
     def _compute_company_fisc(self):
