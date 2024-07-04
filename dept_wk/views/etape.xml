@@ -460,7 +460,7 @@
                                 </group>
                                 <field name="risque_central"
                                        readonly="not can_edit or state_finance != 'finance_2'">
-                                    <tree create="0"
+                                    <tree create="0" editable="bottom"
                                           delete="0"> <!-- a ajouter la fonctionnalité de suppression pour bloque le total-->
                                         <field name="declaration" readonly="1"/>
                                         <field name="montant_esalam_dz_donne"/>

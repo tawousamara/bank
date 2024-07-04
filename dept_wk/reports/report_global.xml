@@ -182,7 +182,7 @@
                         <div class="page page-content">
                             <div class="justify-content-start">
                                 <t t-set="etape1"
-                                   t-value="doc.env['wk.etape'].search([('workflow', '=', doc.id), ('sequence', '=', 8)], limit=1)"/>
+                                   t-value="doc.env['wk.etape'].search([('workflow', '=', doc.id), ('sequence', '=', 8)])[-1]"/>
                                 <t t-set="etape2"
                                    t-value="doc.env['wk.etape'].search([('workflow', '=', doc.id), ('sequence', '=', 2)], limit=1)"/>
                                 <t t-set="etape4"
