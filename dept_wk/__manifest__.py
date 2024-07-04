@@ -1,6 +1,6 @@
 {
     'name': "Workflow",
-    'depends': ['base', 'contacts','board',
+    'depends': ['base', 'contacts', 'board',
                 'financial_modeling'],
     'sequence': '30',
     'author': "FINOUTSOURCE",
