@@ -9,7 +9,7 @@ from datetime import datetime
 
 class CustomAuthController(http.Controller):
 
-    @http.route('/api/v1/get_authenticated_user', auth='none', type='json', methods=['POST'], csrf=False, cors='*')
+    @http.route('/api/v1/get_authenticated_user', auth='public', type='json', methods=['POST'], csrf=False, cors='*')
     def get_authenticated_user(self, **kw):
         request_body = request.httprequest.data.decode('utf-8')
         data = json.loads(request_body)
