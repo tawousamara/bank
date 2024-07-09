@@ -25,6 +25,10 @@
         <field name="name">Comite</field>
         <field name="parent_id" ref="module_dept_wk_category"/>
     </record>
+    <record id="module_dept_wk_tres_category" model="ir.module.category">
+        <field name="name">Tresorerie</field>
+        <field name="parent_id" ref="module_dept_wk_category"/>
+    </record>
     <record id="module_dept_wk_dga_category" model="ir.module.category">
         <field name="name">DGA</field>
         <field name="parent_id" ref="module_dept_wk_category"/>
@@ -110,6 +114,13 @@
                eval="[(4, ref('dept_wk_group_all_users'))]"/>
     </record>
 
+    <record id="dept_wk_group_tres" model="res.groups">
+        <field name="name">Tresorerie</field>
+        <field name="category_id"
+               ref="module_dept_wk_tres_category"/>
+        <field name="implied_ids"
+               eval="[(4, ref('dept_wk_group_all_users'))]"/>
+    </record>
     <record id="dept_wk_group_dga" model="res.groups">
         <field name="name">DGA</field>
         <field name="category_id"

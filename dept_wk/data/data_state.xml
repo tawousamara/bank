@@ -70,6 +70,10 @@
             <field name="name">المدير العام</field>
             <field name="sequence">9</field>
         </record>
+        <record id="princip_10" model="wk.state.principal">
+            <field name="name">رئيس قطاع الخزينة</field>
+            <field name="sequence">10</field>
+        </record>
         <record id="time_1" model="wk.time">
             <field name="name">الفرع</field>
             <field name="state">branch_1</field>

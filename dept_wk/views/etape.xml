@@ -20,6 +20,8 @@
                            invisible="sequence != 3"/>
                     <field name="state_risque" widget="statusbar"
                            statusbar_visible="risque_1,risque_3,risque_4,risque_2" invisible="sequence != 4"/>
+                    <field name="state_tres" widget="statusbar"
+                           statusbar_visible="tres_1,tres_2" invisible="sequence != 10"/>
                     <field name="state_vice" widget="statusbar"
                            statusbar_visible="vice_1,vice_2" invisible="sequence != 5"/>
                     <field name="state_dg" widget="statusbar"
@@ -1347,10 +1349,13 @@
                                    readonly="not can_edit or state_risque != 'risque_4'"/>
                         </group>
                     </div>
+                    <div invisible="sequence not in [10,5,6,9]">
+                        <group>
+                           <field name="recommandation_tresorerie" readonly="not can_edit or state_tres != 'tres_1'"/>
+                        </group>
+                    </div>
                     <div invisible="sequence not in [5,6,9]">
                         <group>
-                            <field name="recommandation_tresorerie" readonly="not can_edit or state_vice != 'vice_1'"
-                                   invisible="1"/>
                             <field name="recommandation_vice_dir_fin"
                                    readonly="not can_edit or state_vice != 'vice_1'"/>
                         </group>
