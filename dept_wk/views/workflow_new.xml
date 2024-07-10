@@ -76,7 +76,7 @@
                     <button type="object" name="open_report_risk" class="btn-primary" string="التقرير المخاطر" groups="dept_wk.dept_wk_group_analyste"
                             width="10%"/>
 
-                    <field name="state" widget="statusbar" statusbar_visible="1,2,3,4,5,9,6,7"/>
+                    <field name="state" widget="statusbar" statusbar_visible="1,2,3,4,10,5,9,6,7"/>
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
