@@ -613,7 +613,7 @@ class Etape(models.Model):
     @api.model
     def create(self, vals):
         res = super(Etape, self).create(vals)
-        if res.demande == self.env.ref('dept_wk.type_demande_1') or (res.demande == self.env.ref('dept_wk.type_demande_2') and not res.workflow.workflow_old):
+        if res.demande in [self.env.ref('dept_wk.type_demande_1'),self.env.ref('dept_wk.type_demande_2'),self.env.ref('dept_wk.type_demande_3')]  and not res.workflow.workflow_old:
             if res.etape.sequence == 1:
                 for index, item in LIST:
                     doc = self.env['wk.document.check'].create({'list_document': index,

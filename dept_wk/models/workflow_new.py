@@ -185,7 +185,6 @@ class Workflow(models.Model):
                 'type': 'ir.actions.act_window',
             }
 
-
     def action_start(self):
         for rec in self:
             print('here')
