@@ -10,7 +10,7 @@ from matplotlib import pyplot as plt
 from odoo.exceptions import ValidationError, UserError
 import magic
 import xlrd
-import pandas as pd
+#import pandas as pd
 
 
 List_items = ['هل العميل شخص مقرب سياسيا؟',
