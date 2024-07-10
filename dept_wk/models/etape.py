@@ -1081,7 +1081,7 @@ class Etape(models.Model):
         for rec in self:
             if not rec.file_tcr:
                 raise UserError(_('Attacher le fichier'))
-            elif not self.check_if_xls_file(rec.file_tcr):
+            elif not check_if_xls_file(rec.file_tcr):
                 raise UserError(_('Attacher un fichier excel'))
             else:
                 if not rec.tcr_situation:
@@ -1153,7 +1153,7 @@ class Etape(models.Model):
         for rec in self:
             if not rec.file_tcr_estim:
                 raise UserError(_('Attacher le fichier'))
-            elif not self.check_if_xls_file(rec.file_tcr_estim):
+            elif not check_if_xls_file(rec.file_tcr_estim):
                 raise UserError(_('Attacher un fichier excel'))
             else:
                 if not rec.tcr_situation_estim:
