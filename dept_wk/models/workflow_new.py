@@ -193,11 +193,11 @@ class Workflow(models.Model):
                 etape = self.env['wk.etape'].create({'workflow': rec.id,
                                              'etape': self.env.ref('dept_wk.princip_1').id,
                                              'state_branch': 'branch_1'})
-            elif rec.demande == self.env.ref('dept_wk.type_demande_2') and not rec.workflow_old:
+            elif rec.demande in [self.env.ref('dept_wk.type_demande_2'), self.env.ref('dept_wk.type_demande_3')] and not rec.workflow_old:
                 etape = self.env['wk.etape'].create({'workflow': rec.id,
                                                      'etape': self.env.ref('dept_wk.princip_1').id,
                                                      'state_branch': 'branch_1'})
-            elif rec.demande == self.env.ref('dept_wk.type_demande_2') and rec.workflow_old:
+            elif rec.demande in [self.env.ref('dept_wk.type_demande_2'), self.env.ref('dept_wk.type_demande_3')] and rec.workflow_old:
                 for etape in rec.workflow_old.states:
                     vals = get_values(rec, etape)
                     etape_new = self.env['wk.etape'].create(vals)
