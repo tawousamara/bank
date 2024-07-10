@@ -554,7 +554,7 @@ class Etape(models.Model):
     active = fields.Boolean(default=True)
     can_edit = fields.Boolean(string='', compute='compute_readonly')
     can_edit_finance = fields.Boolean(string='', compute='compute_readonly_finance')
-    template_situation = fields.Binary(string='Template situation comptable', compute='compute_template_xls')
+    '''template_situation = fields.Binary(string='Template situation comptable', compute='compute_template_xls')
     template_name = fields.Char(default='Template situation comptable.xls')
 
     def compute_template_xls(self):
@@ -587,7 +587,7 @@ class Etape(models.Model):
                 df3.to_excel(writer, index=False, sheet_name='Passif')
             buffer.seek(0)
             file_base64 = base64.b64encode(buffer.read()).decode('utf-8')
-            rec.template_situation = file_base64
+            rec.template_situation = file_base64'''
 
     @api.depends('risque_ids')
     def _compute_company_fisc(self):
