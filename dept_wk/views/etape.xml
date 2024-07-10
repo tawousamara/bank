@@ -73,7 +73,7 @@
                             <field name="raison_a_revoir" readonly="1"/>
                         </group>
                     </div>
-                    <div invisible="sequence not in [1,3,5,6,8]">
+                    <div invisible="sequence not in [1,3,5,10,6,8]">
                         <group invisible="sequence != 1">
                             <field name="assigned_to_agence" options="{'no_create': True, 'no_open': True}"/>
                         </group>
@@ -150,7 +150,7 @@
                             </group>
                         </group>
                         <notebook string="معرفة عميلك"
-                                  invisible="state_branch not in ['branch_3', 'branch_4','branch_rejected','branch_5'] and sequence not in [3,5,8]">
+                                  invisible="state_branch not in ['branch_3', 'branch_4','branch_rejected','branch_5'] and sequence not in [3,5,10,8]">
                             <page string="توزيع راس مال الشركة">
                                 <field name="apropos" width="100%"
                                        readonly="not can_edit or state_branch != 'branch_3' and sequence not in [1, 8]">
@@ -290,7 +290,7 @@
                             </page>
                         </notebook>
                         <group col="2" string="نبذة عن نشاط الشركة"
-                               invisible="state_branch not in ['branch_3', 'branch_4','branch_rejected','branch_5'] and sequence not in [3,5,8]">
+                               invisible="state_branch not in ['branch_3', 'branch_4','branch_rejected','branch_5'] and sequence not in [3,5,10,8]">
                             <field name="description_company"
                                    readonly="not can_edit or state_branch != 'branch_3' and sequence not in [1, 8]"/>
                             <field name="history_relation"
@@ -308,7 +308,7 @@
                             <field name="concurrence"
                                    readonly="not can_edit or state_branch != 'branch_3' and sequence not in [1, 8]"/>
                         </group>
-                        <group invisible="state_branch not in ['branch_3', 'branch_4','branch_rejected','branch_5'] and sequence not in [3,5,8]">
+                        <group invisible="state_branch not in ['branch_3', 'branch_4','branch_rejected','branch_5'] and sequence not in [3,5,10,8]">
                             <field name="program_invest"
                                    readonly="not can_edit or state_branch != 'branch_3' and sequence not in [1, 8]"/>
                             <field name="result_visit"
@@ -330,14 +330,14 @@
                                    invisible="risk_scoring == False or state_branch not in ['branch_3', 'branch_4','branch_rejected','branch_5']"
                                    readonly="1"/>
                         </group>
-                        <group invisible="state_branch not in ['branch_3', 'branch_4','branch_rejected','branch_5'] and sequence not in [5,6,8,9]">
+                        <group invisible="state_branch not in ['branch_3', 'branch_4','branch_rejected','branch_5'] and sequence not in [10,5,6,8,9]">
                             <field name="recommendation_visit"
                                    readonly="not can_edit or state_branch != 'branch_3' and sequence not in [1, 8]"/>
                             <field name="recommendation_responsable_agence"
                                    readonly="not can_edit or state_branch != 'branch_4' and sequence not in [1, 8]"/>
                         </group>
                     </div>
-                    <div invisible="sequence not in [2,5,6,9]">
+                    <div invisible="sequence not in [2,5,10,6,9]">
                         <field name="documents" nolabel="1" readonly="1" invisible="sequence != 2">
                             <tree>
                                 <field name="document" widget="binary" filename="filename"/>
@@ -1303,7 +1303,7 @@
                                    readonly="not can_edit or state_finance != 'finance_3'"/>
                         </group>
                     </div>
-                    <div invisible="sequence not in [3,5,6,9]">
+                    <div invisible="sequence not in [3,5,10,6,9]">
                         <button type="object" name="create_viz" class="button_secondary" string="انشاء بيان"
                                 invisible="sequence != 3"/>
                         <group>
@@ -1316,14 +1316,14 @@
                                    readonly="not can_edit or state_commercial != 'commercial_1'"/>
                             <field name="analyse_secteur_act"
                                    readonly="not can_edit or state_commercial != 'commercial_2'"
-                                   invisible="sequence not in [3,5,9]"/>
+                                   invisible="sequence not in [3,5,10,9]"/>
                             <field name="analyse_concurrence"
                                    readonly="not can_edit or state_commercial != 'commercial_2'"
-                                   invisible="sequence not in [3,5,9]"/>
+                                   invisible="sequence not in [3,5,10,9]"/>
                             <field name="ampleur_benefice" readonly="not can_edit or state_commercial != 'commercial_2'"
-                                   invisible="sequence not in [3,5,9]"/>
+                                   invisible="sequence not in [3,5,10,9]"/>
                             <field name="analyse_relation" readonly="not can_edit or state_commercial != 'commercial_2'"
-                                   invisible="sequence not in [3,5,9]"/>
+                                   invisible="sequence not in [3,5,10,9]"/>
                             <field name="recommendation_commercial"
                                    readonly="not can_edit or state_commercial != 'commercial_2'"/>
                         </group>
@@ -1347,7 +1347,7 @@
                                 class="button_secondary" invisible="sequence not in [4]"/>
 
                         <group>
-                            <field name="resultat_scoring" invisible="sequence not in [4,5,9]"/>
+                            <field name="resultat_scoring" invisible="sequence not in [4,5,10,9]"/>
                             <field name="recommandation_dir_risque"
                                    readonly="not can_edit or state_risque != 'risque_4'"/>
                         </group>
