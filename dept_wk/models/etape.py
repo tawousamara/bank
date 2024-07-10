@@ -1223,6 +1223,9 @@ class Etape(models.Model):
                     result = True
                 elif rec.state_risque in ['risque_1', 'risque_4', 'risque_2'] and self.env.user.has_group('dept_wk.dept_wk_group_responsable_risque'):
                     result = True
+            elif rec.etape.sequence == 10:
+                if self.env.user.has_group('dept_wk.dept_wk_group_tres'):
+                    result = True
             elif rec.etape.sequence == 5:
                 if self.env.user.has_group('dept_wk.dept_wk_group_dga'):
                     result = True
@@ -1327,6 +1330,13 @@ class Etape(models.Model):
                 elif rec.state_risque == 'risque_2':
                     rec.state_compute = 1
                 rec.workflow.state_risque = rec.state_risque
+            elif rec.etape.sequence == 10:
+                if rec.state_tres == 'tres_1':
+                    rec.state_compute = 0
+                elif rec.state_tres == 'tres_2':
+                    rec.state_compute = 1
+                else:
+                    rec.state_compute = 0
             elif rec.etape.sequence == 5:
                 if rec.state_vice == 'vice_1':
                     rec.state_compute = 0
@@ -3405,12 +3415,22 @@ class Etape(models.Model):
                     partner_ids = user_ids.mapped('email')
                     list_final = ', '.join(partner_ids)
                 elif rec.state_risque == 'risque_2':
-                    user_ids = self.env.ref('dept_wk.dept_wk_group_responsable_analyste').users.filtered(
+                    user_ids = self.env.ref('dept_wk.dept_wk_group_tres').users.filtered(
                         lambda l: admin_group not in l.groups_id).mapped('partner_id')
                     partner_ids = user_ids.mapped('email')
                     list_final = ', '.join(partner_ids)
-                print(rec.state_finance)
-            print(list_final)
+            if rec.sequence == 10:
+                if rec.state_tres == 'tres_2':
+                    user_ids = self.env.ref('dept_wk.dept_wk_group_dga').users.filtered(
+                        lambda l: admin_group not in l.groups_id).mapped('partner_id')
+                    partner_ids = user_ids.mapped('email')
+                    list_final = ', '.join(partner_ids)
+            if rec.sequence == 5:
+                if rec.state_vice == 'vice_2':
+                    user_ids = self.env.ref('dept_wk.dept_wk_group_dg').users.filtered(
+                        lambda l: admin_group not in l.groups_id).mapped('partner_id')
+                    partner_ids = user_ids.mapped('email')
+                    list_final = ', '.join(partner_ids)
             return list_final
 
     def get_mail_to_revoir(self):
