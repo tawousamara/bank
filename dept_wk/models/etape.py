@@ -1081,7 +1081,7 @@ class Etape(models.Model):
         for rec in self:
             if not rec.file_tcr:
                 raise UserError(_('Attacher le fichier'))
-            elif not self.check_if_xls_file():
+            elif not self.check_if_xls_file(rec.file_tcr):
                 raise UserError(_('Attacher un fichier excel'))
             else:
                 if not rec.tcr_situation:
@@ -1153,7 +1153,7 @@ class Etape(models.Model):
         for rec in self:
             if not rec.file_tcr_estim:
                 raise UserError(_('Attacher le fichier'))
-            elif not self.check_if_xls_file():
+            elif not self.check_if_xls_file(rec.file_tcr_estim):
                 raise UserError(_('Attacher un fichier excel'))
             else:
                 if not rec.tcr_situation_estim:
@@ -3462,16 +3462,16 @@ class Etape(models.Model):
                     list_final = ', '.join(partner_ids)
             return list_final
 
-    def check_if_xls_file(self):
-        for record in self:
-            if record.file_tcr:
-                mime = magic.Magic(mime=True)
-                mime_type = mime.from_buffer(record.file_tcr)
+def check_if_xls_file(file):
+    if file:
+        mime = magic.Magic(mime=True)
+        mime_type = mime.from_buffer(file)
 
-                if mime_type == 'application/vnd.ms-excel' or 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
-                    # Do something if the file is XLS
-                    return True
-        return False
+        if mime_type == 'application/vnd.ms-excel' or 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+            # Do something if the file is XLS
+            return True
+    return False
+
 def view_viz(data1, data2):
     year = ["N-2", "N-1", "N"]
     fig, ax = plt.subplots()
