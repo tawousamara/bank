@@ -13,14 +13,14 @@
         <field name="name">طلب التمويل</field>
         <field name="res_model">wk.workflow.dashboard</field>
         <field name="view_mode">tree,form</field>
-        <field name="context">{'search_default_filter_creation_date': 1}</field>
+        <field name="context">{'search_default_en_cours': 1,'search_default_filter_creation_date': 1}</field>
     </record>
     <record id="wk_workflow_dashboard_action_agence" model="ir.actions.act_window">
         <field name="name">طلب التمويل</field>
         <field name="res_model">wk.workflow.dashboard</field>
         <field name="view_mode">tree,form</field>
         <field name="domain">[('is_same', '=', True)]</field>
-        <field name="context">{'search_default_filter_creation_date': 1}</field>
+        <field name="context">{'search_default_en_cours': 1,'search_default_filter_creation_date': 1}</field>
     </record>
     <record id="view_wk_workflow_dashboard_tree" model="ir.ui.view">
         <field name="name">wk.workflow.dashboard.tree</field>
@@ -59,6 +59,7 @@
                 <filter string="تاريخ الانتهاء" name="filter_fin_date" date="date_fin"
                         default_period="this_year,this_month"/>
                 <filter string="Sequence 2" name="sequence_2" domain="[('state', '=', '2')]"/>
+                <filter string="قيد الدراسة" name="en_cours" domain="[('state', '!=', '7')]"/>
                 <filter string="finance 2" name="fin_2" domain="[('is_in_financial', '=', True)]"/>
                 <filter string="Dossier Archivé" name="archived" domain="[('active', '=', False)]"/>
 
