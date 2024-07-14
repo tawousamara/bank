@@ -3,8 +3,10 @@
     <record id="action_force" model="ir.actions.server">
         <field name="name">Forcer a la phase final</field>
         <field name="model_id" ref="dept_wk.model_wk_workflow_dashboard"/>
+        <field name="binding_model_id" ref="dept_wk.model_wk_workflow_dashboard"/>
+        <field name="binding_view_types">form</field>
         <field name="state">code</field>
-        <field name="groups_id"  eval="[(4, ref('dept_wk.dept_wk_group_administration'))]"/>
+        <field name="groups_id" eval="[(4, ref('dept_wk.dept_wk_group_administration'))]"/>
         <field name="code">action = model.force_final()</field>
     </record>
     <record id="wk_workflow_dashboard_action" model="ir.actions.act_window">
@@ -80,7 +82,8 @@
                 <header>
                     <button type="action" name="%(dept_wk.global_report)d" class="btn-primary" string="التقرير النهائي"
                             width="10%"/>
-                    <button type="object" name="open_report_risk" class="btn-primary" string="التقرير المخاطر" groups="dept_wk.dept_wk_group_analyste"
+                    <button type="object" name="open_report_risk" class="btn-primary" string="التقرير المخاطر"
+                            groups="dept_wk.dept_wk_group_analyste"
                             width="10%"/>
 
                     <field name="state" widget="statusbar" statusbar_visible="1,2,3,4,10,5,9,6,7"/>
