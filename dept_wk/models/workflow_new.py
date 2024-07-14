@@ -185,6 +185,9 @@ class Workflow(models.Model):
                 'type': 'ir.actions.act_window',
             }
 
+    def force_final(self):
+        for rec in self:
+            rec.state = '7'
     def action_start(self):
         for rec in self:
             print('here')
@@ -197,8 +200,10 @@ class Workflow(models.Model):
                                                      'etape': self.env.ref('dept_wk.princip_1').id,
                                                      'state_branch': 'branch_1'})
             elif rec.demande in [self.env.ref('dept_wk.type_demande_2'), self.env.ref('dept_wk.type_demande_3')] and rec.workflow_old:
+                print(rec.workflow_old.states)
                 for etape in rec.workflow_old.states:
                     vals = get_values(rec, etape)
+                    print(vals)
                     etape_new = self.env['wk.etape'].create(vals)
                     get_lists(self, etape_new, etape)
             '''state = 'الفرع'
@@ -223,8 +228,9 @@ class Workflow(models.Model):
 
 
 def get_values(workflow, etape):
+    values = {}
     if etape.sequence == 1:
-        return {
+        values = {
             'etape': etape.etape.id,
             'workflow': workflow.id,
             'state_branch': 'branch_1',
@@ -248,7 +254,7 @@ def get_values(workflow, etape):
             'risk_scoring': etape.risk_scoring.id,
         }
     elif etape.sequence == 2:
-        return {
+        values = {
             'etape': etape.etape.id,
             'workflow': workflow.id,
             'state_finance': 'finance_1',
@@ -282,7 +288,7 @@ def get_values(workflow, etape):
             'recommandation_dir_fin': etape.recommandation_dir_fin,
         }
     elif etape.sequence == 3:
-        return {
+        values = {
             'etape': etape.etape.id,
             'workflow': workflow.id,
             'state_commercial': 'commercial_1',
@@ -296,7 +302,7 @@ def get_values(workflow, etape):
             'recommendation_commercial': etape.recommendation_commercial,
         }
     elif etape.sequence == 4:
-        return {
+        values = {
             'etape': etape.etape.id,
             'workflow': workflow.id,
             'state_risque': 'risque_1',
@@ -305,7 +311,7 @@ def get_values(workflow, etape):
             'recommandation_dir_risque': etape.recommandation_dir_risque,
         }
     elif etape.sequence == 5:
-        return {
+        values = {
             'etape': etape.etape.id,
             'workflow': workflow.id,
             'state_vice': 'vice_1',
@@ -337,7 +343,7 @@ def get_values(workflow, etape):
             'recommandation_vice_dir_fin': etape.recommandation_vice_dir_fin,
         }
     elif etape.sequence == 6:
-        return {
+        values = {
             'etape': etape.etape.id,
             'workflow': workflow.id,
             'state_comite': 'comite_1',
@@ -356,7 +362,7 @@ def get_values(workflow, etape):
             'recommandation_vice_dir_fin': etape.recommandation_vice_dir_fin,
             'recommandation_fin_comite': etape.recommandation_fin_comite,
         }
-
+    return values
 def get_lists(self, etape_new, etape_old):
     if etape_new.sequence == 1:
         for doc in etape_old.documents:
@@ -504,7 +510,7 @@ def get_lists(self, etape_new, etape_old):
             self.env['wk.position'].create({'name': doc.name,
                   'adversite': doc.adversite,
                   'non_adversite': doc.non_adversite,
-                  'remarks': doc.remarks.ids,
+                  'notes': doc.notes,
                   'etape_id': etape_new.id})
         for doc in etape_old.mouvement:
             self.env['wk.mouvement'].create({'mouvement': doc.mouvement,
