@@ -549,6 +549,11 @@
                                         </templates>
                                     </kanban>
                                     <form>
+                                        <header>
+                                            <button name="action_archive" string="Archiver"
+                                                    class="btn-primary" type="object"
+                                                    groups="dept_wk.dept_wk_group_administration"/>
+                                        </header>
                                         <sheet>
                                             <group>
                                                 <field name="name"/>

@@ -704,6 +704,10 @@ class Scoring(models.Model):
                 'context': context,
             }
 
+    def action_archive(self):
+        for rec in self:
+            rec.active = False
+
     def open_file_actif(self):
         for rec in self:
             view_id = self.env.ref('dept_wk.view_bilan_wizard_form').id
