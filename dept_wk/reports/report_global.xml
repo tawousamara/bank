@@ -2797,6 +2797,25 @@
                                 </div>
                                 <br/>
                                 <div class="table_deco">
+                                    <table class="reversed-table" t-if="etape2.recommandation_analyste_fin">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align: center" class="title-cell">
+                                                    توصية المحلل المالي
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <t t-esc="etape2.recommandation_analyste_fin"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/>
+                                <div class="table_deco">
                                     <table class="reversed-table" t-if="etape2.recommandation_dir_fin">
                                         <thead>
                                             <tr>
