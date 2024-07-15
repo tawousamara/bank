@@ -718,7 +718,7 @@
                                     <table class="reversed-table" t-if="etape2.facilite_accorde">
                                         <thead>
                                             <tr>
-                                                <th colspan="7" style="text-align: center" class="title-cell">تفاصيل
+                                                <th colspan="8" style="text-align: center" class="title-cell">تفاصيل
                                                     التسهيلات الممنوحة
                                                     (بالمليون دج)
                                                 </th>
