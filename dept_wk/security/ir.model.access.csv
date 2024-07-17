@@ -330,3 +330,6 @@ access_wk_hist_user,access.wk.hist,model_wk_hist,,1,1,1,1
 access_wk_comite_user,access.wk.comite,model_wk_comite,,1,1,1,1
 access_facilite_risk_user,access.facilite.risk,model_facilite_risk,,1,1,1,1
 access_engagement_risk_user,access.engagement.risk,model_engagement_risk,,1,1,1,1
+
+
+financial_modeling.access_tcr_analysis_import_line_system,access.tcr.analysis.import.line.system,financial_modeling.model_tcr_analysis_import_line,dept_wk.dept_wk_group_analyste,1,1,1,1
