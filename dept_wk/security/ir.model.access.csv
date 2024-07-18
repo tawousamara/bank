@@ -333,3 +333,11 @@ access_engagement_risk_user,access.engagement.risk,model_engagement_risk,,1,1,1,
 
 
 financial_modeling.access_tcr_analysis_import_line_system,access.tcr.analysis.import.line.system,financial_modeling.model_tcr_analysis_import_line,dept_wk.dept_wk_group_analyste,1,1,1,1
+
+financial_modeling.access_tcr_analysis_ratio_line_system,access.tcr.analysis.ratio.line.system,financial_modeling.model_tcr_analysis_ratio_line,dept_wk.dept_wk_group_analyste,1,1,1,1
+
+financial_modeling.access_tcr_analysis_prev_system,access.tcr.analysis.prev.system,financial_modeling.model_tcr_analysis_prev,dept_wk.dept_wk_group_analyste,1,1,1,1
+
+financial_modeling.access_tcr_analysis_prev_ratio_system,access.tcr.analysis.prev.ratio.system,financial_modeling.model_tcr_analysis_prev_ratio,dept_wk.dept_wk_group_analyste,1,1,1,1
+
+
