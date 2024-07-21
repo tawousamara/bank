@@ -1198,9 +1198,6 @@ class Etape(models.Model):
     def compute_readonly(self):
         for rec in self:
             result = False
-            print(self.env.user.partner_id.branche)
-            print(rec.branche.id)
-            print(self.env.user.partner_id.branche == rec.branche)
             if rec.etape.sequence == 1:
                 if rec.state_branch in ['branch_2', 'branch_4'] and self.env.user.has_group('dept_wk.dept_wk_group_responsable_agence') and self.env.user.partner_id.branche == rec.branche:
                     result = True
@@ -2977,13 +2974,15 @@ class Etape(models.Model):
                 # Passif (Total I + Total II) - Total actif non courant   صافي رأس المال العامل
                 actif_2 = rec.actif_id.actif_lines.filtered(lambda r: r.rubrique.sequence == 16)
                 actif1_2 = rec.actif1_id.actif_lines.filtered(lambda r: r.rubrique.sequence == 16)
-                passif_18 = rec.passif_id.passif_lines.filtered(lambda r: r.rubrique.sequence == 18)
-                passif1_18 = rec.passif1_id.passif_lines.filtered(lambda r: r.rubrique.sequence == 18)
+                actif_27 = rec.actif_id.actif_lines.filtered(lambda r: r.rubrique.sequence == 27)
+                actif1_27 = rec.actif1_id.actif_lines.filtered(lambda r: r.rubrique.sequence == 27)
+                passif_24 = rec.passif_id.passif_lines.filtered(lambda r: r.rubrique.sequence == 24)
+                passif1_24 = rec.passif1_id.passif_lines.filtered(lambda r: r.rubrique.sequence == 24)
                 bilan_10 = rec.bilan_id.filtered(lambda r: r.sequence == 10)
-                bilan_10.write({'year_4': actif_2.montant_n - passif_1.montant_n,
-                                'year_3': actif_2.montant_n1 - passif_1.montant_n1,
-                                'year_2': actif1_2.montant_n - passif1_1.montant_n,
-                                'year_1': actif1_2.montant_n1 - passif1_1.montant_n1,
+                bilan_10.write({'year_4': actif_27.montant_n - passif_24.montant_n,
+                                'year_3': actif_27.montant_n1 - passif_24.montant_n1,
+                                'year_2': actif1_27.montant_n - passif1_24.montant_n,
+                                'year_1': actif1_27.montant_n1 - passif1_24.montant_n1,
                                 })
 
                 # احتياجات رأس المال العامل
@@ -3003,10 +3002,10 @@ class Etape(models.Model):
                 actif1_20 = rec.actif1_id.actif_lines.filtered(lambda r: r.rubrique.sequence == 20)
                 actif_126 = rec.actif_id.actif_lines.filtered(lambda r: r.rubrique.sequence == 26)
                 actif1_126 = rec.actif1_id.actif_lines.filtered(lambda r: r.rubrique.sequence == 26)
-                bilan_11.write({'year_4': actif_2.montant_n - actif_126.montant_n - (passif_1.montant_n - passif_5.montant_n),
-                                'year_3': actif_2.montant_n1 - actif_126.montant_n1 - (passif_1.montant_n1 - passif_5.montant_n1),
-                                'year_2': actif1_2.montant_n - actif1_126.montant_n - (passif1_1.montant_n - passif1_5.montant_n),
-                                'year_1': actif1_2.montant_n1 - actif1_126.montant_n1 - (passif1_1.montant_n1 - passif1_5.montant_n1),
+                bilan_11.write({'year_4': actif_27.montant_n - actif_126.montant_n - (passif_24.montant_n - passif_5.montant_n),
+                                'year_3': actif_27.montant_n1 - actif_126.montant_n1 - (passif_24.montant_n1 - passif_5.montant_n1),
+                                'year_2': actif1_27.montant_n - actif1_126.montant_n - (passif1_24.montant_n - passif1_5.montant_n),
+                                'year_1': actif1_27.montant_n1 - actif1_126.montant_n1 - (passif1_24.montant_n1 - passif1_5.montant_n1),
                                 })
 
                 # FR / BFR Passif (Total I + Total II) - Actif (Total actif non courant)  / Actif (Stock et encours + Créances et emploi assimili + Disponibilité et assimilé) - Passif (Total III)
@@ -3317,7 +3316,7 @@ class Etape(models.Model):
                 bilan_34 = rec.bilan_id.filtered(lambda r: r.sequence == 34)
                 bilan_34.write({'year_4': (passif_7.montant_n * 360) / tcr_5.montant_n if tcr_5.montant_n != 0 else 0,
                                 'year_3': (passif_7.montant_n1 * 360) / tcr_5.montant_n1 if tcr_5.montant_n1 != 0 else 0,
-                                'year_2': (passif1_7.montant_n * 360) / tcr1_5.montant_n if tcr1_5.montant_n  != 0 else 0,
+                                'year_2': (passif1_7.montant_n * 360) / tcr1_5.montant_n if tcr1_5.montant_n != 0 else 0,
                                 'year_1': (passif1_7.montant_n1 * 360) / tcr1_5.montant_n1 if tcr1_5.montant_n1 != 0 else 0,
                                 })
                 if tcr_5.montant_n == 0:

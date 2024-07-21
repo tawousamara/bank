@@ -57,8 +57,8 @@ class Taillefin(models.Model):
     montant = fields.Float(string='المبلغ المطلوب')
     raison = fields.Char(string='الغرض من التمويل')
     garanties = fields.Many2many('wk.garanties', string='الضمانات المقترحة')
-    preg = fields.Float( string='هامش الجدية')
-    duree = fields.Integer( string='المدة (الايام)')
+    preg = fields.Float(string='هامش الجدية')
+    duree = fields.Integer(string='المدة (الايام)')
     etape_id = fields.Many2one('wk.etape')
     compute_exist = fields.Boolean(compute='compute_products')
 
