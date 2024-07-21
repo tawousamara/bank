@@ -1159,20 +1159,20 @@ class Etape(models.Model):
             else:
                 if not rec.tcr_situation_estim:
                     for index, item1, item2 in tcr_list:
-                        self.env['wk.tcr'].create({'name': item1,
+                        self.env['wk.tcr.estim'].create({'name': item1,
                                                    'name_ar': item2,
                                                    'sequence': index,
                                                    'type': 2,
                                                    'etape_id': rec.id})
 
                     for index, item1, item2 in actif_list:
-                        self.env['wk.actif'].create({'name': item1,
+                        self.env['wk.actif.estim'].create({'name': item1,
                                                    'name_ar': item2,
                                                    'sequence': index,
                                                    'type': 2,
                                                    'etape_id': rec.id})
                     for index, item1, item2 in passif_list:
-                        self.env['wk.passif'].create({'name': item1,
+                        self.env['wk.passif.estim'].create({'name': item1,
                                                    'name_ar': item2,
                                                    'sequence': index,
                                                    'type': 2,
@@ -1186,13 +1186,13 @@ class Etape(models.Model):
                     for row_idx in range(sheet.nrows):
                         row_data = sheet.row_values(row_idx)
                         if count == 0:
-                            tcr = self.env['wk.tcr'].search([('name', '=', row_data[0]),('type', '=', 2)])
+                            tcr = self.env['wk.tcr.estim'].search([('name', '=', row_data[0]),('type', '=', 2)])
                             tcr.valeur = row_data[1]
                         if count == 1:
-                            actif = self.env['wk.actif'].search([('name', '=', row_data[0]),('type', '=', 2)])
+                            actif = self.env['wk.actif.estim'].search([('name', '=', row_data[0]),('type', '=', 2)])
                             actif.valeur = row_data[1]
                         if count == 2:
-                            passif = self.env['wk.passif'].search([('name', '=', row_data[0]),('type', '=', 2)])
+                            passif = self.env['wk.passif.estim'].search([('name', '=', row_data[0]),('type', '=', 2)])
                             passif.valeur = row_data[1]
                     count += 1
 
