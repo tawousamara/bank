@@ -10,7 +10,7 @@ from matplotlib import pyplot as plt
 from odoo.exceptions import ValidationError, UserError
 import magic
 import xlrd
-#import pandas as pd
+import pandas as pd
 
 
 List_items = ['هل العميل شخص مقرب سياسيا؟',
@@ -473,9 +473,9 @@ class Etape(models.Model):
     passif_situation = fields.One2many('wk.passif', 'etape_id', domain="[('type', '=', 1)]")
     file_tcr_estim = fields.Binary(string='الملف')
     file_tcr_name_estim = fields.Char(string='الملف', default='الوضعية التقديرية')
-    tcr_situation_estim = fields.One2many('wk.tcr', 'etape_id', domain="[('type', '=', 2)]")
-    actif_situation_estim = fields.One2many('wk.actif', 'etape_id', domain="[('type', '=', 2)]")
-    passif_situation_estim = fields.One2many('wk.passif', 'etape_id', domain="[('type', '=', 2)]")
+    tcr_situation_estim = fields.One2many('wk.tcr.estim', 'etape_id', domain="[('type', '=', 2)]")
+    actif_situation_estim = fields.One2many('wk.actif.estim', 'etape_id', domain="[('type', '=', 2)]")
+    passif_situation_estim = fields.One2many('wk.passif.estim', 'etape_id', domain="[('type', '=', 2)]")
     commentaire_situation = fields.Html(string='تعليق')
     exception_ids = fields.Many2many('wk.exception', string='الاستثناءات مع سياسة الائتمان')
 
@@ -554,6 +554,7 @@ class Etape(models.Model):
     active = fields.Boolean(default=True)
     can_edit = fields.Boolean(string='', compute='compute_readonly')
     can_edit_finance = fields.Boolean(string='', compute='compute_readonly_finance')
+
     '''template_situation = fields.Binary(string='Template situation comptable', compute='compute_template_xls')
     template_name = fields.Char(default='Template situation comptable.xls')
 

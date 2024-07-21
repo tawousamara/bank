@@ -53,6 +53,15 @@ access_wk_actif_financial,access.wk.actif,model_wk_actif,,1,1,1,1
 access_wk_passif_user,access.wk.passif,model_wk_passif,,1,1,1,1
 access_wk_passif_financial,access.wk.passif,model_wk_passif,,1,1,1,1
 
+access_wk_tcr_estim_user,access.wk.tcr.estim,model_wk_tcr_estim,,1,1,1,1
+access_wk_tcr_estim_financial,access.wk.tcr.estim,model_wk_tcr_estim,,1,1,1,1
+
+access_wk_actif_estim_user,access.wk.actif.estim,model_wk_actif_estim,,1,1,1,1
+access_wk_actif_estim_financial,access.wk.actif.estim,model_wk_actif_estim,,1,1,1,1
+
+access_wk_passif_estim_user,access.wk.passif.estim,model_wk_passif_estim,,1,1,1,1
+access_wk_passif_estim_financial,access.wk.passif.estim,model_wk_passif_estim,,1,1,1,1
+
 access_wk_time_user,access.wk.time,model_wk_time,,1,1,1,1
 access_wk_time_financial,access.wk.time,model_wk_time,,1,1,1,1
 

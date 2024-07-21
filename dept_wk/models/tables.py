@@ -739,6 +739,37 @@ class Passif(models.Model):
     etape_id = fields.Many2one('wk.etape')
     type = fields.Integer()
 
+class TCREstim(models.Model):
+    _name = 'wk.tcr.estim'
+
+    name = fields.Char(string='Poste comptable')
+    name_ar = fields.Char(string='Poste comptable')
+    sequence = fields.Integer(string='Sequence')
+    valeur = fields.Float(string='المبلغ')
+    etape_id = fields.Many2one('wk.etape')
+    type = fields.Integer()
+
+
+class ActifEstim(models.Model):
+    _name = 'wk.actif.estim'
+
+    name = fields.Char(string='Poste comptable')
+    name_ar = fields.Char(string='Poste comptable')
+    sequence = fields.Integer(string='Sequence')
+    valeur = fields.Float(string='المبلغ')
+    etape_id = fields.Many2one('wk.etape')
+    type = fields.Integer()
+
+class PassifEstim(models.Model):
+    _name = 'wk.passif.estim'
+
+    name = fields.Char(string='Poste comptable')
+    name_ar = fields.Char(string='Poste comptable')
+    sequence = fields.Integer(string='Sequence')
+    valeur = fields.Float(string='المبلغ')
+    etape_id = fields.Many2one('wk.etape')
+    type = fields.Integer()
+
 class SwotStrength(models.Model):
     _name = 'wk.swot.strength'
     _description = 'swot matrice'
