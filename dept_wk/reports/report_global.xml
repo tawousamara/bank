@@ -1529,8 +1529,8 @@
                 <td class="title-cell" width="15%">
                     الزبائن
                 </td>
-                <td style="padding: 0px" width="75%">
-                    <table class="reversed-table" t-if="etape1.client"
+                <td style="padding: 0px;white-space: pre-wrap;word-wrap: break-word;overflow-wrap: break-word;" width="75%">
+                    <table  t-if="etape1.client"
                            style="margin:0px; border: none;">
                         <thead>
                             <tr>
