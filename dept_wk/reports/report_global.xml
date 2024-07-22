@@ -1564,12 +1564,11 @@
                                 </div>
                                 <br/>
                                 <div class="table_deco">
-                                    <table class="reversed-table" t-if="etape2.mouvement_group">
-                                        <t t-set="year_mouvement"
+                                    <t t-set="year_mouvement"
                                            t-value="etape2.mouvement_group.filtered(lambda l: l.company == 'السنة')"/>
                                         <t t-set="mouvement_lines"
                                            t-value="etape2.mouvement_group.filtered(lambda l: l.company != 'السنة')"/>
-
+                                    <table class="reversed-table" t-if="mouvement_lines">
                                         <thead>
                                             <tr>
                                                 <th colspan="5" class="title-cell">
