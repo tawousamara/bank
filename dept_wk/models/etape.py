@@ -473,9 +473,9 @@ class Etape(models.Model):
     passif_situation = fields.One2many('wk.passif', 'etape_id', domain="[('type', '=', 1)]")
     file_tcr_estim = fields.Binary(string='الملف')
     file_tcr_name_estim = fields.Char(string='الملف', default='الوضعية التقديرية')
-    tcr_situation_estim = fields.One2many('wk.tcr.estim', 'etape_id', domain="[('type', '=', 2)]")
-    actif_situation_estim = fields.One2many('wk.actif.estim', 'etape_id', domain="[('type', '=', 2)]")
-    passif_situation_estim = fields.One2many('wk.passif.estim', 'etape_id', domain="[('type', '=', 2)]")
+    tcr_situation_estim = fields.One2many('wk.tcr.estim', 'etape_id')
+    actif_situation_estim = fields.One2many('wk.actif.estim', 'etape_id')
+    passif_situation_estim = fields.One2many('wk.passif.estim', 'etape_id')
     commentaire_situation = fields.Html(string='تعليق')
     exception_ids = fields.Many2many('wk.exception', string='الاستثناءات مع سياسة الائتمان')
 
@@ -1114,13 +1114,19 @@ class Etape(models.Model):
                     for row_idx in range(sheet.nrows):
                         row_data = sheet.row_values(row_idx)
                         if count == 0:
-                            tcr = self.env['wk.tcr'].search([('name', '=', row_data[0]),('type', '=', 1)])
+                            tcr = self.env['wk.tcr'].search([('etape_id', '=', rec.id),
+                                                             ('name', '=', row_data[0]),
+                                                             ('type', '=', 1)])
                             tcr.valeur = row_data[1]
                         if count == 1:
-                            actif = self.env['wk.actif'].search([('name', '=', row_data[0]),('type', '=', 1)])
+                            actif = self.env['wk.actif'].search([('etape_id', '=', rec.id),
+                                                                 ('name', '=', row_data[0]),
+                                                                 ('type', '=', 1)])
                             actif.valeur = row_data[1]
                         if count == 2:
-                            passif = self.env['wk.passif'].search([('name', '=', row_data[0]),('type', '=', 1)])
+                            passif = self.env['wk.passif'].search([('etape_id', '=', rec.id),
+                                                                   ('name', '=', row_data[0]),
+                                                                   ('type', '=', 1)])
                             passif.valeur = row_data[1]
                     count += 1
                 label1 = 'CA'
@@ -1186,13 +1192,19 @@ class Etape(models.Model):
                     for row_idx in range(sheet.nrows):
                         row_data = sheet.row_values(row_idx)
                         if count == 0:
-                            tcr = self.env['wk.tcr.estim'].search([('name', '=', row_data[0]),('type', '=', 2)])
+                            tcr = self.env['wk.tcr.estim'].search([('etape_id', '=', rec.id),
+                                                                   ('name', '=', row_data[0]),
+                                                                   ('type', '=', 2)])
                             tcr.valeur = row_data[1]
                         if count == 1:
-                            actif = self.env['wk.actif.estim'].search([('name', '=', row_data[0]),('type', '=', 2)])
+                            actif = self.env['wk.actif.estim'].search([('etape_id', '=', rec.id),
+                                                                       ('name', '=', row_data[0]),
+                                                                       ('type', '=', 2)])
                             actif.valeur = row_data[1]
                         if count == 2:
-                            passif = self.env['wk.passif.estim'].search([('name', '=', row_data[0]),('type', '=', 2)])
+                            passif = self.env['wk.passif.estim'].search([('etape_id', '=', rec.id),
+                                                                         ('name', '=', row_data[0]),
+                                                                         ('type', '=', 2)])
                             passif.valeur = row_data[1]
                     count += 1
 
