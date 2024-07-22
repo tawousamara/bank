@@ -109,7 +109,7 @@
                             border: 1px solid #808080;
                             }
                             .title-cell {
-                            background-color: #e1efd8
+                            background-color: #e1efd8;
                             }
                             .reversed-table > thead > tr > th {
                             padding: 5px;
@@ -148,7 +148,6 @@
                             justify-content: center;
                             direction: rtl;
                             }
-
                             .page {
                             text-align: right;
                             }
@@ -158,14 +157,13 @@
                             padding: 20px;
                             margin: 20px;
                             text-align: justify;
-                            line-height: 1.5
+                            line-height: 1.5;
                             }
-
                             .center-align {
                             margin: 0 auto;
                             }
                             .title {
-                            padding: 20 px;
+                            padding: 20px;
                             color: green;
                             }
                             ul li {
@@ -175,10 +173,11 @@
                             display: inline-block;
                             }
                             div.row-info > .data {
-                            margin: 20px
+                            margin: 20px;
                             display: inline-block;
                             }
                         </style>
+
                         <div class="page page-content">
                             <div class="justify-content-start">
                                 <t t-set="etape1"
@@ -3063,6 +3062,147 @@
                                 </div>
                             </t>
                             <t t-if="etape2.comite.id == 2">
+                                <div class="table_deco">
+                                    <table class="reversed-table">
+                                        <thead>
+                                            <tr>
+                                                <th class="title-cell">
+                                                    اعضاء لجنة التسهيلات
+                                                </th>
+                                                <th class="title-cell">
+                                                    رئيس قطاع الخزينة و العمليات المحلية و الدولية و المالية
+                                                </th>
+                                                <th class="title-cell">
+                                                    مدير النشاط التجاري للمؤسسات
+                                                </th>
+                                                <th class="title-cell">
+                                                    مديرة الدراسات الائتمانية للمؤسسات
+                                                </th>
+                                                <th class="title-cell">
+                                                    رئيس خلية إدارة المخاطر
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th class="title-cell">
+                                                    الوظيفة
+                                                </th>
+                                                <th class="title-cell">
+                                                    عضوا
+                                                </th>
+                                                <th class="title-cell">
+                                                    عضوا
+                                                </th>
+                                                <th class="title-cell">
+                                                    عضوا
+                                                </th>
+                                                <th class="title-cell">
+                                                    عضوا
+                                                </th>
+                                            </tr>
+                                            <tr height="200px">
+                                                <td class="title-cell">
+                                                    التوقيع
+                                                </td>
+                                                <td>
+
+                                                </td>
+                                                <td>
+
+                                                </td>
+                                                <td>
+
+                                                </td>
+                                                <td>
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="title-cell">
+                                                    اعضاء لجنة التسهيلات
+                                                </th>
+                                                <th class="title-cell">
+                                                    رئيس خلية التحصيل الودي و الجبري
+                                                </th>
+                                                <th class="title-cell">
+                                                    مستشار نائب المدير العام المكلف بالاستشراف التجاري
+                                                </th>
+                                                <th class="title-cell">
+                                                    رئيس خلية إدارة التمويلات
+                                                </th>
+                                                <th class="title-cell">
+                                                    نائب المدير العام المكلف بالنشاط التجاري
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th class="title-cell">
+                                                    الوظيفة
+                                                </th>
+                                                <th class="title-cell">
+                                                    عضوا
+                                                </th>
+                                                <th class="title-cell">
+                                                    عضوا
+                                                </th>
+                                                <th class="title-cell">
+                                                    عضوا
+                                                </th>
+                                                <th class="title-cell">
+                                                    عضوا
+                                                </th>
+                                            </tr>
+                                            <tr height="200px">
+                                                <td class="title-cell">
+                                                    التوقيع
+                                                </td>
+                                                <td>
+
+                                                </td>
+                                                <td>
+
+                                                </td>
+                                                <td>
+
+                                                </td>
+                                                <td>
+
+                                                </td>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                                <br/>
+                                <div class="table_deco">
+                                    <table class="reversed-table">
+                                        <thead>
+                                            <tr>
+                                                <th class="title-cell" width="25%">
+                                                    رئيس لجنة التسهيلات
+                                                </th>
+                                                <th class="title-cell" width="75%">
+                                                    المدير العام
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th class="title-cell" width="25%">
+                                                    الوظيفة
+                                                </th>
+                                                <th class="title-cell" width="75%">
+                                                    رئيس اللجنة
+                                                </th>
+                                            </tr>
+                                            <tr height="200px">
+                                                <td class="title-cell" width="25%">
+                                                    التوقيع
+                                                </td>
+                                                <td width="75%">
+
+                                                </td>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </t>
+                            <t t-if="etape2.comite.id == 3">
                                 <div class="table_deco">
                                     <table class="reversed-table">
                                         <thead>
