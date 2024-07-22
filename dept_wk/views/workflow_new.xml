@@ -9,6 +9,15 @@
         <field name="groups_id" eval="[(4, ref('dept_wk.dept_wk_group_administration'))]"/>
         <field name="code">action = records.force_final()</field>
     </record>
+    <record id="action_force_comite" model="ir.actions.server">
+        <field name="name">Forcer a la phase comite</field>
+        <field name="model_id" ref="dept_wk.model_wk_workflow_dashboard"/>
+        <field name="binding_model_id" ref="dept_wk.model_wk_workflow_dashboard"/>
+        <field name="binding_view_types">form</field>
+        <field name="state">code</field>
+        <field name="groups_id" eval="[(4, ref('dept_wk.dept_wk_group_administration'))]"/>
+        <field name="code">action = records.force_comite()</field>
+    </record>
     <record id="wk_workflow_dashboard_action" model="ir.actions.act_window">
         <field name="name">طلب التمويل</field>
         <field name="res_model">wk.workflow.dashboard</field>

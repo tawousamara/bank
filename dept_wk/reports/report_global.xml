@@ -1090,7 +1090,7 @@
                                     <table class="reversed-table" t-if="etape1.situations">
                                         <thead>
                                             <tr>
-                                                <th class="title-cell" style="text-align: center" colspan="4">الوضعية
+                                                <th class="title-cell" style="text-align: center" colspan="5">الوضعية
                                                     المصرفية والتزامات لدى الغير
                                                 </th>
                                             </tr>
@@ -1098,6 +1098,7 @@
                                                 <th class="title-cell">البنك</th>
                                                 <th class="title-cell">نوع التمويل</th>
                                                 <th class="title-cell">المبلغ بالمليون دج</th>
+                                                <th class="title-cell">المبلغ المستغل بالمليون دج</th>
                                                 <th class="title-cell">الضمانات الممنوحة</th>
                                             </tr>
                                         </thead>
@@ -1112,6 +1113,9 @@
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;">
                                                         <t t-esc="'{0:,.0f}'.format(line.montant / 1000)"/>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-esc="'{0:,.0f}'.format(line.encours / 1000)"/>
                                                     </td>
                                                     <td>
                                                         <t t-esc="line.garanties"/>
@@ -1168,16 +1172,38 @@
                                                         <t t-esc="line.mouvement"/>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;">
-                                                        <t t-esc="'{0:,.0f}'.format(line.n3_dz / 1000)"/>
+                                                        <t t-if="line.mouvement == '(1)/(2)'">
+
+                                                            <t t-esc="'{0:,.0f}'.format(line.n3_dz * 100)"/>%
+                                                        </t>
+                                                        <t t-else="">
+                                                            <t t-esc="'{0:,.0f}'.format(line.n3_dz / 1000)"/>
+                                                        </t>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;">
-                                                        <t t-esc="'{0:,.0f}'.format(line.n2_dz / 1000)"/>
+                                                        <t t-if="line.mouvement == '(1)/(2)'">
+
+                                                            <t t-esc="'{0:,.0f}'.format(line.n2_dz * 100)"/>%
+                                                        </t>
+                                                        <t t-else="">
+                                                            <t t-esc="'{0:,.0f}'.format(line.n2_dz / 1000)"/>
+                                                        </t>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;">
-                                                        <t t-esc="'{0:,.0f}'.format(line.n1_dz / 1000)"/>
+                                                        <t t-if="line.mouvement == '(1)/(2)'">
+                                                            <t t-esc="'{0:,.0f}'.format(line.n1_dz * 100)"/>%
+                                                        </t>
+                                                        <t t-else="">
+                                                            <t t-esc="'{0:,.0f}'.format(line.n1_dz / 1000)"/>
+                                                        </t>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;">
-                                                        <t t-esc="'{0:,.0f}'.format(line.n_dz / 1000)"/>
+                                                        <t t-if="line.mouvement == '(1)/(2)'">
+                                                            <t t-esc="'{0:,.0f}'.format(line.n_dz * 100)"/>%
+                                                        </t>
+                                                        <t t-else="">
+                                                            <t t-esc="'{0:,.0f}'.format(line.n_dz / 1000)"/>
+                                                        </t>
                                                     </td>
                                                     <td>
                                                         <t t-esc="line.remarques"/>
@@ -1540,6 +1566,11 @@
                                 <br/>
                                 <div class="table_deco">
                                     <table class="reversed-table" t-if="etape2.mouvement_group">
+                                        <t t-set="year_mouvement"
+                                           t-value="etape2.mouvement_group.filtered(lambda l: l.company == 'السنة')"/>
+                                        <t t-set="mouvement_lines"
+                                           t-value="etape2.mouvement_group.filtered(lambda l: l.company != 'السنة')"/>
+
                                         <thead>
                                             <tr>
                                                 <th colspan="5" class="title-cell">
@@ -1547,15 +1578,34 @@
                                                 </th>
                                             </tr>
                                             <tr>
-                                                <th class="title-cell">البيان</th>
-                                                <th class="title-cell">نوع التسهيلات</th>
-                                                <th class="title-cell">المدققة N-1</th>
+                                                <th class="title-cell">الشركة</th>
+                                                <th class="title-cell">N-2</th>
+                                                <th class="title-cell">N-1</th>
                                                 <th class="title-cell">N</th>
                                                 <th class="title-cell">التعليق</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <t t-foreach="etape2.mouvement_group" t-as="line">
+                                            <t t-foreach="year_mouvement" t-as="line">
+                                                <tr>
+                                                    <td>
+                                                        <t t-esc="line.company"/>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-esc="'{0:,.0f}'.format(line.n2_dz)"/>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-esc="'{0:,.0f}'.format(line.n1_dz)"/>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-esc="'{0:,.0f}'.format(line.n_dz)"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.remarques"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                            <t t-foreach="mouvement_lines" t-as="line">
                                                 <tr>
                                                     <td>
                                                         <t t-esc="line.company"/>
@@ -2713,27 +2763,29 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                <br/><div class="table_deco">
+                                <br/>
+                                <div class="table_deco">
                                     <t t-set="has_image"
                                        t-value="etape1.images.filtered(lambda l: l.to_show == True)"/>
                                     <table class="reversed-table" t-if="etape1.images">
                                         <thead>
                                             <tr>
-                                                <th  class="title-cell">صور من تقرير الزيارة
+                                                <th class="title-cell">صور من تقرير الزيارة
                                                 </th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <t t-foreach="etape1.images" t-as="line">
-                                            <t t-if="line.to_show == True">
-                                                <tr>
-                                                    <td>
-                                                        <img
-                                     t-att-src="image_data_uri(line.picture)" height="500"
-                                     border="1" width="500"/>
-                                                    </td>
-                                                </tr>
-                                            </t>
+                                                <t t-if="line.to_show == True">
+                                                    <tr>
+                                                        <td>
+                                                            <img
+                                                                    t-att-src="image_data_uri(line.picture)"
+                                                                    height="500"
+                                                                    border="1" width="500"/>
+                                                        </td>
+                                                    </tr>
+                                                </t>
                                             </t>
                                         </tbody>
                                     </table>
