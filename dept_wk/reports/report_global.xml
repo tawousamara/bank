@@ -104,79 +104,71 @@
                 <t t-foreach="docs" t-as="doc">
                     <t t-call="dept_wk.salam_layout_header">
                         <style>
-                            .reversed-table > tbody > tr > td {
-                            padding: 5px;
-                            border: 1px solid #808080;
-                            }
-                            .title-cell {
-                            background-color: #e1efd8;
-                            }
-                            .reversed-table > thead > tr > th {
-                            padding: 5px;
-                            border: 1px solid #808080;
-                            }
-                            .table_content > tbody > tr > td {
-                            padding: 5px;
-                            border: none;
-                            }
-                            .table_content > thead > tr > th {
-                            padding: 5px;
-                            border: none;
-                            }
-                            .table_content > thead > tr {
-                            padding: 5px;
-                            border: none;
-                            }
-                            .table_content > tbody > tr {
-                            padding: 5px;
-                            border: none;
-                            }
-                            .table_content > tbody {
-                            padding: 5px;
-                            border: none;
-                            }
-                            td {
-                            padding: 5px;
-                            }
-                            .reversed-table {
-                            width: 100%;
-                            border: 1px solid #808080;
-                            page-break-inside: avoid;
-                            }
-                            .table_deco {
-                            display: flex;
-                            justify-content: center;
-                            direction: rtl;
-                            }
-                            .page {
-                            text-align: right;
-                            }
-                            .page-content {
-                            font-family: 'NotoArabic-Regular';
-                            direction: rtl;
-                            padding: 20px;
-                            margin: 20px;
-                            text-align: justify;
-                            line-height: 1.5;
-                            }
-                            .center-align {
-                            margin: 0 auto;
-                            }
-                            .title {
-                            padding: 20px;
-                            color: green;
-                            }
-                            ul li {
-                            padding: 10px;
-                            }
-                            div.row-info > h4 {
-                            display: inline-block;
-                            }
-                            div.row-info > .data {
-                            margin: 20px;
-                            display: inline-block;
-                            }
-                        </style>
+    .reversed-table {
+        width: 100%;
+        border: 1px solid #808080;
+        table-layout: auto;
+        page-break-inside: avoid;
+    }
+    .reversed-table > tbody > tr > td {
+        padding: 5px;
+        border: 1px solid #808080;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+    .title-cell {
+        background-color: #e1efd8;
+    }
+    .reversed-table > thead > tr > th {
+        padding: 5px;
+        border: 1px solid #808080;
+    }
+    .table_content > tbody > tr > td,
+    .table_content > thead > tr > th,
+    .table_content > thead > tr,
+    .table_content > tbody > tr,
+    .table_content > tbody {
+        padding: 5px;
+        border: none;
+    }
+    td {
+        padding: 5px;
+    }
+    .table_deco {
+        display: flex;
+        justify-content: center;
+        direction: rtl;
+    }
+    .page {
+        text-align: right;
+    }
+    .page-content {
+        font-family: 'NotoArabic-Regular';
+        direction: rtl;
+        padding: 20px;
+        margin: 20px;
+        text-align: justify;
+        line-height: 1.5;
+    }
+    .center-align {
+        margin: 0 auto;
+    }
+    .title {
+        padding: 20px;
+        color: green;
+    }
+    ul li {
+        padding: 10px;
+    }
+    div.row-info > h4 {
+        display: inline-block;
+    }
+    div.row-info > .data {
+        margin: 20px;
+        display: inline-block;
+    }
+</style>
+
 
                         <div class="page page-content">
                             <div class="justify-content-start">
@@ -1219,12 +1211,12 @@
                                     </table>
                                 </div>
                                 <br/>
-                                <!-- نبذة عن نشاط الشركة -->
+                                <!-- نبذة عن نشاط الشركة
                                 <div class="table_deco">
                                     <table class="reversed-table">
                                         <tbody>
                                             <tr t-if="etape1.description_company">
-                                                <td class="title-cell" width="25%">
+                                                <td class="title-cell" width="15%">
                                                     تعريف الشركة
                                                 </td>
                                                 <td width="75%">
@@ -1232,7 +1224,7 @@
                                                 </td>
                                             </tr>
                                             <tr t-if="etape1.history_relation">
-                                                <td class="title-cell" width="25%">
+                                                <td class="title-cell" width="15%">
                                                     تاريخ العلاقة وحالة التحصيل
                                                 </td>
                                                 <td width="75%">
@@ -1240,7 +1232,7 @@
                                                 </td>
                                             </tr>
                                             <tr t-if="etape1.unit_prod">
-                                                <td class="title-cell" width="25%">
+                                                <td class="title-cell" width="15%">
                                                     وحدات الانتاج
                                                 </td>
                                                 <td width="75%">
@@ -1248,7 +1240,7 @@
                                                 </td>
                                             </tr>
                                             <tr t-if="etape1.stock">
-                                                <td class="title-cell" width="25%">
+                                                <td class="title-cell" width="15%">
                                                     المخازن
                                                 </td>
                                                 <td width="75%">
@@ -1256,7 +1248,7 @@
                                                 </td>
                                             </tr>
                                             <tr t-if="etape1.prod_company">
-                                                <td class="title-cell" width="25%">
+                                                <td class="title-cell" width="15%">
                                                     منتوجات الشركة
                                                 </td>
                                                 <td width="75%">
@@ -1264,7 +1256,7 @@
                                                 </td>
                                             </tr>
                                             <tr t-if="etape2.position_tax">
-                                                <td class="title-cell" width="25%">
+                                                <td class="title-cell" width="15%">
                                                     الوضعية
                                                     الجبائية وشبه
                                                     الجبائية
@@ -1306,7 +1298,7 @@
                                                 </td>
                                             </tr>
                                             <tr t-if="etape1.fournisseur">
-                                                <td class="title-cell" width="25%">
+                                                <td class="title-cell" width="15%">
                                                     الموردين
                                                 </td>
                                                 <td style="padding: 0px" width="75%">
@@ -1345,7 +1337,7 @@
                                                 </td>
                                             </tr>
                                             <tr t-if="etape1.client">
-                                                <td class="title-cell" width="25%">
+                                                <td class="title-cell" width="15%">
                                                     الزبائن
                                                 </td>
                                                 <td style="padding: 0px" width="75%">
@@ -1384,7 +1376,7 @@
                                                 </td>
                                             </tr>
                                             <tr t-if="etape3.analyse_relation">
-                                                <td class="title-cell" width="25%">
+                                                <td class="title-cell" width="15%">
                                                     اهمية العلاقة
                                                 </td>
                                                 <td width="75%">
@@ -1392,7 +1384,7 @@
                                                 </td>
                                             </tr>
                                             <tr t-if="etape3.analyse_secteur_act">
-                                                <td class="title-cell" width="25%">
+                                                <td class="title-cell" width="15%">
                                                     تحليل قطاع عمل العميل
                                                 </td>
                                                 <td width="75%">
@@ -1400,7 +1392,7 @@
                                                 </td>
                                             </tr>
                                             <tr t-if="etape3.ampleur_benefice">
-                                                <td class="title-cell" width="25%">
+                                                <td class="title-cell" width="15%">
                                                     حجم الارباح PNB المتوقعة
                                                 </td>
                                                 <td width="75%">
@@ -1409,7 +1401,196 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                </div>
+                                </div>-->
+                                <div class="table_deco">
+    <table class="reversed-table">
+        <tbody>
+            <tr t-if="etape1.description_company">
+                <td class="title-cell" width="15%">
+                    تعريف الشركة
+                </td>
+                <td width="85%">
+                    <t t-esc="etape1.description_company"/>
+                </td>
+            </tr>
+            <tr t-if="etape1.history_relation">
+                <td class="title-cell" width="15%">
+                    تاريخ العلاقة وحالة التحصيل
+                </td>
+                <td width="85%">
+                    <t t-esc="etape1.history_relation"/>
+                </td>
+            </tr>
+            <tr t-if="etape1.unit_prod">
+                <td class="title-cell" width="15%">
+                    وحدات الانتاج
+                </td>
+                <td width="85%">
+                    <t t-esc="etape1.unit_prod"/>
+                </td>
+            </tr>
+            <tr t-if="etape1.stock">
+                <td class="title-cell" width="15%">
+                    المخازن
+                </td>
+                <td width="85%">
+                    <t t-esc="etape1.stock"/>
+                </td>
+            </tr>
+            <tr t-if="etape1.prod_company">
+                <td class="title-cell" width="15%">
+                    منتوجات الشركة
+                </td>
+                <td width="85%">
+                    <t t-esc="etape1.prod_company"/>
+                </td>
+            </tr>
+            <tr t-if="etape2.position_tax">
+                <td class="title-cell" width="15%">
+                    الوضعية
+                    الجبائية وشبه
+                    الجبائية
+                </td>
+                <td style="padding: 0px" width="75%">
+                    <table class="reversed-table" t-if="etape2.position_tax"
+                           style="margin:0px; border: none; border-collapse: collapse;">
+                        <thead>
+                            <tr>
+                                <th/>
+                                <th class="title-cell">محينة</th>
+                                <th class="title-cell">غير محينة</th>
+                                <th class="title-cell">ملاحظات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="etape2.position_tax" t-as="line">
+                                <tr>
+                                    <td class="title-cell">
+                                        <t t-esc="line.name"/>
+                                    </td>
+                                    <td>
+                                        <t t-if="line.adversite == True">
+                                            X
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-if="line.non_adversite == True">
+                                            X
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-esc="line.notes"/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr t-if="etape1.fournisseur">
+                <td class="title-cell" width="15%">
+                    الموردين
+                </td>
+                <td style="padding: 0px" width="75%">
+                    <table class="reversed-table" t-if="etape1.fournisseur"
+                           style="margin:0px; border: none;">
+                        <thead>
+                            <tr>
+                                <th class="title-cell" width="25%">الاسم</th>
+                                <th class="title-cell" width="25%">البلد</th>
+                                <th class="title-cell" width="50%">طريقة السداد</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="etape1.fournisseur" t-as="line">
+                                <tr>
+                                    <td width="25%">
+                                        <t t-esc="line.name"/>
+                                    </td>
+                                    <td width="25%">
+                                        <t t-esc="line.country.name"/>
+                                    </td>
+                                    <td width="50%">
+                                        <ol>
+                                            <t t-foreach="line.type_payment" t-as="type">
+                                                <li>
+                                                    <t t-esc="type.name"/>
+                                                </li>
+                                            </t>
+                                        </ol>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr t-if="etape1.client">
+                <td class="title-cell" width="15%">
+                    الزبائن
+                </td>
+                <td style="padding: 0px" width="75%">
+                    <table class="reversed-table" t-if="etape1.client"
+                           style="margin:0px; border: none;">
+                        <thead>
+                            <tr>
+                                <th class="title-cell" width="25%">الاسم</th>
+                                <th class="title-cell" width="25%">البلد</th>
+                                <th class="title-cell" width="50%">طريقة السداد</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="etape1.client" t-as="line">
+                                <tr>
+                                    <td width="25%">
+                                        <t t-esc="line.name"/>
+                                    </td>
+                                    <td width="25%">
+                                        <t t-esc="line.country.name"/>
+                                    </td>
+                                    <td width="50%">
+                                        <ol>
+                                            <t t-foreach="line.type_payment" t-as="type">
+                                                <li>
+                                                    <t t-esc="type.name"/>
+                                                </li>
+                                            </t>
+                                        </ol>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr t-if="etape3.analyse_relation">
+                <td class="title-cell" width="15%">
+                    اهمية العلاقة
+                </td>
+                <td width="85%">
+                    <t t-esc="etape3.analyse_relation"/>
+                </td>
+            </tr>
+            <tr t-if="etape3.analyse_secteur_act">
+                <td class="title-cell" width="15%">
+                    تحليل قطاع عمل العميل
+                </td>
+                <td width="85%">
+                    <t t-esc="etape3.analyse_secteur_act"/>
+                </td>
+            </tr>
+            <tr t-if="etape3.ampleur_benefice">
+                <td class="title-cell" width="15%">
+                    حجم الارباح PNB المتوقعة
+                </td>
+                <td width="85%">
+                    <t t-esc="etape3.ampleur_benefice"/>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
                                 <br/>
                                 <!-- معلومات حول الشركات ذات الصلة -->
                                 <div class="table_deco">
