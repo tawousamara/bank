@@ -32,7 +32,8 @@ class RevoirState(models.TransientModel):
                 if not self.etat:
                     demande.a_revoir(self.one_step)
                 else:
-                    demande.a_revoir_2(self.etat, self.raison)
+                    if int(demande.workflow.state) <= int(self.etat):
+                        demande.a_revoir_2(self.etat, self.raison)
                 if demande.etape.sequence == 2 and demande.state_finance == 'finance_1':
                     step_1 = demande.workflow.states.filtered(lambda l: l.etape.sequence == 1)
                     if step_1.state_branch == 'branch_4':
