@@ -566,10 +566,8 @@
                                             </group>
                                             <group class="col-3">
                                                 <field name="tcr_id" invisible="1"/>
-                                                <group invisible="not tcr_id">
-                                                    <field name="tcr_id" readonly="1"
-                                                           style="display: inline-block;"/>
-                                                </group>
+                                                <field name="tcr_id" readonly="1" invisible="not tcr_id"
+                                                       style="display: inline-block;"/>
                                                 <group invisible="not tcr_id">
                                                     <button name="open_file" string="" icon="fa-eye" type="object"
                                                             style="display: inline-block;color: #808080; background-color: white"/>
@@ -582,10 +580,8 @@
                                             </group>
                                             <group class="col-3">
                                                 <field name="passif_id" invisible="1"/>
-                                                <group invisible="not passif_id">
-                                                    <field name="passif_id" readonly="1"
-                                                           style="display: inline-block;"/>
-                                                </group>
+                                                <field name="passif_id" readonly="1" invisible="not passif_id"
+                                                       style="display: inline-block;"/>
                                                 <group invisible="not passif_id">
                                                     <button name="open_file_passif" string="" icon="fa-eye"
                                                             type="object"
@@ -599,10 +595,8 @@
                                             </group>
                                             <group class="col-3">
                                                 <field name="actif_id" invisible="1"/>
-                                                <group invisible="not actif_id">
-                                                    <field name="actif_id" readonly="1" 
-                                                           style="display: inline-block;"/>
-                                                </group>
+                                                <field name="actif_id" readonly="1"
+                                                       style="display: inline-block;" invisible="not actif_id"/>
                                                 <group invisible="not actif_id">
                                                     <button name="open_file_actif" string="" icon="fa-eye"
                                                             type="object"
