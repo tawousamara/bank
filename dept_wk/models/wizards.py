@@ -7,7 +7,12 @@ class RevoirState(models.TransientModel):
     _name = "wk.wizard.retour"
 
     etape_id = fields.Many2one("wk.etape", string="Request")
-    state = fields.Many2one('wk.state')
+    etat = fields.Selection([('1', 'الفرع'),
+                              ('2', 'مديرية التمويلات'),
+                              ('3', 'مديرية الاعمال التجارية'),
+                              ('4', 'ادارة المخاطر'),
+                              ('10', 'رئيس قطاع الخزينة'),
+                              ('5', 'نائب المدير العام')], string='مراجعة من طرف')
     raison = fields.Text(string="Reason")
     one_step = fields.Boolean(string='الى مدير التمويلات')
 
@@ -24,18 +29,21 @@ class RevoirState(models.TransientModel):
                 demande.workflow.raison_refus = self.raison
                 demande.reject_request_function()
             elif self.raison:
-                demande.a_revoir(self.one_step)
+                if not self.etat:
+                    demande.a_revoir(self.one_step)
+                else:
+                    demande.a_revoir_2(self.etat, self.raison)
                 if demande.etape.sequence == 2 and demande.state_finance == 'finance_1':
                     step_1 = demande.workflow.states.filtered(lambda l: l.etape.sequence == 1)
                     if step_1.state_branch == 'branch_4':
                         step_1.write({'raison_a_revoir': self.raison})
                 elif demande.etape.sequence == 5 and demande.state_vice == 'vice_1':
                     step_1 = demande.workflow.states.filtered(lambda l: l.etape.sequence == 2)
-                    if step_1.state_branch == 'finance_3':
+                    if step_1.state_finance == 'finance_3':
                         step_1.write({'raison_a_revoir': self.raison})
                 elif demande.etape.sequence == 4 and demande.state_risque == 'risque_1':
                     step_1 = demande.workflow.states.filtered(lambda l: l.etape.sequence == 2)
-                    if step_1.state_branch == 'finance_3':
+                    if step_1.state_finance == 'finance_3':
                         step_1.write({'raison_a_revoir': self.raison})
                 else:
                     demande.write({'raison_a_revoir': self.raison})

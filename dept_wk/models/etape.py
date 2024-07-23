@@ -1559,16 +1559,17 @@ class Etape(models.Model):
                                                                           'create_uid': self.env.user,
                                                                           'name': doc.filename if doc.filename else doc.list_doc})
                         else:
-                            etape_created.documents.unlink()
-                            for doc in rec.documents:
-                                if doc.document:
-                                    self.env['wk.document.check'].create({
-                                                                          'list_doc': doc.list_doc,
-                                                                          'document': doc.document,
-                                                                          'answer': doc.answer,
-                                                                          'note': doc.note,
-                                                                          'filename': doc.filename,
-                                                                          'etape_id': etape_created.id})
+                            if etape_created.state_finance != 'finance_4':
+                                etape_created.documents.unlink()
+                                for doc in rec.documents:
+                                    if doc.document:
+                                        self.env['wk.document.check'].create({
+                                                                              'list_doc': doc.list_doc,
+                                                                              'document': doc.document,
+                                                                              'answer': doc.answer,
+                                                                              'note': doc.note,
+                                                                              'filename': doc.filename,
+                                                                              'etape_id': etape_created.id})
                         etape_revision = rec.workflow.states.filtered(lambda l: l.etape.sequence == 8)
                         vals = {
                             'etape': self.env.ref('dept_wk.princip_8').id,
@@ -2414,6 +2415,35 @@ class Etape(models.Model):
                     rec.workflow.state = '5'
                 elif rec.state_dg == 'dg_2':
                     rec.state_dg = 'dg_1'
+
+    def a_revoir_2(self, etat, raison):
+        print(etat)
+        print(raison)
+        for rec in self:
+            if etat == '1':
+                etape = rec.workflow.states.filtered(lambda l: l.etape.sequence == 1)
+                etape.state_branch = 'branch_4'
+                etape.raison_a_revoir = raison
+            if etat == '2':
+                etape = rec.workflow.states.filtered(lambda l: l.etape.sequence == 2)
+                etape.state_finance = 'finance_3'
+                etape.raison_a_revoir = raison
+            if etat == '3':
+                etape = rec.workflow.states.filtered(lambda l: l.etape.sequence == 3)
+                etape.state_commercial = 'commercial_3'
+                etape.raison_a_revoir = raison
+            if etat == '4':
+                etape = rec.workflow.states.filtered(lambda l: l.etape.sequence == 4)
+                etape.state_risque = 'risque_4'
+                etape.raison_a_revoir = raison
+            if etat == '5':
+                etape = rec.workflow.states.filtered(lambda l: l.etape.sequence == 5)
+                etape.state_vice = 'vice_1'
+                etape.raison_a_revoir = raison
+            if etat == '10':
+                etape = rec.workflow.states.filtered(lambda l: l.etape.sequence == 10)
+                etape.state_tres = 'tres_1'
+                etape.raison_a_revoir = raison
 
     def revoir_action(self):
         for rec in self:

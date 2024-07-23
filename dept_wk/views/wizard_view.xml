@@ -111,8 +111,8 @@
                     <p>سبب طلب المراجعة</p>
                     <field name="raison"/>
                     <br/>
-                    <p invisible="context.get('not_one_step', False)" >الى مدير التمويلات</p>
-                    <field name="one_step" invisible="context.get('not_one_step')" widget="boolean_toggle"/>
+                    <group>
+                    <field name="etat"/></group>
                     <footer>
                         <button name="send" type="object" string="Envoyer" class="btn-primary"/>
                         <button name="cancel" type="object" string="Annuler" class="btn-secondary"/>
