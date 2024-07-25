@@ -431,9 +431,13 @@ class BilanFisc(models.Model):
                                   ('5', 'مؤشرات النشاط'),
                                   ])
     year_1 = fields.Float(string='المدققة N-3')
+    year_1_d = fields.Float( compute='compute_dollar')
     year_2 = fields.Float(string='المدققة N-2')
+    year_2_d = fields.Float( compute='compute_dollar')
     year_3 = fields.Float(string='المدققة N-1')
+    year_3_d = fields.Float( compute='compute_dollar')
     year_4 = fields.Float(string='N')
+    year_4_d = fields.Float( compute='compute_dollar')
     variante = fields.Float(string='الوضعية المحاسبية')
     remark = fields.Text(string='التعليق')
     bilan_id = fields.Many2one('wk.bilan', string='Bilan')
@@ -461,6 +465,19 @@ class BilanFisc(models.Model):
                 self.env['wk.bilan.cat5'].create(vals)
         return res
 
+    def compute_dollar(self):
+        for rec in self:
+            if rec.sequence not in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]:
+                rec.year_1_d = rec.year_1 / rec.etape_id.taux_change if rec.etape_id.taux_change != 0 else 0
+                rec.year_2_d = rec.year_2 / rec.etape_id.taux_change if rec.etape_id.taux_change != 0 else 0
+                rec.year_3_d = rec.year_3 / rec.etape_id.taux_change if rec.etape_id.taux_change != 0 else 0
+                rec.year_4_d = rec.year_4 / rec.etape_id.taux_change if rec.etape_id.taux_change != 0 else 0
+            else:
+                rec.year_1_d = rec.year_1
+                rec.year_2_d = rec.year_2
+                rec.year_3_d = rec.year_3
+                rec.year_4_d = rec.year_4
+
 
 class BilanCateg1(models.Model):
     _name = 'wk.bilan.cat1'
@@ -476,9 +493,13 @@ class BilanCateg1(models.Model):
                                   ('5', 'مؤشرات النشاط'),
                                   ])
     year_1 = fields.Float(string='المدققة N-3')
+    year_1_d = fields.Float(compute='compute_dollar')
     year_2 = fields.Float(string='المدققة N-2')
+    year_2_d = fields.Float(compute='compute_dollar')
     year_3 = fields.Float(string='المدققة N-1')
+    year_3_d = fields.Float(compute='compute_dollar')
     year_4 = fields.Float(string='N')
+    year_4_d = fields.Float(compute='compute_dollar')
     variante = fields.Float(string='التغير', compute='compute_variante')
     remark = fields.Text(string='التعليق')
     compute_field = fields.Boolean(string='compute', compute='compute_years')
@@ -505,6 +526,19 @@ class BilanCateg1(models.Model):
     def compute_variante(self):
         for rec in self:
             rec.variante = (rec.year_4 - rec.year_3) / rec.year_3 if rec.year_3 != 0 else 0
+
+    def compute_dollar(self):
+        for rec in self:
+            if rec.sequence not in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]:
+                rec.year_1_d = rec.year_1 / rec.etape_id.taux_change if rec.etape_id.taux_change != 0 else 0
+                rec.year_2_d = rec.year_2 / rec.etape_id.taux_change if rec.etape_id.taux_change != 0 else 0
+                rec.year_3_d = rec.year_3 / rec.etape_id.taux_change if rec.etape_id.taux_change != 0 else 0
+                rec.year_4_d = rec.year_4 / rec.etape_id.taux_change if rec.etape_id.taux_change != 0 else 0
+            else:
+                rec.year_1_d = rec.year_1
+                rec.year_2_d = rec.year_2
+                rec.year_3_d = rec.year_3
+                rec.year_4_d = rec.year_4
 
 
 class BilanCateg2(models.Model):
@@ -521,9 +555,13 @@ class BilanCateg2(models.Model):
                                   ('5', 'مؤشرات النشاط'),
                                   ])
     year_1 = fields.Float(string='المدققة N-3')
+    year_1_d = fields.Float(compute='compute_dollar')
     year_2 = fields.Float(string='المدققة N-2')
+    year_2_d = fields.Float(compute='compute_dollar')
     year_3 = fields.Float(string='المدققة N-1')
+    year_3_d = fields.Float(compute='compute_dollar')
     year_4 = fields.Float(string='N')
+    year_4_d = fields.Float(compute='compute_dollar')
     variante = fields.Float(string='التغير', compute='compute_variante')
     remark = fields.Text(string='التعليق')
     compute_field = fields.Boolean(string='compute', compute='compute_years')
@@ -551,6 +589,18 @@ class BilanCateg2(models.Model):
         for rec in self:
             rec.variante = (rec.year_4 - rec.year_3) / rec.year_3 if rec.year_3 != 0 else 0
 
+    def compute_dollar(self):
+        for rec in self:
+            if rec.sequence not in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]:
+                rec.year_1_d = rec.year_1 / rec.etape_id.taux_change if rec.etape_id.taux_change != 0 else 0
+                rec.year_2_d = rec.year_2 / rec.etape_id.taux_change if rec.etape_id.taux_change != 0 else 0
+                rec.year_3_d = rec.year_3 / rec.etape_id.taux_change if rec.etape_id.taux_change != 0 else 0
+                rec.year_4_d = rec.year_4 / rec.etape_id.taux_change if rec.etape_id.taux_change != 0 else 0
+            else:
+                rec.year_1_d = rec.year_1
+                rec.year_2_d = rec.year_2
+                rec.year_3_d = rec.year_3
+                rec.year_4_d = rec.year_4
 
 class BilanCateg3(models.Model):
     _name = 'wk.bilan.cat3'
@@ -566,9 +616,13 @@ class BilanCateg3(models.Model):
                                   ('5', 'مؤشرات النشاط'),
                                   ])
     year_1 = fields.Float(string='المدققة N-3')
+    year_1_d = fields.Float(compute='compute_dollar')
     year_2 = fields.Float(string='المدققة N-2')
+    year_2_d = fields.Float(compute='compute_dollar')
     year_3 = fields.Float(string='المدققة N-1')
+    year_3_d = fields.Float(compute='compute_dollar')
     year_4 = fields.Float(string='N')
+    year_4_d = fields.Float(compute='compute_dollar')
     variante = fields.Float(string='التغير', compute='compute_variante')
     remark = fields.Text(string='التعليق')
     compute_field = fields.Boolean(string='compute', compute='compute_years')
@@ -576,6 +630,19 @@ class BilanCateg3(models.Model):
     is_null_3 = fields.Boolean(string='Est null')
     is_null_2 = fields.Boolean(string='Est null')
     is_null_1 = fields.Boolean(string='Est null')
+
+    def compute_dollar(self):
+        for rec in self:
+            if rec.sequence not in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]:
+                rec.year_1_d = rec.year_1 / rec.etape_id.taux_change if rec.etape_id.taux_change != 0 else 0
+                rec.year_2_d = rec.year_2 / rec.etape_id.taux_change if rec.etape_id.taux_change != 0 else 0
+                rec.year_3_d = rec.year_3 / rec.etape_id.taux_change if rec.etape_id.taux_change != 0 else 0
+                rec.year_4_d = rec.year_4 / rec.etape_id.taux_change if rec.etape_id.taux_change != 0 else 0
+            else:
+                rec.year_1_d = rec.year_1
+                rec.year_2_d = rec.year_2
+                rec.year_3_d = rec.year_3
+                rec.year_4_d = rec.year_4
 
     def compute_years(self):
         for rec in self:
@@ -611,9 +678,13 @@ class BilanCateg4(models.Model):
                                   ('5', 'مؤشرات النشاط'),
                                   ])
     year_1 = fields.Float(string='المدققة N-3')
+    year_1_d = fields.Float(compute='compute_dollar')
     year_2 = fields.Float(string='المدققة N-2')
+    year_2_d = fields.Float(compute='compute_dollar')
     year_3 = fields.Float(string='المدققة N-1')
+    year_3_d = fields.Float(compute='compute_dollar')
     year_4 = fields.Float(string='N')
+    year_4_d = fields.Float(compute='compute_dollar')
     variante = fields.Float(string='التغير', compute='compute_variante')
     remark = fields.Text(string='التعليق')
     compute_field = fields.Boolean(string='compute', compute='compute_years')
@@ -621,6 +692,19 @@ class BilanCateg4(models.Model):
     is_null_3 = fields.Boolean(string='Est null')
     is_null_2 = fields.Boolean(string='Est null')
     is_null_1 = fields.Boolean(string='Est null')
+
+    def compute_dollar(self):
+        for rec in self:
+            if rec.sequence not in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]:
+                rec.year_1_d = rec.year_1 / rec.etape_id.taux_change if rec.etape_id.taux_change != 0 else 0
+                rec.year_2_d = rec.year_2 / rec.etape_id.taux_change if rec.etape_id.taux_change != 0 else 0
+                rec.year_3_d = rec.year_3 / rec.etape_id.taux_change if rec.etape_id.taux_change != 0 else 0
+                rec.year_4_d = rec.year_4 / rec.etape_id.taux_change if rec.etape_id.taux_change != 0 else 0
+            else:
+                rec.year_1_d = rec.year_1
+                rec.year_2_d = rec.year_2
+                rec.year_3_d = rec.year_3
+                rec.year_4_d = rec.year_4
 
     def compute_years(self):
         for rec in self:
@@ -656,9 +740,13 @@ class BilanCateg5(models.Model):
                                   ('5', 'مؤشرات النشاط'),
                                   ])
     year_1 = fields.Float(string='المدققة N-3')
+    year_1_d = fields.Float(compute='compute_dollar')
     year_2 = fields.Float(string='المدققة N-2')
+    year_2_d = fields.Float(compute='compute_dollar')
     year_3 = fields.Float(string='المدققة N-1')
+    year_3_d = fields.Float(compute='compute_dollar')
     year_4 = fields.Float(string='N')
+    year_4_d = fields.Float(compute='compute_dollar')
     variante = fields.Float(string='التغير', compute='compute_variante')
     remark = fields.Text(string='التعليق')
     compute_field = fields.Boolean(string='compute', compute='compute_years')
@@ -666,6 +754,19 @@ class BilanCateg5(models.Model):
     is_null_3 = fields.Boolean(string='Est null')
     is_null_2 = fields.Boolean(string='Est null')
     is_null_1 = fields.Boolean(string='Est null')
+
+    def compute_dollar(self):
+        for rec in self:
+            if rec.sequence not in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]:
+                rec.year_1_d = rec.year_1 / rec.etape_id.taux_change if rec.etape_id.taux_change != 0 else 0
+                rec.year_2_d = rec.year_2 / rec.etape_id.taux_change if rec.etape_id.taux_change != 0 else 0
+                rec.year_3_d = rec.year_3 / rec.etape_id.taux_change if rec.etape_id.taux_change != 0 else 0
+                rec.year_4_d = rec.year_4 / rec.etape_id.taux_change if rec.etape_id.taux_change != 0 else 0
+            else:
+                rec.year_1_d = rec.year_1
+                rec.year_2_d = rec.year_2
+                rec.year_3_d = rec.year_3
+                rec.year_4_d = rec.year_4
 
     def compute_years(self):
         for rec in self:

@@ -180,6 +180,13 @@
                                    t-value="doc.env['wk.etape'].search([('workflow', '=', doc.id), ('sequence', '=', 4)], limit=1)"/>
                                 <t t-set="etape3"
                                    t-value="doc.env['wk.etape'].search([('workflow', '=', doc.id), ('sequence', '=', 3)], limit=1)"/>
+                                <t t-set="etape5"
+                                   t-value="doc.states.filtered(lambda l: l.sequence == 5 )"/>
+
+                                <t t-set="etape6"
+                                   t-value="doc.states.filtered(lambda l: l.sequence == 6 )"/>
+                                <t t-set="etape9"
+                                   t-value="doc.states.filtered(lambda l: l.sequence == 9)"/>
                                 <table class="reversed-table">
                                     <tbody>
                                         <tr>
@@ -253,10 +260,10 @@
                                         <tbody>
                                             <tr>
                                                 <td class="title-cell">
-                                                    تاريخ الاستلام
+                                                    تاريخ قرار لجنة التسهيلات
                                                 </td>
                                                 <td colspan="2">
-                                                    <t t-esc="doc.date"/>
+                                                    <t t-esc="etape6.date_final"/>
                                                 </td>
                                                 <td class="title-cell">
                                                     المحلل المالي
@@ -3065,13 +3072,27 @@
                                     </table>
                                 </div>
                                 <br/>
-                                <t t-set="etape5"
-                                   t-value="doc.states.filtered(lambda l: l.sequence == 5 )"/>
 
-                                <t t-set="etape6"
-                                   t-value="doc.states.filtered(lambda l: l.sequence == 6 )"/>
-                                <t t-set="etape9"
-                                   t-value="doc.states.filtered(lambda l: l.sequence == 9)"/>
+                                <div class="table_deco">
+                                    <table class="reversed-table" t-if="etape10.recommandation_tresorerie">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align: center" class="title-cell">
+                                                    رأي مسؤول الخزينة
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <t t-esc="etape10.recommandation_tresorerie"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/>
+
                                 <div class="table_deco">
                                     <table class="reversed-table" t-if="etape5.recommandation_vice_dir_fin">
                                         <thead>

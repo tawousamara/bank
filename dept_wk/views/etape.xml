@@ -980,12 +980,20 @@
                                                    decoration-bf="sequence == 0"/>
                                             <field name="year_1" readonly="sequence != 0"
                                                    decoration-bf="sequence == 0" decoration-danger="is_null_1 == True"/>
+                                            <field name="year_1_d" readonly="sequence != 0" optional="hide"
+                                                   decoration-bf="sequence == 0" decoration-danger="is_null_1 == True"/>
                                             <field name="year_2" readonly="sequence != 0"
                                                    decoration-bf="sequence == 0" decoration-danger="is_null_2 == True"/>
+                                            <field name="year_2_d" readonly="sequence != 0" optional="hide"
+                                                   decoration-bf="sequence == 0" decoration-danger="is_null_1 == True"/>
                                             <field name="year_3" readonly="sequence != 0"
                                                    decoration-bf="sequence == 0" decoration-danger="is_null_3 == True"/>
+                                            <field name="year_3_d" readonly="sequence != 0" optional="hide"
+                                                   decoration-bf="sequence == 0" decoration-danger="is_null_1 == True"/>
                                             <field name="year_4" readonly="sequence != 0"
                                                    decoration-bf="sequence == 0" decoration-danger="is_null_4 == True"/>
+                                            <field name="year_4_d" readonly="sequence != 0" optional="hide"
+                                                   decoration-bf="sequence == 0" decoration-danger="is_null_1 == True"/>
                                             <field name="variante" readonly="sequence == 0" widget="percentage"
                                                    decoration-bf="sequence == 0" invisible="sequence == 0"/>
                                             <field name="sequence" column_invisible="True"/>
@@ -1008,12 +1016,20 @@
                                                    decoration-bf="sequence == 0"/>
                                             <field name="year_1" readonly="sequence != 0"
                                                    decoration-bf="sequence == 0" decoration-danger="is_null_1 == True"/>
+                                            <field name="year_1_d" readonly="sequence != 0" optional="hide"
+                                                   decoration-bf="sequence == 0" decoration-danger="is_null_1 == True"/>
                                             <field name="year_2" readonly="sequence != 0"
                                                    decoration-bf="sequence == 0" decoration-danger="is_null_2 == True"/>
+                                            <field name="year_2_d" readonly="sequence != 0" optional="hide"
+                                                   decoration-bf="sequence == 0" decoration-danger="is_null_1 == True"/>
                                             <field name="year_3" readonly="sequence != 0"
                                                    decoration-bf="sequence == 0" decoration-danger="is_null_3 == True"/>
+                                            <field name="year_3_d" readonly="sequence != 0" optional="hide"
+                                                   decoration-bf="sequence == 0" decoration-danger="is_null_1 == True"/>
                                             <field name="year_4" readonly="sequence != 0"
                                                    decoration-bf="sequence == 0" decoration-danger="is_null_4 == True"/>
+                                            <field name="year_4_d" readonly="sequence != 0" optional="hide"
+                                                   decoration-bf="sequence == 0" decoration-danger="is_null_1 == True"/>
                                             <field name="variante" readonly="sequence == 0" widget="percentage"
                                                    decoration-bf="sequence == 0" invisible="sequence == 0"/>
                                             <field name="sequence" column_invisible="True"/>
@@ -1036,14 +1052,20 @@
                                                    decoration-bf="sequence == 0"/>
                                             <field name="year_1" readonly="sequence != 0"
                                                    decoration-bf="sequence == 0" decoration-danger="is_null_1 == True"/>
+                                            <field name="year_1_d" readonly="sequence != 0" optional="hide"
+                                                   decoration-bf="sequence == 0" decoration-danger="is_null_1 == True"/>
                                             <field name="year_2" readonly="sequence != 0"
                                                    decoration-bf="sequence == 0" decoration-danger="is_null_2 == True"/>
+                                            <field name="year_2_d" readonly="sequence != 0" optional="hide"
+                                                   decoration-bf="sequence == 0" decoration-danger="is_null_1 == True"/>
                                             <field name="year_3" readonly="sequence != 0"
                                                    decoration-bf="sequence == 0" decoration-danger="is_null_3 == True"/>
+                                            <field name="year_3_d" readonly="sequence != 0" optional="hide"
+                                                   decoration-bf="sequence == 0" decoration-danger="is_null_1 == True"/>
                                             <field name="year_4" readonly="sequence != 0"
                                                    decoration-bf="sequence == 0" decoration-danger="is_null_4 == True"/>
-                                            <field name="variante" readonly="sequence == 0" widget="percentage"
-                                                   decoration-bf="sequence == 0" invisible="sequence == 0"/>
+                                            <field name="year_4_d" readonly="sequence != 0" optional="hide"
+                                                   decoration-bf="sequence == 0" decoration-danger="is_null_1 == True"/>
                                             <field name="sequence" column_invisible="True"/>
                                             <field name="compute_field" column_invisible="True"/>
                                             <field name="is_null_1" column_invisible="True"/>
@@ -1064,12 +1086,20 @@
                                                    decoration-bf="sequence == 0"/>
                                             <field name="year_1" readonly="sequence != 0"
                                                    decoration-bf="sequence == 0" decoration-danger="is_null_1 == True"/>
+                                            <field name="year_1_d" readonly="sequence != 0" optional="hide"
+                                                   decoration-bf="sequence == 0" decoration-danger="is_null_1 == True"/>
                                             <field name="year_2" readonly="sequence != 0"
                                                    decoration-bf="sequence == 0" decoration-danger="is_null_2 == True"/>
+                                            <field name="year_2_d" readonly="sequence != 0" optional="hide"
+                                                   decoration-bf="sequence == 0" decoration-danger="is_null_1 == True"/>
                                             <field name="year_3" readonly="sequence != 0"
                                                    decoration-bf="sequence == 0" decoration-danger="is_null_3 == True"/>
+                                            <field name="year_3_d" readonly="sequence != 0" optional="hide"
+                                                   decoration-bf="sequence == 0" decoration-danger="is_null_1 == True"/>
                                             <field name="year_4" readonly="sequence != 0"
                                                    decoration-bf="sequence == 0" decoration-danger="is_null_4 == True"/>
+                                            <field name="year_4_d" readonly="sequence != 0" optional="hide"
+                                                   decoration-bf="sequence == 0" decoration-danger="is_null_1 == True"/>
                                             <field name="variante" readonly="sequence == 0" widget="percentage"
                                                    decoration-bf="sequence == 0" invisible="sequence == 0"/>
                                             <field name="sequence" column_invisible="True"/>
@@ -1092,12 +1122,20 @@
                                                    decoration-bf="sequence == 0"/>
                                             <field name="year_1" readonly="sequence != 0"
                                                    decoration-bf="sequence == 0" decoration-danger="is_null_1 == True"/>
+                                            <field name="year_1_d" readonly="sequence != 0" optional="hide"
+                                                   decoration-bf="sequence == 0" decoration-danger="is_null_1 == True"/>
                                             <field name="year_2" readonly="sequence != 0"
                                                    decoration-bf="sequence == 0" decoration-danger="is_null_2 == True"/>
+                                            <field name="year_2_d" readonly="sequence != 0" optional="hide"
+                                                   decoration-bf="sequence == 0" decoration-danger="is_null_1 == True"/>
                                             <field name="year_3" readonly="sequence != 0"
                                                    decoration-bf="sequence == 0" decoration-danger="is_null_3 == True"/>
+                                            <field name="year_3_d" readonly="sequence != 0" optional="hide"
+                                                   decoration-bf="sequence == 0" decoration-danger="is_null_1 == True"/>
                                             <field name="year_4" readonly="sequence != 0"
                                                    decoration-bf="sequence == 0" decoration-danger="is_null_4 == True"/>
+                                            <field name="year_4_d" readonly="sequence != 0" optional="hide"
+                                                   decoration-bf="sequence == 0" decoration-danger="is_null_1 == True"/>
                                             <field name="variante" readonly="sequence == 0" widget="percentage"
                                                    decoration-bf="sequence == 0" invisible="sequence == 0"/>
                                             <field name="sequence" column_invisible="True"/>
@@ -1367,6 +1405,8 @@
                     </div>
                     <div invisible="sequence != 6">
                         <group>
+                            <field name="date_final"
+                                   readonly="not can_edit or state_comite != 'comite_1'"/>
                             <field name="recommandation_fin_comite"
                                    readonly="not can_edit or state_comite != 'comite_1'"/>
                         </group>

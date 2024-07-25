@@ -73,7 +73,6 @@ class Workflow(models.Model):
 
     @api.depends('states')
     def compute_state(self):
-        print('exec')
         for rec in self:
             exist = rec.states.filtered(lambda l:l.sequence == 4)
             if exist:
@@ -83,7 +82,6 @@ class Workflow(models.Model):
 
     @api.depends('states')
     def compute_state_comm(self):
-        print('exec')
         for rec in self:
             exist = rec.states.filtered(lambda l:l.sequence == 3)
             if exist:
@@ -93,7 +91,6 @@ class Workflow(models.Model):
 
     @api.depends('states')
     def compute_state_dga(self):
-        print('exec')
         for rec in self:
             exist = rec.states.filtered(lambda l:l.sequence == 5)
             if exist:
@@ -110,7 +107,6 @@ class Workflow(models.Model):
                 rec.is_in_dga = False
             if self.env.user.partner_id.branche:
                 if self.env.user.partner_id.branche == rec.branche:
-                    print(True)
                     rec.is_same = True
                     rec.is_same_branche = True
                 else:
@@ -144,10 +140,7 @@ class Workflow(models.Model):
 
     def compute_visible_states(self):
         for rec in self:
-            print('not scoring')
-            print(rec.risk_scoring)
             if not rec.risk_scoring:
-                print('not scoring')
                 rec.risk_scoring = rec.states.filtered(lambda l:l.sequence == 1).risk_scoring
             if rec.state == '2':
                 rec.is_in_financial = True
@@ -236,7 +229,6 @@ class Workflow(models.Model):
 
     def action_start(self):
         for rec in self:
-            print('here')
             if rec.demande == self.env.ref('dept_wk.type_demande_1'):
                 etape = self.env['wk.etape'].create({'workflow': rec.id,
                                              'etape': self.env.ref('dept_wk.princip_1').id,
@@ -246,10 +238,8 @@ class Workflow(models.Model):
                                                      'etape': self.env.ref('dept_wk.princip_1').id,
                                                      'state_branch': 'branch_1'})
             elif rec.demande in [self.env.ref('dept_wk.type_demande_2'), self.env.ref('dept_wk.type_demande_3')] and rec.workflow_old:
-                print(rec.workflow_old.states)
                 for etape in rec.workflow_old.states:
                     vals = get_values(rec, etape)
-                    print(vals)
                     etape_new = self.env['wk.etape'].create(vals)
                     get_lists(self, etape_new, etape)
             '''state = 'الفرع'

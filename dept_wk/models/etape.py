@@ -266,6 +266,7 @@ class Etape(models.Model):
     etape = fields.Many2one('wk.state.principal', string='Etape')
     name = fields.Char(string='Nom', related='etape.name', store=True)
     sequence = fields.Integer(string='Sequence', related='etape.sequence')
+
     assigned_to_agence = fields.Many2one('res.users', string='المكلف بالملف',
                                          default=lambda self: self.env.user,
                                          domain=lambda self: [('groups_id', 'in', self.env.ref('dept_wk.dept_wk_group_agent_agence').id)])
@@ -478,7 +479,7 @@ class Etape(models.Model):
     passif_situation_estim = fields.One2many('wk.passif.estim', 'etape_id')
     commentaire_situation = fields.Html(string='تعليق')
     exception_ids = fields.Many2many('wk.exception', string='الاستثناءات مع سياسة الائتمان')
-
+    date_final = fields.Date(string='تاريخ قرار لجنة التسهيلات' ,default=fields.Date.today)
     # Commercial fields
     assigned_to_commercial = fields.Many2one('res.users', string='المكلف بالاعمال التجارية',
                                           domain=lambda self: [
@@ -592,15 +593,12 @@ class Etape(models.Model):
 
     @api.depends('risque_ids')
     def _compute_company_fisc(self):
-        print('hiii')
         for rec in self:
             if rec.sequence == 2:
                 rec.company_ids = len(rec.risque_ids)
-                print(rec.risque_ids)
                 etape1 = rec.workflow.states.filtered(lambda l:l.sequence == 1)
                 scoring = etape1.risk_scoring
                 for company in rec.risque_ids:
-                    print('company != scoring', company != scoring)
                     if company != scoring:
                         company.scoring_id = scoring.id
                         company.parent_id = rec.workflow.id
@@ -1215,12 +1213,10 @@ class Etape(models.Model):
                 if rec.state_branch in ['branch_2', 'branch_4'] and self.env.user.has_group('dept_wk.dept_wk_group_responsable_agence') and self.env.user.partner_id.branche == rec.branche:
                     result = True
                 elif rec.state_branch in ['branch_1', 'branch_3'] and self.env.user == rec.assigned_to_agence and self.env.user.partner_id.branche == rec.branche:
-                    print('result', result)
                     result = True
             elif rec.etape.sequence == 2:
                 if rec.state_finance in ['finance_1', 'finance_3'] and self.env.user.has_group('dept_wk.dept_wk_group_responsable_analyste'):
                     result = True
-                    print('result', result)
                 elif rec.state_finance == 'finance_2' and self.env.user == rec.assigned_to_finance:
                     result = True
             elif rec.etape.sequence == 3:
@@ -2336,7 +2332,6 @@ class Etape(models.Model):
             email_values = {
                 'email_to': self.get_mail_to(),
             }
-            print('email_template', self.get_mail_to())
             email_template.send_mail(self.id, force_send=True, email_values=email_values)
 
 
@@ -2360,8 +2355,6 @@ class Etape(models.Model):
                     else:
                         raise ValidationError(_('لا يمكنكم طلب المراجعة الملف مقبول'))
                 elif rec.state_finance == 'finance_2':
-                    print(one_step)
-                    print(rec.dossier_verouiller)
                     if not rec.dossier_verouiller and not one_step:
                         rec.state_finance = 'finance_1'
                         etape = rec.workflow.states.filtered(lambda l: l.etape.sequence == 1)
@@ -2417,8 +2410,6 @@ class Etape(models.Model):
                     rec.state_dg = 'dg_1'
 
     def a_revoir_2(self, etat, raison):
-        print(etat)
-        print(raison)
         for rec in self:
             if etat == '1':
                 etape = rec.workflow.states.filtered(lambda l: l.etape.sequence == 1)
@@ -2451,7 +2442,6 @@ class Etape(models.Model):
             not_one_step = False
             if not rec.sequence == 2 and not rec.state_finance == 'finance_2':
                 not_one_step = True
-            print(not_one_step)
             return {
                 'name': 'سبب طلب المراجعة',
                 'type': 'ir.actions.act_window',
@@ -2487,7 +2477,6 @@ class Etape(models.Model):
             etape_comm = rec.workflow.states.filtered(lambda l: l.etape.sequence == 3)
             etape_risk = rec.workflow.states.filtered(lambda l: l.etape.sequence == 4)
             etape = rec.workflow.states.filtered(lambda l: l.etape.sequence == 5)
-            print('etape_risk.resultat_scoring', etape_risk.resultat_scoring)
             vals = {
                 'nom_client': etape_1.nom_client.id,
                 'branche': etape_1.branche.id,
@@ -2840,7 +2829,6 @@ class Etape(models.Model):
     def action_open_risk(self):
         for rec in self:
             view_id = self.env.ref('dept_wk.view_risk_scoring_form').id
-            print(rec.workflow.risk_scoring)
             rec.risk_scoring = rec.workflow.risk_scoring.id
             return {
                 'name': 'ادارة المخاطر',
@@ -3573,7 +3561,6 @@ class Etape(models.Model):
                         lambda l: admin_group not in l.groups_id).mapped('partner_id')
                     partner_ids = user_ids.mapped('email')
                     list_final = ', '.join(partner_ids)
-                print(rec.state_branch)
             if rec.sequence == 2:
                 if rec.state_finance == 'finance_3':
                     user_ids = self.env.ref('dept_wk.dept_wk_group_responsable_analyste').users.filtered(
