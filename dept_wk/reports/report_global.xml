@@ -183,6 +183,8 @@
                                 <t t-set="etape5"
                                    t-value="doc.states.filtered(lambda l: l.sequence == 5 )"/>
 
+                                <t t-set="etape10"
+                                   t-value="doc.states.filtered(lambda l: l.sequence == 10)"/>
                                 <t t-set="etape6"
                                    t-value="doc.states.filtered(lambda l: l.sequence == 6 )"/>
                                 <t t-set="etape9"
