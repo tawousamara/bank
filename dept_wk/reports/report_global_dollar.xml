@@ -3981,31 +3981,23 @@
                                     <table class="reversed-table">
                                         <thead>
                                             <tr>
+                                                <th class="title-cell" colspan="3">
+                                                    اعضاء لجنة التمويلات
+                                                </th></tr>
+                                            <tr>
                                                 <th class="title-cell">
-                                                    اعضاء لجنة التسهيلات
+                                                    السادة
                                                 </th>
                                                 <th class="title-cell">
-                                                    رئيس قطاع الخزينة و العمليات المحلية و الدولية و المالية
+                                                    فؤاد الوزاني
                                                 </th>
                                                 <th class="title-cell">
-                                                    مدير النشاط التجاري للمؤسسات
-                                                </th>
-                                                <th class="title-cell">
-                                                    مديرة الدراسات الائتمانية للمؤسسات
-                                                </th>
-                                                <th class="title-cell">
-                                                    رئيس خلية إدارة المخاطر
+                                                    أحمد سيف
                                                 </th>
                                             </tr>
                                             <tr>
                                                 <th class="title-cell">
                                                     الوظيفة
-                                                </th>
-                                                <th class="title-cell">
-                                                    عضوا
-                                                </th>
-                                                <th class="title-cell">
-                                                    عضوا
                                                 </th>
                                                 <th class="title-cell">
                                                     عضوا
@@ -4024,61 +4016,28 @@
                                                 <td>
 
                                                 </td>
-                                                <td>
-
-                                                </td>
-                                                <td>
-
-                                                </td>
                                             </tr>
                                             <tr>
                                                 <th class="title-cell">
-                                                    اعضاء لجنة التسهيلات
+                                                    السيد
                                                 </th>
-                                                <th class="title-cell">
-                                                    رئيس خلية التحصيل الودي و الجبري
-                                                </th>
-                                                <th class="title-cell">
-                                                    مستشار نائب المدير العام المكلف بالاستشراف التجاري
-                                                </th>
-                                                <th class="title-cell">
-                                                    رئيس خلية إدارة التمويلات
-                                                </th>
-                                                <th class="title-cell">
-                                                    نائب المدير العام المكلف بالنشاط التجاري
+                                                <th class="title-cell" colspan="2">
+                                                    رفيق النايض
                                                 </th>
                                             </tr>
                                             <tr>
                                                 <th class="title-cell">
                                                     الوظيفة
                                                 </th>
-                                                <th class="title-cell">
-                                                    عضوا
-                                                </th>
-                                                <th class="title-cell">
-                                                    عضوا
-                                                </th>
-                                                <th class="title-cell">
-                                                    عضوا
-                                                </th>
-                                                <th class="title-cell">
-                                                    عضوا
+                                                <th class="title-cell" colspan="2">
+                                                    رئيس  لجنة التمويلات
                                                 </th>
                                             </tr>
                                             <tr height="200px">
                                                 <td class="title-cell">
                                                     التوقيع
                                                 </td>
-                                                <td>
-
-                                                </td>
-                                                <td>
-
-                                                </td>
-                                                <td>
-
-                                                </td>
-                                                <td>
+                                                <td colspan="2">
 
                                                 </td>
                                             </tr>
@@ -4103,6 +4062,87 @@
                                                 </th>
                                                 <th class="title-cell" width="75%">
                                                     رئيس اللجنة
+                                                </th>
+                                            </tr>
+                                            <tr height="200px">
+                                                <td class="title-cell" width="25%">
+                                                    التوقيع
+                                                </td>
+                                                <td width="75%">
+
+                                                </td>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </t>
+                            <t t-if="etape2.comite.id == 4">
+                                <div class="table_deco">
+                                    <table class="reversed-table">
+                                        <thead>
+                                            <tr>
+                                                <th class="title-cell">
+                                                    السادة
+                                                </th>
+                                                <th class="title-cell">
+                                                    إيهاب أحمد
+                                                </th>
+                                                <th class="title-cell">
+                                                    أحمد سيف
+                                                </th>
+                                                <th class="title-cell">
+                                                    فؤاد الوزاني
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th class="title-cell">
+                                                    الوظيفة
+                                                </th>
+                                                <th class="title-cell">
+                                                    عضوا
+                                                </th>
+                                                <th class="title-cell">
+                                                    عضوا
+                                                </th>
+                                                <th class="title-cell">
+                                                    عضوا
+                                                </th>
+                                            </tr>
+                                            <tr height="200px">
+                                                <td class="title-cell">
+                                                    التوقيع
+                                                </td>
+                                                <td>
+
+                                                </td>
+                                                <td>
+
+                                                </td>
+                                                <td>
+
+                                                </td>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                                <br/>
+                                <div class="table_deco">
+                                    <table class="reversed-table">
+                                        <thead>
+                                            <tr>
+                                                <th class="title-cell" width="25%">
+                                                    السيد
+                                                </th>
+                                                <th class="title-cell" width="75%">
+                                                    رفيق النايض
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th class="title-cell" width="25%">
+                                                    الوظيفة
+                                                </th>
+                                                <th class="title-cell" width="75%">
+                                                    رئيس مجلس الإدارة
                                                 </th>
                                             </tr>
                                             <tr height="200px">
