@@ -3486,37 +3486,6 @@
                                         </thead>
                                     </table>
                                 </div>
-                                <br/>
-                                <div class="table_deco">
-                                    <table class="reversed-table">
-                                        <thead>
-                                            <tr>
-                                                <th class="title-cell" width="25%">
-                                                    رئيس لجنة التسهيلات
-                                                </th>
-                                                <th class="title-cell" width="75%">
-                                                    المدير العام
-                                                </th>
-                                            </tr>
-                                            <tr>
-                                                <th class="title-cell" width="25%">
-                                                    الوظيفة
-                                                </th>
-                                                <th class="title-cell" width="75%">
-                                                    رئيس اللجنة
-                                                </th>
-                                            </tr>
-                                            <tr height="200px">
-                                                <td class="title-cell" width="25%">
-                                                    التوقيع
-                                                </td>
-                                                <td width="75%">
-
-                                                </td>
-                                            </tr>
-                                        </thead>
-                                    </table>
-                                </div>
                             </t>
                             <t t-if="etape2.comite.id == 4">
                                 <div class="table_deco">
