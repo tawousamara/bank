@@ -2229,51 +2229,47 @@ class Etape(models.Model):
                 if rec.state_vice == 'vice_1':
                     rec.state_vice = 'vice_2'
                     etape_fin = rec.workflow.states.filtered(lambda l: l.etape.sequence == 2)
-                    if etape_fin.comite == self.env.ref('dept_wk.pouvoir_1'):
-                        rec.workflow.state = '7'
-                        rec.workflow.date_fin = datetime.date.today()
+                    rec.workflow.state = '6'
+                    etape_comm = rec.workflow.states.filtered(lambda l: l.etape.sequence == 3)
+                    etape_risk = rec.workflow.states.filtered(lambda l: l.etape.sequence == 4)
+                    etape_1 = rec.workflow.states.filtered(lambda l: l.etape.sequence == 1)
+                    etape = rec.workflow.states.filtered(lambda l: l.etape.sequence == 6)
+                    vals = {'workflow': rec.workflow.id,
+                            'etape': self.env.ref('dept_wk.princip_6').id,
+                            'state_comite': 'comite_1',
+                            'nom_client': etape_1.nom_client.id,
+                            'gerant': etape_1.gerant.id,
+                            'recommendation_visit': etape_1.recommendation_visit,
+                            'recommendation_responsable_agence': etape_1.recommendation_responsable_agence,
+                            'analyse_concurrence': etape_comm.analyse_concurrence,
+                            'ampleur_benefice': etape_comm.ampleur_benefice,
+                            'analyse_relation': etape_comm.analyse_relation,
+                            'recommendation_dir_commercial': etape_comm.recommendation_dir_commercial,
+                            'recommendation_commercial': etape_comm.recommendation_commercial,
+                            'risk_scoring': etape_risk.risk_scoring.id,
+                            'recommandation_dir_risque': etape_risk.recommandation_dir_risque,
+                            'recommandation_analyste_fin': etape_fin.recommandation_analyste_fin,
+                            'garantie_ids': etape_fin.garantie_ids.ids,
+                            'exception_ids': etape_fin.exception_ids.ids,
+                            'comite': etape_fin.comite.id,
+                            'recommandation_dir_fin': etape_fin.recommandation_dir_fin,
+                            'recommandation_vice_dir_fin': etape_fin.recommandation_vice_dir_fin,
+                            'recommandation_dg': rec.recommandation_dg,
+                            }
+                    if not etape:
+                        etape = self.env['wk.etape'].create(vals)
                     else:
-                        rec.workflow.state = '6'
-                        etape_comm = rec.workflow.states.filtered(lambda l: l.etape.sequence == 3)
-                        etape_risk = rec.workflow.states.filtered(lambda l: l.etape.sequence == 4)
-                        etape_1 = rec.workflow.states.filtered(lambda l: l.etape.sequence == 1)
-                        etape = rec.workflow.states.filtered(lambda l: l.etape.sequence == 6)
-                        vals = {'workflow': rec.workflow.id,
-                                'etape': self.env.ref('dept_wk.princip_6').id,
-                                'state_comite': 'comite_1',
-                                'nom_client': etape_1.nom_client.id,
-                                'gerant': etape_1.gerant.id,
-                                'recommendation_visit': etape_1.recommendation_visit,
-                                'recommendation_responsable_agence': etape_1.recommendation_responsable_agence,
-                                'analyse_concurrence': etape_comm.analyse_concurrence,
-                                'ampleur_benefice': etape_comm.ampleur_benefice,
-                                'analyse_relation': etape_comm.analyse_relation,
-                                'recommendation_dir_commercial': etape_comm.recommendation_dir_commercial,
-                                'recommendation_commercial': etape_comm.recommendation_commercial,
-                                'risk_scoring': etape_risk.risk_scoring.id,
-                                'recommandation_dir_risque': etape_risk.recommandation_dir_risque,
-                                'recommandation_analyste_fin': etape_fin.recommandation_analyste_fin,
-                                'garantie_ids': etape_fin.garantie_ids.ids,
-                                'exception_ids': etape_fin.exception_ids.ids,
-                                'comite': etape_fin.comite.id,
-                                'recommandation_dir_fin': etape_fin.recommandation_dir_fin,
-                                'recommandation_vice_dir_fin': etape_fin.recommandation_vice_dir_fin,
-                                'recommandation_dg': rec.recommandation_dg,
-                                }
-                        if not etape:
-                            etape = self.env['wk.etape'].create(vals)
-                        else:
-                            etape.write(vals)
-                        etape.facilite_propose.unlink()
-                        for fac in etape_fin.facilite_propose:
-                            self.env['wk.facilite.propose'].create({
-                                'type_facilite': fac.type_facilite.id,
-                                'type_demande_ids': fac.type_demande_ids.ids,
-                                'montant_dz': fac.montant_dz,
-                                'preg': fac.preg,
-                                'duree': fac.duree,
-                                'condition': fac.condition,
-                                'etape_id': etape.id})
+                        etape.write(vals)
+                    etape.facilite_propose.unlink()
+                    for fac in etape_fin.facilite_propose:
+                        self.env['wk.facilite.propose'].create({
+                            'type_facilite': fac.type_facilite.id,
+                            'type_demande_ids': fac.type_demande_ids.ids,
+                            'montant_dz': fac.montant_dz,
+                            'preg': fac.preg,
+                            'duree': fac.duree,
+                            'condition': fac.condition,
+                            'etape_id': etape.id})
             elif rec.etape.sequence == 9:
                 if rec.state_dg == 'dg_1':
                     rec.state_dg = 'dg_2'
