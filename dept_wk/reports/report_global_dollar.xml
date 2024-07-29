@@ -3705,26 +3705,37 @@
                                     </table>
                                 </div>
                                 <br/>
-                                <t t-if="etape2.comite.id != 1">
-                                    <div class="table_deco" t-if="etape6.recommandation_fin_comite">
-                                        <table class="reversed-table">
-                                            <thead>
-                                                <tr>
-                                                    <th style="text-align: center" class="title-cell">
+                                <div class="table_deco" t-if="etape6.recommandation_fin_comite">
+                                    <table class="reversed-table">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align: center" class="title-cell">
+                                                    <t t-if="etape2.comite.id == 1">
+                                                        قرار لجنة التسهيلات المصغرة
+
+                                                    </t>
+                                                    <t t-elif="etape2.comite.id == 2">
                                                         قرار لجنة التسهيلات
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>
-                                                        <t t-esc="etape6.recommandation_fin_comite"/>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </t>
+                                                    </t>
+                                                    <t t-elif="etape2.comite.id == 3">
+                                                        قرار لجنة التمويلات
+                                                    </t>
+                                                    <t t-elif="etape2.comite.id == 4">
+                                                        قرار مجلس الادارة
+                                                    </t>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <t t-esc="etape6.recommandation_fin_comite"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/>
                                 <br/>
                             </div>
                         </div>
