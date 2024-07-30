@@ -31,7 +31,7 @@ class Workflow(models.Model):
     active = fields.Boolean(default=True)
     risk_scoring = fields.Many2one('risk.scoring', string='إدارة المخاطر')
     workflow_old = fields.Many2one('wk.workflow.dashboard', string='ملف سابق',)
-    explanation = fields.Text(string='الغرض من الطلب')
+    explanation = fields.Html(string='الغرض من الطلب')
     assigned_to_finance = fields.Many2one('res.users', string='المحلل المالي', )
     assigned_to_agence = fields.Many2one('res.users', string='المكلف بالملف', )
     assigned_to_commercial = fields.Many2one('res.users', string='المكلف بالاعمال التجارية')

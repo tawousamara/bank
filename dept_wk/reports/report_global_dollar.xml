@@ -405,6 +405,7 @@
                                                             <tr>
                                                                 <th class="title-cell">نوع التسهيلات</th>
                                                                 <th class="title-cell">المبلغ المطلوب</th>
+                                                                <th class="title-cell">$</th>
                                                                 <th class="title-cell">الغرض من التمويل</th>
                                                                 <th class="title-cell">هامش الجدية</th>
                                                                 <th class="title-cell">المدة (الايام)</th>
@@ -418,6 +419,9 @@
                                                                     </td>
                                                                     <td style="text-align: right; direction: ltr;">
                                                                         <t t-esc="'{0:,.0f}'.format(line.montant / 1000)"/>
+                                                                    </td>
+                                                                    <td style="text-align: right; direction: ltr;">
+                                                                        <t t-esc="'{0:,.0f}'.format(line.montant_usd)"/>
                                                                     </td>
                                                                     <td>
                                                                         <t t-esc="line.raison"/>
@@ -718,7 +722,7 @@
                                     <table class="reversed-table" t-if="etape2.facilite_accorde">
                                         <thead>
                                             <tr>
-                                                <th colspan="8" style="text-align: center" class="title-cell">تفاصيل
+                                                <th colspan="11" style="text-align: center" class="title-cell">تفاصيل
                                                     التسهيلات الممنوحة
                                                     (بالمليون دج)
                                                 </th>
@@ -728,8 +732,11 @@
                                                 <th class="title-cell">تاريخ الرخصة</th>
                                                 <th class="title-cell">الرصيد</th>
                                                 <th class="title-cell">الحالي: م/دج</th>
+                                                <th class="title-cell">$</th>
                                                 <th class="title-cell">المطلوبة: م/دج</th>
+                                                <th class="title-cell">$</th>
                                                 <th class="title-cell">الاجمالي الصافي: م/دج</th>
+                                                <th class="title-cell">$</th>
                                                 <th class="title-cell">التأمين النقدي</th>
                                                 <th class="title-cell">ملاحظات</th>
                                             </tr>
@@ -757,10 +764,19 @@
                                                         <t t-esc="'{0:,.0f}'.format(line.montant_da_actuel /1000)"/>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;">
+                                                        <t t-esc="'{0:,.0f}'.format(line.montant_dollar_actuel)"/>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
                                                         <t t-esc="'{0:,.0f}'.format(line.montant_da_demande / 1000)"/>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;">
+                                                        <t t-esc="'{0:,.0f}'.format(line.montant_dollar_demande)"/>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
                                                         <t t-esc="'{0:,.0f}'.format(line.montant_da_total / 1000)"/>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-esc="'{0:,.0f}'.format(line.montant_dollar_total)"/>
                                                     </td>
                                                     <td>
                                                         <t t-esc="int(line.garantie_montant * 100)"/>
@@ -1026,25 +1042,31 @@
                                             </tr>
                                             <tr>
                                                 <th class="title-cell" colspan="2" rowspan="3">البيان (بالمليون دج)</th>
-                                                <th class="title-cell" colspan="2">مصرف السلام</th>
-                                                <th class="title-cell" colspan="2">مصارف اخرى</th>
-                                                <th class="title-cell" colspan="2">الإجمالي</th>
+                                                <th class="title-cell" colspan="4">مصرف السلام</th>
+                                                <th class="title-cell" colspan="4">مصارف اخرى</th>
+                                                <th class="title-cell" colspan="4">الإجمالي</th>
                                             </tr>
                                             <tr>
-                                                <th class="title-cell">الممنوح</th>
-                                                <th class="title-cell">المستغل</th>
-                                                <th class="title-cell">الممنوح</th>
-                                                <th class="title-cell">المستغل</th>
-                                                <th class="title-cell">الممنوح</th>
-                                                <th class="title-cell">المستغل</th>
+                                                <th class="title-cell" colspan="2">الممنوح</th>
+                                                <th class="title-cell" colspan="2">المستغل</th>
+                                                <th class="title-cell" colspan="2">الممنوح</th>
+                                                <th class="title-cell" colspan="2">المستغل</th>
+                                                <th class="title-cell" colspan="2">الممنوح</th>
+                                                <th class="title-cell" colspan="2">المستغل</th>
                                             </tr>
                                             <tr>
                                                 <th class="title-cell">م/دج</th>
+                                                <th class="title-cell">$</th>
                                                 <th class="title-cell">م/دج</th>
+                                                <th class="title-cell">$</th>
                                                 <th class="title-cell">م/دج</th>
+                                                <th class="title-cell">$</th>
                                                 <th class="title-cell">م/دج</th>
+                                                <th class="title-cell">$</th>
                                                 <th class="title-cell">م/دج</th>
+                                                <th class="title-cell">$</th>
                                                 <th class="title-cell">م/دج</th>
+                                                <th class="title-cell">$</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -1057,19 +1079,37 @@
                                                         <t t-esc="'{0:,.0f}'.format(line.montant_esalam_dz_donne / 1000)"/>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;">
+                                                        <t t-esc="'{0:,.0f}'.format(line.montant_esalam_dollar_donne / 1000)"/>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
                                                         <t t-esc="'{0:,.0f}'.format(line.montant_esalam_dz_used / 1000)"/>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-esc="'{0:,.0f}'.format(line.montant_esalam_dollar_used / 1000)"/>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;">
                                                         <t t-esc="'{0:,.0f}'.format(line.montant_other_dz_donne / 1000)"/>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;">
+                                                        <t t-esc="'{0:,.0f}'.format(line.montant_other_dollar_donne / 1000)"/>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
                                                         <t t-esc="'{0:,.0f}'.format(line.montant_other_dz_used / 1000)"/>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-esc="'{0:,.0f}'.format(line.montant_other_dollar_used / 1000)"/>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;">
                                                         <t t-esc="'{0:,.0f}'.format(line.montant_total_dz_donne / 1000)"/>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;">
+                                                        <t t-esc="'{0:,.0f}'.format(line.montant_total_dollar_donne / 1000)"/>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
                                                         <t t-esc="'{0:,.0f}'.format(line.montant_total_dz_used / 1000)"/>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-esc="'{0:,.0f}'.format(line.montant_total_dollar_used / 1000)"/>
                                                     </td>
                                                 </tr>
                                             </t>
@@ -1077,7 +1117,7 @@
                                                 <td style="font-weight: bold;" class="title-cell" colspan="2">
                                                     ملاحظات
                                                 </td>
-                                                <td style="font-weight: bold;" colspan="6">
+                                                <td style="font-weight: bold;" colspan="12">
                                                     <t t-esc="etape2.comment_risk_central"/>
                                                 </td>
                                             </tr>
@@ -1090,7 +1130,7 @@
                                     <table class="reversed-table" t-if="etape1.situations">
                                         <thead>
                                             <tr>
-                                                <th class="title-cell" style="text-align: center" colspan="5">الوضعية
+                                                <th class="title-cell" style="text-align: center" colspan="7">الوضعية
                                                     المصرفية والتزامات لدى الغير
                                                 </th>
                                             </tr>
@@ -1098,7 +1138,9 @@
                                                 <th class="title-cell">البنك</th>
                                                 <th class="title-cell">نوع التمويل</th>
                                                 <th class="title-cell">المبلغ بالمليون دج</th>
+                                                <th class="title-cell">$</th>
                                                 <th class="title-cell">المبلغ المستغل بالمليون دج</th>
+                                                <th class="title-cell">$</th>
                                                 <th class="title-cell">الضمانات الممنوحة</th>
                                             </tr>
                                         </thead>
@@ -1115,7 +1157,13 @@
                                                         <t t-esc="'{0:,.0f}'.format(line.montant / 1000)"/>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;">
+                                                        <t t-esc="'{0:,.0f}'.format(line.montant_dollar)"/>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
                                                         <t t-esc="'{0:,.0f}'.format(line.encours / 1000)"/>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-esc="'{0:,.0f}'.format(line.encours_dollar)"/>
                                                     </td>
                                                     <td>
                                                         <t t-esc="line.garanties"/>
@@ -1144,25 +1192,29 @@
                                             </tr>
                                             <tr>
                                                 <th rowspan="2" class="title-cell">الحركة</th>
-                                                <th colspan="1" class="title-cell">
+                                                <th colspan="2" class="title-cell">
                                                     <t t-esc="'{0:.0f}'.format(year_mouvement.n3_dz)"/>
                                                 </th>
-                                                <th colspan="1" class="title-cell">
+                                                <th colspan="2" class="title-cell">
                                                     <t t-esc="'{0:.0f}'.format(year_mouvement.n2_dz)"/>
                                                 </th>
-                                                <th colspan="1" class="title-cell">
+                                                <th colspan="2" class="title-cell">
                                                     <t t-esc="'{0:.0f}'.format(year_mouvement.n1_dz)"/>
                                                 </th>
-                                                <th colspan="1" class="title-cell">
+                                                <th colspan="2" class="title-cell">
                                                     <t t-esc="'{0:.0f}'.format(year_mouvement.n_dz)"/>
                                                 </th>
                                                 <th rowspan="2" class="title-cell">ملاحظات</th>
                                             </tr>
                                             <tr>
                                                 <th class="title-cell">م/دج</th>
+                                                <th class="title-cell">$</th>
                                                 <th class="title-cell">م/دج</th>
+                                                <th class="title-cell">$</th>
                                                 <th class="title-cell">م/دج</th>
+                                                <th class="title-cell">$</th>
                                                 <th class="title-cell">م/دج</th>
+                                                <th class="title-cell">$</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -1183,10 +1235,28 @@
                                                     <td style="text-align: right; direction: ltr;">
                                                         <t t-if="line.mouvement == '(1)/(2)'">
 
+                                                            <t t-esc="'{0:,.0f}'.format(line.n3_dollar * 100)"/>%
+                                                        </t>
+                                                        <t t-else="">
+                                                            <t t-esc="'{0:,.0f}'.format(line.n3_dollar / 1000)"/>
+                                                        </t>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-if="line.mouvement == '(1)/(2)'">
+
                                                             <t t-esc="'{0:,.0f}'.format(line.n2_dz * 100)"/>%
                                                         </t>
                                                         <t t-else="">
                                                             <t t-esc="'{0:,.0f}'.format(line.n2_dz / 1000)"/>
+                                                        </t>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-if="line.mouvement == '(1)/(2)'">
+
+                                                            <t t-esc="'{0:,.0f}'.format(line.n2_dollar * 100)"/>%
+                                                        </t>
+                                                        <t t-else="">
+                                                            <t t-esc="'{0:,.0f}'.format(line.n2_dollar / 1000)"/>
                                                         </t>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;">
@@ -1199,10 +1269,26 @@
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;">
                                                         <t t-if="line.mouvement == '(1)/(2)'">
+                                                            <t t-esc="'{0:,.0f}'.format(line.n1_dollar * 100)"/>%
+                                                        </t>
+                                                        <t t-else="">
+                                                            <t t-esc="'{0:,.0f}'.format(line.n1_dollar / 1000)"/>
+                                                        </t>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-if="line.mouvement == '(1)/(2)'">
                                                             <t t-esc="'{0:,.0f}'.format(line.n_dz * 100)"/>%
                                                         </t>
                                                         <t t-else="">
                                                             <t t-esc="'{0:,.0f}'.format(line.n_dz / 1000)"/>
+                                                        </t>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-if="line.mouvement == '(1)/(2)'">
+                                                            <t t-esc="'{0:,.0f}'.format(line.n_dollar * 100)"/>%
+                                                        </t>
+                                                        <t t-else="">
+                                                            <t t-esc="'{0:,.0f}'.format(line.n_dollar / 1000)"/>
                                                         </t>
                                                     </td>
                                                     <td>
@@ -1212,7 +1298,7 @@
                                             </t>
                                             <tr>
                                                 <td class="title-cell">التوطين البنكي</td>
-                                                <td colspan="5">
+                                                <td colspan="9">
                                                     <t t-esc="etape2.detail_mouvement"/>
                                                 </td>
                                             </tr>
@@ -1452,6 +1538,14 @@
                                                 </td>
                                                 <td width="85%">
                                                     <t t-esc="etape1.prod_company"/>
+                                                </td>
+                                            </tr>
+                                            <tr t-if="etape1.result_visit">
+                                                <td class="title-cell" width="15%">
+                                                    نتائج الزيارة
+                                                </td>
+                                                <td width="85%">
+                                                    <t t-esc="etape1.result_visit"/>
                                                 </td>
                                             </tr>
                                             <tr t-if="etape2.position_tax">
@@ -1706,7 +1800,7 @@
                                     <table class="reversed-table" t-if="etape2.facitlite_existante">
                                         <thead>
                                             <tr>
-                                                <th colspan="5" class="title-cell">
+                                                <th colspan="7" class="title-cell">
                                                     التسهيلات القائمة مع المصرف
                                                 </th>
                                             </tr>
@@ -1714,7 +1808,9 @@
                                                 <th class="title-cell">البيان</th>
                                                 <th class="title-cell">نوع التسهيلات</th>
                                                 <th class="title-cell">المدققة N-1</th>
+                                                <th class="title-cell">$</th>
                                                 <th class="title-cell">N</th>
+                                                <th class="title-cell">$</th>
                                                 <th class="title-cell">التعليق</th>
                                             </tr>
                                         </thead>
@@ -1738,7 +1834,13 @@
                                                         <t t-esc="'{0:,.0f}'.format(line.brut_da / 1000)"/>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;">
+                                                        <t t-esc="'{0:,.0f}'.format(line.brut_dollar)"/>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
                                                         <t t-esc="'{0:,.0f}'.format(line.net_da / 1000)"/>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-esc="'{0:,.0f}'.format(line.net_dollar)"/>
                                                     </td>
                                                     <td>
                                                         <ol>
@@ -1763,15 +1865,18 @@
                                     <table class="reversed-table" t-if="mouvement_lines">
                                         <thead>
                                             <tr>
-                                                <th colspan="5" class="title-cell">
+                                                <th colspan="8" class="title-cell">
                                                     الحركة والأعمال الجانبية للمجموعة مع مصرف السلام الجزائر
                                                 </th>
                                             </tr>
                                             <tr>
                                                 <th class="title-cell">الشركة</th>
                                                 <th class="title-cell">N-2</th>
+                                                <th class="title-cell">$</th>
                                                 <th class="title-cell">N-1</th>
+                                                <th class="title-cell">$</th>
                                                 <th class="title-cell">N</th>
+                                                <th class="title-cell">$</th>
                                                 <th class="title-cell">التعليق</th>
                                             </tr>
                                         </thead>
@@ -1782,13 +1887,22 @@
                                                         <t t-esc="line.company"/>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;">
-                                                        <t t-esc="'{0:,.0f}'.format(line.n2_dz)"/>
+                                                        <t t-esc="'{0:,.0f}'.format(line.n2_dz / 1000)"/>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;">
-                                                        <t t-esc="'{0:,.0f}'.format(line.n1_dz)"/>
+                                                        <t t-esc="'{0:,.0f}'.format(line.n2_dollar)"/>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;">
-                                                        <t t-esc="'{0:,.0f}'.format(line.n_dz)"/>
+                                                        <t t-esc="'{0:,.0f}'.format(line.n1_dz / 1000)"/>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-esc="'{0:,.0f}'.format(line.n1_dollar)"/>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-esc="'{0:,.0f}'.format(line.n_dz / 1000)"/>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-esc="'{0:,.0f}'.format(line.n_dollar)"/>
                                                     </td>
                                                     <td>
                                                         <t t-esc="line.remarques"/>
@@ -1857,7 +1971,7 @@
                                            t-value="etape2.bilan5_id.filtered(lambda l:l.sequence != 0)"/>
                                         <t t-set="bilan5_first" t-value="bilan5_lines[0]"/>
                                         <t t-set="bilan5_all" t-value="bilan5_lines[1:]"/>
-                                        <thead>
+                                        <tbody>
                                             <tr>
                                                 <th class="title-cell" t-att-colspan="col_value * 2 + 1">البيانات
                                                     المالية
@@ -1880,8 +1994,6 @@
                                                 </th>
                                                 <th class="title-cell">التغير</th>
                                             </tr>
-                                        </thead>
-                                        <tbody>
                                             <tr>
                                                 <t t-set="taille" t-value="len(bilan1_all) + 2"/>
                                                 <td class="title-cell" t-att-rowspan="taille"
@@ -1896,7 +2008,7 @@
                                                     <t t-if="bilan1_first.is_null_1">
                                                         N.D
                                                     </t>
-                                                    <t t-elif="bilan1_first.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                    <t t-elif="bilan1_first.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                         <t t-esc="'{0:,.0f}'.format(bilan1_first.year_1)"/>
                                                         %
                                                     </t>
@@ -1909,7 +2021,7 @@
                                                     <t t-if="bilan1_first.is_null_1">
                                                         N.D
                                                     </t>
-                                                    <t t-elif="bilan1_first.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                    <t t-elif="bilan1_first.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                         <t t-esc="'{0:,.0f}'.format(bilan1_first.year_1_d)"/>
                                                         %
                                                     </t>
@@ -1922,7 +2034,7 @@
                                                     <t t-if="bilan1_first.is_null_2">
                                                         N.D
                                                     </t>
-                                                    <t t-elif="bilan1_first.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                    <t t-elif="bilan1_first.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                         <t t-esc="'{0:,.0f}'.format(bilan1_first.year_2)"/>
                                                         %
                                                     </t>
@@ -1935,7 +2047,7 @@
                                                     <t t-if="bilan1_first.is_null_2">
                                                         N.D
                                                     </t>
-                                                    <t t-elif="bilan1_first.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                    <t t-elif="bilan1_first.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                         <t t-esc="'{0:,.0f}'.format(bilan1_first.year_2_d)"/>
                                                         %
                                                     </t>
@@ -1948,7 +2060,7 @@
                                                     <t t-if="bilan1_first.is_null_3">
                                                         N.D
                                                     </t>
-                                                    <t t-elif="bilan1_first.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                    <t t-elif="bilan1_first.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                         <t t-esc="'{0:,.0f}'.format(bilan1_first.year_3)"/>
                                                         %
                                                     </t>
@@ -1961,7 +2073,7 @@
                                                     <t t-if="bilan1_first.is_null_3">
                                                         N.D
                                                     </t>
-                                                    <t t-elif="bilan1_first.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                    <t t-elif="bilan1_first.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                         <t t-esc="'{0:,.0f}'.format(bilan1_first.year_3_d)"/>
                                                         %
                                                     </t>
@@ -1974,7 +2086,7 @@
                                                     <t t-if="bilan1_first.is_null_4">
                                                         N.D
                                                     </t>
-                                                    <t t-elif="bilan1_first.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                    <t t-elif="bilan1_first.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                         <t t-esc="'{0:,.0f}'.format(bilan1_first.year_4)"/>
                                                         %
                                                     </t>
@@ -1987,7 +2099,7 @@
                                                     <t t-if="bilan1_first.is_null_4">
                                                         N.D
                                                     </t>
-                                                    <t t-elif="bilan1_first.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                    <t t-elif="bilan1_first.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                         <t t-esc="'{0:,.0f}'.format(bilan1_first.year_4_d)"/>
                                                         %
                                                     </t>
@@ -2009,7 +2121,7 @@
                                                         <t t-if="line.is_null_1">
                                                             N.D
                                                         </t>
-                                                        <t t-elif="line.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                        <t t-elif="line.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                             <t t-esc="'{0:,.0f}'.format(line.year_1)"/>
                                                             %
                                                         </t>
@@ -2022,7 +2134,7 @@
                                                         <t t-if="line.is_null_1">
                                                             N.D
                                                         </t>
-                                                        <t t-elif="line.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                        <t t-elif="line.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                             <t t-esc="'{0:,.0f}'.format(line.year_1_d)"/>
                                                             %
                                                         </t>
@@ -2035,7 +2147,7 @@
                                                         <t t-if="line.is_null_2">
                                                             N.D
                                                         </t>
-                                                        <t t-elif="line.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                        <t t-elif="line.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                             <t t-esc="'{0:,.0f}'.format(line.year_2)"/>
                                                             %
                                                         </t>
@@ -2048,7 +2160,7 @@
                                                         <t t-if="line.is_null_2">
                                                             N.D
                                                         </t>
-                                                        <t t-elif="line.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                        <t t-elif="line.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                             <t t-esc="'{0:,.0f}'.format(line.year_2_d)"/>
                                                             %
                                                         </t>
@@ -2061,7 +2173,7 @@
                                                         <t t-if="line.is_null_3">
                                                             N.D
                                                         </t>
-                                                        <t t-elif="line.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                        <t t-elif="line.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                             <t t-esc="'{0:,.0f}'.format(line.year_3)"/>
                                                             %
                                                         </t>
@@ -2074,7 +2186,7 @@
                                                         <t t-if="line.is_null_3">
                                                             N.D
                                                         </t>
-                                                        <t t-elif="line.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                        <t t-elif="line.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                             <t t-esc="'{0:,.0f}'.format(line.year_3_d)"/>
                                                             %
                                                         </t>
@@ -2087,7 +2199,7 @@
                                                         <t t-if="line.is_null_4">
                                                             N.D
                                                         </t>
-                                                        <t t-elif="line.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                        <t t-elif="line.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                             <t t-esc="'{0:,.0f}'.format(line.year_4)"/>
                                                             %
                                                         </t>
@@ -2100,7 +2212,7 @@
                                                         <t t-if="line.is_null_4">
                                                             N.D
                                                         </t>
-                                                        <t t-elif="line.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                        <t t-elif="line.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                             <t t-esc="'{0:,.0f}'.format(line.year_4_d)"/>
                                                             %
                                                         </t>
@@ -2136,7 +2248,7 @@
                                                     <t t-if="bilan2_first.is_null_1">
                                                         N.D
                                                     </t>
-                                                    <t t-elif="bilan2_first.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                    <t t-elif="bilan2_first.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                         <t t-esc="'{0:,.0f}'.format(bilan2_first.year_1)"/>
                                                         %
                                                     </t>
@@ -2149,7 +2261,7 @@
                                                     <t t-if="bilan2_first.is_null_1">
                                                         N.D
                                                     </t>
-                                                    <t t-elif="bilan2_first.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                    <t t-elif="bilan2_first.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                         <t t-esc="'{0:,.0f}'.format(bilan2_first.year_1_d)"/>
                                                         %
                                                     </t>
@@ -2162,7 +2274,7 @@
                                                     <t t-if="bilan2_first.is_null_2">
                                                         N.D
                                                     </t>
-                                                    <t t-elif="bilan2_first.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                    <t t-elif="bilan2_first.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                         <t t-esc="'{0:,.0f}'.format(bilan2_first.year_2)"/>
                                                         %
                                                     </t>
@@ -2175,7 +2287,7 @@
                                                     <t t-if="bilan2_first.is_null_2">
                                                         N.D
                                                     </t>
-                                                    <t t-elif="bilan2_first.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                    <t t-elif="bilan2_first.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                         <t t-esc="'{0:,.0f}'.format(bilan2_first.year_2_d)"/>
                                                         %
                                                     </t>
@@ -2188,7 +2300,7 @@
                                                     <t t-if="bilan2_first.is_null_3">
                                                         N.D
                                                     </t>
-                                                    <t t-elif="bilan2_first.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                    <t t-elif="bilan2_first.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                         <t t-esc="'{0:,.0f}'.format(bilan2_first.year_3)"/>
                                                         %
                                                     </t>
@@ -2201,7 +2313,7 @@
                                                     <t t-if="bilan2_first.is_null_3">
                                                         N.D
                                                     </t>
-                                                    <t t-elif="bilan2_first.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                    <t t-elif="bilan2_first.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                         <t t-esc="'{0:,.0f}'.format(bilan2_first.year_3_d)"/>
                                                         %
                                                     </t>
@@ -2214,7 +2326,7 @@
                                                     <t t-if="bilan2_first.is_null_4">
                                                         N.D
                                                     </t>
-                                                    <t t-elif="bilan2_first.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                    <t t-elif="bilan2_first.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                         <t t-esc="'{0:,.0f}'.format(bilan2_first.year_4)"/>
                                                         %
                                                     </t>
@@ -2227,7 +2339,7 @@
                                                     <t t-if="bilan2_first.is_null_4">
                                                         N.D
                                                     </t>
-                                                    <t t-elif="bilan2_first.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                    <t t-elif="bilan2_first.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                         <t t-esc="'{0:,.0f}'.format(bilan2_first.year_4_d)"/>
                                                         %
                                                     </t>
@@ -2249,7 +2361,7 @@
                                                         <t t-if="line.is_null_1">
                                                             N.D
                                                         </t>
-                                                        <t t-elif="line.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                        <t t-elif="line.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                             <t t-esc="'{0:,.0f}'.format(line.year_1)"/>
                                                             %
                                                         </t>
@@ -2262,7 +2374,7 @@
                                                         <t t-if="line.is_null_1">
                                                             N.D
                                                         </t>
-                                                        <t t-elif="line.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                        <t t-elif="line.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                             <t t-esc="'{0:,.0f}'.format(line.year_1_d)"/>
                                                             %
                                                         </t>
@@ -2275,7 +2387,7 @@
                                                         <t t-if="line.is_null_2">
                                                             N.D
                                                         </t>
-                                                        <t t-elif="line.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                        <t t-elif="line.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                             <t t-esc="'{0:,.0f}'.format(line.year_2)"/>
                                                             %
                                                         </t>
@@ -2288,7 +2400,7 @@
                                                         <t t-if="line.is_null_2">
                                                             N.D
                                                         </t>
-                                                        <t t-elif="line.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                        <t t-elif="line.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                             <t t-esc="'{0:,.0f}'.format(line.year_2_d)"/>
                                                             %
                                                         </t>
@@ -2301,7 +2413,7 @@
                                                         <t t-if="line.is_null_3">
                                                             N.D
                                                         </t>
-                                                        <t t-elif="line.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                        <t t-elif="line.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                             <t t-esc="'{0:,.0f}'.format(line.year_3)"/>
                                                             %
                                                         </t>
@@ -2314,7 +2426,7 @@
                                                         <t t-if="line.is_null_3">
                                                             N.D
                                                         </t>
-                                                        <t t-elif="line.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                        <t t-elif="line.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                             <t t-esc="'{0:,.0f}'.format(line.year_3_d)"/>
                                                             %
                                                         </t>
@@ -2327,7 +2439,7 @@
                                                         <t t-if="line.is_null_4">
                                                             N.D
                                                         </t>
-                                                        <t t-elif="line.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                        <t t-elif="line.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                             <t t-esc="'{0:,.0f}'.format(line.year_4)"/>
                                                             %
                                                         </t>
@@ -2340,7 +2452,7 @@
                                                         <t t-if="line.is_null_4">
                                                             N.D
                                                         </t>
-                                                        <t t-elif="line.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                        <t t-elif="line.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                             <t t-esc="'{0:,.0f}'.format(line.year_4_d)"/>
                                                             %
                                                         </t>
@@ -2376,7 +2488,7 @@
                                                     <t t-if="bilan3_first.is_null_1">
                                                         N.D
                                                     </t>
-                                                    <t t-elif="bilan3_first.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                    <t t-elif="bilan3_first.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                         <t t-esc="'{0:,.0f}'.format(bilan3_first.year_1)"/>
                                                         %
                                                     </t>
@@ -2389,7 +2501,7 @@
                                                     <t t-if="bilan3_first.is_null_1">
                                                         N.D
                                                     </t>
-                                                    <t t-elif="bilan3_first.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                    <t t-elif="bilan3_first.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                         <t t-esc="'{0:,.0f}'.format(bilan3_first.year_1_d)"/>
                                                         %
                                                     </t>
@@ -2403,7 +2515,7 @@
                                                     <t t-if="bilan3_first.is_null_2">
                                                         N.D
                                                     </t>
-                                                    <t t-elif="bilan3_first.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                    <t t-elif="bilan3_first.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                         <t t-esc="'{0:,.0f}'.format(bilan3_first.year_2)"/>
                                                         %
                                                     </t>
@@ -2416,7 +2528,7 @@
                                                     <t t-if="bilan3_first.is_null_2">
                                                         N.D
                                                     </t>
-                                                    <t t-elif="bilan3_first.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                    <t t-elif="bilan3_first.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                         <t t-esc="'{0:,.0f}'.format(bilan3_first.year_2_d)"/>
                                                         %
                                                     </t>
@@ -2429,7 +2541,7 @@
                                                     <t t-if="bilan3_first.is_null_3">
                                                         N.D
                                                     </t>
-                                                    <t t-elif="bilan3_first.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                    <t t-elif="bilan3_first.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                         <t t-esc="'{0:,.0f}'.format(bilan3_first.year_3)"/>
                                                         %
                                                     </t>
@@ -2442,7 +2554,7 @@
                                                     <t t-if="bilan3_first.is_null_3">
                                                         N.D
                                                     </t>
-                                                    <t t-elif="bilan3_first.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                    <t t-elif="bilan3_first.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                         <t t-esc="'{0:,.0f}'.format(bilan3_first.year_3_d)"/>
                                                         %
                                                     </t>
@@ -2455,7 +2567,7 @@
                                                     <t t-if="bilan3_first.is_null_4">
                                                         N.D
                                                     </t>
-                                                    <t t-elif="bilan3_first.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                    <t t-elif="bilan3_first.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                         <t t-esc="'{0:,.0f}'.format(bilan3_first.year_4)"/>
                                                         %
                                                     </t>
@@ -2468,7 +2580,7 @@
                                                     <t t-if="bilan3_first.is_null_4">
                                                         N.D
                                                     </t>
-                                                    <t t-elif="bilan3_first.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                    <t t-elif="bilan3_first.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                         <t t-esc="'{0:,.0f}'.format(bilan3_first.year_4_d)"/>
                                                         %
                                                     </t>
@@ -2490,7 +2602,7 @@
                                                         <t t-if="line.is_null_1">
                                                             N.D
                                                         </t>
-                                                        <t t-elif="line.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                        <t t-elif="line.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                             <t t-esc="'{0:,.0f}'.format(line.year_1)"/>
                                                             %
                                                         </t>
@@ -2503,7 +2615,7 @@
                                                         <t t-if="line.is_null_1">
                                                             N.D
                                                         </t>
-                                                        <t t-elif="line.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                        <t t-elif="line.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                             <t t-esc="'{0:,.0f}'.format(line.year_1_d)"/>
                                                             %
                                                         </t>
@@ -2516,7 +2628,7 @@
                                                         <t t-if="line.is_null_2">
                                                             N.D
                                                         </t>
-                                                        <t t-elif="line.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                        <t t-elif="line.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                             <t t-esc="'{0:,.0f}'.format(line.year_2)"/>
                                                             %
                                                         </t>
@@ -2529,7 +2641,7 @@
                                                         <t t-if="line.is_null_2">
                                                             N.D
                                                         </t>
-                                                        <t t-elif="line.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                        <t t-elif="line.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                             <t t-esc="'{0:,.0f}'.format(line.year_2_d)"/>
                                                             %
                                                         </t>
@@ -2542,7 +2654,7 @@
                                                         <t t-if="line.is_null_3">
                                                             N.D
                                                         </t>
-                                                        <t t-elif="line.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                        <t t-elif="line.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                             <t t-esc="'{0:,.0f}'.format(line.year_3)"/>
                                                             %
                                                         </t>
@@ -2555,7 +2667,7 @@
                                                         <t t-if="line.is_null_3">
                                                             N.D
                                                         </t>
-                                                        <t t-elif="line.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                        <t t-elif="line.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                             <t t-esc="'{0:,.0f}'.format(line.year_3_d)"/>
                                                             %
                                                         </t>
@@ -2568,7 +2680,7 @@
                                                         <t t-if="line.is_null_4">
                                                             N.D
                                                         </t>
-                                                        <t t-elif="line.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                        <t t-elif="line.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                             <t t-esc="'{0:,.0f}'.format(line.year_4)"/>
                                                             %
                                                         </t>
@@ -2581,7 +2693,7 @@
                                                         <t t-if="line.is_null_4">
                                                             N.D
                                                         </t>
-                                                        <t t-elif="line.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                        <t t-elif="line.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                             <t t-esc="'{0:,.0f}'.format(line.year_4_d)"/>
                                                             %
                                                         </t>
@@ -2617,7 +2729,7 @@
                                                     <t t-if="bilan4_first.is_null_1">
                                                         N.D
                                                     </t>
-                                                    <t t-elif="line.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                    <t t-elif="line.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                         <t t-esc="'{0:,.0f}'.format(bilan4_first.year_1)"/>
                                                         %
                                                     </t>
@@ -2630,7 +2742,7 @@
                                                     <t t-if="bilan4_first.is_null_1">
                                                         N.D
                                                     </t>
-                                                    <t t-elif="line.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                    <t t-elif="line.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                         <t t-esc="'{0:,.0f}'.format(bilan4_first.year_1_d)"/>
                                                         %
                                                     </t>
@@ -2643,7 +2755,7 @@
                                                     <t t-if="bilan4_first.is_null_2">
                                                         N.D
                                                     </t>
-                                                    <t t-elif="line.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                    <t t-elif="line.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                         <t t-esc="'{0:,.0f}'.format(bilan4_first.year_2)"/>
                                                         %
                                                     </t>
@@ -2656,7 +2768,7 @@
                                                     <t t-if="bilan4_first.is_null_2">
                                                         N.D
                                                     </t>
-                                                    <t t-elif="line.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                    <t t-elif="line.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                         <t t-esc="'{0:,.0f}'.format(bilan4_first.year_2_d)"/>
                                                         %
                                                     </t>
@@ -2669,7 +2781,7 @@
                                                     <t t-if="bilan4_first.is_null_2">
                                                         N.D
                                                     </t>
-                                                    <t t-elif="line.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                    <t t-elif="line.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                         <t t-esc="'{0:,.0f}'.format(bilan4_first.year_3)"/>
                                                         %
                                                     </t>
@@ -2682,7 +2794,7 @@
                                                     <t t-if="bilan4_first.is_null_3">
                                                         N.D
                                                     </t>
-                                                    <t t-elif="line.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                    <t t-elif="line.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                         <t t-esc="'{0:,.0f}'.format(bilan4_first.year_3_d)"/>
                                                         %
                                                     </t>
@@ -2695,7 +2807,7 @@
                                                     <t t-if="bilan4_first.is_null_4">
                                                         N.D
                                                     </t>
-                                                    <t t-elif="line.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                    <t t-elif="line.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                         <t t-esc="'{0:,.0f}'.format(bilan4_first.year_4)"/>
                                                         %
                                                     </t>
@@ -2708,7 +2820,7 @@
                                                     <t t-if="bilan4_first.is_null_4">
                                                         N.D
                                                     </t>
-                                                    <t t-elif="line.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                    <t t-elif="line.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                         <t t-esc="'{0:,.0f}'.format(bilan4_first.year_4_d)"/>
                                                         %
                                                     </t>
@@ -2730,7 +2842,7 @@
                                                         <t t-if="line.is_null_1">
                                                             N.D
                                                         </t>
-                                                        <t t-elif="line.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                        <t t-elif="line.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                             <t t-esc="'{0:,.0f}'.format(line.year_1)"/>
                                                             %
                                                         </t>
@@ -2743,7 +2855,7 @@
                                                         <t t-if="line.is_null_1">
                                                             N.D
                                                         </t>
-                                                        <t t-elif="line.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                        <t t-elif="line.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                             <t t-esc="'{0:,.0f}'.format(line.year_1_d)"/>
                                                             %
                                                         </t>
@@ -2756,7 +2868,7 @@
                                                         <t t-if="line.is_null_2">
                                                             N.D
                                                         </t>
-                                                        <t t-elif="line.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                        <t t-elif="line.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                             <t t-esc="'{0:,.0f}'.format(line.year_2)"/>
                                                             %
                                                         </t>
@@ -2769,7 +2881,7 @@
                                                         <t t-if="line.is_null_2">
                                                             N.D
                                                         </t>
-                                                        <t t-elif="line.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                        <t t-elif="line.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                             <t t-esc="'{0:,.0f}'.format(line.year_2_d)"/>
                                                             %
                                                         </t>
@@ -2782,7 +2894,7 @@
                                                         <t t-if="line.is_null_3">
                                                             N.D
                                                         </t>
-                                                        <t t-elif="line.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                        <t t-elif="line.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                             <t t-esc="'{0:,.0f}'.format(line.year_3)"/>
                                                             %
                                                         </t>
@@ -2795,7 +2907,7 @@
                                                         <t t-if="line.is_null_3">
                                                             N.D
                                                         </t>
-                                                        <t t-elif="line.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                        <t t-elif="line.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                             <t t-esc="'{0:,.0f}'.format(line.year_3_d)"/>
                                                             %
                                                         </t>
@@ -2808,7 +2920,7 @@
                                                         <t t-if="line.is_null_4">
                                                             N.D
                                                         </t>
-                                                        <t t-elif="line.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                        <t t-elif="line.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                             <t t-esc="'{0:,.0f}'.format(line.year_4)"/>
                                                             %
                                                         </t>
@@ -2821,7 +2933,7 @@
                                                         <t t-if="line.is_null_4">
                                                             N.D
                                                         </t>
-                                                        <t t-elif="line.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                        <t t-elif="line.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                             <t t-esc="'{0:,.0f}'.format(line.year_4_d)"/>
                                                             %
                                                         </t>
@@ -2857,7 +2969,7 @@
                                                     <t t-if="bilan5_first.is_null_1">
                                                         N.D
                                                     </t>
-                                                    <t t-elif="bilan5_first.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                    <t t-elif="bilan5_first.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                         <t t-esc="'{0:,.0f}'.format(bilan5_first.year_1)"/>
                                                         %
                                                     </t>
@@ -2870,7 +2982,7 @@
                                                     <t t-if="bilan5_first.is_null_1">
                                                         N.D
                                                     </t>
-                                                    <t t-elif="bilan5_first.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                    <t t-elif="bilan5_first.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                         <t t-esc="'{0:,.0f}'.format(bilan5_first.year_1_d)"/>
                                                         %
                                                     </t>
@@ -2883,7 +2995,7 @@
                                                     <t t-if="bilan5_first.is_null_2">
                                                         N.D
                                                     </t>
-                                                    <t t-elif="bilan5_first.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                    <t t-elif="bilan5_first.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                         <t t-esc="'{0:,.0f}'.format(bilan5_first.year_2)"/>
                                                         %
                                                     </t>
@@ -2896,7 +3008,7 @@
                                                     <t t-if="bilan5_first.is_null_2">
                                                         N.D
                                                     </t>
-                                                    <t t-elif="bilan5_first.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                    <t t-elif="bilan5_first.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                         <t t-esc="'{0:,.0f}'.format(bilan5_first.year_2_d)"/>
                                                         %
                                                     </t>
@@ -2909,7 +3021,7 @@
                                                     <t t-if="bilan5_first.is_null_3">
                                                         N.D
                                                     </t>
-                                                    <t t-elif="bilan5_first.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                    <t t-elif="bilan5_first.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                         <t t-esc="'{0:,.0f}'.format(bilan5_first.year_3)"/>
                                                         %
                                                     </t>
@@ -2922,7 +3034,7 @@
                                                     <t t-if="bilan5_first.is_null_3">
                                                         N.D
                                                     </t>
-                                                    <t t-elif="bilan5_first.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                    <t t-elif="bilan5_first.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                         <t t-esc="'{0:,.0f}'.format(bilan5_first.year_3_d)"/>
                                                         %
                                                     </t>
@@ -2935,7 +3047,7 @@
                                                     <t t-if="bilan5_first.is_null_4">
                                                         N.D
                                                     </t>
-                                                    <t t-elif="bilan5_first.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                    <t t-elif="bilan5_first.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                         <t t-esc="'{0:,.0f}'.format(bilan5_first.year_4)"/>
                                                         %
                                                     </t>
@@ -2948,7 +3060,7 @@
                                                     <t t-if="bilan5_first.is_null_4">
                                                         N.D
                                                     </t>
-                                                    <t t-elif="bilan5_first.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                    <t t-elif="bilan5_first.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                         <t t-esc="'{0:,.0f}'.format(bilan5_first.year_4_d)"/>
                                                         %
                                                     </t>
@@ -2970,7 +3082,7 @@
                                                         <t t-if="line.is_null_1">
                                                             N.D
                                                         </t>
-                                                        <t t-elif="line.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                        <t t-elif="line.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                             <t t-esc="'{0:,.0f}'.format(line.year_1)"/>
                                                             %
                                                         </t>
@@ -2983,7 +3095,7 @@
                                                         <t t-if="line.is_null_1">
                                                             N.D
                                                         </t>
-                                                        <t t-elif="line.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                        <t t-elif="line.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                             <t t-esc="'{0:,.0f}'.format(line.year_1_d)"/>
                                                             %
                                                         </t>
@@ -2996,7 +3108,7 @@
                                                         <t t-if="line.is_null_2">
                                                             N.D
                                                         </t>
-                                                        <t t-elif="line.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                        <t t-elif="line.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                             <t t-esc="'{0:,.0f}'.format(line.year_2)"/>
                                                             %
                                                         </t>
@@ -3009,7 +3121,7 @@
                                                         <t t-if="line.is_null_2">
                                                             N.D
                                                         </t>
-                                                        <t t-elif="line.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                        <t t-elif="line.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                             <t t-esc="'{0:,.0f}'.format(line.year_2_d)"/>
                                                             %
                                                         </t>
@@ -3022,7 +3134,7 @@
                                                         <t t-if="line.is_null_3">
                                                             N.D
                                                         </t>
-                                                        <t t-elif="line.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                        <t t-elif="line.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                             <t t-esc="'{0:,.0f}'.format(line.year_3)"/>
                                                             %
                                                         </t>
@@ -3035,7 +3147,7 @@
                                                         <t t-if="line.is_null_3">
                                                             N.D
                                                         </t>
-                                                        <t t-elif="line.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                        <t t-elif="line.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                             <t t-esc="'{0:,.0f}'.format(line.year_3_d)"/>
                                                             %
                                                         </t>
@@ -3048,7 +3160,7 @@
                                                         <t t-if="line.is_null_4">
                                                             N.D
                                                         </t>
-                                                        <t t-elif="line.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                        <t t-elif="line.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                             <t t-esc="'{0:,.0f}'.format(line.year_4)"/>
                                                             %
                                                         </t>
@@ -3061,7 +3173,7 @@
                                                         <t t-if="line.is_null_4">
                                                             N.D
                                                         </t>
-                                                        <t t-elif="line.sequence in [5, 9, 12, 18, 19, 24, 25, 26, 28, 29]">
+                                                        <t t-elif="line.sequence in [5, 9, 12, 24, 25, 26, 28, 29]">
                                                             <t t-esc="'{0:,.0f}'.format(line.year_4_d)"/>
                                                             %
                                                         </t>
@@ -3090,7 +3202,7 @@
                                     <table class="reversed-table" t-if="etape2.tcr_situation">
                                         <thead>
                                             <tr>
-                                                <th class="title-cell" colspan="2">الوضعية الحسابية لسنة
+                                                <th class="title-cell" colspan="3">الوضعية الحسابية لسنة
                                                     <t t-if="etape2.date_situation_comptable">
                                                         <t t-esc="etape2.date_situation_comptable.year"/>
                                                     </t>
@@ -3099,6 +3211,7 @@
                                             <tr>
                                                 <th class="title-cell">البيان</th>
                                                 <th class="title-cell">المبلغ</th>
+                                                <th class="title-cell">$</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -3109,6 +3222,9 @@
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;">
                                                         <t t-esc="'{0:,.0f}'.format(line.valeur / 1000)"/>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-esc="'{0:,.0f}'.format(line.valeur_dollar)"/>
                                                     </td>
                                                 </tr>
                                             </t>
@@ -3147,19 +3263,19 @@
                                                             <t t-esc="line.poste_arabe"/>
                                                         </td>
                                                         <td style="text-align: right; direction: ltr;">
-                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n)"/>
+                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n / 1000)"/>
                                                         </td>
                                                         <td style="text-align: right; direction: ltr;">
-                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n1)"/>
+                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n1 / 1000)"/>
                                                         </td>
                                                         <td style="text-align: right; direction: ltr;">
-                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n2)"/>
+                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n2 / 1000)"/>
                                                         </td>
                                                         <td style="text-align: right; direction: ltr;">
-                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n3)"/>
+                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n3 / 1000)"/>
                                                         </td>
                                                         <td style="text-align: right; direction: ltr;">
-                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n4)"/>
+                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n4 / 1000)"/>
                                                         </td>
                                                     </tr>
                                                 </t>
@@ -3205,31 +3321,31 @@
                                                             <t t-esc="'{0:,.0f}'.format(line.augment_hypothesis_n1)"/>
                                                         </td>
                                                         <td style="text-align: right; direction: ltr;">
-                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n)"/>
+                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n / 1000)"/>
                                                         </td>
                                                         <td style="text-align: right; direction: ltr;">
                                                             <t t-esc="'{0:,.0f}'.format(line.augment_hypothesis_n2)"/>
                                                         </td>
                                                         <td style="text-align: right; direction: ltr;">
-                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n1)"/>
+                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n1 / 1000)"/>
                                                         </td>
                                                         <td style="text-align: right; direction: ltr;">
                                                             <t t-esc="'{0:,.0f}'.format(line.augment_hypothesis_n3)"/>
                                                         </td>
                                                         <td style="text-align: right; direction: ltr;">
-                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n2)"/>
+                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n2 / 1000)"/>
                                                         </td>
                                                         <td style="text-align: right; direction: ltr;">
                                                             <t t-esc="'{0:,.0f}'.format(line.augment_hypothesis_n4)"/>
                                                         </td>
                                                         <td style="text-align: right; direction: ltr;">
-                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n3)"/>
+                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n3 / 1000)"/>
                                                         </td>
                                                         <td style="text-align: right; direction: ltr;">
                                                             <t t-esc="'{0:,.0f}'.format(line.augment_hypothesis_n5)"/>
                                                         </td>
                                                         <td style="text-align: right; direction: ltr;">
-                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n4)"/>
+                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n4 / 1000)"/>
                                                         </td>
                                                     </tr>
                                                 </t>
@@ -3301,19 +3417,19 @@
                                                             <t t-esc="line.name"/>
                                                         </td>
                                                         <td style="text-align: right; direction: ltr;">
-                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n)"/>
+                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n / 1000)"/>
                                                         </td>
                                                         <td style="text-align: right; direction: ltr;">
-                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n1)"/>
+                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n1 / 1000)"/>
                                                         </td>
                                                         <td style="text-align: right; direction: ltr;">
-                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n2)"/>
+                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n2 / 1000)"/>
                                                         </td>
                                                         <td style="text-align: right; direction: ltr;">
-                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n3)"/>
+                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n3 / 1000)"/>
                                                         </td>
                                                         <td style="text-align: right; direction: ltr;">
-                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n4)"/>
+                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n4 / 1000)"/>
                                                         </td>
                                                     </tr>
                                                 </t>
@@ -3382,26 +3498,19 @@
 
                                 <br/>
                                 <div class="table_deco">
-                                    <table class="reversed-table">
+                                    <table class="reversed-table" style="table-layout: fixed; width: 100%;">
                                         <tbody>
                                             <tr>
-                                                <th style="text-align: center"
-                                                    class="title-cell" colspan="2">
-                                                    SWOT
-                                                </th>
-                                            </tr>
-                                            <tr>
-                                                <th style="font-weight: bold; border: 1px solid #808080;"
-                                                    class="title-cell">
+                                                <th class="title-cell" style="width:50%">
                                                     نقاط القوة
                                                 </th>
-                                                <th style="font-weight: bold; border: 1px solid #808080;"
-                                                    class="title-cell">
+                                                <th class="title-cell"
+                                                    style="width:50%;white-space:normal;word-wrap:break-word;">
                                                     نقاط الضعف
                                                 </th>
                                             </tr>
                                             <tr>
-                                                <td style="border: 1px solid #808080;">
+                                                <td style="width:50%;white-space:normal;word-wrap:break-word;">
                                                     <ol>
                                                         <t t-foreach="etape2.strength_ids" t-as="line">
                                                             <li>
@@ -3410,7 +3519,7 @@
                                                         </t>
                                                     </ol>
                                                 </td>
-                                                <td style="border: 1px solid #808080;">
+                                                <td style="width:50%;white-space:normal;word-wrap:break-word;">
                                                     <ol>
                                                         <t t-foreach="etape2.weakness_ids" t-as="line">
                                                             <li>
@@ -3421,28 +3530,28 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <th style="font-weight: bold; border: 1px solid #808080;"
-                                                    class="title-cell">
-                                                    التهديدات
-                                                </th>
-                                                <th style="font-weight: bold; border: 1px solid #808080;"
-                                                    class="title-cell">
+                                                <th class="title-cell"
+                                                    style="width:50%;white-space:normal;word-wrap:break-word;">
                                                     الفرص
+                                                </th>
+                                                <th class="title-cell"
+                                                    style="width:50%;white-space:normal;word-wrap:break-word;">
+                                                    التهديدات
                                                 </th>
                                             </tr>
                                             <tr>
-                                                <td style="border: 1px solid #808080;">
+                                                <td style="width:50%;white-space:normal;word-wrap:break-word;">
                                                     <ol>
-                                                        <t t-foreach="etape2.threat_ids" t-as="line">
+                                                        <t t-foreach="etape2.opportunitie_ids" t-as="line">
                                                             <li>
                                                                 <t t-esc="line.name"/>
                                                             </li>
                                                         </t>
                                                     </ol>
                                                 </td>
-                                                <td style="border: 1px solid #808080;">
+                                                <td style="width:50%;white-space:normal;word-wrap:break-word;">
                                                     <ol>
-                                                        <t t-foreach="etape2.opportunitie_ids" t-as="line">
+                                                        <t t-foreach="etape2.threat_ids" t-as="line">
                                                             <li>
                                                                 <t t-esc="line.name"/>
                                                             </li>
@@ -3458,11 +3567,12 @@
                                     <table class="reversed-table" t-if="etape2.facilite_propose">
                                         <thead>
                                             <tr>
-                                                <th colspan="5" class="title-cell">التسهيلات المقترحة</th>
+                                                <th colspan="6" class="title-cell">التسهيلات المقترحة</th>
                                             </tr>
                                             <tr>
                                                 <th class="title-cell">نوع التسهيلات</th>
                                                 <th class="title-cell">المبلغ المقترح م/دج</th>
+                                                <th class="title-cell">$</th>
                                                 <th class="title-cell">التامين النقدي</th>
                                                 <th class="title-cell">المدة (الايام)</th>
                                                 <th class="title-cell">الشروط</th>
@@ -3482,7 +3592,10 @@
                                                         </t>
                                                     </td>
                                                     <td>
-                                                        <t t-esc="'{0:,.0f}'.format(line.montant_dz)"/>
+                                                        <t t-esc="'{0:,.0f}'.format(line.montant_dz / 1000)"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="'{0:,.0f}'.format(line.montant_dollar)"/>
                                                     </td>
                                                     <td>
                                                         <t t-esc="int(line.preg)"/>%
@@ -3524,10 +3637,10 @@
                                     </table>
                                 </div>
                                 <br/>
+                                <t t-set="has_image"
+                                   t-value="etape1.images.filtered(lambda l: l.to_show == True)"/>
                                 <div class="table_deco">
-                                    <t t-set="has_image"
-                                       t-value="etape1.images.filtered(lambda l: l.to_show == True)"/>
-                                    <table class="reversed-table" t-if="etape1.images">
+                                    <table class="reversed-table" t-if="has_image">
                                         <thead>
                                             <tr>
                                                 <th class="title-cell">صور من تقرير الزيارة
@@ -3549,9 +3662,9 @@
                                             </t>
                                         </tbody>
                                     </table>
+                                    <br/>
                                 </div>
-                                <br/>
-                                <div class="table_deco">
+                                <div class="table_deco" t-if="etape1.recommendation_responsable_agence">
                                     <table class="reversed-table" t-if="etape1.recommendation_responsable_agence">
                                         <thead>
                                             <tr>
@@ -3568,9 +3681,9 @@
                                             </tr>
                                         </tbody>
                                     </table>
+                                    <br/>
                                 </div>
-                                <br/>
-                                <div class="table_deco">
+                                <div class="table_deco" t-if="etape3.recommendation_dir_commercial">
                                     <table class="reversed-table" t-if="etape3.recommendation_dir_commercial">
                                         <thead>
                                             <tr>
@@ -3587,9 +3700,9 @@
                                             </tr>
                                         </tbody>
                                     </table>
+                                    <br/>
                                 </div>
-                                <br/>
-                                <div class="table_deco">
+                                <div class="table_deco" t-if="etape4.recommandation_dir_risque">
                                     <table class="reversed-table" t-if="etape4.recommandation_dir_risque">
                                         <thead>
                                             <tr>
@@ -3606,9 +3719,9 @@
                                             </tr>
                                         </tbody>
                                     </table>
+                                    <br/>
                                 </div>
-                                <br/>
-                                <div class="table_deco">
+                                <div class="table_deco" t-if="etape2.recommandation_analyste_fin">
                                     <table class="reversed-table" t-if="etape2.recommandation_analyste_fin">
                                         <thead>
                                             <tr>
@@ -3625,9 +3738,9 @@
                                             </tr>
                                         </tbody>
                                     </table>
+                                    <br/>
                                 </div>
-                                <br/>
-                                <div class="table_deco">
+                                <div class="table_deco" t-if="etape2.recommandation_dir_fin">
                                     <table class="reversed-table" t-if="etape2.recommandation_dir_fin">
                                         <thead>
                                             <tr>
@@ -3644,10 +3757,10 @@
                                             </tr>
                                         </tbody>
                                     </table>
+                                    <br/>
                                 </div>
-                                <br/>
-                                <div class="table_deco">
-                                    <table class="reversed-table" t-if="etape10.recommandation_tresorerie">
+                                <div class="table_deco" t-if="etape10.recommandation_tresorerie">
+                                    <table class="reversed-table">
                                         <thead>
                                             <tr>
                                                 <th style="text-align: center" class="title-cell">
@@ -3663,11 +3776,10 @@
                                             </tr>
                                         </tbody>
                                     </table>
+                                    <br/>
                                 </div>
-                                <br/>
-
-                                <div class="table_deco">
-                                    <table class="reversed-table" t-if="etape5.recommandation_vice_dir_fin">
+                                <div class="table_deco" t-if="etape5.recommandation_vice_dir_fin">
+                                    <table class="reversed-table">
                                         <thead>
                                             <tr>
                                                 <th style="text-align: center" class="title-cell">
@@ -3684,9 +3796,10 @@
                                             </tr>
                                         </tbody>
                                     </table>
+                                    <br/>
                                 </div>
-                                <div class="table_deco">
-                                    <table class="reversed-table" t-if="etape9.recommandation_dg">
+                                <div t-if="etape9.recommandation_dg" class="table_deco">
+                                    <table class="reversed-table">
                                         <thead>
                                             <tr>
                                                 <th style="text-align: center" class="title-cell">
@@ -3703,8 +3816,8 @@
                                             </tr>
                                         </tbody>
                                     </table>
+                                    <br/>
                                 </div>
-                                <br/>
                                 <div class="table_deco" t-if="etape6.recommandation_fin_comite">
                                     <table class="reversed-table">
                                         <thead>
@@ -3735,440 +3848,208 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                <br/>
-                                <br/>
                             </div>
                         </div>
                         <br/>
                         <div class="page page-content" style="page-break-inside: avoid;">
                             <t t-if="etape2.comite.id == 1">
-                                <div class="table_deco">
+                                <div class="table_deco" style="page-break-inside: avoid;">
                                     <table class="reversed-table">
                                         <thead>
                                             <tr>
-                                                <th class="title-cell">
-                                                    اعضاء لجنة التسهيلات المصغرة
+                                                <th class="title-cell">اعضاء لجنة التسهيلات المصغرة</th>
+                                                <th class="title-cell">رئيس قطاع الخزينة و العمليات المحلية و الدولية و
+                                                    المالية
                                                 </th>
-                                                <th class="title-cell">
-                                                    رئيس قطاع الخزينة و العمليات المحلية و الدولية و المالية
-                                                </th>
-                                                <th class="title-cell">
-                                                    مدير النشاط التجاري للمؤسسات
-                                                </th>
+                                                <th class="title-cell">مدير النشاط التجاري للمؤسسات</th>
                                             </tr>
                                             <tr>
-                                                <th class="title-cell">
-                                                    الوظيفة
-                                                </th>
-                                                <th class="title-cell">
-                                                    عضوا
-                                                </th>
-                                                <th class="title-cell">
-                                                    عضوا
-                                                </th>
+                                                <th class="title-cell">الوظيفة</th>
+                                                <th class="title-cell">عضوا</th>
+                                                <th class="title-cell">عضوا</th>
                                             </tr>
                                             <tr height="200px">
-                                                <td class="title-cell">
-                                                    التوقيع
-                                                </td>
-                                                <td>
-
-                                                </td>
-                                                <td>
-
-                                                </td>
+                                                <td class="title-cell">التوقيع</td>
+                                                <td></td>
+                                                <td></td>
                                             </tr>
                                             <tr>
-                                                <th class="title-cell">
-                                                    اعضاء لجنة التسهيلات المصغرة
-                                                </th>
-                                                <th class="title-cell">
-                                                    مديرة الدراسات الإئتمانية للمؤسسات
-                                                </th>
-                                                <th class="title-cell">
-                                                    رئيس خلية إدارة المخاطر
-                                                </th>
+                                                <th class="title-cell">اعضاء لجنة التسهيلات المصغرة</th>
+                                                <th class="title-cell">مديرة الدراسات الإئتمانية للمؤسسات</th>
+                                                <th class="title-cell">رئيس خلية إدارة المخاطر</th>
                                             </tr>
                                             <tr>
-                                                <th class="title-cell">
-                                                    الوظيفة
-                                                </th>
-                                                <th class="title-cell">
-                                                    عضوا
-                                                </th>
-                                                <th class="title-cell">
-                                                    عضوا
-                                                </th>
+                                                <th class="title-cell">الوظيفة</th>
+                                                <th class="title-cell">عضوا</th>
+                                                <th class="title-cell">عضوا</th>
                                             </tr>
                                             <tr height="200px">
-                                                <td class="title-cell">
-                                                    التوقيع
-                                                </td>
-                                                <td>
-
-                                                </td>
-                                                <td>
-
-                                                </td>
+                                                <td class="title-cell">التوقيع</td>
+                                                <td></td>
+                                                <td></td>
                                             </tr>
                                         </thead>
                                     </table>
                                 </div>
                                 <br/>
-                                <div class="table_deco">
+                                <div class="table_deco" style="page-break-inside: avoid;">
                                     <table class="reversed-table">
                                         <thead>
                                             <tr>
-                                                <th class="title-cell" width="25%">
-                                                    رئيس اللجنة المصغرة
-                                                </th>
-                                                <th class="title-cell" width="75%">
-                                                    نائب المدير العام
-                                                </th>
+                                                <th class="title-cell" width="25%">رئيس اللجنة المصغرة</th>
+                                                <th class="title-cell" width="75%">نائب المدير العام</th>
                                             </tr>
                                             <tr>
-                                                <th class="title-cell" width="25%">
-                                                    الوظيفة
-                                                </th>
-                                                <th class="title-cell" width="75%">
-                                                    رئيس اللجنة المصغرة
-                                                </th>
+                                                <th class="title-cell" width="25%">الوظيفة</th>
+                                                <th class="title-cell" width="75%">رئيس اللجنة المصغرة</th>
                                             </tr>
                                             <tr height="200px">
-                                                <td class="title-cell" width="25%">
-                                                    التوقيع
-                                                </td>
-                                                <td width="75%">
-
-                                                </td>
+                                                <td class="title-cell" width="25%">التوقيع</td>
+                                                <td width="75%"></td>
                                             </tr>
                                         </thead>
                                     </table>
                                 </div>
                             </t>
-                            <t t-if="etape2.comite.id == 2">
-                                <div class="table_deco">
+                            <t t-if="etape2.comite.id in [2, 3, 4]">
+                                <div class="table_deco" style="page-break-inside: avoid;">
                                     <table class="reversed-table">
                                         <thead>
                                             <tr>
-                                                <th class="title-cell">
-                                                    اعضاء لجنة التسهيلات
+                                                <th class="title-cell">اعضاء لجنة التسهيلات</th>
+                                                <th class="title-cell">رئيس قطاع الخزينة و العمليات المحلية و الدولية و
+                                                    المالية
                                                 </th>
-                                                <th class="title-cell">
-                                                    رئيس قطاع الخزينة و العمليات المحلية و الدولية و المالية
-                                                </th>
-                                                <th class="title-cell">
-                                                    مدير النشاط التجاري للمؤسسات
-                                                </th>
-                                                <th class="title-cell">
-                                                    مديرة الدراسات الائتمانية للمؤسسات
-                                                </th>
-                                                <th class="title-cell">
-                                                    رئيس خلية إدارة المخاطر
-                                                </th>
+                                                <th class="title-cell">مدير النشاط التجاري للمؤسسات</th>
+                                                <th class="title-cell">مديرة الدراسات الائتمانية للمؤسسات</th>
+                                                <th class="title-cell">رئيس خلية إدارة المخاطر</th>
                                             </tr>
                                             <tr>
-                                                <th class="title-cell">
-                                                    الوظيفة
-                                                </th>
-                                                <th class="title-cell">
-                                                    عضوا
-                                                </th>
-                                                <th class="title-cell">
-                                                    عضوا
-                                                </th>
-                                                <th class="title-cell">
-                                                    عضوا
-                                                </th>
-                                                <th class="title-cell">
-                                                    عضوا
-                                                </th>
+                                                <th class="title-cell">الوظيفة</th>
+                                                <th class="title-cell">عضوا</th>
+                                                <th class="title-cell">عضوا</th>
+                                                <th class="title-cell">عضوا</th>
+                                                <th class="title-cell">عضوا</th>
                                             </tr>
                                             <tr height="200px">
-                                                <td class="title-cell">
-                                                    التوقيع
-                                                </td>
-                                                <td>
-
-                                                </td>
-                                                <td>
-
-                                                </td>
-                                                <td>
-
-                                                </td>
-                                                <td>
-
-                                                </td>
+                                                <td class="title-cell">التوقيع</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
                                             </tr>
                                             <tr>
-                                                <th class="title-cell">
-                                                    اعضاء لجنة التسهيلات
+                                                <th class="title-cell">اعضاء لجنة التسهيلات</th>
+                                                <th class="title-cell">رئيس خلية التحصيل الودي و الجبري</th>
+                                                <th class="title-cell">مستشار نائب المدير العام المكلف بالاستشراف
+                                                    التجاري
                                                 </th>
-                                                <th class="title-cell">
-                                                    رئيس خلية التحصيل الودي و الجبري
-                                                </th>
-                                                <th class="title-cell">
-                                                    مستشار نائب المدير العام المكلف بالاستشراف التجاري
-                                                </th>
-                                                <th class="title-cell">
-                                                    رئيس خلية إدارة التمويلات
-                                                </th>
-                                                <th class="title-cell">
-                                                    نائب المدير العام المكلف بالنشاط التجاري
-                                                </th>
+                                                <th class="title-cell">رئيس خلية إدارة التمويلات</th>
+                                                <th class="title-cell">نائب المدير العام المكلف بالنشاط التجاري</th>
                                             </tr>
                                             <tr>
-                                                <th class="title-cell">
-                                                    الوظيفة
-                                                </th>
-                                                <th class="title-cell">
-                                                    عضوا
-                                                </th>
-                                                <th class="title-cell">
-                                                    عضوا
-                                                </th>
-                                                <th class="title-cell">
-                                                    عضوا
-                                                </th>
-                                                <th class="title-cell">
-                                                    عضوا
-                                                </th>
+                                                <th class="title-cell">الوظيفة</th>
+                                                <th class="title-cell">عضوا</th>
+                                                <th class="title-cell">عضوا</th>
+                                                <th class="title-cell">عضوا</th>
+                                                <th class="title-cell">عضوا</th>
                                             </tr>
                                             <tr height="200px">
-                                                <td class="title-cell">
-                                                    التوقيع
-                                                </td>
-                                                <td>
-
-                                                </td>
-                                                <td>
-
-                                                </td>
-                                                <td>
-
-                                                </td>
-                                                <td>
-
-                                                </td>
+                                                <td class="title-cell">التوقيع</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
                                             </tr>
                                         </thead>
                                     </table>
                                 </div>
                                 <br/>
-                                <div class="table_deco">
+                                <div class="table_deco" style="page-break-inside: avoid;">
                                     <table class="reversed-table">
                                         <thead>
                                             <tr>
-                                                <th class="title-cell" width="25%">
-                                                    رئيس لجنة التسهيلات
-                                                </th>
-                                                <th class="title-cell" width="75%">
-                                                    المدير العام
-                                                </th>
+                                                <th class="title-cell" width="25%">رئيس لجنة التسهيلات</th>
+                                                <th class="title-cell" width="75%">المدير العام</th>
                                             </tr>
                                             <tr>
-                                                <th class="title-cell" width="25%">
-                                                    الوظيفة
-                                                </th>
-                                                <th class="title-cell" width="75%">
-                                                    رئيس اللجنة
-                                                </th>
+                                                <th class="title-cell" width="25%">الوظيفة</th>
+                                                <th class="title-cell" width="75%">رئيس اللجنة</th>
                                             </tr>
                                             <tr height="200px">
-                                                <td class="title-cell" width="25%">
-                                                    التوقيع
-                                                </td>
-                                                <td width="75%">
-
-                                                </td>
+                                                <td class="title-cell" width="25%">التوقيع</td>
+                                                <td width="75%"></td>
                                             </tr>
                                         </thead>
                                     </table>
                                 </div>
                             </t>
                             <t t-if="etape2.comite.id == 3">
-                                <div class="table_deco">
+                                <div class="table_deco" style="page-break-inside: avoid;">
                                     <table class="reversed-table">
                                         <thead>
                                             <tr>
-                                                <th class="title-cell" colspan="3">
-                                                    اعضاء لجنة التمويلات
-                                                </th></tr>
-                                            <tr>
-                                                <th class="title-cell">
-                                                    السادة
-                                                </th>
-                                                <th class="title-cell">
-                                                    فؤاد الوزاني
-                                                </th>
-                                                <th class="title-cell">
-                                                    أحمد سيف
-                                                </th>
+                                                <th class="title-cell" colspan="3">اعضاء لجنة التمويلات</th>
                                             </tr>
                                             <tr>
-                                                <th class="title-cell">
-                                                    الوظيفة
-                                                </th>
-                                                <th class="title-cell">
-                                                    عضوا
-                                                </th>
-                                                <th class="title-cell">
-                                                    عضوا
-                                                </th>
+                                                <th class="title-cell">السادة</th>
+                                                <th class="title-cell">فؤاد الوزاني</th>
+                                                <th class="title-cell">أحمد سيف</th>
+                                            </tr>
+                                            <tr>
+                                                <th class="title-cell">الوظيفة</th>
+                                                <th class="title-cell">عضوا</th>
+                                                <th class="title-cell">عضوا</th>
                                             </tr>
                                             <tr height="200px">
-                                                <td class="title-cell">
-                                                    التوقيع
-                                                </td>
-                                                <td>
-
-                                                </td>
-                                                <td>
-
-                                                </td>
+                                                <td class="title-cell">التوقيع</td>
+                                                <td></td>
+                                                <td></td>
                                             </tr>
                                             <tr>
-                                                <th class="title-cell">
-                                                    السيد
-                                                </th>
-                                                <th class="title-cell" colspan="2">
-                                                    رفيق النايض
-                                                </th>
+                                                <th class="title-cell">السيد</th>
+                                                <th class="title-cell" colspan="2">رفيق النايض</th>
                                             </tr>
                                             <tr>
-                                                <th class="title-cell">
-                                                    الوظيفة
-                                                </th>
-                                                <th class="title-cell" colspan="2">
-                                                    رئيس  لجنة التمويلات
-                                                </th>
+                                                <th class="title-cell">الوظيفة</th>
+                                                <th class="title-cell" colspan="2">رئيس لجنة التمويلات</th>
                                             </tr>
                                             <tr height="200px">
-                                                <td class="title-cell">
-                                                    التوقيع
-                                                </td>
-                                                <td colspan="2">
-
-                                                </td>
-                                            </tr>
-                                        </thead>
-                                    </table>
-                                </div>
-                                <br/>
-                                <div class="table_deco">
-                                    <table class="reversed-table">
-                                        <thead>
-                                            <tr>
-                                                <th class="title-cell" width="25%">
-                                                    رئيس لجنة التسهيلات
-                                                </th>
-                                                <th class="title-cell" width="75%">
-                                                    المدير العام
-                                                </th>
-                                            </tr>
-                                            <tr>
-                                                <th class="title-cell" width="25%">
-                                                    الوظيفة
-                                                </th>
-                                                <th class="title-cell" width="75%">
-                                                    رئيس اللجنة
-                                                </th>
-                                            </tr>
-                                            <tr height="200px">
-                                                <td class="title-cell" width="25%">
-                                                    التوقيع
-                                                </td>
-                                                <td width="75%">
-
-                                                </td>
+                                                <td class="title-cell">التوقيع</td>
+                                                <td colspan="2"></td>
                                             </tr>
                                         </thead>
                                     </table>
                                 </div>
                             </t>
                             <t t-if="etape2.comite.id == 4">
-                                <div class="table_deco">
+                                <div class="table_deco" style="page-break-inside: avoid;">
                                     <table class="reversed-table">
                                         <thead>
                                             <tr>
-                                                <th class="title-cell">
-                                                    السادة
-                                                </th>
-                                                <th class="title-cell">
-                                                    إيهاب أحمد
-                                                </th>
-                                                <th class="title-cell">
-                                                    أحمد سيف
-                                                </th>
-                                                <th class="title-cell">
-                                                    فؤاد الوزاني
-                                                </th>
+                                                <th class="title-cell">السادة</th>
+                                                <th class="title-cell">إيهاب أحمد</th>
+                                                <th class="title-cell">أحمد سيف</th>
+                                                <th class="title-cell">فؤاد الوزاني</th>
                                             </tr>
                                             <tr>
-                                                <th class="title-cell">
-                                                    الوظيفة
-                                                </th>
-                                                <th class="title-cell">
-                                                    عضوا
-                                                </th>
-                                                <th class="title-cell">
-                                                    عضوا
-                                                </th>
-                                                <th class="title-cell">
-                                                    عضوا
-                                                </th>
+                                                <th class="title-cell">الوظيفة</th>
+                                                <th class="title-cell">عضوا</th>
+                                                <th class="title-cell">عضوا</th>
+                                                <th class="title-cell">عضوا</th>
                                             </tr>
                                             <tr height="200px">
-                                                <td class="title-cell">
-                                                    التوقيع
-                                                </td>
-                                                <td>
-
-                                                </td>
-                                                <td>
-
-                                                </td>
-                                                <td>
-
-                                                </td>
-                                            </tr>
-                                        </thead>
-                                    </table>
-                                </div>
-                                <br/>
-                                <div class="table_deco">
-                                    <table class="reversed-table">
-                                        <thead>
-                                            <tr>
-                                                <th class="title-cell" width="25%">
-                                                    السيد
-                                                </th>
-                                                <th class="title-cell" width="75%">
-                                                    رفيق النايض
-                                                </th>
-                                            </tr>
-                                            <tr>
-                                                <th class="title-cell" width="25%">
-                                                    الوظيفة
-                                                </th>
-                                                <th class="title-cell" width="75%">
-                                                    رئيس مجلس الإدارة
-                                                </th>
-                                            </tr>
-                                            <tr height="200px">
-                                                <td class="title-cell" width="25%">
-                                                    التوقيع
-                                                </td>
-                                                <td width="75%">
-
-                                                </td>
+                                                <td class="title-cell">التوقيع</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
                                             </tr>
                                         </thead>
                                     </table>
                                 </div>
                             </t>
                         </div>
+
                     </t>
                 </t>
             </t>
@@ -4178,6 +4059,7 @@
             <field name="name">التقرير النهائي (بالدولار)</field>
             <field name="model">wk.workflow.dashboard</field>
             <field name="report_type">qweb-pdf</field>
+            <field name="print_report_name">'%s - %s' % (object.name, object.nom_client.name)</field>
             <field name="report_name">dept_wk.report_global_dollar</field>
             <field name="report_file">dept_wk.report_global_dollar</field>
             <field name="binding_model_id" ref="model_wk_workflow_dashboard"/>

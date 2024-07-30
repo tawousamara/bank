@@ -1454,6 +1454,14 @@
                                                     <t t-esc="etape1.prod_company"/>
                                                 </td>
                                             </tr>
+                                            <tr t-if="etape1.result_visit">
+                                                <td class="title-cell" width="15%">
+                                                    نتائج الزيارة
+                                                </td>
+                                                <td width="85%">
+                                                    <t t-esc="etape1.result_visit"/>
+                                                </td>
+                                            </tr>
                                             <tr t-if="etape2.position_tax">
                                                 <td class="title-cell" width="15%">
                                                     الوضعية
@@ -2912,7 +2920,7 @@
                                                         </t>
                                                     </td>
                                                     <td>
-                                                        <t t-esc="'{0:,.0f}'.format(line.montant_dz)"/>
+                                                        <t t-esc="'{0:,.0f}'.format(line.montant_dz / 1000)"/>
                                                     </td>
                                                     <td>
                                                         <t t-esc="int(line.preg)"/>%
@@ -2954,10 +2962,10 @@
                                     </table>
                                 </div>
                                 <br/>
+                                <t t-set="has_image"
+                                   t-value="etape1.images.filtered(lambda l: l.to_show == True)"/>
                                 <div class="table_deco">
-                                    <t t-set="has_image"
-                                       t-value="etape1.images.filtered(lambda l: l.to_show == True)"/>
-                                    <table class="reversed-table" t-if="etape1.images">
+                                    <table class="reversed-table" t-if="has_image">
                                         <thead>
                                             <tr>
                                                 <th class="title-cell">صور من تقرير الزيارة
@@ -2979,9 +2987,9 @@
                                             </t>
                                         </tbody>
                                     </table>
+                                    <br/>
                                 </div>
-                                <br/>
-                                <div class="table_deco">
+                                <div class="table_deco" t-if="etape1.recommendation_responsable_agence">
                                     <table class="reversed-table" t-if="etape1.recommendation_responsable_agence">
                                         <thead>
                                             <tr>
@@ -2998,9 +3006,9 @@
                                             </tr>
                                         </tbody>
                                     </table>
+                                    <br/>
                                 </div>
-                                <br/>
-                                <div class="table_deco">
+                                <div class="table_deco" t-if="etape3.recommendation_dir_commercial">
                                     <table class="reversed-table" t-if="etape3.recommendation_dir_commercial">
                                         <thead>
                                             <tr>
@@ -3017,9 +3025,9 @@
                                             </tr>
                                         </tbody>
                                     </table>
+                                    <br/>
                                 </div>
-                                <br/>
-                                <div class="table_deco">
+                                <div class="table_deco" t-if="etape4.recommandation_dir_risque">
                                     <table class="reversed-table" t-if="etape4.recommandation_dir_risque">
                                         <thead>
                                             <tr>
@@ -3036,9 +3044,9 @@
                                             </tr>
                                         </tbody>
                                     </table>
+                                    <br/>
                                 </div>
-                                <br/>
-                                <div class="table_deco">
+                                <div class="table_deco" t-if="etape2.recommandation_analyste_fin">
                                     <table class="reversed-table" t-if="etape2.recommandation_analyste_fin">
                                         <thead>
                                             <tr>
@@ -3055,9 +3063,9 @@
                                             </tr>
                                         </tbody>
                                     </table>
+                                    <br/>
                                 </div>
-                                <br/>
-                                <div class="table_deco">
+                                <div class="table_deco" t-if="etape2.recommandation_dir_fin">
                                     <table class="reversed-table" t-if="etape2.recommandation_dir_fin">
                                         <thead>
                                             <tr>
@@ -3074,11 +3082,10 @@
                                             </tr>
                                         </tbody>
                                     </table>
+                                    <br/>
                                 </div>
-                                <br/>
-
-                                <div class="table_deco">
-                                    <table class="reversed-table" t-if="etape10.recommandation_tresorerie">
+                                <div class="table_deco" t-if="etape10.recommandation_tresorerie">
+                                    <table class="reversed-table">
                                         <thead>
                                             <tr>
                                                 <th style="text-align: center" class="title-cell">
@@ -3094,11 +3101,10 @@
                                             </tr>
                                         </tbody>
                                     </table>
+                                    <br/>
                                 </div>
-                                <br/>
-
-                                <div class="table_deco">
-                                    <table class="reversed-table" t-if="etape5.recommandation_vice_dir_fin">
+                                <div class="table_deco" t-if="etape5.recommandation_vice_dir_fin">
+                                    <table class="reversed-table">
                                         <thead>
                                             <tr>
                                                 <th style="text-align: center" class="title-cell">
@@ -3115,9 +3121,10 @@
                                             </tr>
                                         </tbody>
                                     </table>
+                                    <br/>
                                 </div>
-                                <div class="table_deco">
-                                    <table class="reversed-table" t-if="etape9.recommandation_dg">
+                                <div t-if="etape9.recommandation_dg" class="table_deco">
+                                    <table class="reversed-table">
                                         <thead>
                                             <tr>
                                                 <th style="text-align: center" class="title-cell">
@@ -3134,9 +3141,8 @@
                                             </tr>
                                         </tbody>
                                     </table>
+                                    <br/>
                                 </div>
-                                <br/>
-
                                 <div class="table_deco" t-if="etape6.recommandation_fin_comite">
                                     <table class="reversed-table">
                                         <thead>
@@ -3167,402 +3173,200 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                <br/>
                             </div>
                         </div>
-                        <br/>
                         <div class="page page-content" style="page-break-inside: avoid;">
                             <t t-if="etape2.comite.id == 1">
-                                <div class="table_deco">
+                                <div class="table_deco" style="page-break-inside: avoid;">
                                     <table class="reversed-table">
                                         <thead>
                                             <tr>
-                                                <th class="title-cell">
-                                                    اعضاء لجنة التسهيلات المصغرة
+                                                <th class="title-cell">اعضاء لجنة التسهيلات المصغرة</th>
+                                                <th class="title-cell">رئيس قطاع الخزينة و العمليات المحلية و الدولية و
+                                                    المالية
                                                 </th>
-                                                <th class="title-cell">
-                                                    رئيس قطاع الخزينة و العمليات المحلية و الدولية و المالية
-                                                </th>
-                                                <th class="title-cell">
-                                                    مدير النشاط التجاري للمؤسسات
-                                                </th>
+                                                <th class="title-cell">مدير النشاط التجاري للمؤسسات</th>
                                             </tr>
                                             <tr>
-                                                <th class="title-cell">
-                                                    الوظيفة
-                                                </th>
-                                                <th class="title-cell">
-                                                    عضوا
-                                                </th>
-                                                <th class="title-cell">
-                                                    عضوا
-                                                </th>
+                                                <th class="title-cell">الوظيفة</th>
+                                                <th class="title-cell">عضوا</th>
+                                                <th class="title-cell">عضوا</th>
                                             </tr>
                                             <tr height="200px">
-                                                <td class="title-cell">
-                                                    التوقيع
-                                                </td>
-                                                <td>
-
-                                                </td>
-                                                <td>
-
-                                                </td>
+                                                <td class="title-cell">التوقيع</td>
+                                                <td></td>
+                                                <td></td>
                                             </tr>
                                             <tr>
-                                                <th class="title-cell">
-                                                    اعضاء لجنة التسهيلات المصغرة
-                                                </th>
-                                                <th class="title-cell">
-                                                    مديرة الدراسات الإئتمانية للمؤسسات
-                                                </th>
-                                                <th class="title-cell">
-                                                    رئيس خلية إدارة المخاطر
-                                                </th>
+                                                <th class="title-cell">اعضاء لجنة التسهيلات المصغرة</th>
+                                                <th class="title-cell">مديرة الدراسات الإئتمانية للمؤسسات</th>
+                                                <th class="title-cell">رئيس خلية إدارة المخاطر</th>
                                             </tr>
                                             <tr>
-                                                <th class="title-cell">
-                                                    الوظيفة
-                                                </th>
-                                                <th class="title-cell">
-                                                    عضوا
-                                                </th>
-                                                <th class="title-cell">
-                                                    عضوا
-                                                </th>
+                                                <th class="title-cell">الوظيفة</th>
+                                                <th class="title-cell">عضوا</th>
+                                                <th class="title-cell">عضوا</th>
                                             </tr>
                                             <tr height="200px">
-                                                <td class="title-cell">
-                                                    التوقيع
-                                                </td>
-                                                <td>
-
-                                                </td>
-                                                <td>
-
-                                                </td>
+                                                <td class="title-cell">التوقيع</td>
+                                                <td></td>
+                                                <td></td>
                                             </tr>
                                         </thead>
                                     </table>
                                 </div>
                                 <br/>
-                                <div class="table_deco">
+                                <div class="table_deco" style="page-break-inside: avoid;">
                                     <table class="reversed-table">
                                         <thead>
                                             <tr>
-                                                <th class="title-cell" width="25%">
-                                                    رئيس اللجنة المصغرة
-                                                </th>
-                                                <th class="title-cell" width="75%">
-                                                    نائب المدير العام
-                                                </th>
+                                                <th class="title-cell" width="25%">رئيس اللجنة المصغرة</th>
+                                                <th class="title-cell" width="75%">نائب المدير العام</th>
                                             </tr>
                                             <tr>
-                                                <th class="title-cell" width="25%">
-                                                    الوظيفة
-                                                </th>
-                                                <th class="title-cell" width="75%">
-                                                    رئيس اللجنة المصغرة
-                                                </th>
+                                                <th class="title-cell" width="25%">الوظيفة</th>
+                                                <th class="title-cell" width="75%">رئيس اللجنة المصغرة</th>
                                             </tr>
                                             <tr height="200px">
-                                                <td class="title-cell" width="25%">
-                                                    التوقيع
-                                                </td>
-                                                <td width="75%">
-
-                                                </td>
+                                                <td class="title-cell" width="25%">التوقيع</td>
+                                                <td width="75%"></td>
                                             </tr>
                                         </thead>
                                     </table>
                                 </div>
                             </t>
-                            <t t-if="etape2.comite.id == 2">
-                                <div class="table_deco">
+                            <t t-if="etape2.comite.id in [2, 3, 4]">
+                                <div class="table_deco" style="page-break-inside: avoid;">
                                     <table class="reversed-table">
                                         <thead>
                                             <tr>
-                                                <th class="title-cell">
-                                                    اعضاء لجنة التسهيلات
+                                                <th class="title-cell">اعضاء لجنة التسهيلات</th>
+                                                <th class="title-cell">رئيس قطاع الخزينة و العمليات المحلية و الدولية و
+                                                    المالية
                                                 </th>
-                                                <th class="title-cell">
-                                                    رئيس قطاع الخزينة و العمليات المحلية و الدولية و المالية
-                                                </th>
-                                                <th class="title-cell">
-                                                    مدير النشاط التجاري للمؤسسات
-                                                </th>
-                                                <th class="title-cell">
-                                                    مديرة الدراسات الائتمانية للمؤسسات
-                                                </th>
-                                                <th class="title-cell">
-                                                    رئيس خلية إدارة المخاطر
-                                                </th>
+                                                <th class="title-cell">مدير النشاط التجاري للمؤسسات</th>
+                                                <th class="title-cell">مديرة الدراسات الائتمانية للمؤسسات</th>
+                                                <th class="title-cell">رئيس خلية إدارة المخاطر</th>
                                             </tr>
                                             <tr>
-                                                <th class="title-cell">
-                                                    الوظيفة
-                                                </th>
-                                                <th class="title-cell">
-                                                    عضوا
-                                                </th>
-                                                <th class="title-cell">
-                                                    عضوا
-                                                </th>
-                                                <th class="title-cell">
-                                                    عضوا
-                                                </th>
-                                                <th class="title-cell">
-                                                    عضوا
-                                                </th>
+                                                <th class="title-cell">الوظيفة</th>
+                                                <th class="title-cell">عضوا</th>
+                                                <th class="title-cell">عضوا</th>
+                                                <th class="title-cell">عضوا</th>
+                                                <th class="title-cell">عضوا</th>
                                             </tr>
                                             <tr height="200px">
-                                                <td class="title-cell">
-                                                    التوقيع
-                                                </td>
-                                                <td>
-
-                                                </td>
-                                                <td>
-
-                                                </td>
-                                                <td>
-
-                                                </td>
-                                                <td>
-
-                                                </td>
+                                                <td class="title-cell">التوقيع</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
                                             </tr>
                                             <tr>
-                                                <th class="title-cell">
-                                                    اعضاء لجنة التسهيلات
+                                                <th class="title-cell">اعضاء لجنة التسهيلات</th>
+                                                <th class="title-cell">رئيس خلية التحصيل الودي و الجبري</th>
+                                                <th class="title-cell">مستشار نائب المدير العام المكلف بالاستشراف
+                                                    التجاري
                                                 </th>
-                                                <th class="title-cell">
-                                                    رئيس خلية التحصيل الودي و الجبري
-                                                </th>
-                                                <th class="title-cell">
-                                                    مستشار نائب المدير العام المكلف بالاستشراف التجاري
-                                                </th>
-                                                <th class="title-cell">
-                                                    رئيس خلية إدارة التمويلات
-                                                </th>
-                                                <th class="title-cell">
-                                                    نائب المدير العام المكلف بالنشاط التجاري
-                                                </th>
+                                                <th class="title-cell">رئيس خلية إدارة التمويلات</th>
+                                                <th class="title-cell">نائب المدير العام المكلف بالنشاط التجاري</th>
                                             </tr>
                                             <tr>
-                                                <th class="title-cell">
-                                                    الوظيفة
-                                                </th>
-                                                <th class="title-cell">
-                                                    عضوا
-                                                </th>
-                                                <th class="title-cell">
-                                                    عضوا
-                                                </th>
-                                                <th class="title-cell">
-                                                    عضوا
-                                                </th>
-                                                <th class="title-cell">
-                                                    عضوا
-                                                </th>
+                                                <th class="title-cell">الوظيفة</th>
+                                                <th class="title-cell">عضوا</th>
+                                                <th class="title-cell">عضوا</th>
+                                                <th class="title-cell">عضوا</th>
+                                                <th class="title-cell">عضوا</th>
                                             </tr>
                                             <tr height="200px">
-                                                <td class="title-cell">
-                                                    التوقيع
-                                                </td>
-                                                <td>
-
-                                                </td>
-                                                <td>
-
-                                                </td>
-                                                <td>
-
-                                                </td>
-                                                <td>
-
-                                                </td>
+                                                <td class="title-cell">التوقيع</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
                                             </tr>
                                         </thead>
                                     </table>
                                 </div>
                                 <br/>
-                                <div class="table_deco">
+                                <div class="table_deco" style="page-break-inside: avoid;">
                                     <table class="reversed-table">
                                         <thead>
                                             <tr>
-                                                <th class="title-cell" width="25%">
-                                                    رئيس لجنة التسهيلات
-                                                </th>
-                                                <th class="title-cell" width="75%">
-                                                    المدير العام
-                                                </th>
+                                                <th class="title-cell" width="25%">رئيس لجنة التسهيلات</th>
+                                                <th class="title-cell" width="75%">المدير العام</th>
                                             </tr>
                                             <tr>
-                                                <th class="title-cell" width="25%">
-                                                    الوظيفة
-                                                </th>
-                                                <th class="title-cell" width="75%">
-                                                    رئيس اللجنة
-                                                </th>
+                                                <th class="title-cell" width="25%">الوظيفة</th>
+                                                <th class="title-cell" width="75%">رئيس اللجنة</th>
                                             </tr>
                                             <tr height="200px">
-                                                <td class="title-cell" width="25%">
-                                                    التوقيع
-                                                </td>
-                                                <td width="75%">
-
-                                                </td>
+                                                <td class="title-cell" width="25%">التوقيع</td>
+                                                <td width="75%"></td>
                                             </tr>
                                         </thead>
                                     </table>
                                 </div>
                             </t>
                             <t t-if="etape2.comite.id == 3">
-                                <div class="table_deco">
+                                <div class="table_deco" style="page-break-inside: avoid;">
                                     <table class="reversed-table">
                                         <thead>
                                             <tr>
-                                                <th class="title-cell" colspan="3">
-                                                    اعضاء لجنة التمويلات
-                                                </th></tr>
-                                            <tr>
-                                                <th class="title-cell">
-                                                    السادة
-                                                </th>
-                                                <th class="title-cell">
-                                                    فؤاد الوزاني
-                                                </th>
-                                                <th class="title-cell">
-                                                    أحمد سيف
-                                                </th>
+                                                <th class="title-cell" colspan="3">اعضاء لجنة التمويلات</th>
                                             </tr>
                                             <tr>
-                                                <th class="title-cell">
-                                                    الوظيفة
-                                                </th>
-                                                <th class="title-cell">
-                                                    عضوا
-                                                </th>
-                                                <th class="title-cell">
-                                                    عضوا
-                                                </th>
+                                                <th class="title-cell">السادة</th>
+                                                <th class="title-cell">فؤاد الوزاني</th>
+                                                <th class="title-cell">أحمد سيف</th>
+                                            </tr>
+                                            <tr>
+                                                <th class="title-cell">الوظيفة</th>
+                                                <th class="title-cell">عضوا</th>
+                                                <th class="title-cell">عضوا</th>
                                             </tr>
                                             <tr height="200px">
-                                                <td class="title-cell">
-                                                    التوقيع
-                                                </td>
-                                                <td>
-
-                                                </td>
-                                                <td>
-
-                                                </td>
+                                                <td class="title-cell">التوقيع</td>
+                                                <td></td>
+                                                <td></td>
                                             </tr>
                                             <tr>
-                                                <th class="title-cell">
-                                                    السيد
-                                                </th>
-                                                <th class="title-cell" colspan="2">
-                                                    رفيق النايض
-                                                </th>
+                                                <th class="title-cell">السيد</th>
+                                                <th class="title-cell" colspan="2">رفيق النايض</th>
                                             </tr>
                                             <tr>
-                                                <th class="title-cell">
-                                                    الوظيفة
-                                                </th>
-                                                <th class="title-cell" colspan="2">
-                                                    رئيس  لجنة التمويلات
-                                                </th>
+                                                <th class="title-cell">الوظيفة</th>
+                                                <th class="title-cell" colspan="2">رئيس لجنة التمويلات</th>
                                             </tr>
                                             <tr height="200px">
-                                                <td class="title-cell">
-                                                    التوقيع
-                                                </td>
-                                                <td colspan="2">
-
-                                                </td>
+                                                <td class="title-cell">التوقيع</td>
+                                                <td colspan="2"></td>
                                             </tr>
                                         </thead>
                                     </table>
                                 </div>
                             </t>
                             <t t-if="etape2.comite.id == 4">
-                                <div class="table_deco">
+                                <div class="table_deco" style="page-break-inside: avoid;">
                                     <table class="reversed-table">
                                         <thead>
                                             <tr>
-                                                <th class="title-cell">
-                                                    السادة
-                                                </th>
-                                                <th class="title-cell">
-                                                    إيهاب أحمد
-                                                </th>
-                                                <th class="title-cell">
-                                                    أحمد سيف
-                                                </th>
-                                                <th class="title-cell">
-                                                    فؤاد الوزاني
-                                                </th>
+                                                <th class="title-cell">السادة</th>
+                                                <th class="title-cell">إيهاب أحمد</th>
+                                                <th class="title-cell">أحمد سيف</th>
+                                                <th class="title-cell">فؤاد الوزاني</th>
                                             </tr>
                                             <tr>
-                                                <th class="title-cell">
-                                                    الوظيفة
-                                                </th>
-                                                <th class="title-cell">
-                                                    عضوا
-                                                </th>
-                                                <th class="title-cell">
-                                                    عضوا
-                                                </th>
-                                                <th class="title-cell">
-                                                    عضوا
-                                                </th>
+                                                <th class="title-cell">الوظيفة</th>
+                                                <th class="title-cell">عضوا</th>
+                                                <th class="title-cell">عضوا</th>
+                                                <th class="title-cell">عضوا</th>
                                             </tr>
                                             <tr height="200px">
-                                                <td class="title-cell">
-                                                    التوقيع
-                                                </td>
-                                                <td>
-
-                                                </td>
-                                                <td>
-
-                                                </td>
-                                                <td>
-
-                                                </td>
-                                            </tr>
-                                        </thead>
-                                    </table>
-                                </div>
-                                <br/>
-                                <div class="table_deco">
-                                    <table class="reversed-table">
-                                        <thead>
-                                            <tr>
-                                                <th class="title-cell" width="25%">
-                                                    السيد
-                                                </th>
-                                                <th class="title-cell" width="75%">
-                                                    رفيق النايض
-                                                </th>
-                                            </tr>
-                                            <tr>
-                                                <th class="title-cell" width="25%">
-                                                    الوظيفة
-                                                </th>
-                                                <th class="title-cell" width="75%">
-                                                    رئيس مجلس الإدارة
-                                                </th>
-                                            </tr>
-                                            <tr height="200px">
-                                                <td class="title-cell" width="25%">
-                                                    التوقيع
-                                                </td>
-                                                <td width="75%">
-
-                                                </td>
+                                                <td class="title-cell">التوقيع</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
                                             </tr>
                                         </thead>
                                     </table>

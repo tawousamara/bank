@@ -122,6 +122,10 @@
             <field name="wilaya">02</field>
             <field name="commune">01</field>
         </record>
+        <record id="agence_99" model="wk.agence">
+            <field name="name">Aucune</field>
+            <field name="ref">Aucune</field>
+        </record>
 
     </data>
 </odoo>

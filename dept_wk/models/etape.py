@@ -309,17 +309,17 @@ class Etape(models.Model):
     email_from = fields.Char(string='البريد الإلكتروني', related='user_id.partner_id.email', store=True)
     author_id = fields.Many2one('res.partner', related='user_id.partner_id', store=True)
 
-    unit_prod = fields.Text(string='وحدات الانتاج')
-    stock = fields.Text(string='المخازن')
-    prod_company = fields.Text(string='منتوجات الشركة')
-    prod_company_related = fields.Text(string='منتوجات الشركة', related='prod_company')
-    politique_comm = fields.Text(string='السياسة التسويقية')
-    cycle_exploit = fields.Text(string='دورة الاستغلال')
-    concurrence = fields.Text(string='المنافسة و دراسة السوق')
-    program_invest = fields.Text(string='البرنامج الاستثماري /المشاريع التطويرية')
-    result_visit = fields.Text(string='نتائج الزيارة')
-    description_company = fields.Text(string='تعريف الشركة')
-    history_relation = fields.Text(string='تاريخ العلاقة وحالة التحصيل')
+    unit_prod = fields.Html(string='وحدات الانتاج')
+    stock = fields.Html(string='المخازن')
+    prod_company = fields.Html(string='منتوجات الشركة')
+    prod_company_related = fields.Html(string='منتوجات الشركة', related='prod_company')
+    politique_comm = fields.Html(string='السياسة التسويقية')
+    cycle_exploit = fields.Html(string='دورة الاستغلال')
+    concurrence = fields.Html(string='المنافسة و دراسة السوق')
+    program_invest = fields.Html(string='البرنامج الاستثماري /المشاريع التطويرية')
+    result_visit = fields.Html(string='نتائج الزيارة')
+    description_company = fields.Html(string='تعريف الشركة')
+    history_relation = fields.Html(string='تاريخ العلاقة وحالة التحصيل')
     recommendation_visit = fields.Html(string='توصية الفرع',)
     recommendation_responsable_agence = fields.Html(string='توصية مدير الفرع', )
     images = fields.One2many('wk.documents', 'etape_id', string='الصور المرفقة')
@@ -447,7 +447,7 @@ class Etape(models.Model):
     opportunitie_ids = fields.One2many('wk.swot.opportunitie', 'etape_id')
 
     description_prjt_invest = fields.Html(string='وصف المشروع الاستثماري')
-    actif_invest = fields.Text(string='الاصول المراد الاستثمار بها')
+    actif_invest = fields.Html(string='الاصول المراد الاستثمار بها')
     pays_prod = fields.Many2many('res.country', string='بلد المنشأ')
     valeur_total = fields.Float(string='القيمة الإجمالية للاستثمار')
     auto_financement = fields.Float(string='التمويل الذاتي')
@@ -493,10 +493,10 @@ class Etape(models.Model):
                                          ],  track_visibility='always', string='وضعية الملف')
 
     visualisation = fields.Binary(string='visualisation')
-    analyse_secteur_act = fields.Text(string='تحليل قطاع عمل العميل')
-    analyse_concurrence = fields.Text(string='تحليل المنافسة')
+    analyse_secteur_act = fields.Html(string='تحليل قطاع عمل العميل')
+    analyse_concurrence = fields.Html(string='تحليل المنافسة')
     ampleur_benefice = fields.Float(string='حجم الارباح PNB المتوقعة')
-    analyse_relation = fields.Text(string='تحليل اهمية العلاقة على المدى المتوسط')
+    analyse_relation = fields.Html(string='تحليل اهمية العلاقة على المدى المتوسط')
     recommendation_dir_commercial = fields.Html(string='توصية مدير إدارة الاعمال التجارية', )
     recommendation_commercial = fields.Html(string='توصية المكلف بالاعمال التجارية', )
 
@@ -527,7 +527,7 @@ class Etape(models.Model):
                                      ('vice_rejected', 'طلب مرفوض'),
                                      ], track_visibility='always',default='vice_1', string='وضعية الملف')
     assigned_to_vice = fields.Many2one('res.users', string='نائب المدير العام', track_visibility='always')
-    recommandation_tresorerie = fields.Text(string='رأي مسؤول الخزينة', track_visibility='always',)
+    recommandation_tresorerie = fields.Html(string='رأي مسؤول الخزينة', track_visibility='always',)
     recommandation_vice_dir_fin = fields.Html(string='توصية/قرار نائب المدير العام', )
     state_dg = fields.Selection([('dg_1', 'المدير العام'),
                                    ('dg_2', 'انتهاء التحليل'),
@@ -3341,18 +3341,18 @@ class Etape(models.Model):
 
                 #متوسط مدة تسهيلات الموردين (يوم)
                 bilan_34 = rec.bilan_id.filtered(lambda r: r.sequence == 34)
-                bilan_34.write({'year_4': (passif_7.montant_n * 360) / tcr_5.montant_n if tcr_5.montant_n != 0 else 0,
-                                'year_3': (passif_7.montant_n1 * 360) / tcr_5.montant_n1 if tcr_5.montant_n1 != 0 else 0,
-                                'year_2': (passif1_7.montant_n * 360) / tcr1_5.montant_n if tcr1_5.montant_n != 0 else 0,
-                                'year_1': (passif1_7.montant_n1 * 360) / tcr1_5.montant_n1 if tcr1_5.montant_n1 != 0 else 0,
+                bilan_34.write({'year_4': (passif_7.montant_n * 360) / (tcr_5.montant_n + tcr_6.montant_n) if (tcr_5.montant_n + tcr_6.montant_n) != 0 else 0,
+                                'year_3': (passif_7.montant_n1 * 360) / (tcr_5.montant_n1 + tcr_6.montant_n1) if (tcr_5.montant_n1 + tcr_6.montant_n1) != 0 else 0,
+                                'year_2': (passif1_7.montant_n * 360) / (tcr1_5.montant_n + tcr1_6.montant_n) if (tcr1_5.montant_n + tcr1_6.montant_n) != 0 else 0,
+                                'year_1': (passif1_7.montant_n1 * 360) / (tcr1_5.montant_n1 + tcr1_6.montant_n1) if (tcr1_5.montant_n1 + tcr1_6.montant_n1) != 0 else 0,
                                 })
-                if tcr_5.montant_n == 0:
+                if (tcr_5.montant_n + tcr_6.montant_n) == 0:
                     bilan_34.is_null_4 = True
-                if tcr_5.montant_n1 == 0:
+                if (tcr_5.montant_n1 + tcr_6.montant_n1) == 0:
                     bilan_34.is_null_3 = True
-                if tcr1_5.montant_n == 0:
+                if (tcr1_5.montant_n + tcr1_6.montant_n) == 0:
                     bilan_34.is_null_2 = True
-                if tcr1_5.montant_n1 == 0:
+                if (tcr1_5.montant_n1 + tcr1_6.montant_n1) == 0:
                     bilan_34.is_null_1 = True
 
                 recap_3 = rec.recap_ids.filtered(lambda r: r.sequence == 3)

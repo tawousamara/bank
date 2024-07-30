@@ -55,12 +55,18 @@ class Taillefin(models.Model):
     type_demande = fields.Many2one('wk.product', string='نوع التسهيلات')
     type_demande_ids = fields.Many2many('wk.product', string='نوع التسهيلات')
     montant = fields.Float(string='المبلغ المطلوب')
+    montant_usd = fields.Float(string='المبلغ المطلوب USD' , compute='compute_dollar')
     raison = fields.Char(string='الغرض من التمويل')
     garanties = fields.Many2many('wk.garanties', string='الضمانات المقترحة')
     preg = fields.Float(string='هامش الجدية')
     duree = fields.Integer(string='المدة (الايام)')
     etape_id = fields.Many2one('wk.etape')
     compute_exist = fields.Boolean(compute='compute_products')
+
+    def compute_dollar(self):
+        for rec in self:
+            taux_change = rec.etape_id.workflow.states.filtered(lambda l:l.sequence == 2).taux_change or 1
+            rec.montant_usd = rec.montant / taux_change
 
     def compute_products(self):
         for rec in self:
@@ -85,10 +91,17 @@ class SituationBancaire(models.Model):
     banque = fields.Many2one('wk.banque', string='البنك')
     type_fin = fields.Many2one('wk.fin.banque', string='نوع التمويل')
     montant = fields.Float(string='المبلغ KDA')
+    montant_dollar = fields.Float(string='المبلغ $', compute='compute_dollar')
     encours = fields.Float(string='المبلغ المستغل KDA')
+    encours_dollar = fields.Float(string='المبلغ المستغل $', compute='compute_dollar')
     garanties = fields.Text(string='الضمانات الممنوحة')
     etape_id = fields.Many2one('wk.etape')
 
+    def compute_dollar(self):
+        for rec in self:
+            taux_change = rec.etape_id.workflow.states.filtered(lambda l:l.sequence == 2).taux_change or 1
+            rec.montant_dollar = rec.montant / taux_change
+            rec.encours_dollar = rec.encours / taux_change
 
 class Banque(models.Model):
     _name = 'wk.banque'
@@ -236,12 +249,13 @@ class RecommLeasing(models.Model):
 class Partner(models.Model):
     _inherit = 'res.partner'
 
+    is_super = fields.Boolean(string='مستخدم خاص')
     is_client = fields.Boolean(string='هل هو عميل؟', compute='_compute_is_client', store=True)
     nif = fields.Char(string='NIF')
     rc = fields.Char(string='RC')
     activity_code = fields.Char(string='رمز النشاط حسب السجل التجاري')
     activity_description = fields.Char(string='النشاط حسب السجل التجاري')
-    branche = fields.Many2one('wk.agence', string='الفرع', default=lambda self: self.env.user.partner_id.branche)
+    branche = fields.Many2one('wk.agence', string='الفرع', )
     num_compte = fields.Char(string='رقم الحساب')
     date_ouverture_compte = fields.Date(string='تاريخ فتح الحساب')
     date_debut = fields.Date(string='تاريخ تأسيس الشركة')
@@ -260,11 +274,17 @@ class Partner(models.Model):
     activite_sec = fields.Char(string='رمز النشاط الثانوي في السجل التجاري')
     forme_jur = fields.Many2one('wk.forme.jur', string='الشكل القانوني')
     company_id = fields.Many2one('res.company', default=lambda self: self.env.company)
+    current_user = fields.Many2one('res.users', default=lambda self: self.env.user,)
+    #current_user = fields.Many2one('res.users', compute='compute_current_user')
     currency_id = fields.Many2one('res.currency', related='company_id.currency_id')
     chiffre_affaire = fields.Monetary(string='راس المال الحالي KDA', currency_field='currency_id',)
     chiffre_affaire_creation = fields.Monetary(string='راس المال التاسيسي KDA', currency_field='currency_id',)
     is_user = fields.Boolean(string='مستخدم', compute='compute_user')
     is_not_user = fields.Boolean(string='مستخدم')
+
+    def compute_current_user(self):
+        for rec in self:
+            rec.current_user = self.env.user or False
 
     @api.model
     def create(self, vals):
@@ -302,6 +322,9 @@ class Partner(models.Model):
 
     def compute_user(self):
         for rec in self:
+            if rec.is_client:
+                if not rec.branche:
+                    rec.branche = self.env.user.partner_id.branche or self.env.ref('dept_wk.agence_99').id
             exist = self.env['res.users'].search([('partner_id', '=', rec.id)])
             if exist:
                 rec.is_user = True

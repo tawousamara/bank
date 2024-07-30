@@ -72,8 +72,10 @@
                 <group>
                     <field name="adress_siege" invisible="is_user == True"/>
                     <field name="is_client" invisible="1"/>
+                    <field name="is_super" invisible="is_user != True"/>
                     <field name="is_user" invisible="1"/>
-                    <field name="branche" options="{'no_create': True, 'no_open': True}" readonly="is_client == True"/>
+                    <field name="current_user" invisible="1"/>
+                    <field name="branche" options="{'no_create': True, 'no_open': True}" readonly="is_client"/>
                     <field name="wilaya"/>
                     <field name="nif" invisible="is_user == True"/>
                     <field name="rc" invisible="is_user == True"/>

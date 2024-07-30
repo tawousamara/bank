@@ -213,6 +213,7 @@
                                                domain="[('for_branch', '=', True)]"
                                                width="20%"/>
                                         <field name="montant" sum="Total" width="20%"/>
+                                        <field name="montant_usd" sum="Total" width="20%" optional="hide"/>
                                         <field name="raison" width="20%"/>
                                         <field name="preg" widget="percentage" width="20%"/>
                                         <field name="duree" width="20%"/>

@@ -12,7 +12,7 @@ class RevoirState(models.TransientModel):
                               ('3', 'مديرية الاعمال التجارية'),
                               ('4', 'ادارة المخاطر'),
                               ('10', 'رئيس قطاع الخزينة'),
-                              ('5', 'نائب المدير العام')], string='مراجعة من طرف')
+                              ('5', 'نائب المدير العام')], string='الرجوع ل:')
     raison = fields.Text(string="Reason")
     one_step = fields.Boolean(string='الى مدير التمويلات')
 

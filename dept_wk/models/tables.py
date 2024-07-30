@@ -816,8 +816,13 @@ class TCR(models.Model):
     name_ar = fields.Char(string='Poste comptable')
     sequence = fields.Integer(string='Sequence')
     valeur = fields.Float(string='المبلغ')
+    valeur_dollar = fields.Float(string='المبلغ', compute="compute_dollar")
     etape_id = fields.Many2one('wk.etape')
     type = fields.Integer()
+
+    def compute_dollar(self):
+        for rec in self:
+            rec.valeur_dollar = rec.valeur / rec.etape_id.taux_change
 
 
 class Actif(models.Model):
@@ -827,8 +832,14 @@ class Actif(models.Model):
     name_ar = fields.Char(string='Poste comptable')
     sequence = fields.Integer(string='Sequence')
     valeur = fields.Float(string='المبلغ')
+    valeur_dollar = fields.Float(string='المبلغ', compute="compute_dollar")
     etape_id = fields.Many2one('wk.etape')
     type = fields.Integer()
+
+    def compute_dollar(self):
+        for rec in self:
+            rec.valeur_dollar = rec.valeur / rec.etape_id.taux_change
+
 
 class Passif(models.Model):
     _name = 'wk.passif'
@@ -837,8 +848,14 @@ class Passif(models.Model):
     name_ar = fields.Char(string='Poste comptable')
     sequence = fields.Integer(string='Sequence')
     valeur = fields.Float(string='المبلغ')
+    valeur_dollar = fields.Float(string='المبلغ', compute="compute_dollar")
     etape_id = fields.Many2one('wk.etape')
     type = fields.Integer()
+
+    def compute_dollar(self):
+        for rec in self:
+            rec.valeur_dollar = rec.valeur / rec.etape_id.taux_change
+
 
 class TCREstim(models.Model):
     _name = 'wk.tcr.estim'
@@ -847,8 +864,13 @@ class TCREstim(models.Model):
     name_ar = fields.Char(string='Poste comptable')
     sequence = fields.Integer(string='Sequence')
     valeur = fields.Float(string='المبلغ')
+    valeur_dollar = fields.Float(string='المبلغ', compute="compute_dollar")
     etape_id = fields.Many2one('wk.etape')
     type = fields.Integer()
+
+    def compute_dollar(self):
+        for rec in self:
+            rec.valeur_dollar = rec.valeur / rec.etape_id.taux_change
 
 
 class ActifEstim(models.Model):
@@ -858,8 +880,14 @@ class ActifEstim(models.Model):
     name_ar = fields.Char(string='Poste comptable')
     sequence = fields.Integer(string='Sequence')
     valeur = fields.Float(string='المبلغ')
+    valeur_dollar = fields.Float(string='المبلغ', compute="compute_dollar")
     etape_id = fields.Many2one('wk.etape')
     type = fields.Integer()
+
+    def compute_dollar(self):
+        for rec in self:
+            rec.valeur_dollar = rec.valeur / rec.etape_id.taux_change
+
 
 class PassifEstim(models.Model):
     _name = 'wk.passif.estim'
@@ -868,8 +896,14 @@ class PassifEstim(models.Model):
     name_ar = fields.Char(string='Poste comptable')
     sequence = fields.Integer(string='Sequence')
     valeur = fields.Float(string='المبلغ')
+    valeur_dollar = fields.Float(string='المبلغ', compute="compute_dollar")
     etape_id = fields.Many2one('wk.etape')
     type = fields.Integer()
+
+    def compute_dollar(self):
+        for rec in self:
+            rec.valeur_dollar = rec.valeur / rec.etape_id.taux_change
+
 
 class SwotStrength(models.Model):
     _name = 'wk.swot.strength'

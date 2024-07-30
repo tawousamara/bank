@@ -112,7 +112,8 @@
                     <field name="raison"/>
                     <br/>
                     <group>
-                    <field name="etat"/></group>
+                        <field name="etat"/>
+                    </group>
                     <footer>
                         <button name="send" type="object" string="Envoyer" class="btn-primary"/>
                         <button name="cancel" type="object" string="Annuler" class="btn-secondary"/>
