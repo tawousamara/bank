@@ -2974,14 +2974,16 @@
                                         </thead>
                                         <tbody>
                                             <t t-foreach="etape1.images" t-as="line">
-                                                <t t-if="line.to_show == True">
+                                                <t t-if="line.to_show == True and line.picture">
                                                     <tr>
-                                                        <td>
-                                                            <img
+                                                        <t t-if="line.picture">
+                                                            <td>
+                                                                <img
                                                                     t-att-src="image_data_uri(line.picture)"
                                                                     height="500"
                                                                     border="1" width="500"/>
-                                                        </td>
+                                                            </td>
+                                                        </t>
                                                     </tr>
                                                 </t>
                                             </t>
