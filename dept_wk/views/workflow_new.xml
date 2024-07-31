@@ -147,6 +147,19 @@
                                 <field name="workflow_old" invisible="demande == 1" options="{'no_create': True}"
                                        domain="[('nom_client', '=', nom_client)]"/>
                                 <field name="explanation"/>
+                                <field name="limit"/>
+                            </group>
+                            <group>
+                                <field name="plan_ids">
+                                    <tree editable="bottom">
+                                        <field name="contrat_type"/>
+                                        <field name="name"/>
+                                        <field name="montant_ht"/>
+                                        <field name="date_debut"/>
+                                        <field name="niveau" widget="percentage"/>
+                                        <field name="besoin"/>
+                                    </tree>
+                                </field>
                             </group>
                             <button type="object" name="action_start" class="btn-primary" string="بدء دراسة الملف"
                                     invisible="lanced == True" width="10%"/>

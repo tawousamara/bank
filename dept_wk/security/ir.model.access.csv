@@ -350,3 +350,5 @@ financial_modeling.access_tcr_analysis_prev_system,access.tcr.analysis.prev.syst
 financial_modeling.access_tcr_analysis_prev_ratio_system,access.tcr.analysis.prev.ratio.system,financial_modeling.model_tcr_analysis_prev_ratio,dept_wk.dept_wk_group_analyste,1,1,1,1
 
 
+access_wk_workflow_charge_financial,access.wk.workflow.charge,model_wk_workflow_charge,,1,1,1,1
+

@@ -45,4 +45,13 @@
                   action="wk_workflow_dashboard_action_dga"
                   sequence="1"/>
     </menuitem>
+    <menuitem id="tres_menu"
+              name="Tresorerie"
+              groups="dept_wk.dept_wk_group_tres"
+              sequence="7">
+        <menuitem id="tres_request_menu"
+                  name="طلبات التمويل"
+                  action="wk_workflow_dashboard_action_tres"
+                  sequence="1"/>
+    </menuitem>
 </odoo>

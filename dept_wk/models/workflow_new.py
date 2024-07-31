@@ -53,6 +53,7 @@ class Workflow(models.Model):
     is_in_risk = fields.Boolean(string='is risk state', compute='compute_state', store=True)
     is_in_comm = fields.Boolean(string='is risk state', compute='compute_state_comm', store=True)
     is_in_dga = fields.Boolean(string='is dga state', compute='compute_state_dga', store=True)
+    is_in_tres = fields.Boolean(string='is tres state', compute='compute_state_tres', store=True)
     state_risque = fields.Selection([('risque_1', 'مدير المخاطر'),
                                      ('risque_3', 'المكلف بادارة المخاطر'),
                                      ('risque_4', 'مدير المخاطر'),
@@ -63,6 +64,9 @@ class Workflow(models.Model):
                                          ('commercial_3', 'مدير الاعمال التجارية'),
                                          ('commercial_4', 'انتهاء التحليل'),
                                          ], string='وضعية الملف (في ادارة الاعمال التجارية)')
+
+    limit = fields.Float(string='حد التعرض للمجموعة')
+    plan_ids = fields.One2many('wk.workflow.charge', 'workflow_id', string='Plan des Charges')
 
     def open_report_risk(self):
         for rec in self:
@@ -98,6 +102,15 @@ class Workflow(models.Model):
             else:
                 rec.is_in_dga = False
 
+    @api.depends('states')
+    def compute_state_tres(self):
+        for rec in self:
+            exist = rec.states.filtered(lambda l:l.sequence == 10)
+            if exist:
+                rec.is_in_tres = True
+            else:
+                rec.is_in_tres = False
+
     def is_same_compute(self):
         for rec in self:
             exist = rec.states.filtered(lambda l: l.sequence == 5)
@@ -105,6 +118,12 @@ class Workflow(models.Model):
                 rec.is_in_dga = True
             else:
                 rec.is_in_dga = False
+            exist = rec.states.filtered(lambda l: l.sequence == 10)
+            if exist:
+                rec.is_in_tres = True
+            else:
+                rec.is_in_tres = False
+
             if self.env.user.partner_id.branche:
                 if self.env.user.partner_id.branche == rec.branche:
                     rec.is_same = True
@@ -177,6 +196,7 @@ class Workflow(models.Model):
                            ('model', 'in', ['wk.etape', 'wk.workflow.dashboard'])],
                 'type': 'ir.actions.act_window',
             }
+
 
     def force_final(self):
         for rec in self:

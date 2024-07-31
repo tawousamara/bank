@@ -1,6 +1,22 @@
 from odoo import models, fields, api, _
 
 
+class PlanCharge(models.Model):
+    _name = 'wk.workflow.charge'
+
+    name = fields.Char(string='العميل')
+    contrat_type = fields.Selection([('soumission', 'En soumission'),
+                                     ('attribu', 'Attribué'),
+                                     ('signature', 'En signature'),
+                                     ('realisation', 'En réalisation')],
+                                    string='حالة الصفقة')
+    montant_ht = fields.Float(string='المبلغ H.T KDA')
+    date_debut = fields.Date(string='تاريخ البدء')
+    niveau = fields.Float(string='مستوى الانجاز %')
+    besoin = fields.Float(string='الاحتياجات التمويلية')
+    workflow_id = fields.Many2one('wk.workflow.dashboard')
+
+
 class Agence(models.Model):
     _name = 'wk.agence'
     _description = "Liste des agences de la banque"

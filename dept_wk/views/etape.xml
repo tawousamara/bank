@@ -276,7 +276,7 @@
                                     </field>
                                 </group>
                             </page>
-                            <page string="معلومات حول الشركات ذات الصلة (KDA)">
+                            <page string="معلومات حول الشركات ذات الصلة (KDA)" invisible="sequence == 8">
                                 <field name="companies"
                                        readonly="not can_edit or state_branch != 'branch_3' and sequence not in [1, 8]">
                                     <tree editable="bottom">
