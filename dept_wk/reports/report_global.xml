@@ -2885,11 +2885,11 @@
                                                 <t t-set="ratio_9"
                                                    t-value="etape2.passif_situation.filtered(lambda l:l.sequence == 9)"/>
                                                 <t t-set="ratio_14"
-                                                   t-value="etape.passif_situation.filtered(lambda l:l.sequence == 14)"/>
+                                                   t-value="etape2.passif_situation.filtered(lambda l:l.sequence == 14)"/>
                                                 <t t-set="ratio_16"
-                                                   t-value="etape.passif_situation.filtered(lambda l:l.sequence == 16)"/>
+                                                   t-value="etape2.passif_situation.filtered(lambda l:l.sequence == 16)"/>
                                                 <t t-set="ratio_17"
-                                                   t-value="etape.passif_situation.filtered(lambda l:l.sequence == 17)"/>
+                                                   t-value="etape2.passif_situation.filtered(lambda l:l.sequence == 17)"/>
                                                 <td>
                                                     مجموع المطلوبات (الديون)
                                                 </td>
@@ -2948,11 +2948,11 @@
                                                 <t t-set="ratio_9"
                                                    t-value="etape2.passif_situation_estim.filtered(lambda l:l.sequence == 9)"/>
                                                 <t t-set="ratio_14"
-                                                   t-value="etape.passif_situation_estim.filtered(lambda l:l.sequence == 14)"/>
+                                                   t-value="etape2.passif_situation_estim.filtered(lambda l:l.sequence == 14)"/>
                                                 <t t-set="ratio_16"
-                                                   t-value="etape.passif_situation_estim.filtered(lambda l:l.sequence == 16)"/>
+                                                   t-value="etape2.passif_situation_estim.filtered(lambda l:l.sequence == 16)"/>
                                                 <t t-set="ratio_17"
-                                                   t-value="etape.passif_situation_estim.filtered(lambda l:l.sequence == 17)"/>
+                                                   t-value="etape2.passif_situation_estim.filtered(lambda l:l.sequence == 17)"/>
                                                 <td>
                                                     مجموع المطلوبات (الديون)
                                                 </td>
