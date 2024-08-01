@@ -2888,7 +2888,7 @@
                                                     مجموع المطلوبات (الديون)
                                                 </td>
                                                 <td style="text-align: right; direction: ltr;">
-                                                    <t t-esc="'{0:,.0f}'.format(sum(ratio_2.valeur) / 1000)"/>
+                                                    <t t-esc="'{0:,.0f}'.format(sum(ratio_2.mapped('valeur)) / 1000)"/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -2945,7 +2945,7 @@
                                                     مجموع المطلوبات (الديون)
                                                 </td>
                                                 <td style="text-align: right; direction: ltr;">
-                                                    <t t-esc="'{0:,.0f}'.format(sum(ratio_2.valeur) / 1000)"/>
+                                                    <t t-esc="'{0:,.0f}'.format(sum(ratio_2.mapped('valeur)) / 1000)"/>
                                                 </td>
                                             </tr>
                                             <tr>
