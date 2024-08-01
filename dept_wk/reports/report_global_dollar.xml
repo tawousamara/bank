@@ -4672,7 +4672,7 @@
                             </t>
                             <t t-if="etape2.comite.id in [3, 4]">
                                 <div class="table_deco" style="page-break-inside: avoid;">
-                                    <div class="table_deco" t-if="etape6.recommandation_comite3">
+                                    <div class="table_deco" >
                                         <table class="reversed-table">
                                             <thead>
                                                 <tr>
@@ -4694,7 +4694,7 @@
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td>
+                                                    <td height="200px">
                                                         <t t-esc="etape6.recommandation_comite3"/>
                                                     </td>
                                                 </tr>
@@ -4740,7 +4740,7 @@
                             </t>
                             <t t-if="etape2.comite.id == 4">
                                 <div class="table_deco" style="page-break-inside: avoid;">
-                                    <div class="table_deco" t-if="etape6.recommandation_comite4">
+                                    <div class="table_deco" >
                                         <table class="reversed-table">
                                             <thead>
                                                 <tr>
@@ -4762,7 +4762,7 @@
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td>
+                                                    <td height="200px">
                                                         <t t-esc="etape6.recommandation_comite4"/>
                                                     </td>
                                                 </tr>
