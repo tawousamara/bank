@@ -1904,7 +1904,7 @@
                                                         N.D
                                                     </t>
                                                     <t t-elif="bilan1_first.sequence in [5, 8, 20, 21, 22]">
-                                                        <t t-esc="'{0:,.0f}'.format(bilan1_first.year_1)"/>
+                                                        <t t-esc="'{0:,.2f}'.format(bilan1_first.year_1)"/>
                                                         %
                                                     </t>
                                                     <t t-elif="bilan1_first.sequence in [28, 29, 30]">
@@ -1915,7 +1915,7 @@
                                                         <t t-esc="'{0:,.2f}'.format(bilan1_first.year_1)"/>
                                                     </t>
                                                     <t t-else="">
-                                                        <t t-esc="'{0:,.0f}'.format(bilan1_first.year_1 / 1000)"/>
+                                                        <t t-esc="'{0:,.2f}'.format(bilan1_first.year_1 / 1000)"/>
                                                     </t>
                                                 </td>
                                                 <td style="text-align: right; direction: ltr;"
@@ -1924,7 +1924,7 @@
                                                         N.D
                                                     </t>
                                                     <t t-elif="bilan1_first.sequence in [5, 8, 20, 21, 22]">
-                                                        <t t-esc="'{0:,.0f}'.format(bilan1_first.year_2)"/>
+                                                        <t t-esc="'{0:,.2f}'.format(bilan1_first.year_2)"/>
                                                         %
                                                     </t>
                                                     <t t-elif="bilan1_first.sequence in [28, 29, 30]">
@@ -1935,7 +1935,7 @@
                                                         <t t-esc="'{0:,.2f}'.format(bilan1_first.year_2)"/>
                                                     </t>
                                                     <t t-else="">
-                                                        <t t-esc="'{0:,.0f}'.format(bilan1_first.year_2 / 1000)"/>
+                                                        <t t-esc="'{0:,.2f}'.format(bilan1_first.year_2 / 1000)"/>
                                                     </t>
                                                 </td>
                                                 <td style="text-align: right; direction: ltr;"
@@ -1944,7 +1944,7 @@
                                                         N.D
                                                     </t>
                                                     <t t-elif="bilan1_first.sequence in [5, 8, 20, 21, 22]">
-                                                        <t t-esc="'{0:,.0f}'.format(bilan1_first.year_3)"/>
+                                                        <t t-esc="'{0:,.2f}'.format(bilan1_first.year_3)"/>
                                                         %
                                                     </t>
                                                     <t t-elif="bilan1_first.sequence in [28, 29, 30]">
@@ -1955,7 +1955,7 @@
                                                         <t t-esc="'{0:,.2f}'.format(bilan1_first.year_3)"/>
                                                     </t>
                                                     <t t-else="">
-                                                        <t t-esc="'{0:,.0f}'.format(bilan1_first.year_3 / 1000)"/>
+                                                        <t t-esc="'{0:,.2f}'.format(bilan1_first.year_3 / 1000)"/>
                                                     </t>
                                                 </td>
                                                 <td style="text-align: right; direction: ltr;"
@@ -1964,7 +1964,7 @@
                                                         N.D
                                                     </t>
                                                     <t t-elif="bilan1_first.sequence in [5, 8, 20, 21, 22]">
-                                                        <t t-esc="'{0:,.0f}'.format(bilan1_first.year_4)"/>
+                                                        <t t-esc="'{0:,.2f}'.format(bilan1_first.year_4)"/>
                                                         %
                                                     </t>
                                                     <t t-elif="bilan1_first.sequence in [28, 29, 30]">
@@ -1975,7 +1975,7 @@
                                                         <t t-esc="'{0:,.2f}'.format(bilan1_first.year_4)"/>
                                                     </t>
                                                     <t t-else="">
-                                                        <t t-esc="'{0:,.0f}'.format(bilan1_first.year_4 / 1000)"/>
+                                                        <t t-esc="'{0:,.2f}'.format(bilan1_first.year_4 / 1000)"/>
                                                     </t>
                                                 </td>
                                                 <td style="text-align: right; direction: ltr;">
@@ -1993,7 +1993,7 @@
                                                             N.D
                                                         </t>
                                                         <t t-elif="line.sequence in [5, 8, 20, 21, 22]">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year_1)"/>
+                                                            <t t-esc="'{0:,.2f}'.format(line.year_1)"/>
                                                             %
                                                         </t>
                                                         <t t-elif="line.sequence in [28, 29, 30]">
@@ -2004,7 +2004,7 @@
                                                             <t t-esc="'{0:,.2f}'.format(line.year_1)"/>
                                                         </t>
                                                         <t t-else="">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year_1 / 1000)"/>
+                                                            <t t-esc="'{0:,.2f}'.format(line.year_1 / 1000)"/>
                                                         </t>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;"
@@ -2013,7 +2013,7 @@
                                                             N.D
                                                         </t>
                                                         <t t-elif="line.sequence in [5, 8, 20, 21, 22]">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year_2)"/>
+                                                            <t t-esc="'{0:,.2f}'.format(line.year_2)"/>
                                                             %
                                                         </t>
                                                         <t t-elif="line.sequence in [28, 29, 30]">
@@ -2024,7 +2024,7 @@
                                                             <t t-esc="'{0:,.2f}'.format(line.year_2)"/>
                                                         </t>
                                                         <t t-else="">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year_2 / 1000)"/>
+                                                            <t t-esc="'{0:,.2f}'.format(line.year_2 / 1000)"/>
                                                         </t>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;"
@@ -2033,7 +2033,7 @@
                                                             N.D
                                                         </t>
                                                         <t t-elif="line.sequence in [5, 8, 20, 21, 22]">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year_3)"/>
+                                                            <t t-esc="'{0:,.2f}'.format(line.year_3)"/>
                                                             %
                                                         </t>
                                                         <t t-elif="line.sequence in [28, 29, 30]">
@@ -2044,7 +2044,7 @@
                                                             <t t-esc="'{0:,.2f}'.format(line.year_3)"/>
                                                         </t>
                                                         <t t-else="">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year_3 / 1000)"/>
+                                                            <t t-esc="'{0:,.2f}'.format(line.year_3 / 1000)"/>
                                                         </t>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;"
@@ -2053,7 +2053,7 @@
                                                             N.D
                                                         </t>
                                                         <t t-elif="line.sequence in [5, 8, 20, 21, 22]">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year_4)"/>
+                                                            <t t-esc="'{0:,.2f}'.format(line.year_4)"/>
                                                             %
                                                         </t>
                                                         <t t-elif="line.sequence in [28, 29, 30]">
@@ -2064,7 +2064,7 @@
                                                             <t t-esc="'{0:,.2f}'.format(line.year_4)"/>
                                                         </t>
                                                         <t t-else="">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year_4 / 1000)"/>
+                                                            <t t-esc="'{0:,.2f}'.format(line.year_4 / 1000)"/>
                                                         </t>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;">
@@ -2096,7 +2096,7 @@
                                                         N.D
                                                     </t>
                                                     <t t-elif="bilan2_first.sequence in [5, 8, 20, 21, 22]">
-                                                        <t t-esc="'{0:,.0f}'.format(bilan2_first.year_1)"/>
+                                                        <t t-esc="'{0:,.2f}'.format(bilan2_first.year_1)"/>
                                                         %
                                                     </t>
                                                     <t t-elif="bilan2_first.sequence in [28, 29, 30]">
@@ -2107,7 +2107,7 @@
                                                         <t t-esc="'{0:,.2f}'.format(bilan2_first.year_1)"/>
                                                     </t>
                                                     <t t-else="">
-                                                        <t t-esc="'{0:,.0f}'.format(bilan2_first.year_1 / 1000)"/>
+                                                        <t t-esc="'{0:,.2f}'.format(bilan2_first.year_1 / 1000)"/>
                                                     </t>
                                                 </td>
                                                 <td style="text-align: right; direction: ltr;"
@@ -2116,7 +2116,7 @@
                                                         N.D
                                                     </t>
                                                     <t t-elif="bilan2_first.sequence in [5, 8, 20, 21, 22]">
-                                                        <t t-esc="'{0:,.0f}'.format(bilan2_first.year_3)"/>
+                                                        <t t-esc="'{0:,.2f}'.format(bilan2_first.year_3)"/>
                                                         %
                                                     </t>
                                                     <t t-elif="bilan2_first.sequence in [28, 29, 30]">
@@ -2127,7 +2127,7 @@
                                                         <t t-esc="'{0:,.2f}'.format(bilan2_first.year_3)"/>
                                                     </t>
                                                     <t t-else="">
-                                                        <t t-esc="'{0:,.0f}'.format(bilan2_first.year_2 / 1000)"/>
+                                                        <t t-esc="'{0:,.2f}'.format(bilan2_first.year_2 / 1000)"/>
                                                     </t>
                                                 </td>
                                                 <td style="text-align: right; direction: ltr;"
@@ -2137,7 +2137,7 @@
                                                     </t>
 
                                                     <t t-elif="bilan2_first.sequence in [5, 8, 20, 21, 22]">
-                                                        <t t-esc="'{0:,.0f}'.format(bilan2_first.year_3)"/>
+                                                        <t t-esc="'{0:,.2f}'.format(bilan2_first.year_3)"/>
                                                         %
                                                     </t>
                                                     <t t-elif="bilan2_first.sequence in [28, 29, 30]">
@@ -2148,7 +2148,7 @@
                                                         <t t-esc="'{0:,.2f}'.format(bilan2_first.year_3)"/>
                                                     </t>
                                                     <t t-else="">
-                                                        <t t-esc="'{0:,.0f}'.format(bilan2_first.year_3 / 1000)"/>
+                                                        <t t-esc="'{0:,.2f}'.format(bilan2_first.year_3 / 1000)"/>
                                                     </t>
                                                 </td>
                                                 <td style="text-align: right; direction: ltr;"
@@ -2157,7 +2157,7 @@
                                                         N.D
                                                     </t>
                                                     <t t-elif="bilan2_first.sequence in [5, 8, 20, 21, 22]">
-                                                        <t t-esc="'{0:,.0f}'.format(bilan2_first.year_4)"/>
+                                                        <t t-esc="'{0:,.2f}'.format(bilan2_first.year_4)"/>
                                                         %
                                                     </t>
                                                     <t t-elif="bilan2_first.sequence in [28, 29, 30]">
@@ -2168,7 +2168,7 @@
                                                         <t t-esc="'{0:,.2f}'.format(bilan2_first.year_4)"/>
                                                     </t>
                                                     <t t-else="">
-                                                        <t t-esc="'{0:,.0f}'.format(bilan2_first.year_4 / 1000)"/>
+                                                        <t t-esc="'{0:,.2f}'.format(bilan2_first.year_4 / 1000)"/>
                                                     </t>
                                                 </td>
                                                 <td style="text-align: right; direction: ltr;">
@@ -2186,7 +2186,7 @@
                                                             N.D
                                                         </t>
                                                         <t t-elif="line.sequence in [5, 8, 20, 21, 22]">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year_1)"/>
+                                                            <t t-esc="'{0:,.2f}'.format(line.year_1)"/>
                                                             %
                                                         </t>
                                                         <t t-elif="line.sequence in [28, 29, 30]">
@@ -2197,7 +2197,7 @@
                                                             <t t-esc="'{0:,.2f}'.format(line.year_1)"/>
                                                         </t>
                                                         <t t-else="">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year_1 / 1000)"/>
+                                                            <t t-esc="'{0:,.2f}'.format(line.year_1 / 1000)"/>
                                                         </t>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;"
@@ -2206,7 +2206,7 @@
                                                             N.D
                                                         </t>
                                                         <t t-elif="line.sequence in [5, 8, 20, 21, 22]">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year_2)"/>
+                                                            <t t-esc="'{0:,.2f}'.format(line.year_2)"/>
                                                             %
                                                         </t>
                                                         <t t-elif="line.sequence in [28, 29, 30]">
@@ -2217,7 +2217,7 @@
                                                             <t t-esc="'{0:,.2f}'.format(line.year_2)"/>
                                                         </t>
                                                         <t t-else="">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year_2 / 1000)"/>
+                                                            <t t-esc="'{0:,.2f}'.format(line.year_2 / 1000)"/>
                                                         </t>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;"
@@ -2226,7 +2226,7 @@
                                                             N.D
                                                         </t>
                                                         <t t-elif="line.sequence in [5, 8, 20, 21, 22]">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year_3)"/>
+                                                            <t t-esc="'{0:,.2f}'.format(line.year_3)"/>
                                                             %
                                                         </t>
                                                         <t t-elif="line.sequence in [28, 29, 30]">
@@ -2237,7 +2237,7 @@
                                                             <t t-esc="'{0:,.2f}'.format(line.year_3)"/>
                                                         </t>
                                                         <t t-else="">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year_3 / 1000)"/>
+                                                            <t t-esc="'{0:,.2f}'.format(line.year_3 / 1000)"/>
                                                         </t>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;"
@@ -2246,7 +2246,7 @@
                                                             N.D
                                                         </t>
                                                         <t t-elif="line.sequence in [5, 8, 20, 21, 22]">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year_4)"/>
+                                                            <t t-esc="'{0:,.2f}'.format(line.year_4)"/>
                                                             %
                                                         </t>
                                                         <t t-elif="line.sequence in [28, 29, 30]">
@@ -2257,7 +2257,7 @@
                                                             <t t-esc="'{0:,.2f}'.format(line.year_4)"/>
                                                         </t>
                                                         <t t-else="">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year_4 / 1000)"/>
+                                                            <t t-esc="'{0:,.2f}'.format(line.year_4 / 1000)"/>
                                                         </t>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;">
@@ -2289,7 +2289,7 @@
                                                         N.D
                                                     </t>
                                                     <t t-elif="bilan3_first.sequence in [5, 8, 20, 21, 22]">
-                                                        <t t-esc="'{0:,.0f}'.format(bilan3_first.year_1)"/>
+                                                        <t t-esc="'{0:,.2f}'.format(bilan3_first.year_1)"/>
                                                         %
                                                     </t>
                                                     <t t-elif="bilan3_first.sequence in [28, 29, 30]">
@@ -2300,7 +2300,7 @@
                                                         <t t-esc="'{0:,.2f}'.format(bilan3_first.year_1)"/>
                                                     </t>
                                                     <t t-else="">
-                                                        <t t-esc="'{0:,.0f}'.format(bilan3_first.year_1 / 1000)"/>
+                                                        <t t-esc="'{0:,.2f}'.format(bilan3_first.year_1 / 1000)"/>
                                                     </t>
                                                 </td>
                                                 <td style="text-align: right; direction: ltr;"
@@ -2309,7 +2309,7 @@
                                                         N.D
                                                     </t>
                                                     <t t-elif="bilan3_first.sequence in [5, 8, 20, 21, 22]">
-                                                        <t t-esc="'{0:,.0f}'.format(bilan3_first.year_2)"/>
+                                                        <t t-esc="'{0:,.2f}'.format(bilan3_first.year_2)"/>
                                                         %
                                                     </t>
                                                     <t t-elif="bilan3_first.sequence in [28, 29, 30]">
@@ -2320,7 +2320,7 @@
                                                         <t t-esc="'{0:,.2f}'.format(bilan3_first.year_2)"/>
                                                     </t>
                                                     <t t-else="">
-                                                        <t t-esc="'{0:,.0f}'.format(bilan3_first.year_2 / 1000)"/>
+                                                        <t t-esc="'{0:,.2f}'.format(bilan3_first.year_2 / 1000)"/>
                                                     </t>
                                                 </td>
                                                 <td style="text-align: right; direction: ltr;"
@@ -2329,7 +2329,7 @@
                                                         N.D
                                                     </t>
                                                     <t t-elif="bilan3_first.sequence in [5, 8, 20, 21, 22]">
-                                                        <t t-esc="'{0:,.0f}'.format(bilan3_first.year_3)"/>
+                                                        <t t-esc="'{0:,.2f}'.format(bilan3_first.year_3)"/>
                                                         %
                                                     </t>
                                                     <t t-elif="bilan3_first.sequence in [28, 29, 30]">
@@ -2340,7 +2340,7 @@
                                                         <t t-esc="'{0:,.2f}'.format(bilan3_first.year_3)"/>
                                                     </t>
                                                     <t t-else="">
-                                                        <t t-esc="'{0:,.0f}'.format(bilan3_first.year_3 / 1000)"/>
+                                                        <t t-esc="'{0:,.2f}'.format(bilan3_first.year_3 / 1000)"/>
                                                     </t>
                                                 </td>
                                                 <td style="text-align: right; direction: ltr;"
@@ -2349,7 +2349,7 @@
                                                         N.D
                                                     </t>
                                                     <t t-elif="bilan3_first.sequence in [5, 8, 20, 21, 22]">
-                                                        <t t-esc="'{0:,.0f}'.format(bilan3_first.year_4)"/>
+                                                        <t t-esc="'{0:,.2f}'.format(bilan3_first.year_4)"/>
                                                         %
                                                     </t>
                                                     <t t-elif="bilan3_first.sequence in [28, 29, 30]">
@@ -2360,7 +2360,7 @@
                                                         <t t-esc="'{0:,.2f}'.format(bilan3_first.year_4)"/>
                                                     </t>
                                                     <t t-else="">
-                                                        <t t-esc="'{0:,.0f}'.format(bilan3_first.year_4 / 1000)"/>
+                                                        <t t-esc="'{0:,.2f}'.format(bilan3_first.year_4 / 1000)"/>
                                                     </t>
                                                 </td>
                                                 <td style="text-align: right; direction: ltr;">
@@ -2378,7 +2378,7 @@
                                                             N.D
                                                         </t>
                                                         <t t-elif="line.sequence in [5, 8, 20, 21, 22]">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year_1)"/>
+                                                            <t t-esc="'{0:,.2f}'.format(line.year_1)"/>
                                                             %
                                                         </t>
                                                         <t t-elif="line.sequence in [28, 29, 30]">
@@ -2389,7 +2389,7 @@
                                                             <t t-esc="'{0:,.2f}'.format(line.year_1)"/>
                                                         </t>
                                                         <t t-else="">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year_1 / 1000)"/>
+                                                            <t t-esc="'{0:,.2f}'.format(line.year_1 / 1000)"/>
                                                         </t>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;"
@@ -2398,7 +2398,7 @@
                                                             N.D
                                                         </t>
                                                         <t t-elif="line.sequence in [5, 8, 20, 21, 22]">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year_2)"/>
+                                                            <t t-esc="'{0:,.2f}'.format(line.year_2)"/>
                                                             %
                                                         </t>
                                                         <t t-elif="line.sequence in [28, 29, 30]">
@@ -2409,7 +2409,7 @@
                                                             <t t-esc="'{0:,.2f}'.format(line.year_2)"/>
                                                         </t>
                                                         <t t-else="">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year_2 / 1000)"/>
+                                                            <t t-esc="'{0:,.2f}'.format(line.year_2 / 1000)"/>
                                                         </t>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;"
@@ -2418,7 +2418,7 @@
                                                             N.D
                                                         </t>
                                                         <t t-elif="line.sequence in [5, 8, 20, 21, 22]">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year_3)"/>
+                                                            <t t-esc="'{0:,.2f}'.format(line.year_3)"/>
                                                             %
                                                         </t>
                                                         <t t-elif="line.sequence in [28, 29, 30]">
@@ -2429,7 +2429,7 @@
                                                             <t t-esc="'{0:,.2f}'.format(line.year_3)"/>
                                                         </t>
                                                         <t t-else="">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year_3 / 1000)"/>
+                                                            <t t-esc="'{0:,.2f}'.format(line.year_3 / 1000)"/>
                                                         </t>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;"
@@ -2438,7 +2438,7 @@
                                                             N.D
                                                         </t>
                                                         <t t-elif="line.sequence in [5, 8, 20, 21, 22]">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year_4)"/>
+                                                            <t t-esc="'{0:,.2f}'.format(line.year_4)"/>
                                                             %
                                                         </t>
                                                         <t t-elif="line.sequence in [28, 29, 30]">
@@ -2449,7 +2449,7 @@
                                                             <t t-esc="'{0:,.2f}'.format(line.year_4)"/>
                                                         </t>
                                                         <t t-else="">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year_4 / 1000)"/>
+                                                            <t t-esc="'{0:,.2f}'.format(line.year_4 / 1000)"/>
                                                         </t>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;">
@@ -2481,7 +2481,7 @@
                                                         N.D
                                                     </t>
                                                     <t t-elif="bilan4_first.sequence in [5, 8, 20, 21, 22]">
-                                                        <t t-esc="'{0:,.0f}'.format(bilan4_first.year_1)"/>
+                                                        <t t-esc="'{0:,.2f}'.format(bilan4_first.year_1)"/>
                                                         %
                                                     </t>
                                                     <t t-elif="bilan4_first.sequence in [28, 29, 30]">
@@ -2492,7 +2492,7 @@
                                                         <t t-esc="'{0:,.2f}'.format(bilan4_first.year_1)"/>
                                                     </t>
                                                     <t t-else="">
-                                                        <t t-esc="'{0:,.0f}'.format(bilan4_first.year_1 / 1000)"/>
+                                                        <t t-esc="'{0:,.2f}'.format(bilan4_first.year_1 / 1000)"/>
                                                     </t>
                                                 </td>
                                                 <td style="text-align: right; direction: ltr;"
@@ -2501,7 +2501,7 @@
                                                         N.D
                                                     </t>
                                                     <t t-elif="bilan4_first.sequence in [5, 8, 20, 21, 22]">
-                                                        <t t-esc="'{0:,.0f}'.format(bilan4_first.year_2)"/>
+                                                        <t t-esc="'{0:,.2f}'.format(bilan4_first.year_2)"/>
                                                         %
                                                     </t>
                                                     <t t-elif="bilan4_first.sequence in [28, 29, 30]">
@@ -2512,7 +2512,7 @@
                                                         <t t-esc="'{0:,.2f}'.format(bilan4_first.year_2)"/>
                                                     </t>
                                                     <t t-else="">
-                                                        <t t-esc="'{0:,.0f}'.format(bilan4_first.year_2 / 1000)"/>
+                                                        <t t-esc="'{0:,.2f}'.format(bilan4_first.year_2 / 1000)"/>
                                                     </t>
                                                 </td>
                                                 <td style="text-align: right; direction: ltr;"
@@ -2521,7 +2521,7 @@
                                                         N.D
                                                     </t>
                                                     <t t-elif="bilan4_first.sequence in [5, 8, 20, 21, 22]">
-                                                        <t t-esc="'{0:,.0f}'.format(bilan4_first.year_3)"/>
+                                                        <t t-esc="'{0:,.2f}'.format(bilan4_first.year_3)"/>
                                                         %
                                                     </t>
                                                     <t t-elif="bilan4_first.sequence in [28, 29, 30]">
@@ -2532,7 +2532,7 @@
                                                         <t t-esc="'{0:,.2f}'.format(bilan4_first.year_3)"/>
                                                     </t>
                                                     <t t-else="">
-                                                        <t t-esc="'{0:,.0f}'.format(bilan4_first.year_3 / 1000)"/>
+                                                        <t t-esc="'{0:,.2f}'.format(bilan4_first.year_3 / 1000)"/>
                                                     </t>
                                                 </td>
                                                 <td style="text-align: right; direction: ltr;"
@@ -2541,7 +2541,7 @@
                                                         N.D
                                                     </t>
                                                     <t t-elif="bilan4_first.sequence in [5, 8, 20, 21, 22]">
-                                                        <t t-esc="'{0:,.0f}'.format(bilan4_first.year_4)"/>
+                                                        <t t-esc="'{0:,.2f}'.format(bilan4_first.year_4)"/>
                                                         %
                                                     </t>
                                                     <t t-elif="bilan4_first.sequence in [28, 29, 30]">
@@ -2552,7 +2552,7 @@
                                                         <t t-esc="'{0:,.2f}'.format(bilan4_first.year_4)"/>
                                                     </t>
                                                     <t t-else="">
-                                                        <t t-esc="'{0:,.0f}'.format(bilan4_first.year_4 / 1000)"/>
+                                                        <t t-esc="'{0:,.2f}'.format(bilan4_first.year_4 / 1000)"/>
                                                     </t>
                                                 </td>
                                                 <td style="text-align: right; direction: ltr;">
@@ -2570,7 +2570,7 @@
                                                             N.D
                                                         </t>
                                                         <t t-elif="line.sequence in [5, 8, 20, 21, 22]">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year_1)"/>
+                                                            <t t-esc="'{0:,.2f}'.format(line.year_1)"/>
                                                             %
                                                         </t>
                                                         <t t-elif="line.sequence in [28, 29, 30]">
@@ -2581,7 +2581,7 @@
                                                             <t t-esc="'{0:,.2f}'.format(line.year_1)"/>
                                                         </t>
                                                         <t t-else="">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year_1 / 1000)"/>
+                                                            <t t-esc="'{0:,.2f}'.format(line.year_1 / 1000)"/>
                                                         </t>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;"
@@ -2590,7 +2590,7 @@
                                                             N.D
                                                         </t>
                                                         <t t-elif="line.sequence in [5, 8, 20, 21, 22]">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year_2)"/>
+                                                            <t t-esc="'{0:,.2f}'.format(line.year_2)"/>
                                                             %
                                                         </t>
                                                         <t t-elif="line.sequence in [28, 29, 30]">
@@ -2601,7 +2601,7 @@
                                                             <t t-esc="'{0:,.2f}'.format(line.year_2)"/>
                                                         </t>
                                                         <t t-else="">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year_2 / 1000)"/>
+                                                            <t t-esc="'{0:,.2f}'.format(line.year_2 / 1000)"/>
                                                         </t>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;"
@@ -2610,7 +2610,7 @@
                                                             N.D
                                                         </t>
                                                         <t t-elif="line.sequence in [5, 8, 20, 21, 22]">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year_3)"/>
+                                                            <t t-esc="'{0:,.2f}'.format(line.year_3)"/>
                                                             %
                                                         </t>
                                                         <t t-elif="line.sequence in [28, 29, 30]">
@@ -2621,7 +2621,7 @@
                                                             <t t-esc="'{0:,.2f}'.format(line.year_3)"/>
                                                         </t>
                                                         <t t-else="">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year_3 / 1000)"/>
+                                                            <t t-esc="'{0:,.2f}'.format(line.year_3 / 1000)"/>
                                                         </t>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;"
@@ -2630,7 +2630,7 @@
                                                             N.D
                                                         </t>
                                                         <t t-elif="line.sequence in [5, 8, 20, 21, 22]">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year_4)"/>
+                                                            <t t-esc="'{0:,.2f}'.format(line.year_4)"/>
                                                             %
                                                         </t>
                                                         <t t-elif="line.sequence in [28, 29, 30]">
@@ -2641,7 +2641,7 @@
                                                             <t t-esc="'{0:,.2f}'.format(line.year_4)"/>
                                                         </t>
                                                         <t t-else="">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year_4 / 1000)"/>
+                                                            <t t-esc="'{0:,.2f}'.format(line.year_4 / 1000)"/>
                                                         </t>
 
                                                     </td>
@@ -2674,7 +2674,7 @@
                                                         N.D
                                                     </t>
                                                     <t t-elif="bilan5_first.sequence in [5, 8, 20, 21, 22]">
-                                                        <t t-esc="'{0:,.0f}'.format(bilan5_first.year_1)"/>
+                                                        <t t-esc="'{0:,.2f}'.format(bilan5_first.year_1)"/>
                                                         %
                                                     </t>
                                                     <t t-elif="bilan5_first.sequence in [28, 29, 30]">
@@ -2685,7 +2685,7 @@
                                                         <t t-esc="'{0:,.2f}'.format(bilan5_first.year_1)"/>
                                                     </t>
                                                     <t t-else="">
-                                                        <t t-esc="'{0:,.0f}'.format(bilan5_first.year_1 / 1000)"/>
+                                                        <t t-esc="'{0:,.2f}'.format(bilan5_first.year_1 / 1000)"/>
                                                     </t>
                                                 </td>
                                                 <td style="text-align: right; direction: ltr;"
@@ -2694,7 +2694,7 @@
                                                         N.D
                                                     </t>
                                                     <t t-elif="bilan5_first.sequence in [5, 8, 20, 21, 22]">
-                                                        <t t-esc="'{0:,.0f}'.format(bilan5_first.year_2)"/>
+                                                        <t t-esc="'{0:,.2f}'.format(bilan5_first.year_2)"/>
                                                         %
                                                     </t>
                                                     <t t-elif="bilan5_first.sequence in [28, 29, 30]">
@@ -2705,7 +2705,7 @@
                                                         <t t-esc="'{0:,.2f}'.format(bilan5_first.year_2)"/>
                                                     </t>
                                                     <t t-else="">
-                                                        <t t-esc="'{0:,.0f}'.format(bilan5_first.year_2 / 1000)"/>
+                                                        <t t-esc="'{0:,.2f}'.format(bilan5_first.year_2 / 1000)"/>
                                                     </t>
                                                 </td>
                                                 <td style="text-align: right; direction: ltr;"
@@ -2714,7 +2714,7 @@
                                                         N.D
                                                     </t>
                                                     <t t-elif="bilan5_first.sequence in [5, 8, 20, 21, 22]">
-                                                        <t t-esc="'{0:,.0f}'.format(bilan5_first.year_3)"/>
+                                                        <t t-esc="'{0:,.2f}'.format(bilan5_first.year_3)"/>
                                                         %
                                                     </t>
                                                     <t t-elif="bilan5_first.sequence in [28, 29, 30]">
@@ -2725,7 +2725,7 @@
                                                         <t t-esc="'{0:,.2f}'.format(bilan5_first.year_3)"/>
                                                     </t>
                                                     <t t-else="">
-                                                        <t t-esc="'{0:,.0f}'.format(bilan5_first.year_3 / 1000)"/>
+                                                        <t t-esc="'{0:,.2f}'.format(bilan5_first.year_3 / 1000)"/>
                                                     </t>
                                                 </td>
                                                 <td style="text-align: right; direction: ltr;"
@@ -2734,7 +2734,7 @@
                                                         N.D
                                                     </t>
                                                     <t t-elif="bilan5_first.sequence in [5, 8, 20, 21, 22]">
-                                                        <t t-esc="'{0:,.0f}'.format(bilan5_first.year_4)"/>
+                                                        <t t-esc="'{0:,.2f}'.format(bilan5_first.year_4)"/>
                                                         %
                                                     </t>
                                                     <t t-elif="bilan5_first.sequence in [28, 29, 30]">
@@ -2745,7 +2745,7 @@
                                                         <t t-esc="'{0:,.2f}'.format(bilan5_first.year_4)"/>
                                                     </t>
                                                     <t t-else="">
-                                                        <t t-esc="'{0:,.0f}'.format(bilan5_first.year_4 / 1000)"/>
+                                                        <t t-esc="'{0:,.2f}'.format(bilan5_first.year_4 / 1000)"/>
                                                     </t>
                                                 </td>
                                                 <td style="text-align: right; direction: ltr;">
@@ -2763,7 +2763,7 @@
                                                             N.D
                                                         </t>
                                                         <t t-elif="line.sequence in [5, 8, 20, 21, 22]">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year_1)"/>
+                                                            <t t-esc="'{0:,.2f}'.format(line.year_1)"/>
                                                             %
                                                         </t>
                                                         <t t-elif="line.sequence in [28, 29, 30]">
@@ -2775,7 +2775,7 @@
                                                             <t t-esc="'{0:,.2f}'.format(line.year_1)"/>
                                                         </t>
                                                         <t t-else="">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year_1 / 1000)"/>
+                                                            <t t-esc="'{0:,.2f}'.format(line.year_1 / 1000)"/>
                                                         </t>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;"
@@ -2784,7 +2784,7 @@
                                                             N.D
                                                         </t>
                                                         <t t-elif="line.sequence in [5, 8, 20, 21, 22]">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year_2)"/>
+                                                            <t t-esc="'{0:,.2f}'.format(line.year_2)"/>
                                                             %
                                                         </t>
                                                         <t t-elif="line.sequence in [28, 29, 30]">
@@ -2795,7 +2795,7 @@
                                                             <t t-esc="'{0:,.2f}'.format(line.year_2)"/>
                                                         </t>
                                                         <t t-else="">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year_2 / 1000)"/>
+                                                            <t t-esc="'{0:,.2f}'.format(line.year_2 / 1000)"/>
                                                         </t>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;"
@@ -2804,7 +2804,7 @@
                                                             N.D
                                                         </t>
                                                         <t t-elif="line.sequence in [5, 8, 20, 21, 22]">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year_3)"/>
+                                                            <t t-esc="'{0:,.2f}'.format(line.year_3)"/>
                                                             %
                                                         </t>
                                                         <t t-elif="line.sequence in [28, 29, 30]">
@@ -2815,7 +2815,7 @@
                                                             <t t-esc="'{0:,.2f}'.format(line.year_3)"/>
                                                         </t>
                                                         <t t-else="">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year_3 / 1000)"/>
+                                                            <t t-esc="'{0:,.2f}'.format(line.year_3 / 1000)"/>
                                                         </t>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;"
@@ -2835,7 +2835,7 @@
                                                             <t t-esc="'{0:,.2f}'.format(line.year_4)"/>
                                                         </t>
                                                         <t t-else="">
-                                                            <t t-esc="'{0:,.0f}'.format(line.year_4 / 1000)"/>
+                                                            <t t-esc="'{0:,.2f}'.format(line.year_4 / 1000)"/>
                                                         </t>
                                                     </td>
                                                     <td style="text-align: right; direction: ltr;">
@@ -2878,7 +2878,7 @@
                                                     حقوق الملكية
                                                 </td>
                                                 <td style="text-align: right; direction: ltr;">
-                                                    <t t-esc="'{0:,.0f}'.format(ratio_1.valeur / 1000)"/>
+                                                    <t t-esc="'{0:,.2f}'.format(ratio_1.valeur / 1000)"/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -2894,7 +2894,7 @@
                                                     مجموع المطلوبات (الديون)
                                                 </td>
                                                 <td style="text-align: right; direction: ltr;">
-                                                    <t t-esc="'{0:,.0f}'.format((ratio_9.valeur + ratio_14.valeur +ratio_16.valeur +ratio_17.valeur) / 1000)"/>
+                                                    <t t-esc="'{0:,.2f}'.format((ratio_9.valeur + ratio_14.valeur +ratio_16.valeur +ratio_17.valeur) / 1000)"/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -2904,7 +2904,7 @@
                                                     (المبيعات، الإيرادات)
                                                 </td>
                                                 <td style="text-align: right; direction: ltr;">
-                                                    <t t-esc="'{0:,.0f}'.format(ratio_3.valeur / 1000)"/>
+                                                    <t t-esc="'{0:,.2f}'.format(ratio_3.valeur / 1000)"/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -2914,7 +2914,7 @@
                                                     صافي الأرباح
                                                 </td>
                                                 <td style="text-align: right; direction: ltr;">
-                                                    <t t-esc="'{0:,.0f}'.format(ratio_4.valeur / 1000)"/>
+                                                    <t t-esc="'{0:,.2f}'.format(ratio_4.valeur / 1000)"/>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -2941,7 +2941,7 @@
                                                     حقوق الملكية
                                                 </td>
                                                 <td style="text-align: right; direction: ltr;">
-                                                    <t t-esc="'{0:,.0f}'.format(ratio_1.valeur / 1000)"/>
+                                                    <t t-esc="'{0:,.2f}'.format(ratio_1.valeur / 1000)"/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -2957,7 +2957,7 @@
                                                     مجموع المطلوبات (الديون)
                                                 </td>
                                                 <td style="text-align: right; direction: ltr;">
-                                                    <t t-esc="'{0:,.0f}'.format((ratio_9.valeur + ratio_14.valeur +ratio_16.valeur +ratio_17.valeur) / 1000)"/>
+                                                    <t t-esc="'{0:,.2f}'.format((ratio_9.valeur + ratio_14.valeur +ratio_16.valeur +ratio_17.valeur) / 1000)"/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -2967,7 +2967,7 @@
                                                     (المبيعات، الإيرادات)
                                                 </td>
                                                 <td style="text-align: right; direction: ltr;">
-                                                    <t t-esc="'{0:,.0f}'.format(ratio_3.valeur / 1000)"/>
+                                                    <t t-esc="'{0:,.2f}'.format(ratio_3.valeur / 1000)"/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -2977,7 +2977,7 @@
                                                     صافي الأرباح
                                                 </td>
                                                 <td style="text-align: right; direction: ltr;">
-                                                    <t t-esc="'{0:,.0f}'.format(ratio_4.valeur / 1000)"/>
+                                                    <t t-esc="'{0:,.2f}'.format(ratio_4.valeur / 1000)"/>
                                                 </td>
                                             </tr>
                                         </tbody>
