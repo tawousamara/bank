@@ -1415,6 +1415,10 @@
                                    readonly="not can_edit or state_comite != 'comite_1'"/>
                             <field name="recommandation_fin_comite"
                                    readonly="not can_edit or state_comite != 'comite_1'"/>
+                            <field name="recommandation_comite3"
+                                   readonly="not can_edit or state_comite != 'comite_1'"/>
+                            <field name="recommandation_comite4"
+                                   readonly="not can_edit or state_comite != 'comite_1'"/>
                         </group>
                     </div>
                     <button type="object" name="validate_information" string="تأكيد المعلومات"

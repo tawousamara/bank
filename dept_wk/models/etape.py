@@ -538,6 +538,8 @@ class Etape(models.Model):
                                      ], track_visibility='always', string='وضعية الملف')
 
     recommandation_fin_comite = fields.Html(string='توصية/قرار لجنة التسهيلات')
+    recommandation_comite3 = fields.Html(string='توصية/قرار لجنة التمويلات')
+    recommandation_comite4 = fields.Html(string='قرار مجلس الادارة')
 
     # Extra fields
     raison_a_revoir = fields.Html(string='سبب طلب المراجعة')
@@ -3064,11 +3066,10 @@ class Etape(models.Model):
                     bilan_12.is_null_2 = True
                 if bilan_11.year_4 == 0:
                     bilan_12.is_null_1 = True
-
-                bilan_12.write({'year_4': bilan_10.year_4 / bilan_11.year_4 if bilan_11.year_4 != 0 else 0,
-                                'year_3': bilan_10.year_3 / bilan_11.year_3 if bilan_11.year_3 != 0 else 0,
-                                'year_2': bilan_10.year_2 / bilan_11.year_2 if bilan_11.year_2 != 0 else 0,
-                                'year_1': bilan_10.year_1 / bilan_11.year_1 if bilan_11.year_1 != 0 else 0,
+                bilan_12.write({'year_4': (bilan_10.year_4 / bilan_11.year_4) * 100 if bilan_11.year_4 != 0 else 0,
+                                'year_3': (bilan_10.year_3 / bilan_11.year_3) * 100 if bilan_11.year_3 != 0 else 0,
+                                'year_2': (bilan_10.year_2 / bilan_11.year_2) * 100 if bilan_11.year_2 != 0 else 0,
+                                'year_1': (bilan_10.year_1 / bilan_11.year_1) * 100 if bilan_11.year_1 != 0 else 0,
                                 })
                 # مجموع المطلوبات Passif - Total II + Total III
                 bilan_13 = rec.bilan_id.filtered(lambda r: r.sequence == 9)
