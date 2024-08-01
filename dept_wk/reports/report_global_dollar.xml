@@ -2494,7 +2494,7 @@
                                                         %
                                                     </t>
                                                     <t t-elif="bilan2_first.sequence in [28, 29, 30]">
-                                                        <t t-esc="'{0:,.0f}'.format(bilan2_first.year_4"/>
+                                                        <t t-esc="'{0:,.0f}'.format(bilan2_first.year_4)"/>
                                                         يوم
                                                     </t>
                                                     <t t-elif="bilan2_first.sequence in [14, 15, 24, 25]">
