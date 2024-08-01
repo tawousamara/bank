@@ -974,9 +974,9 @@
                         </group>
                         <notebook invisible="state_finance == 'finance_1' or sequence != 2">
                             <page string="البيانات المالية للشركة (KDA)">
-                                <group string="مؤشرات البنية المالية">
-                                    <field name="bilan1_id">
+                                <field name="bilan_id">
                                         <tree editable="bottom" create="0" delete="0">
+                                            <field name="sequence"/>
                                             <field name="declaration" readonly="1"
                                                    decoration-bf="sequence == 0"/>
                                             <field name="year_1" readonly="sequence != 0"
@@ -997,7 +997,39 @@
                                                    decoration-bf="sequence == 0" decoration-danger="is_null_1 == True"/>
                                             <field name="variante" readonly="sequence == 0" widget="percentage"
                                                    decoration-bf="sequence == 0" invisible="sequence == 0"/>
-                                            <field name="sequence" column_invisible="True"/>
+                                            <field name="is_null_1" column_invisible="True"/>
+                                            <field name="is_null_2" column_invisible="True"/>
+                                            <field name="is_null_3" column_invisible="True"/>
+                                            <field name="is_null_4" column_invisible="True"/>
+                                        </tree>
+                                    </field>
+                            </page>
+                            <page string="البيانات المالية للشركة (KDA)">
+                                <group string="مؤشرات البنية المالية">
+                                    <field name="bilan1_id">
+                                        <tree editable="bottom" create="0" delete="0">
+                                            <field name="sequence"/>
+                                            <field name="declaration" readonly="1"
+                                                   decoration-bf="sequence == 0"/>
+                                            <field name="year_1" readonly="sequence != 0"
+                                                   decoration-bf="sequence == 0" decoration-danger="is_null_1 == True"/>
+                                            <field name="year_1_d" readonly="sequence != 0" optional="hide"
+                                                   decoration-bf="sequence == 0" decoration-danger="is_null_1 == True"/>
+                                            <field name="year_2" readonly="sequence != 0"
+                                                   decoration-bf="sequence == 0" decoration-danger="is_null_2 == True"/>
+                                            <field name="year_2_d" readonly="sequence != 0" optional="hide"
+                                                   decoration-bf="sequence == 0" decoration-danger="is_null_1 == True"/>
+                                            <field name="year_3" readonly="sequence != 0"
+                                                   decoration-bf="sequence == 0" decoration-danger="is_null_3 == True"/>
+                                            <field name="year_3_d" readonly="sequence != 0" optional="hide"
+                                                   decoration-bf="sequence == 0" decoration-danger="is_null_1 == True"/>
+                                            <field name="year_4" readonly="sequence != 0"
+                                                   decoration-bf="sequence == 0" decoration-danger="is_null_4 == True"/>
+                                            <field name="year_4_d" readonly="sequence != 0" optional="hide"
+                                                   decoration-bf="sequence == 0" decoration-danger="is_null_1 == True"/>
+                                            <field name="variante" readonly="sequence == 0" widget="percentage"
+                                                   decoration-bf="sequence == 0" invisible="sequence == 0"/>
+
                                             <field name="compute_field" column_invisible="True"/>
                                             <field name="is_null_1" column_invisible="True"/>
                                             <field name="is_null_2" column_invisible="True"/>
@@ -1013,6 +1045,7 @@
                                 <group string="مؤشرات المديونية">
                                     <field name="bilan2_id">
                                         <tree editable="bottom" create="0" delete="0">
+                                            <field name="sequence"/>
                                             <field name="declaration" readonly="1"
                                                    decoration-bf="sequence == 0"/>
                                             <field name="year_1" readonly="sequence != 0"
@@ -1033,7 +1066,7 @@
                                                    decoration-bf="sequence == 0" decoration-danger="is_null_1 == True"/>
                                             <field name="variante" readonly="sequence == 0" widget="percentage"
                                                    decoration-bf="sequence == 0" invisible="sequence == 0"/>
-                                            <field name="sequence" column_invisible="True"/>
+
                                             <field name="compute_field" column_invisible="True"/>
                                             <field name="is_null_1" column_invisible="True"/>
                                             <field name="is_null_2" column_invisible="True"/>
@@ -1049,6 +1082,7 @@
                                 <group string="مؤشرات المردودية">
                                     <field name="bilan3_id">
                                         <tree editable="bottom" create="0" delete="0">
+                                            <field name="sequence"/>
                                             <field name="declaration" readonly="1"
                                                    decoration-bf="sequence == 0"/>
                                             <field name="year_1" readonly="sequence != 0"
@@ -1067,7 +1101,7 @@
                                                    decoration-bf="sequence == 0" decoration-danger="is_null_4 == True"/>
                                             <field name="year_4_d" readonly="sequence != 0" optional="hide"
                                                    decoration-bf="sequence == 0" decoration-danger="is_null_1 == True"/>
-                                            <field name="sequence" column_invisible="True"/>
+
                                             <field name="compute_field" column_invisible="True"/>
                                             <field name="is_null_1" column_invisible="True"/>
                                             <field name="is_null_2" column_invisible="True"/>
@@ -1083,6 +1117,7 @@
                                 <group string="مؤشرات السيولة">
                                     <field name="bilan4_id">
                                         <tree editable="bottom" create="0" delete="0">
+                                            <field name="sequence"/>
                                             <field name="declaration" readonly="1"
                                                    decoration-bf="sequence == 0"/>
                                             <field name="year_1" readonly="sequence != 0"
@@ -1103,7 +1138,7 @@
                                                    decoration-bf="sequence == 0" decoration-danger="is_null_1 == True"/>
                                             <field name="variante" readonly="sequence == 0" widget="percentage"
                                                    decoration-bf="sequence == 0" invisible="sequence == 0"/>
-                                            <field name="sequence" column_invisible="True"/>
+
                                             <field name="compute_field" column_invisible="True"/>
                                             <field name="is_null_1" column_invisible="True"/>
                                             <field name="is_null_2" column_invisible="True"/>
@@ -1119,6 +1154,7 @@
                                 <group string="مؤشرات النشاط">
                                     <field name="bilan5_id">
                                         <tree editable="bottom" create="0" delete="0">
+                                            <field name="sequence"/>
                                             <field name="declaration" readonly="1"
                                                    decoration-bf="sequence == 0"/>
                                             <field name="year_1" readonly="sequence != 0"
@@ -1139,7 +1175,7 @@
                                                    decoration-bf="sequence == 0" decoration-danger="is_null_1 == True"/>
                                             <field name="variante" readonly="sequence == 0" widget="percentage"
                                                    decoration-bf="sequence == 0" invisible="sequence == 0"/>
-                                            <field name="sequence" column_invisible="True"/>
+
                                             <field name="is_null_1" column_invisible="True"/>
                                             <field name="is_null_2" column_invisible="True"/>
                                             <field name="is_null_3" column_invisible="True"/>

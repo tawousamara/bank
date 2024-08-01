@@ -123,7 +123,6 @@ class Workflow(models.Model):
                 rec.is_in_tres = True
             else:
                 rec.is_in_tres = False
-
             if self.env.user.partner_id.branche:
                 if self.env.user.partner_id.branche == rec.branche:
                     rec.is_same = True

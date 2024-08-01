@@ -477,6 +477,13 @@ class BilanFisc(models.Model):
                 rec.year_2_d = rec.year_2
                 rec.year_3_d = rec.year_3
                 rec.year_4_d = rec.year_4
+    @api.model
+    def unlink(self):
+        for rec in self:
+            in_view = self.env[f'wk.bilan.cat{rec.categorie}'].search([('bilan', '=', rec.id)])
+            print(in_view)
+            in_view.unlink()
+            return super(BilanFisc, self).unlink()
 
 
 class BilanCateg1(models.Model):
@@ -513,6 +520,7 @@ class BilanCateg1(models.Model):
             if not rec.bilan:
                 rec.compute_field = False
             else:
+                rec.sequence = rec.bilan.sequence
                 rec.year_1 = rec.bilan.year_1
                 rec.year_2 = rec.bilan.year_2
                 rec.year_3 = rec.bilan.year_3
@@ -575,6 +583,7 @@ class BilanCateg2(models.Model):
             if not rec.bilan:
                 rec.compute_field = False
             else:
+                rec.sequence = rec.bilan.sequence
                 rec.year_1 = rec.bilan.year_1
                 rec.year_2 = rec.bilan.year_2
                 rec.year_3 = rec.bilan.year_3
@@ -649,6 +658,7 @@ class BilanCateg3(models.Model):
             if not rec.bilan:
                 rec.compute_field = False
             else:
+                rec.sequence = rec.bilan.sequence
                 rec.year_1 = rec.bilan.year_1
                 rec.year_2 = rec.bilan.year_2
                 rec.year_3 = rec.bilan.year_3
@@ -711,6 +721,7 @@ class BilanCateg4(models.Model):
             if not rec.bilan:
                 rec.compute_field = False
             else:
+                rec.sequence = rec.bilan.sequence
                 rec.year_1 = rec.bilan.year_1
                 rec.year_2 = rec.bilan.year_2
                 rec.year_3 = rec.bilan.year_3
@@ -773,6 +784,7 @@ class BilanCateg5(models.Model):
             if not rec.bilan:
                 rec.compute_field = False
             else:
+                rec.sequence = rec.bilan.sequence
                 rec.year_1 = rec.bilan.year_1
                 rec.year_2 = rec.bilan.year_2
                 rec.year_3 = rec.bilan.year_3
