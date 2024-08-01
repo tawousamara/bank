@@ -2882,13 +2882,19 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <t t-set="ratio_2"
-                                                   t-value="etape2.passif_situation.filtered(lambda l:l.sequence in [9, 14, 16, 17])"/>
+                                                <t t-set="ratio_9"
+                                                   t-value="etape2.passif_situation.filtered(lambda l:l.sequence == 9)"/>
+                                                <t t-set="ratio_14"
+                                                   t-value="etape.passif_situation.filtered(lambda l:l.sequence == 14)"/>
+                                                <t t-set="ratio_16"
+                                                   t-value="etape.passif_situation.filtered(lambda l:l.sequence == 16)"/>
+                                                <t t-set="ratio_17"
+                                                   t-value="etape.passif_situation.filtered(lambda l:l.sequence == 17)"/>
                                                 <td>
                                                     مجموع المطلوبات (الديون)
                                                 </td>
                                                 <td style="text-align: right; direction: ltr;">
-                                                    <t t-esc="'{0:,.0f}'.format(sum(ratio_2.mapped('valeur)) / 1000)"/>
+                                                    <t t-esc="'{0:,.0f}'.format((ratio_9.valeur + ratio_14.valeur +ratio_16.valeur +ratio_17.valeur) / 1000)"/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -2939,13 +2945,19 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <t t-set="ratio_2"
-                                                   t-value="etape2.passif_situation_estim.filtered(lambda l:l.sequence in [9, 14, 16, 17])"/>
+                                                <t t-set="ratio_9"
+                                                   t-value="etape2.passif_situation_estim.filtered(lambda l:l.sequence == 9)"/>
+                                                <t t-set="ratio_14"
+                                                   t-value="etape.passif_situation_estim.filtered(lambda l:l.sequence == 14)"/>
+                                                <t t-set="ratio_16"
+                                                   t-value="etape.passif_situation_estim.filtered(lambda l:l.sequence == 16)"/>
+                                                <t t-set="ratio_17"
+                                                   t-value="etape.passif_situation_estim.filtered(lambda l:l.sequence == 17)"/>
                                                 <td>
                                                     مجموع المطلوبات (الديون)
                                                 </td>
                                                 <td style="text-align: right; direction: ltr;">
-                                                    <t t-esc="'{0:,.0f}'.format(sum(ratio_2.mapped('valeur)) / 1000)"/>
+                                                    <t t-esc="'{0:,.0f}'.format((ratio_9.valeur + ratio_14.valeur +ratio_16.valeur +ratio_17.valeur) / 1000)"/>
                                                 </td>
                                             </tr>
                                             <tr>
