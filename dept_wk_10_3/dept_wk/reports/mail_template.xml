@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="notification_mail_template" model="mail.template">
+            <field name="name">تم تحديث حالة المعالجة</field>
+            <field name="model_id" ref="dept_wk.model_wk_etape"/>
+            <field name="subject">تم تحديث حالة معالجة الملف {{object.workflow.name}}</field>
+            <field name="email_from">{{ user.email }}</field>
+            <field name="email_to">{{ object.user_id.email }}</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        السلام عليكم،
+                        <br/>
+                        نود أن نخبركم أن حالة الملف قد تم تحديثها بنجاح.<br/>
+                        يُمكنكم الاطلاع على التحديث الأخير عبر الرابط
+                        أدناه:
+                        <a t-att-href="'/web#id=' + str(object.workflow.id) + '&amp;view_type=form&amp;model=wk.workflow.dashboard'">
+                            <t t-out="object.workflow.name"/>
+                        </a>
+                        <br/>
+                        نشكر لكم تفهمكم وتعاونكم.
+                        <br/>
+                        أطيب التحيات،
+                        <t t-if="user.signature">
+                            <br/>
+                            <t t-out="user.signature or ''">--<br/>Mitchell Admin
+                            </t>
+                        </t>
+                    </p>
+                </div>
+            </field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+        <record id="notification_dec_mail_template" model="mail.template">
+            <field name="name">تم تحديث حالة المعالجة</field>
+            <field name="model_id" ref="dept_wk.model_wk_etape"/>
+            <field name="subject">تم تحديث حالة معالجة الملف {{object.workflow.name}}</field>
+            <field name="email_from">{{ user.email }}</field>
+            <field name="email_to">{{ object.comite.alias }}</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        السلام عليكم،
+                        <br/>
+                        نود أن نخبركم أن حالة الملف قد تم تحديثها بنجاح.<br/>
+                        يُمكنكم الاطلاع على التحديث الأخير عبر الرابط
+                        أدناه:
+                        <a t-att-href="'/web#id=' + str(object.workflow.id) + '&amp;view_type=form&amp;model=wk.workflow.dashboard'">
+                            <t t-out="object.workflow.name"/>
+                        </a>
+                        <br/>
+                        نشكر لكم تفهمكم وتعاونكم.
+                        <br/>
+                        أطيب التحيات،
+                        <t t-if="user.signature">
+                            <br/>
+                            <t t-out="user.signature or ''">--<br/>Mitchell Admin
+                            </t>
+                        </t>
+                    </p>
+                </div>
+            </field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="wk_bilan_action" model="ir.actions.act_window">
+        <field name="name">Bilan</field>
+        <field name="res_model">wk.bilan</field>
+        <field name="view_mode">tree</field>
+        <field name="domain">[('categorie', '=', '1')]</field>
+    </record>
+    <record id="view_wk_bilan_tree" model="ir.ui.view">
+        <field name="name">wk.bilan.tree</field>
+        <field name="model">wk.bilan</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="declaration"/>
+                <field name="year_1"/>
+                <field name="year_2"/>
+                <field name="year_3"/>
+                <field name="year_4"/>
+                <field name="variante"/>
+                <field name="remark"/>
+            </tree>
+        </field>
+    </record>
+    <record id="view_bilan_filter" model="ir.ui.view">
+        <field name="name">wk.bilan.search</field>
+        <field name="model">wk.bilan</field>
+        <field name="arch" type="xml">
+            <search string="Bilan">
+                <field name="declaration" string="البيان"/>
+                <field name="categorie" string="Categorie"/>
+                <filter string="Categorie 1" name="categorie1" domain="[('categorie','=','1')]"/>
+                <separator/>
+            </search>
+        </field>
+    </record>
+
+    <record id="wk_agence_action" model="ir.actions.act_window">
+        <field name="name">الفرع</field>
+        <field name="res_model">wk.agence</field>
+        <field name="view_mode">tree</field>
+    </record>
+    <record id="view_wk_agence_tree" model="ir.ui.view">
+        <field name="name">wk.agence.tree</field>
+        <field name="model">wk.agence</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="name"/>
+                <field name="wilaya"/>
+                <field name="commune"/>
+                <field name="ref"/>
+                <field name="wilaya_id" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+    <record id="action_create_folder" model="ir.actions.server">
+        <field name="name">Create Folder</field>
+        <field name="model_id" ref="model_wk_agence"/>
+        <field name="binding_model_id" ref="model_wk_agence"/>
+        <field name="binding_view_types">tree</field>
+        <field name="groups_id" eval="[(4, ref('dept_wk.dept_wk_group_responsable_agence'))]"/>
+        <field name="state">code</field>
+        <field name="code">
+            action = records.create_folder()
+        </field>
+    </record>
+    <record id="wk_garanties_action" model="ir.actions.act_window">
+        <field name="name">الضمانات</field>
+        <field name="res_model">wk.garanties</field>
+        <field name="view_mode">tree</field>
+    </record>
+    <record id="view_wk_garanties_tree" model="ir.ui.view">
+        <field name="name">wk.garanties.tree</field>
+        <field name="model">wk.garanties</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+    <record id="wk_exceptions_action" model="ir.actions.act_window">
+        <field name="name">الاستثناءات</field>
+        <field name="res_model">wk.exception</field>
+        <field name="view_mode">tree</field>
+    </record>
+    <record id="view_wk_exceptions_tree" model="ir.ui.view">
+        <field name="name">wk.exception.tree</field>
+        <field name="model">wk.exception</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="wk_forme_jur_action" model="ir.actions.act_window">
+        <field name="name">الشكل القانوني</field>
+        <field name="res_model">wk.forme.jur</field>
+        <field name="view_mode">tree</field>
+    </record>
+    <record id="view_wk_forme_jur_tree" model="ir.ui.view">
+        <field name="name">wk.forme.jur.tree</field>
+        <field name="model">wk.forme.jur</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="wk_product_action" model="ir.actions.act_window">
+        <field name="name">منتجات المصرف</field>
+        <field name="res_model">wk.product</field>
+        <field name="view_mode">tree</field>
+    </record>
+    <record id="view_wk_product_tree" model="ir.ui.view">
+        <field name="name">wk.product.tree</field>
+        <field name="model">wk.product</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="wk_decision_cell_action" model="ir.actions.act_window">
+        <field name="name">سلطة القرار</field>
+        <field name="res_model">wk.decision.cell</field>
+        <field name="view_mode">tree</field>
+    </record>
+    <record id="view_wk_decision_cell_tree" model="ir.ui.view">
+        <field name="name">wk.decision.cell.tree</field>
+        <field name="model">wk.decision.cell</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="wk_type_demande_action" model="ir.actions.act_window">
+        <field name="name">نوع الطلب</field>
+        <field name="res_model">wk.type.demande</field>
+        <field name="view_mode">tree</field>
+    </record>
+    <record id="view_wk_type_demande_tree" model="ir.ui.view">
+        <field name="name">wk.type.demande.tree</field>
+        <field name="model">wk.type.demande</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="wk_type_payment_action" model="ir.actions.act_window">
+        <field name="name">طريقة السداد</field>
+        <field name="res_model">wk.type.payment</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+    <record id="view_wk_type_payment_tree" model="ir.ui.view">
+        <field name="name">wk.type.payment.tree</field>
+        <field name="model">wk.type.payment</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="wk_time_action" model="ir.actions.act_window">
+        <field name="name">wk.time</field>
+        <field name="res_model">wk.time</field>
+        <field name="view_mode">tree</field>
+        <field name="context">{'search_default_group_by_etape': 1}</field>
+    </record>
+
+    <record id="view_wk_time_tree" model="ir.ui.view">
+        <field name="name">wk.time.tree</field>
+        <field name="model">wk.time</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="name"/>
+                <field name="time"/>
+            </tree>
+        </field>
+    </record>
+    <record id="view_wk_time_search" model="ir.ui.view">
+        <field name="name">wk.time.search</field>
+        <field name="model">wk.time</field>
+        <field name="arch" type="xml">
+            <search>
+                <group expand="0" string="Group By">
+                    <filter string="Etape" name="group_by_etape" domain="[]" context="{'group_by':'etape'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="wk_activite_action" model="ir.actions.act_window">
+        <field name="name">النشاط الرئيسي</field>
+        <field name="res_model">wk.activite</field>
+        <field name="view_mode">tree</field>
+    </record>
+    <record id="view_wk_activite_tree" model="ir.ui.view">
+        <field name="name">wk.activite.tree</field>
+        <field name="model">wk.activite</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="name"/>
+                <field name="domaine"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="wk_secteur_action" model="ir.actions.act_window">
+        <field name="name">النشاط</field>
+        <field name="res_model">wk.secteur</field>
+        <field name="view_mode">tree</field>
+    </record>
+    <record id="view_wk_secteur_tree" model="ir.ui.view">
+        <field name="name">wk.secteur.tree</field>
+        <field name="model">wk.secteur</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="wk_classification_action" model="ir.actions.act_window">
+        <field name="name">تصنيف الشركة</field>
+        <field name="res_model">wk.classification</field>
+        <field name="view_mode">tree</field>
+    </record>
+    <record id="view_wk_classification_tree" model="ir.ui.view">
+        <field name="name">wk.classification.tree</field>
+        <field name="model">wk.classification</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="wk_nature_juridique_action" model="ir.actions.act_window">
+        <field name="name">الطبيعة القانونية للمقرات</field>
+        <field name="res_model">wk.nature.juridique</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+    <record id="view_wk_nature_juridique_tree" model="ir.ui.view">
+        <field name="name">wk.nature.juridique.tree</field>
+        <field name="model">wk.nature.juridique</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="wk_wilaya_action" model="ir.actions.act_window">
+        <field name="name">الولاية</field>
+        <field name="res_model">wk.wilaya</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+    <record id="view_wk_wilaya_tree" model="ir.ui.view">
+        <field name="name">wk.wilaya.tree</field>
+        <field name="model">wk.wilaya</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="name"/>
+                <field name="domaine"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="wk_type_fin_action" model="ir.actions.act_window">
+        <field name="name">نوع التمويل</field>
+        <field name="res_model">wk.fin.banque</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+    <record id="view_wk_type_fin_tree" model="ir.ui.view">
+        <field name="name">wk.fin.banque.tree</field>
+        <field name="model">wk.fin.banque</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+    <record id="wk_wk_state_action" model="ir.actions.act_window">
+        <field name="name">Etapes</field>
+        <field name="res_model">wk.state</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+    <record id="view_wk_state_tree" model="ir.ui.view">
+        <field name="name">wk.state.tree</field>
+        <field name="model">wk.state</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="name"/>
+                <field name="sequence"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="wk_comite_action" model="ir.actions.act_window">
+        <field name="name">صلاحيات مختلف اللجان</field>
+        <field name="res_model">wk.comite</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+    <record id="view_wk_comite_tree" model="ir.ui.view">
+        <field name="name">wk.comite.tree</field>
+        <field name="model">wk.comite</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="name"/>
+                <field name="pouvoir"/>
+                <field name="alias"/>
+            </tree>
+        </field>
+    </record>
+</odoo>

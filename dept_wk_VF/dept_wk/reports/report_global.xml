@@ -1,0 +1,2268 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <template id="salam_layout_header">
+            <style>
+                .row{
+                margin-bottom: 10px;
+                width: 100px;
+                height: 150px;
+
+                }
+                .row img {
+                bottom: 0;
+                right: 0;
+                }
+                .row span {
+                bottom: 0;
+                left: 0;
+                padding: 5px;
+                }
+            </style>
+            <div class="header" style="margin-bottom: 10px; ">
+                <div class="row" style="margin-bottom: 10px; width: 300px; height: 150px;">
+                    <img t-if="doc.company_id.logo" t-att-src="image_data_uri(doc.company_id.logo)" height="150"
+                         border="1" width="100"
+                         alt="Logo"/>
+                </div>
+                <div>
+                </div>
+
+            </div>
+            <div class="article o_report_layout_standard">
+                <t t-out="0"/>
+            </div>
+            <div class="footer" style="text-align: center">
+                <div class="column">
+                    <span style="font-size: 10px;color: #a0a0a0">بنك السلام الجزائر</span>
+                    <br/>
+                    <span style="font-size: 10px; color: #a0a0a0">الشارع الرئيسي 233 شـارع اْحمـد واكـد دالـي ابراهيـم
+                        الجزائـر - الجزائر / الهاتف 88 88 38 021 - الفاكس 93 45 30 023
+                    </span>
+                    <br/>
+                    <span style="font-size: 10px; color: #a0a0a0">راس المال 000 000 20000دج / السجل التجاري رقم 0976530
+                        8 07 رقم التعريف الجبائي 000716097653066
+                    </span>
+                    <br/>
+                    <div t-if="report_type == 'pdf'" class="text-muted">
+                        Page:
+                        <span class="page"/>
+                        of
+                        <span class="topage"/>
+                    </div>
+                </div>
+
+            </div>
+
+        </template>
+        <template id="report_global">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="dept_wk.salam_layout_header">
+                        <style>
+                            .reversed-table > tbody > tr > td {
+                            padding: 5px;
+                            border: 1px solid green;
+                            }
+                            .reversed-table > thead > tr > th {
+                            padding: 5px;
+                            border: 1px solid green;
+                            }
+                            .table_content > tbody > tr > td {
+                            padding: 5px;
+                            border: none;
+                            }
+                            .table_content > thead > tr > th {
+                            padding: 5px;
+                            border: none;
+                            }
+                            .table_content > thead > tr {
+                            padding: 5px;
+                            border: none;
+                            }
+                            .table_content > tbody > tr {
+                            padding: 5px;
+                            border: none;
+                            }
+                            .table_content > tbody {
+                            padding: 5px;
+                            border: none;
+                            }
+                            td {
+                            padding: 5px;
+                            }
+                            .reversed-table {
+                            width: 100%;
+                            border: 1px solid black;
+                            }
+                            .table_deco {
+                            display: flex;
+                            justify-content: center;
+                            direction: rtl;
+                            }
+
+                            .page {
+                            text-align: right;
+                            }
+                            .page-content {
+                            font-family: 'NotoArabic-Regular';
+                            direction: rtl;
+                            padding: 20px;
+                            margin: 20px;
+                            text-align: justify;
+                            line-height: 1.5
+                            }
+
+                            .center-align {
+                            margin: 0 auto;
+                            }
+                            .title {
+                            padding: 20 px;
+                            color: green;
+                            }
+                            ul li {
+                            padding: 10px;
+                            }
+                            div.row-info > h4 {
+                            display: inline-block;
+                            }
+                            div.row-info > .data {
+                            margin: 20px
+                            display: inline-block;
+                            }
+                        </style>
+                        <div class="page page-content">
+                            <center style="margin-bottom: 10px;margin-top: 10px">
+                                <div class="column">
+                                    <h3 class="title" style="margin-bottom: 50px;">محضر التمويلات
+                                        <t t-esc="doc.name"/>
+                                    </h3>
+
+                                </div>
+                            </center>
+                            <div class="justify-content-start">
+                                <t t-set="etape1"
+                                   t-value="doc.env['wk.etape'].search([('workflow', '=', doc.id), ('sequence', '=', 8)], limit=1)"/>
+                                <div class="table_deco">
+                                    <table class="table_content">
+                                        <tbody>
+                                            <tr>
+
+                                                <td style="font-weight: bold;" t-if="etape1.branche">
+                                                    الفرع
+                                                </td>
+                                                <td t-if="etape1.branche">
+                                                    <span>
+                                                        <t t-esc="etape1.branche.name"/>
+                                                    </span>
+                                                </td>
+                                                <td style="font-weight: bold;" t-if="etape1.wilaya">
+                                                    الولاية
+                                                </td>
+                                                <td t-if="etape1.wilaya">
+                                                    <span>
+                                                        <t t-esc="etape1.wilaya.domaine"/>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-weight: bold;" t-if="etape1.num_compte">
+                                                    رقم الحساب
+                                                </td>
+                                                <td t-if="etape1.num_compte">
+                                                    <span>
+                                                        <t t-esc="etape1.num_compte"/>
+                                                    </span>
+                                                </td>
+                                                <td style="font-weight: bold;" t-if="etape1.date_ouverture_compte">
+                                                    تاريخ فتح الحساب
+                                                </td>
+                                                <td t-if="etape1.date_ouverture_compte">
+                                                    <span>
+                                                        <t t-esc="etape1.date_ouverture_compte"/>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-weight: bold;" t-if="etape1.forme_jur">
+                                                    الشكل القانوني
+                                                </td>
+                                                <td t-if="etape1.forme_jur">
+                                                    <span>
+                                                        <t t-esc="etape1.forme_jur.name"/>
+                                                    </span>
+                                                </td>
+                                                <td style="font-weight: bold;" t-if="etape1.chiffre_affaire">
+                                                    رأسمال الشركة
+                                                </td>
+                                                <td t-if="etape1.chiffre_affaire">
+                                                    <span>
+                                                        <t t-esc="etape1.chiffre_affaire"/>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-weight: bold;" t-if="etape1.activity_code">
+                                                    رمز النشاط
+                                                </td>
+                                                <td t-if="etape1.activity_code">
+                                                    <span>
+                                                        <t t-esc="etape1.activity_code"/>
+                                                    </span>
+                                                </td>
+                                                <td style="font-weight: bold;" t-if="etape1.activity_description">
+                                                    النشاط
+                                                </td>
+                                                <td t-if="etape1.activity_description">
+                                                    <span>
+                                                        <t t-esc="etape1.activity_description"/>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-weight: bold;" t-if="etape1.nif">
+                                                    NIF
+                                                </td>
+                                                <td t-if="etape1.nif">
+                                                    <span>
+                                                        <t t-esc="etape1.nif"/>
+                                                    </span>
+                                                </td>
+                                                <td style="font-weight: bold;" t-if="etape1.num_registre_commerce">
+                                                    RC
+                                                </td>
+                                                <td t-if="etape1.num_registre_commerce">
+                                                    <span>
+                                                        <t t-esc="etape1.num_registre_commerce"/>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-weight: bold; direction: rtl;" t-if="etape1.phone">
+                                                    الهاتف
+                                                </td>
+                                                <td t-if="etape1.phone" style="text-align: right; direction: ltr;">
+                                                    <span>
+                                                        <t t-esc="etape1.phone"/>
+                                                    </span>
+                                                </td>
+                                                <td style="font-weight: bold;" t-if="etape1.email">
+                                                    البريد الإلكتروني
+                                                </td>
+                                                <td t-if="etape1.email">
+                                                    <span>
+                                                        <t t-esc="etape1.email"/>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-weight: bold;" t-if="etape1.date_inscription">
+                                                    تاريخ القيد في السجل التجاري
+                                                </td>
+                                                <td t-if="etape1.date_inscription">
+                                                    <span>
+                                                        <t t-esc="etape1.date_inscription"/>
+                                                    </span>
+                                                </td>
+                                                <td style="font-weight: bold;" t-if="etape1.date_debut_activite">
+                                                    تاريخ بداية النشاط
+                                                </td>
+                                                <td t-if="etape1.date_debut_activite">
+                                                    <span>
+                                                        <t t-esc="etape1.date_debut_activite"/>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-weight: bold;" t-if="etape1.classification">
+                                                    تصنيف الشركة
+                                                </td>
+                                                <td t-if="etape1.classification">
+                                                    <span>
+                                                        <t t-esc="etape1.classification.name"/>
+                                                    </span>
+                                                </td>
+                                                <td style="font-weight: bold;" t-if="etape1.gerant">
+                                                    المسير
+                                                </td>
+                                                <td t-if="etape1.gerant">
+                                                    <span>
+                                                        <t t-esc="etape1.gerant.name"/>
+                                                    </span>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td style="font-weight: bold;" t-if="etape1.demande">
+                                                    نوع الطلب
+                                                </td>
+                                                <td t-if="etape1.demande">
+                                                    <span>
+                                                        <t t-esc="etape1.demande.name"/>
+                                                    </span>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="table_deco">
+                                    <table class="table_content">
+                                        <tbody>
+                                            <tr t-if="etape1.prod_company">
+                                                <td style="font-weight: bold;">
+                                                    منتوجات الشركة
+                                                </td>
+                                                <td style="border: 1px solid green;">
+                                                    <span>
+                                                        <t t-esc="etape1.prod_company"/>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr t-if="etape1.unit_prod">
+                                                <td style="font-weight: bold;">
+                                                    وحدات الانتاج
+                                                </td>
+                                                <td style="border: 1px solid green;">
+                                                    <span>
+                                                        <t t-esc="etape1.unit_prod"/>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr t-if="etape1.stock">
+                                                <td style="font-weight: bold;">
+                                                    المخازن
+                                                </td>
+                                                <td style="border: 1px solid green;">
+                                                    <span>
+                                                        <t t-esc="etape1.stock"/>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr t-if="etape1.politique_comm">
+                                                <td style="font-weight: bold;">
+                                                    السياسة التسويقية
+                                                </td>
+                                                <td style="border: 1px solid green;">
+                                                    <span>
+                                                        <t t-esc="etape1.politique_comm"/>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr t-if="etape1.cycle_exploit">
+                                                <td style="font-weight: bold;">
+                                                    دورة الاستغلال
+                                                </td>
+                                                <td style="border: 1px solid green;">
+                                                    <span>
+                                                        <t t-esc="etape1.cycle_exploit"/>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr t-if="etape1.concurrence">
+                                                <td style="font-weight: bold;">
+                                                    المنافسة و دراسة السوق
+                                                </td>
+                                                <td style="border: 1px solid green;">
+                                                    <span>
+                                                        <t t-esc="etape1.concurrence"/>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/>
+                                <h4 class="title" style="margin-top: 20px; color: green;">توزيع راس مال الشركة
+                                </h4>
+                                <div class="table_deco">
+                                    <table class="reversed-table" t-if="etape1.apropos">
+                                        <thead>
+                                            <tr>
+                                                <th>اسم الشريك/المالك</th>
+                                                <th>تاريخ التاسيس/الميلاد</th>
+                                                <th>صفة الشريك</th>
+                                                <th>الجنسية</th>
+                                                <th>الحصة</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="etape1.apropos" t-as="line">
+                                                <tr>
+                                                    <td>
+                                                        <t t-esc="line.nom_partenaire"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.age"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.statut_partenaire"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.nationalite.name"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.pourcentage"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/>
+                                <h4 class="title" style="margin-top: 20px; color: green;">اعرف عميلك
+                                </h4>
+                                <div class="table_deco">
+                                    <table class="reversed-table" t-if="etape1.kyc">
+                                        <thead>
+                                            <tr>
+                                                <th>معلومات اضافية عن العميل</th>
+                                                <th>نعم/لا</th>
+                                                <th>التفاصيل</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="etape1.kyc" t-as="line">
+                                                <tr>
+                                                    <td>
+                                                        <t t-esc="line.info"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-if="line.answer == 'oui'">
+                                                            نعم
+                                                        </t>
+                                                        <t t-elif="line.answer == 'oui'">
+                                                            لا
+                                                        </t>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.detail"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/>
+                                <h4 class="title" style="margin-top: 20px; color: green;">فريق التسيير
+                                </h4>
+                                <div class="table_deco">
+                                    <table class="reversed-table" t-if="etape1.gestion">
+                                        <thead>
+                                            <tr>
+                                                <th>السيد(ة)</th>
+                                                <th>المهنة</th>
+                                                <th>المستوى الدراسي</th>
+                                                <th>السن</th>
+                                                <th>الخبرة المهنية</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="etape1.gestion" t-as="line">
+                                                <tr>
+                                                    <td>
+                                                        <t t-esc="line.name"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.job"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.niveau_etude"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.age"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.experience"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/>
+                                <h4 class="title" style="margin-top: 20px; color: green;">عدد العمال (حسب الفئة
+                                    المهنية)
+                                </h4>
+                                <div class="table_deco">
+                                    <table class="reversed-table" t-if="etape1.employees">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>مناصب دائمة</th>
+                                                <th>غير دائمة</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="etape1.employees" t-as="line">
+                                                <tr>
+                                                    <td>
+                                                        <t t-esc="line.name"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.poste_permanent"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.poste_non_permanent"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/>
+                                <h4 class="title" style="margin-top: 20px; color: green;">مقرات تابعة للشركة
+                                </h4>
+                                <div class="table_deco">
+                                    <table class="reversed-table" t-if="etape1.sieges">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>العنوان</th>
+                                                <th>الطبيعة القانونية</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="etape1.sieges" t-as="line">
+                                                <tr>
+                                                    <td>
+                                                        <t t-esc="line.name"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.adresse"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.nature.name"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/>
+                                <h4 class="title" style="margin-top: 20px; color: green;">حجم و هيكل التمويلات
+                                    المطلوبة
+                                </h4>
+                                <div class="table_deco">
+                                    <table class="reversed-table" t-if="etape1.tailles">
+                                        <thead>
+                                            <tr>
+                                                <th>نوع التسهيلات</th>
+                                                <th>المبلغ المطلوب</th>
+                                                <th>غير دائمةالغرض من التمويل</th>
+                                                <th>الضمانات المقترحة</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="etape1.tailles" t-as="line">
+                                                <tr>
+                                                    <td>
+                                                        <t t-esc="line.type_demande.name"/>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-esc="'{0:,.0f}'.format(line.montant)"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.raison"/>
+                                                    </td>
+                                                    <td>
+                                                        <ol>
+                                                            <t t-foreach="line.garanties" t-as="garantie">
+                                                                <li>
+                                                                    <t t-esc="garantie.name"/>
+                                                                </li>
+                                                            </t>
+                                                        </ol>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/>
+                                <h4 class="title" style="margin-top: 20px; color: green;">الوضعية المصرفية والتزامات لدى
+                                    الغير
+                                </h4>
+                                <div class="table_deco">
+                                    <table class="reversed-table" t-if="etape1.situations">
+                                        <thead>
+                                            <tr>
+                                                <th>البنك</th>
+                                                <th>نوع التمويل</th>
+                                                <th>المبلغ بالمليون دج</th>
+                                                <th>الضمانات الممنوحة</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="etape1.situations" t-as="line">
+                                                <tr>
+                                                    <td>
+                                                        <t t-esc="line.banque.name"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.type_fin.name"/>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-esc="'{0:,.0f}'.format(line.montant)"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.garanties"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/>
+                                <h4 class="title" style="margin-top: 20px; color: green;">البيانات المالية المدققة
+                                    للثلاث سنوات الأخيرة
+                                </h4>
+                                <div class="table_deco">
+                                    <table class="reversed-table" t-if="etape1.situations_fin">
+                                        <thead>
+                                            <tr>
+                                                <th>السنة</th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="etape1.situations_fin" t-as="line">
+                                                <tr>
+                                                    <td>
+                                                        <t t-esc="line.type"/>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-if="line.sequence == 0">
+                                                            <t t-esc="int(line.year1)"/>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <t t-esc="'{0:,.0f}'.format(line.year1)"/>
+                                                        </t>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-if="line.sequence == 0">
+                                                            <t t-esc="int(line.year2)"/>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <t t-esc="'{0:,.0f}'.format(line.year2)"/>
+                                                        </t>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-if="line.sequence == 0">
+                                                            <t t-esc="int(line.year3)"/>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <t t-esc="'{0:,.0f}'.format(line.year3)"/>
+                                                        </t>
+                                                    </td>
+                                                </tr>
+
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/>
+                                <h4 class="title" style="margin-top: 20px; color: green;">الموردين
+                                </h4>
+                                <div class="table_deco">
+                                    <table class="reversed-table" t-if="etape1.fournisseur">
+                                        <thead>
+                                            <tr>
+                                                <th>الاسم</th>
+                                                <th>البلد</th>
+                                                <th>طريقة السداد</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="etape1.fournisseur" t-as="line">
+                                                <tr>
+                                                    <td>
+                                                        <t t-esc="line.name"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.country.name"/>
+                                                    </td>
+                                                    <td>
+                                                        <ol>
+                                                            <t t-foreach="line.type_payment" t-as="type">
+                                                                <li>
+                                                                    <t t-esc="type.name"/>
+                                                                </li>
+                                                            </t>
+                                                        </ol>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/>
+                                <h4 class="title" style="margin-top: 20px; color: green;">الزبائن
+                                </h4>
+                                <div class="table_deco">
+                                    <table class="reversed-table" t-if="etape1.client">
+                                        <thead>
+                                            <tr>
+                                                <th>الاسم</th>
+                                                <th>البلد</th>
+                                                <th>طريقة السداد</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="etape1.client" t-as="line">
+                                                <tr>
+                                                    <td>
+                                                        <t t-esc="line.name"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.country.name"/>
+                                                    </td>
+                                                    <td>
+                                                        <ol>
+                                                            <t t-foreach="line.type_payment" t-as="type">
+                                                                <li>
+                                                                    <t t-esc="type.name"/>
+                                                                </li>
+                                                            </t>
+                                                        </ol>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/>
+                                <t t-set="etape2"
+                                   t-value="doc.states.filtered(lambda l: l.sequence == 2 )"/>
+
+                                <h4 class="title" style="margin-top: 20px; color: green;">تفاصيل التسهيلات الممنوحة
+                                    (بالمليون دج)
+                                </h4>
+                                <div class="table_deco">
+                                    <table class="reversed-table" t-if="etape2.facilite_accorde">
+                                        <thead>
+                                            <tr>
+                                                <th>نوع التسهيلات</th>
+                                                <th>تاريخ الرخصة</th>
+                                                <th>الحالي: م/دج</th>
+                                                <th>المطلوبة: م/دج</th>
+                                                <th>الاجمالي الصافي: م/دج</th>
+                                                <th>التأمين النقدي</th>
+                                                <th>ملاحظات</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="etape2.facilite_accorde" t-as="line">
+                                                <tr>
+                                                    <td>
+                                                        <t t-esc="line.type_facilite.name"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.date"/>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-esc="'{0:,.0f}'.format(line.montant_da_actuel)"/>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-esc="'{0:,.0f}'.format(line.montant_da_demande)"/>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-esc="'{0:,.0f}'.format(line.montant_da_total)"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.garantie_montant"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.remarques"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/>
+                                <h4 class="title" style="margin-top: 20px; color: green;">الضمانات العقارية الحالية
+                                </h4>
+                                <div class="table_deco">
+                                    <table class="reversed-table" t-if="etape2.detail_garantie_actuel_ids">
+                                        <thead>
+                                            <tr>
+                                                <th>نوعية الضمان</th>
+                                                <th>نوعية العقد</th>
+                                                <th>القيمة</th>
+                                                <th>تاريخ التقييم</th>
+                                                <th>التغطية</th>
+                                                <th>كفاية الضمانات قابلية التنفيذ عليها</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="etape2.detail_garantie_actuel_ids" t-as="line">
+                                                <tr>
+                                                    <td>
+                                                        <t t-esc="line.type_garantie.name"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.type_contrat.name"/>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-esc="'{0:,.0f}'.format(line.montant)"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.date"/>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-esc="'{0:,.0f}'.format(line.recouvrement)"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.niveau"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/>
+                                <h4 class="title" style="margin-top: 20px; color: green;">الضمانات العقارية المقترحة
+                                </h4>
+                                <div class="table_deco">
+                                    <table class="reversed-table" t-if="etape2.detail_garantie_propose_ids">
+                                        <thead>
+                                            <tr>
+                                                <th>نوعية الضمان</th>
+                                                <th>نوعية العقد</th>
+                                                <th>القيمة</th>
+                                                <th>تاريخ التقييم</th>
+                                                <th>التغطية</th>
+                                                <th>كفاية الضمانات قابلية التنفيذ عليها</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="etape2.detail_garantie_propose_ids" t-as="line">
+                                                <tr>
+                                                    <td>
+                                                        <t t-esc="line.type_garant"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.type_contrat.name"/>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-esc="'{0:,.0f}'.format(line.montant)"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.date"/>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-esc="'{0:,.0f}'.format(line.recouvrement)"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.niveau"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/>
+
+                                <h4 class="title" style="margin-top: 20px; color: green;">الشروط السابقة/المقترحة و
+                                    الموافق عليها من لجان التمويل
+                                </h4>
+                                <div class="table_deco">
+                                    <table class="reversed-table" t-if="etape2.garantie_conf">
+                                        <thead>
+                                            <tr>
+                                                <th>الشروط السابقة و المقترحة</th>
+                                                <th>نعم/لا</th>
+                                                <th>التعليق</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="etape2.garantie_conf" t-as="line">
+                                                <tr>
+                                                    <td>
+                                                        <t t-esc="line.info"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-if="line.answer == 'oui'">
+                                                            نعم
+                                                        </t>
+                                                        <t t-elif="line.answer == 'oui'">
+                                                            لا
+                                                        </t>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.detail"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/>
+                                <h4 class="title" style="margin-top: 20px; color: green;">الشروط المالية
+                                </h4>
+                                <div class="table_deco">
+                                    <table class="reversed-table" t-if="etape2.garantie_fin">
+                                        <thead>
+                                            <tr>
+                                                <th>الشروط السابقة و المقترحة</th>
+                                                <th>نعم/لا</th>
+                                                <th>التعليق</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="etape2.garantie_fin" t-as="line">
+                                                <tr>
+                                                    <td>
+                                                        <t t-esc="line.info"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-if="line.answer == 'oui'">
+                                                            نعم
+                                                        </t>
+                                                        <t t-elif="line.answer == 'oui'">
+                                                            لا
+                                                        </t>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.detail"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/>
+                                <h4 class="title" style="margin-top: 20px; color: green;">الشروط الاخرى
+                                </h4>
+                                <div class="table_deco">
+                                    <table class="reversed-table" t-if="etape2.garantie_autres">
+                                        <thead>
+                                            <tr>
+                                                <th>الشروط السابقة و المقترحة</th>
+                                                <th>نعم/لا</th>
+                                                <th>التعليق</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="etape2.garantie_autres" t-as="line">
+                                                <tr>
+                                                    <td>
+                                                        <t t-esc="line.info"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-if="line.answer == 'oui'">
+                                                            نعم
+                                                        </t>
+                                                        <t t-elif="line.answer == 'oui'">
+                                                            لا
+                                                        </t>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.detail"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/>
+                                <h4 class="title" style="margin-top: 20px; color: green;">مركزية المخاطر
+                                </h4>
+                                <div class="table_deco">
+                                    <table class="table_content">
+                                        <tbody>
+                                            <tr>
+                                                <td style="font-weight: bold;">
+                                                    مركزية المخاطر بتاريخ
+                                                </td>
+                                                <td style="font-weight: bold;">
+                                                    <t t-esc="etape2.risque_date"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-weight: bold;">
+                                                    عدد البنوك المصرحة
+                                                </td>
+                                                <td style="font-weight: bold;">
+                                                    <t t-esc="etape2.nbr_banque"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/>
+                                <div class="table_deco">
+                                    <table class="reversed-table" t-if="etape2.risque_central">
+                                        <thead>
+                                            <tr>
+                                                <th>البيان (بالمليون دج)</th>
+                                                <th>السلام:الممنوحة:م/دج</th>
+                                                <th>السلام:المستغل:م/دج</th>
+                                                <th>اخرى :الممنوحة:م/دج</th>
+                                                <th>اخرى :المستغل:م/دج</th>
+                                                <th>الاجمالي:الممنوحة:م/دج</th>
+                                                <th>الاجمالي:المستغل:م/دج</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="etape2.risque_central" t-as="line">
+                                                <tr>
+                                                    <td>
+                                                        <t t-esc="line.declaration"/>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-esc="'{0:,.0f}'.format(line.montant_esalam_dz_donne)"/>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-esc="'{0:,.0f}'.format(line.montant_esalam_dz_used)"/>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-esc="'{0:,.0f}'.format(line.montant_other_dz_donne)"/>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-esc="'{0:,.0f}'.format(line.montant_other_dz_used)"/>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-esc="'{0:,.0f}'.format(line.montant_total_dz_donne)"/>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-esc="'{0:,.0f}'.format(line.montant_total_dz_used)"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="table_deco">
+                                    <table class="table_content">
+                                        <tbody>
+                                            <tr>
+                                                <td style="font-weight: bold;">
+                                                    تعليق
+                                                </td>
+                                                <td style="font-weight: bold;">
+                                                    <t t-esc="etape2.comment_risk_central"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/>
+                                <h4 class="title" style="margin-top: 20px; color: green;">الوضعية الجبائية وشبه الجبائية
+                                </h4>
+                                <div class="table_deco">
+                                    <table class="reversed-table" t-if="etape2.position_tax">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>محينة</th>
+                                                <th>غير محينة</th>
+                                                <th>ملاحظات</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="etape2.position_tax" t-as="line">
+                                                <tr>
+                                                    <td>
+                                                        <t t-esc="line.name"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.adversite"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.non_adversite"/>
+                                                    </td>
+                                                    <td>
+                                                        <ol>
+                                                            <t t-foreach="line.remarks" t-as="type">
+                                                                <li>
+                                                                    <t t-esc="type.name"/>
+                                                                </li>
+                                                            </t>
+                                                        </ol>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/>
+                                <h4 class="title" style="margin-top: 20px; color: green;">الحركة والأعمال الجانبية
+                                    للحساب مع مصرف السلام الجزائر (بالمليون دج)
+                                </h4>
+                                <div class="table_deco">
+                                    <table class="reversed-table" t-if="etape2.mouvement">
+                                        <thead>
+                                            <tr>
+                                                <th>الحركة</th>
+                                                <th>م/دج:N-3</th>
+                                                <th>N-2:م/دج</th>
+                                                <th>N-1:م/دج</th>
+                                                <th>N:م/دج</th>
+                                                <th>ملاحظات</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="etape2.mouvement" t-as="line">
+                                                <tr>
+                                                    <td>
+                                                        <t t-esc="line.mouvement"/>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-if="line.sequence == 0">
+                                                            <t t-esc="int(line.n3_dz)"/>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <t t-esc="'{0:,.0f}'.format(line.n3_dz)"/>
+                                                        </t>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-if="line.sequence == 0">
+                                                            <t t-esc="int(line.n2_dz)"/>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <t t-esc="'{0:,.0f}'.format(line.n2_dz)"/>
+                                                        </t>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-if="line.sequence == 0">
+                                                            <t t-esc="int(line.n1_dz)"/>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <t t-esc="'{0:,.0f}'.format(line.n1_dz)"/>
+                                                        </t>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-if="line.sequence == 0">
+                                                            <t t-esc="int(line.n_dz)"/>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <t t-esc="'{0:,.0f}'.format(line.n_dz)"/>
+                                                        </t>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.remarques"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/>
+                                <h4 class="title" style="margin-top: 20px; color: green;">معلومات حول الشركات ذات الصلة
+                                </h4>
+                                <div class="table_deco">
+                                    <table class="reversed-table" t-if="etape2.companies">
+                                        <thead>
+                                            <tr>
+                                                <th>الشركة</th>
+                                                <th>تاريخ التاسيس</th>
+                                                <th>النشاط الرئيسي</th>
+                                                <th>راس المال</th>
+                                                <th>رقم الاعمال N-1</th>
+                                                <th>رقم الاعمال N</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="etape2.companies" t-as="line">
+                                                <tr>
+                                                    <td>
+                                                        <t t-esc="line.name"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.date_creation"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.activite.domaine"/>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-esc="'{0:,.0f}'.format(line.chiffre_affaire)"/>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-esc="'{0:,.0f}'.format(line.n1_num_affaire)"/>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-esc="'{0:,.0f}'.format(line.n_num_affaire)"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/>
+                                <h4 class="title" style="margin-top: 20px; color: green;">البيانات المالية الموجزة
+                                    للشركات ذات الصلة
+                                </h4>
+                                <div class="table_deco">
+                                    <table class="reversed-table" t-if="etape2.companies_fisc">
+                                        <thead>
+                                            <tr>
+                                                <th>البيان</th>
+                                                <th>المدققة N-1</th>
+                                                <th>N</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="etape2.companies_fisc" t-as="line">
+                                                <tr>
+                                                    <td>
+                                                        <t t-esc="line.declaration"/>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-if="line.sequence == 0">
+                                                            <t t-esc="int(line.year_3)"/>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <t t-esc="'{0:,.0f}'.format(line.year_3)"/>
+                                                        </t>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-if="line.sequence == 0">
+                                                            <t t-esc="int(line.year_4)"/>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <t t-esc="'{0:,.0f}'.format(line.year_4)"/>
+                                                        </t>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/>
+                                <h4 class="title" style="margin-top: 20px; color: green;">التسهيلات القائمة مع المصرف
+                                </h4>
+                                <div class="table_deco">
+                                    <table class="reversed-table" t-if="etape2.facitlite_existante">
+                                        <thead>
+                                            <tr>
+                                                <th>البيان</th>
+                                                <th>نوع التسهيلات</th>
+                                                <th>المدققة N-1</th>
+                                                <th>N</th>
+                                                <th>التعليق</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="etape2.facitlite_existante" t-as="line">
+                                                <tr>
+                                                    <td>
+                                                        <t t-esc="line.company"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.facilite.name"/>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-esc="'{0:,.0f}'.format(line.brut_da)"/>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-esc="'{0:,.0f}'.format(line.net_da)"/>
+                                                    </td>
+                                                    <td>
+                                                        <ol>
+                                                            <t t-foreach="line.garanties" t-as="type">
+                                                                <li>
+                                                                    <t t-esc="type.name"/>
+                                                                </li>
+                                                            </t>
+                                                        </ol>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/>
+                                <h4 class="title" style="margin-top: 20px; color: green;">الحركة والأعمال الجانبية
+                                    للمجموعة مع مصرف السلام الجزائر (بالمليون دج)
+                                </h4>
+                                <div class="table_deco">
+                                    <table class="reversed-table" t-if="etape2.mouvement_group">
+                                        <thead>
+                                            <tr>
+                                                <th>الشركة</th>
+                                                <th>N-2:م/دج</th>
+                                                <th>N-1:م/دج</th>
+                                                <th>N:م/دج</th>
+                                                <th>ملاحظات</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="etape2.mouvement_group" t-as="line">
+                                                <tr>
+                                                    <td>
+                                                        <t t-esc="line.company"/>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-if="line.company == 'السنة'">
+                                                            <t t-esc="int(line.n2_dz)"/>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <t t-esc="'{0:,.0f}'.format(line.n2_dz)"/>
+                                                        </t>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-if="line.company == 'السنة'">
+                                                            <t t-esc="int(line.n1_dz)"/>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <t t-esc="'{0:,.0f}'.format(line.n1_dz)"/>
+                                                        </t>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-if="line.company == 'السنة'">
+                                                            <t t-esc="int(line.n_dz)"/>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <t t-esc="'{0:,.0f}'.format(line.n_dz)"/>
+                                                        </t>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.remarques"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/>
+                                <h4 class="title" style="margin-top: 20px; color: green;">البيانات المالية للشركة
+                                </h4>
+                                <br/>
+                                <h5 class="title" style="margin-top: 20px; color: green;">مؤشرات البنية المالية
+                                </h5>
+                                <div class="table_deco">
+                                    <table class="reversed-table" t-if="etape2.bilan1_id">
+                                        <thead>
+                                            <tr>
+                                                <th>البيان</th>
+                                                <th>المدققة N-3</th>
+                                                <th>المدققة N-2</th>
+                                                <th>المدققة N-1</th>
+                                                <th>N</th>
+                                                <th>التغير</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="etape2.bilan1_id" t-as="line">
+                                                <tr>
+                                                    <td>
+                                                        <t t-esc="line.declaration"/>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-if="line.sequence == 0">
+                                                            <t t-esc="int(line.year_1)"/>
+                                                        </t>
+                                                        <t t-elif="line.is_null_1">
+                                                            N.D
+                                                        </t>
+                                                        <t t-else="">
+                                                            <t t-esc="'{0:,.0f}'.format(line.year_1)"/>
+                                                        </t>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-if="line.sequence == 0">
+                                                            <t t-esc="int(line.year_2)"/>
+                                                        </t>
+                                                        <t t-elif="line.is_null_2">
+                                                            N.D
+                                                        </t>
+                                                        <t t-else="">
+                                                            <t t-esc="'{0:,.0f}'.format(line.year_2)"/>
+                                                        </t>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-if="line.sequence == 0">
+                                                            <t t-esc="int(line.year_3)"/>
+                                                        </t>
+                                                        <t t-elif="line.is_null_3">
+                                                            N.D
+                                                        </t>
+                                                        <t t-else="">
+                                                            <t t-esc="'{0:,.0f}'.format(line.year_3)"/>
+                                                        </t>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-if="line.sequence == 0">
+                                                            <t t-esc="int(line.year_4)"/>
+                                                        </t>
+                                                        <t t-elif="line.is_null_4">
+                                                            N.D
+                                                        </t>
+                                                        <t t-else="">
+                                                            <t t-esc="'{0:,.0f}'.format(line.year_4)"/>
+                                                        </t>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-esc="int(line.variante * 100)"/>%
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/>
+                                <div class="table_deco">
+                                    <table class="table_content">
+                                        <tbody>
+                                            <tr>
+                                                <td style="font-weight: bold;">
+                                                    تعليق
+                                                </td>
+                                                <td style="font-weight: bold;">
+                                                    <t t-esc="etape2.comment_cat1"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/>
+                                <h5 class="title" style="margin-top: 20px; color: green;">مؤشرات المديونية
+                                </h5>
+                                <div class="table_deco">
+                                    <table class="reversed-table" t-if="etape2.bilan2_id">
+                                        <thead>
+                                            <tr>
+                                                <th>البيان</th>
+                                                <th>المدققة N-3</th>
+                                                <th>المدققة N-2</th>
+                                                <th>المدققة N-1</th>
+                                                <th>N</th>
+                                                <th>التغير</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="etape2.bilan2_id" t-as="line">
+                                                <tr>
+                                                    <td>
+                                                        <t t-esc="line.declaration"/>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-if="line.sequence == 0">
+                                                            <t t-esc="int(line.year_1)"/>
+                                                        </t>
+                                                        <t t-elif="line.is_null_1">
+                                                            N.D
+                                                        </t>
+                                                        <t t-else="">
+                                                            <t t-esc="'{0:,.0f}'.format(line.year_1)"/>
+                                                        </t>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-if="line.sequence == 0">
+                                                            <t t-esc="int(line.year_2)"/>
+                                                        </t>
+                                                        <t t-elif="line.is_null_2">
+                                                            N.D
+                                                        </t>
+                                                        <t t-else="">
+                                                            <t t-esc="'{0:,.0f}'.format(line.year_2)"/>
+                                                        </t>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-if="line.sequence == 0">
+                                                            <t t-esc="int(line.year_3)"/>
+                                                        </t>
+                                                        <t t-elif="line.is_null_3">
+                                                            N.D
+                                                        </t>
+                                                        <t t-else="">
+                                                            <t t-esc="'{0:,.0f}'.format(line.year_3)"/>
+                                                        </t>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-if="line.sequence == 0">
+                                                            <t t-esc="int(line.year_4)"/>
+                                                        </t>
+                                                        <t t-elif="line.is_null_4">
+                                                            N.D
+                                                        </t>
+                                                        <t t-else="">
+                                                            <t t-esc="'{0:,.0f}'.format(line.year_4)"/>
+                                                        </t>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-esc="int(line.variante * 100)"/>%
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/>
+                                <div class="table_deco">
+                                    <table class="table_content">
+                                        <tbody>
+                                            <tr>
+                                                <td style="font-weight: bold;">
+                                                    تعليق
+                                                </td>
+                                                <td style="font-weight: bold;">
+                                                    <t t-esc="etape2.comment_cat2"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/>
+                                <h5 class="title" style="margin-top: 20px; color: green;">مؤشرات المردودية
+                                </h5>
+                                <div class="table_deco">
+                                    <table class="reversed-table" t-if="etape2.bilan3_id">
+                                        <thead>
+                                            <tr>
+                                                <th>البيان</th>
+                                                <th>المدققة N-3</th>
+                                                <th>المدققة N-2</th>
+                                                <th>المدققة N-1</th>
+                                                <th>N</th>
+                                                <th>التغير</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="etape2.bilan3_id" t-as="line">
+                                                <tr>
+                                                    <td>
+                                                        <t t-esc="line.declaration"/>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-if="line.sequence == 0">
+                                                            <t t-esc="int(line.year_1)"/>
+                                                        </t>
+                                                        <t t-elif="line.is_null_1">
+                                                            N.D
+                                                        </t>
+                                                        <t t-else="">
+                                                            <t t-esc="'{0:,.0f}'.format(line.year_1)"/>
+                                                        </t>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-if="line.sequence == 0">
+                                                            <t t-esc="int(line.year_2)"/>
+                                                        </t>
+                                                        <t t-elif="line.is_null_2">
+                                                            N.D
+                                                        </t>
+                                                        <t t-else="">
+                                                            <t t-esc="'{0:,.0f}'.format(line.year_2)"/>
+                                                        </t>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-if="line.sequence == 0">
+                                                            <t t-esc="int(line.year_3)"/>
+                                                        </t>
+                                                        <t t-elif="line.is_null_3">
+                                                            N.D
+                                                        </t>
+                                                        <t t-else="">
+                                                            <t t-esc="'{0:,.0f}'.format(line.year_3)"/>
+                                                        </t>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-if="line.sequence == 0">
+                                                            <t t-esc="int(line.year_4)"/>
+                                                        </t>
+                                                        <t t-elif="line.is_null_4">
+                                                            N.D
+                                                        </t>
+                                                        <t t-else="">
+                                                            <t t-esc="'{0:,.0f}'.format(line.year_4)"/>
+                                                        </t>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-esc="int(line.variante * 100)"/>%
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/>
+                                <div class="table_deco">
+                                    <table class="table_content">
+                                        <tbody>
+                                            <tr>
+                                                <td style="font-weight: bold;">
+                                                    تعليق
+                                                </td>
+                                                <td style="font-weight: bold;">
+                                                    <t t-esc="etape2.comment_cat3"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/>
+                                <h5 class="title" style="margin-top: 20px; color: green;">مؤشرات السيولة
+                                </h5>
+                                <div class="table_deco">
+                                    <table class="reversed-table" t-if="etape2.bilan4_id">
+                                        <thead>
+                                            <tr>
+                                                <th>البيان</th>
+                                                <th>المدققة N-3</th>
+                                                <th>المدققة N-2</th>
+                                                <th>المدققة N-1</th>
+                                                <th>N</th>
+                                                <th>التغير</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="etape2.bilan4_id" t-as="line">
+                                                <tr>
+                                                    <td>
+                                                        <t t-esc="line.declaration"/>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-if="line.sequence == 0">
+                                                            <t t-esc="int(line.year_1)"/>
+                                                        </t>
+                                                        <t t-elif="line.is_null_1">
+                                                            N.D
+                                                        </t>
+                                                        <t t-else="">
+                                                            <t t-esc="'{0:,.0f}'.format(line.year_1)"/>
+                                                        </t>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-if="line.sequence == 0">
+                                                            <t t-esc="int(line.year_2)"/>
+                                                        </t>
+                                                        <t t-elif="line.is_null_2">
+                                                            N.D
+                                                        </t>
+                                                        <t t-else="">
+                                                            <t t-esc="'{0:,.0f}'.format(line.year_2)"/>
+                                                        </t>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-if="line.sequence == 0">
+                                                            <t t-esc="int(line.year_3)"/>
+                                                        </t>
+                                                        <t t-elif="line.is_null_3">
+                                                            N.D
+                                                        </t>
+                                                        <t t-else="">
+                                                            <t t-esc="'{0:,.0f}'.format(line.year_3)"/>
+                                                        </t>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-if="line.sequence == 0">
+                                                            <t t-esc="int(line.year_4)"/>
+                                                        </t>
+                                                        <t t-elif="line.is_null_4">
+                                                            N.D
+                                                        </t>
+                                                        <t t-else="">
+                                                            <t t-esc="'{0:,.0f}'.format(line.year_4)"/>
+                                                        </t>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-esc="int(line.variante * 100)"/>%
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/>
+                                <div class="table_deco">
+                                    <table class="table_content">
+                                        <tbody>
+                                            <tr>
+                                                <td style="font-weight: bold;">
+                                                    تعليق
+                                                </td>
+                                                <td style="font-weight: bold;">
+                                                    <t t-esc="etape2.comment_cat4"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/>
+                                <h5 class="title" style="margin-top: 20px; color: green;">مؤشرات النشاط
+                                </h5>
+                                <div class="table_deco">
+                                    <table class="reversed-table" t-if="etape2.bilan5_id">
+                                        <thead>
+                                            <tr>
+                                                <th>البيان</th>
+                                                <th>المدققة N-3</th>
+                                                <th>المدققة N-2</th>
+                                                <th>المدققة N-1</th>
+                                                <th>N</th>
+                                                <th>التغير</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="etape2.bilan5_id" t-as="line">
+                                                <tr>
+                                                    <td>
+                                                        <t t-esc="line.declaration"/>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-if="line.sequence == 0">
+                                                            <t t-esc="int(line.year_1)"/>
+                                                        </t>
+                                                        <t t-elif="line.is_null_1">
+                                                            N.D
+                                                        </t>
+                                                        <t t-else="">
+                                                            <t t-esc="'{0:,.0f}'.format(line.year_1)"/>
+                                                        </t>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-if="line.sequence == 0">
+                                                            <t t-esc="int(line.year_2)"/>
+                                                        </t>
+                                                        <t t-elif="line.is_null_2">
+                                                            N.D
+                                                        </t>
+                                                        <t t-else="">
+                                                            <t t-esc="'{0:,.0f}'.format(line.year_2)"/>
+                                                        </t>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-if="line.sequence == 0">
+                                                            <t t-esc="int(line.year_3)"/>
+                                                        </t>
+                                                        <t t-elif="line.is_null_3">
+                                                            N.D
+                                                        </t>
+                                                        <t t-else="">
+                                                            <t t-esc="'{0:,.0f}'.format(line.year_3)"/>
+                                                        </t>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-if="line.sequence == 0">
+                                                            <t t-esc="int(line.year_4)"/>
+                                                        </t>
+                                                        <t t-elif="line.is_null_4">
+                                                            N.D
+                                                        </t>
+                                                        <t t-else="">
+                                                            <t t-esc="'{0:,.0f}'.format(line.year_4)"/>
+                                                        </t>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-esc="int(line.variante * 100)"/>%
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/>
+                                <div class="table_deco">
+                                    <table class="table_content">
+                                        <tbody>
+                                            <tr>
+                                                <td style="font-weight: bold;">
+                                                    تعليق
+                                                </td>
+                                                <td style="font-weight: bold;">
+                                                    <t t-esc="etape2.comment_cat5"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/>
+                                <h5 class="title" style="margin-top: 20px; color: green;">الوضعية الحسابية
+                                </h5>
+                                <div class="table_deco">
+                                    <table class="reversed-table" t-if="etape2.tcr_situation">
+                                        <thead>
+                                            <tr>
+                                                <th>البيان</th>
+                                                <th>المبلغ</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="etape2.tcr_situation" t-as="line">
+                                                <tr>
+                                                    <td>
+                                                        <t t-esc="line.name_ar"/>
+                                                    </td>
+                                                    <td style="text-align: right; direction: ltr;">
+                                                        <t t-esc="'{0:,.0f}'.format(line.valeur)"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/>
+                                <img t-if="etape2.visualisation_situation"
+                                     t-att-src="image_data_uri(etape2.visualisation_situation)" height="500"
+                                     border="1" width="500"/>
+
+                                <br/>
+
+                                <t t-set="invest"
+                                   t-value="doc.states.filtered(lambda l: l.sequence == 2).invest_id"/>
+                                <t t-if="invest">
+                                    <h5 class="title" style="margin-top: 20px; color: green;">بيانات العميل
+                                    </h5>
+                                    <br/>
+                                    <div class="table_deco">
+                                        <table class="reversed-table" t-if="invest.line_ids">
+                                            <thead>
+                                                <tr>
+                                                    <th>البيان</th>
+                                                    <th>N+1</th>
+                                                    <th>N+2</th>
+                                                    <th>N+3</th>
+                                                    <th>N+4</th>
+                                                    <th>N+5</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <t t-foreach="invest.line_ids" t-as="line">
+                                                    <tr>
+                                                        <td>
+                                                            <t t-esc="line.poste_arabe"/>
+                                                        </td>
+                                                        <td style="text-align: right; direction: ltr;">
+                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n)"/>
+                                                        </td>
+                                                        <td style="text-align: right; direction: ltr;">
+                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n1)"/>
+                                                        </td>
+                                                        <td style="text-align: right; direction: ltr;">
+                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n2)"/>
+                                                        </td>
+                                                        <td style="text-align: right; direction: ltr;">
+                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n3)"/>
+                                                        </td>
+                                                        <td style="text-align: right; direction: ltr;">
+                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n4)"/>
+                                                        </td>
+                                                    </tr>
+                                                </t>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <br/>
+                                    <img t-if="invest.graph_historical_bar"
+                                         t-att-src="image_data_uri(invest.graph_historical_bar)" height="500"
+                                         border="1" width="500"/>
+                                    <br/>
+                                    <img t-if="invest.graph_historical_bar_emp"
+                                         t-att-src="image_data_uri(invest.graph_historical_bar_emp)" height="500"
+                                         border="1" width="500"/>
+                                    <br/>
+                                    <h5 class="title" style="margin-top: 20px; color: green;">فرضيات اختبار التحمل
+                                    </h5>
+                                    <br/>
+                                    <div class="table_deco">
+                                        <table class="reversed-table" t-if="invest.tcr_prev_ids">
+                                            <thead>
+                                                <tr>
+                                                    <th>البيان</th>
+                                                    <th>فرضية N+1</th>
+                                                    <th>N+1</th>
+                                                    <th>فرضية N+2</th>
+                                                    <th>N+2</th>
+                                                    <th>فرضية N+3</th>
+                                                    <th>N+3</th>
+                                                    <th>فرضية N+4</th>
+                                                    <th>N+4</th>
+                                                    <th>فرضية N+5</th>
+                                                    <th>N+5</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <t t-foreach="invest.tcr_prev_ids" t-as="line">
+                                                    <tr>
+                                                        <td>
+                                                            <t t-esc="line.poste_arabe"/>
+                                                        </td>
+                                                        <td style="text-align: right; direction: ltr;">
+                                                            <t t-esc="'{0:,.0f}'.format(line.augment_hypothesis_n1)"/>
+                                                        </td>
+                                                        <td style="text-align: right; direction: ltr;">
+                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n)"/>
+                                                        </td>
+                                                        <td style="text-align: right; direction: ltr;">
+                                                            <t t-esc="'{0:,.0f}'.format(line.augment_hypothesis_n2)"/>
+                                                        </td>
+                                                        <td style="text-align: right; direction: ltr;">
+                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n1)"/>
+                                                        </td>
+                                                        <td style="text-align: right; direction: ltr;">
+                                                            <t t-esc="'{0:,.0f}'.format(line.augment_hypothesis_n3)"/>
+                                                        </td>
+                                                        <td style="text-align: right; direction: ltr;">
+                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n2)"/>
+                                                        </td>
+                                                        <td style="text-align: right; direction: ltr;">
+                                                            <t t-esc="'{0:,.0f}'.format(line.augment_hypothesis_n4)"/>
+                                                        </td>
+                                                        <td style="text-align: right; direction: ltr;">
+                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n3)"/>
+                                                        </td>
+                                                        <td style="text-align: right; direction: ltr;">
+                                                            <t t-esc="'{0:,.0f}'.format(line.augment_hypothesis_n5)"/>
+                                                        </td>
+                                                        <td style="text-align: right; direction: ltr;">
+                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n4)"/>
+                                                        </td>
+                                                    </tr>
+                                                </t>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <br/>
+                                    <h5 class="title" style="margin-top: 20px; color: green;">المؤشرات المالية
+                                        المستقبلية
+                                    </h5>
+                                    <br/>
+                                    <div class="table_deco">
+                                        <table class="reversed-table" t-if="invest.tcr_prev_ratio_ids">
+                                            <thead>
+                                                <tr>
+                                                    <th>المؤشرات</th>
+                                                    <th>N+1</th>
+                                                    <th>N+2</th>
+                                                    <th>N+3</th>
+                                                    <th>N+4</th>
+                                                    <th>N+5</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <t t-foreach="invest.tcr_prev_ratio_ids" t-as="line">
+                                                    <tr>
+                                                        <td>
+                                                            <t t-esc="line.ratio_ar"/>
+                                                        </td>
+                                                        <td style="text-align: right; direction: ltr;">
+                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n)"/>
+                                                        </td>
+                                                        <td style="text-align: right; direction: ltr;">
+                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n1)"/>
+                                                        </td>
+                                                        <td style="text-align: right; direction: ltr;">
+                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n2)"/>
+                                                        </td>
+                                                        <td style="text-align: right; direction: ltr;">
+                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n3)"/>
+                                                        </td>
+                                                        <td style="text-align: right; direction: ltr;">
+                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n4)"/>
+                                                        </td>
+                                                    </tr>
+                                                </t>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <br/>
+                                    <h5 class="title" style="margin-top: 20px; color: green;">التدفقات المالية
+                                    </h5>
+                                    <br/>
+                                    <div class="table_deco">
+                                        <table class="reversed-table" t-if="invest.cashflow_ids">
+                                            <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th>N+1</th>
+                                                    <th>N+2</th>
+                                                    <th>N+3</th>
+                                                    <th>N+4</th>
+                                                    <th>N+5</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <t t-foreach="invest.cashflow_ids" t-as="line">
+                                                    <tr>
+                                                        <td>
+                                                            <t t-esc="line.name"/>
+                                                        </td>
+                                                        <td style="text-align: right; direction: ltr;">
+                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n)"/>
+                                                        </td>
+                                                        <td style="text-align: right; direction: ltr;">
+                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n1)"/>
+                                                        </td>
+                                                        <td style="text-align: right; direction: ltr;">
+                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n2)"/>
+                                                        </td>
+                                                        <td style="text-align: right; direction: ltr;">
+                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n3)"/>
+                                                        </td>
+                                                        <td style="text-align: right; direction: ltr;">
+                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n4)"/>
+                                                        </td>
+                                                    </tr>
+                                                </t>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <br/>
+                                    <h5 class="title" style="margin-top: 20px; color: green;">تقييم المشروع
+                                    </h5>
+                                    <br/>
+                                    <div class="table_deco">
+                                        <table class="reversed-table" t-if="invest.evaluation_line_ids">
+                                            <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th>N+1</th>
+                                                    <th>N+2</th>
+                                                    <th>N+3</th>
+                                                    <th>N+4</th>
+                                                    <th>N+5</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <t t-foreach="invest.evaluation_line_ids" t-as="line">
+                                                    <tr>
+                                                        <td>
+                                                            <t t-esc="line.name"/>
+                                                        </td>
+                                                        <td style="text-align: right; direction: ltr;">
+                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n1)"/>
+                                                        </td>
+                                                        <td style="text-align: right; direction: ltr;">
+                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n2)"/>
+                                                        </td>
+                                                        <td style="text-align: right; direction: ltr;">
+                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n3)"/>
+                                                        </td>
+                                                        <td style="text-align: right; direction: ltr;">
+                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n4)"/>
+                                                        </td>
+                                                        <td style="text-align: right; direction: ltr;">
+                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n5)"/>
+                                                        </td>
+                                                    </tr>
+                                                </t>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="table_deco" t-if="etape2.avis_invest">
+                                        <table class="table_content">
+                                            <tbody>
+                                                <tr>
+                                                    <td style="font-weight: bold;">
+                                                        راي المحلل المالي عن التمويل الاستثماري
+                                                    </td>
+                                                    <td style="font-weight: bold;">
+                                                        <t t-esc="etape2.avis_invest"/>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <br/>
+                                </t>
+
+                                <t t-set="etape3"
+                                   t-value="doc.states.filtered(lambda l: l.sequence == 3 )"/>
+
+                                <div class="row-info">
+                                    <h4 class="title" style="margin-top: 20px; color: green;">حجم الارباح PNB المتوقعة
+                                    </h4>
+                                    <br/>
+                                    <t t-esc="etape3.ampleur_benefice" class="data"/>
+                                </div>
+                                <div class="row-info">
+                                    <h4 class="title" style="margin-top: 20px; color: green;">تحليل اهمية العلاقة على
+                                        المدى
+                                        المتوسط
+                                    </h4>
+                                    <br/>
+                                    <t t-esc="etape3.analyse_relation" class="data"/>
+                                </div>
+                                <div class="row-info">
+                                    <h4 class="title" style="margin-top: 20px; color: green;">
+                                        توصية مدير إدارة الاعمال التجارية
+                                    </h4>
+                                    <br/>
+                                    <t class="data" t-esc="etape3.recommendation_dir_commercial"/>
+                                </div>
+                                <br/>
+                                <div class="table_deco">
+                                    <table class="reversed-table">
+                                        <tbody>
+                                            <tr>
+                                                <th style="font-weight: bold; border: 1px solid green;">
+                                                    نقاط القوة
+                                                </th>
+                                                <th style="font-weight: bold; border: 1px solid green;">
+                                                    نقاط الضعف
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <td style="border: 1px solid green;">
+                                                    <ol>
+                                                        <t t-foreach="etape2.strength_ids" t-as="line">
+                                                            <li>
+                                                                <t t-esc="line.name"/>
+                                                            </li>
+                                                        </t>
+                                                    </ol>
+                                                </td>
+                                                <td style="border: 1px solid green;">
+                                                    <ol>
+                                                        <t t-foreach="etape2.weakness_ids" t-as="line">
+                                                            <li>
+                                                                <t t-esc="line.name"/>
+                                                            </li>
+                                                        </t>
+                                                    </ol>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th style="font-weight: bold; border: 1px solid green;">
+                                                    التهديدات
+                                                </th>
+                                                <th style="font-weight: bold; border: 1px solid green;">
+                                                    الفرص
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <td style="border: 1px solid green;">
+                                                    <ol>
+                                                        <t t-foreach="etape2.threat_ids" t-as="line">
+                                                            <li>
+                                                                <t t-esc="line.name"/>
+                                                            </li>
+                                                        </t>
+                                                    </ol>
+                                                </td>
+                                                <td style="border: 1px solid green;">
+                                                    <ol>
+                                                        <t t-foreach="etape2.opportunitie_ids" t-as="line">
+                                                            <li>
+                                                                <t t-esc="line.name"/>
+                                                            </li>
+                                                        </t>
+                                                    </ol>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/>
+                                <div class="row-info">
+                                    <h4 class="title" style="margin-top: 20px; color: green;">
+                                        توصية المحلل المالي
+                                    </h4>
+                                    <br/>
+                                    <t class="data" t-esc="etape2.recommandation_analyste_fin"/>
+                                </div>
+
+                                <h4 class="title" style="margin-top: 20px; color: green;">
+                                    التسهيلات المقترحة
+                                </h4>
+                                <br/>
+                                <div class="table_deco">
+                                    <table class="reversed-table" t-if="etape2.facilite_propose">
+                                        <thead>
+                                            <tr>
+                                                <th>نوع التسهيلات</th>
+                                                <th>المبلغ المقترح م/دج</th>
+                                                <th>المبلغ المقترح م/دج</th>
+                                                <th>الشروط</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="etape2.facilite_propose" t-as="line">
+                                                <tr>
+                                                    <td>
+                                                        <t t-esc="line.type_facilite.name"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="'{0:,.0f}'.format(line.montant_dz)"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="'{0:,.0f}'.format(line.montant_dollar)"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.condition"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <h4 class="title" style="margin-top: 20px; color: green;">
+                                    الضمانات المقترحة
+                                </h4>
+                                <br/>
+                                <ol>
+                                    <t t-foreach="etape2.garantie_ids" t-as="garantie">
+                                        <li>
+                                            <t t-esc="garantie.name"/>
+                                        </li>
+                                    </t>
+                                </ol>
+                                <br/>
+                                <h4 class="title" style="margin-top: 20px; color: green;" t-if="etape2.exception_ids">
+                                    الاستثناءات مع سياسة الائتمان
+                                </h4>
+                                <br/>
+                                <ol t-if="etape2.exception_ids">
+                                    <t t-foreach="etape2.exception_ids" t-as="exception">
+                                        <li>
+                                            <t t-esc="exception.name"/>
+                                        </li>
+                                    </t>
+                                </ol>
+                                <br/>
+                                <div class="row-info">
+                                    <h4 class="title" style="margin-top: 20px; color: green;">راي مدير ادارة التمويلات
+                                    </h4>
+                                    <br/>
+                                    <t class="data" t-esc="etape2.recommandation_dir_fin"/>
+                                </div>
+                                <br/>
+
+                                <t t-set="etape4"
+                                   t-value="doc.states.filtered(lambda l: l.sequence == 4 )"/>
+                                <div class="row-info">
+                                    <h4 class="title" style="margin-top: 20px; color: green;">التنقيط الاجمالي</h4>
+                                    <br/>
+                                    <t class="data" t-esc="etape4.resultat_scoring"/>
+                                </div>
+
+                                <t t-set="etape5"
+                                   t-value="doc.states.filtered(lambda l: l.sequence == 5 )"/>
+                                <div class="row-info">
+                                    <h4 class="title" style="margin-top: 20px; color: green;">
+                                        توصية/قرار نائب المدير العام
+                                    </h4>
+                                    <br/>
+                                    <t class="data" t-esc="etape5.recommandation_vice_dir_fin"/>
+                                </div>
+                                <t t-set="etape6"
+                                   t-value="doc.states.filtered(lambda l: l.sequence == 6 )"/>
+                                <div class="row-info">
+                                    <h4 class="title" style="margin-top: 20px; color: green;">
+                                        توصية/قرار لجنة التسهيلات
+                                    </h4>
+                                    <br/>
+                                    <t class="data" t-esc="etape6.recommandation_fin_comite"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <record id="global_report" model="ir.actions.report">
+            <field name="name">التقرير النهائي</field>
+            <field name="model">wk.workflow.dashboard</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">dept_wk.report_global</field>
+            <field name="report_file">dept_wk.report_global</field>
+            <field name="binding_model_id" ref="model_wk_workflow_dashboard"/>
+        </record>
+    </data>
+</odoo>

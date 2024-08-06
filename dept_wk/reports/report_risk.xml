@@ -468,9 +468,9 @@
                                             </td>
                                             <td>
                                                 <t t-esc="int(doc.pourcentage * 100)"/>%
-                                            </td>
+                                            </td>facilite_ids
                                             <td>
-                                                <t t-esc="'{0:,.2f}'.format(doc.limit_expo / 1000)"/>
+                                                <t t-esc="'{0:,.02f}'.format(doc.limit_expo / 1000)"/>
                                             </td>
                                         </tr>
                                         <t t-foreach="doc.scoring_group_ids" t-as="group">
@@ -479,7 +479,7 @@
                                                     <t t-esc="group.partner_id.name"/>
                                                 </td>
                                                 <td>
-                                                    <t t-esc="'{0:,.2f}'.format(group.resultat_scoring  / 10)"/>%
+                                                    <t t-esc="'{0:,.02f}'.format(group.resultat_scoring  / 10)"/>%
                                                 </td>
                                                 <td>
                                                     <span t-field="group.classif_risque"/>
@@ -494,7 +494,7 @@
                                                     <t t-esc="int(group.pourcentage * 100)"/>%
                                                 </td>
                                                 <td>
-                                                    <t t-esc="'{0:,.2f}'.format(group.limit_expo/ 1000)"/>
+                                                    <t t-esc="'{0:,.02f}'.format(group.limit_expo/ 1000)"/>
                                                 </td>
                                             </tr>
                                         </t>
@@ -559,10 +559,10 @@
                                                     <span t-field="company.taille"/>
                                                 </td>
                                                 <td>
-                                                    <t t-esc="'{0:,.2f}'.format(company.chiffre_affaire/ 1000)"/>
+                                                    <t t-esc="'{0:,.02f}'.format(company.chiffre_affaire/ 1000)"/>
                                                 </td>
                                                 <td>
-                                                    <t t-esc="'{0:,.2f}'.format(company.max_limit / 1000)"/>
+                                                    <t t-esc="'{0:,.02f}'.format(company.max_limit / 1000)"/>
                                                 </td>
                                             </tr>
                                         </t>
@@ -605,28 +605,28 @@
                                                     </t>
                                                 </td>
                                                 <td>
-                                                    <t t-esc="'{0:,.0f}'.format(line.actuel_brut / 1000)"/>
+                                                    <t t-esc="'{0:,.02f}'.format(line.actuel_brut / 1000)"/>
                                                 </td>
                                                 <td>
                                                     <t t-esc="int(line.assurance/ 1000)"/>
                                                 </td>
                                                 <td>
-                                                    <t t-esc="'{0:,.0f}'.format(line.actuel_net / 1000)"/>
+                                                    <t t-esc="'{0:,.02f}'.format(line.actuel_net / 1000)"/>
                                                 </td>
                                                 <td>
-                                                    <t t-esc="'{0:,.0f}'.format(line.bilan / 1000)"/>
+                                                    <t t-esc="'{0:,.02f}'.format(line.bilan / 1000)"/>
                                                 </td>
                                                 <td>
-                                                    <t t-esc="'{0:,.0f}'.format(line.request_net / 1000)"/>
+                                                    <t t-esc="'{0:,.02f}'.format(line.request_net / 1000)"/>
                                                 </td>
                                                 <td>
-                                                    <t t-esc="'{0:,.0f}'.format(line.proposed_net / 1000)"/>
+                                                    <t t-esc="'{0:,.02f}'.format(line.proposed_net / 1000)"/>
                                                 </td>
                                                 <td>
-                                                    <t t-esc="'{0:,.0f}'.format(line.ratio_request_net / 1000)"/>
+                                                    <t t-esc="'{0:,.02f}'.format(line.ratio_request_net / 1000)"/>
                                                 </td>
                                                 <td>
-                                                    <t t-esc="'{0:,.0f}'.format(line.ratio_propose_net / 1000)"/>
+                                                    <t t-esc="'{0:,.02f}'.format(line.ratio_propose_net / 1000)"/>
                                                 </td>
                                             </tr>
 
@@ -640,42 +640,42 @@
                                             <td>
                                                 <t t-set="actuel_brut_ttl"
                                                    t-value="sum(doc.facilite_ids.mapped('actuel_brut'))"/>
-                                                <t t-esc="'{0:,.0f}'.format(actuel_brut_ttl / 1000)"/>
+                                                <t t-esc="'{0:,.02f}'.format(actuel_brut_ttl / 1000)"/>
                                             </td>
                                             <td>
                                                 <t t-set="assurance_ttl"
                                                    t-value="sum(doc.facilite_ids.mapped('assurance'))"/>
-                                                <t t-esc="'{0:,.0f}'.format(assurance_ttl / 1000)"/>
+                                                <t t-esc="'{0:,.02f}'.format(assurance_ttl / 1000)"/>
                                             </td>
                                             <td>
                                                 <t t-set="actuel_net_ttl"
                                                    t-value="sum(doc.facilite_ids.mapped('actuel_net'))"/>
-                                                <t t-esc="'{0:,.0f}'.format(actuel_net_ttl / 1000)"/>
+                                                <t t-esc="'{0:,.02f}'.format(actuel_net_ttl / 1000)"/>
                                             </td>
                                             <td>
                                                 <t t-set="bilan_ttl"
                                                    t-value="sum(doc.facilite_ids.mapped('bilan'))"/>
-                                                <t t-esc="'{0:,.0f}'.format(bilan_ttl / 1000)"/>
+                                                <t t-esc="'{0:,.02f}'.format(bilan_ttl / 1000)"/>
                                             </td>
                                             <td>
                                                 <t t-set="request_net_ttl"
                                                    t-value="sum(doc.facilite_ids.mapped('request_net'))"/>
-                                                <t t-esc="'{0:,.0f}'.format(request_net_ttl / 1000)"/>
+                                                <t t-esc="'{0:,.02f}'.format(request_net_ttl / 1000)"/>
                                             </td>
                                             <td>
                                                 <t t-set="proposed_net_ttl"
                                                    t-value="sum(doc.facilite_ids.mapped('proposed_net'))"/>
-                                                <t t-esc="'{0:,.0f}'.format(proposed_net_ttl / 1000)"/>
+                                                <t t-esc="'{0:,.02f}'.format(proposed_net_ttl / 1000)"/>
                                             </td>
                                             <td>
                                                 <t t-set="ratio_request_net_ttl"
                                                    t-value="sum(doc.facilite_ids.mapped('ratio_request_net'))"/>
-                                                <t t-esc="'{0:,.0f}'.format(ratio_request_net_ttl / 1000)"/>
+                                                <t t-esc="'{0:,.02f}'.format(ratio_request_net_ttl / 1000)"/>
                                             </td>
                                             <td>
                                                 <t t-set="ratio_propose_net_ttl"
                                                    t-value="sum(doc.facilite_ids.mapped('ratio_propose_net'))"/>
-                                                <t t-esc="'{0:,.0f}'.format(ratio_propose_net_ttl / 1000)"/>
+                                                <t t-esc="'{0:,.02f}'.format(ratio_propose_net_ttl / 1000)"/>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -719,28 +719,28 @@
                                                         </t>
                                                     </td>
                                                     <td>
-                                                        <t t-esc="'{0:,.0f}'.format(line.actuel_brut / 1000)"/>
+                                                        <t t-esc="'{0:,.02f}'.format(line.actuel_brut / 1000)"/>
                                                     </td>
                                                     <td>
                                                         <t t-esc="int(line.assurance/ 1000)"/>
                                                     </td>
                                                     <td>
-                                                        <t t-esc="'{0:,.0f}'.format(line.actuel_net / 1000)"/>
+                                                        <t t-esc="'{0:,.02f}'.format(line.actuel_net / 1000)"/>
                                                     </td>
                                                     <td>
-                                                        <t t-esc="'{0:,.0f}'.format(line.bilan / 1000)"/>
+                                                        <t t-esc="'{0:,.02f}'.format(line.bilan / 1000)"/>
                                                     </td>
                                                     <td>
-                                                        <t t-esc="'{0:,.0f}'.format(line.request_net / 1000)"/>
+                                                        <t t-esc="'{0:,.02f}'.format(line.request_net / 1000)"/>
                                                     </td>
                                                     <td>
-                                                        <t t-esc="'{0:,.0f}'.format(line.proposed_net / 1000)"/>
+                                                        <t t-esc="'{0:,.02f}'.format(line.proposed_net / 1000)"/>
                                                     </td>
                                                     <td>
-                                                        <t t-esc="'{0:,.0f}'.format(line.ratio_request_net / 1000)"/>
+                                                        <t t-esc="'{0:,.02f}'.format(line.ratio_request_net / 1000)"/>
                                                     </td>
                                                     <td>
-                                                        <t t-esc="'{0:,.0f}'.format(line.ratio_propose_net / 1000)"/>
+                                                        <t t-esc="'{0:,.02f}'.format(line.ratio_propose_net / 1000)"/>
                                                     </td>
                                                 </tr>
                                             </t>
@@ -753,42 +753,42 @@
                                                 <td>
                                                     <t t-set="actuel_brut_ttl"
                                                        t-value="sum(company.facilite_ids.mapped('actuel_brut'))"/>
-                                                    <t t-esc="'{0:,.0f}'.format(actuel_brut_ttl / 1000)"/>
+                                                    <t t-esc="'{0:,.02f}'.format(actuel_brut_ttl / 1000)"/>
                                                 </td>
                                                 <td>
                                                     <t t-set="assurance_ttl"
                                                        t-value="sum(company.facilite_ids.mapped('assurance'))"/>
-                                                    <t t-esc="'{0:,.0f}'.format(assurance_ttl / 1000)"/>
+                                                    <t t-esc="'{0:,.02f}'.format(assurance_ttl / 1000)"/>
                                                 </td>
                                                 <td>
                                                     <t t-set="actuel_net_ttl"
                                                        t-value="sum(company.facilite_ids.mapped('actuel_net'))"/>
-                                                    <t t-esc="'{0:,.0f}'.format(actuel_net_ttl / 1000)"/>
+                                                    <t t-esc="'{0:,.02f}'.format(actuel_net_ttl / 1000)"/>
                                                 </td>
                                                 <td>
                                                     <t t-set="bilan_ttl"
                                                        t-value="sum(company.facilite_ids.mapped('bilan'))"/>
-                                                    <t t-esc="'{0:,.0f}'.format(bilan_ttl / 1000)"/>
+                                                    <t t-esc="'{0:,.02f}'.format(bilan_ttl / 1000)"/>
                                                 </td>
                                                 <td>
                                                     <t t-set="request_net_ttl"
                                                        t-value="sum(company.facilite_ids.mapped('request_net'))"/>
-                                                    <t t-esc="'{0:,.0f}'.format(request_net_ttl / 1000)"/>
+                                                    <t t-esc="'{0:,.02f}'.format(request_net_ttl / 1000)"/>
                                                 </td>
                                                 <td>
                                                     <t t-set="proposed_net_ttl"
                                                        t-value="sum(company.facilite_ids.mapped('proposed_net'))"/>
-                                                    <t t-esc="'{0:,.0f}'.format(proposed_net_ttl / 1000)"/>
+                                                    <t t-esc="'{0:,.02f}'.format(proposed_net_ttl / 1000)"/>
                                                 </td>
                                                 <td>
                                                     <t t-set="ratio_request_net_ttl"
                                                        t-value="sum(company.facilite_ids.mapped('ratio_request_net'))"/>
-                                                    <t t-esc="'{0:,.0f}'.format(ratio_request_net_ttl / 1000)"/>
+                                                    <t t-esc="'{0:,.02f}'.format(ratio_request_net_ttl / 1000)"/>
                                                 </td>
                                                 <td>
                                                     <t t-set="ratio_propose_net_ttl"
                                                        t-value="sum(company.facilite_ids.mapped('ratio_propose_net'))"/>
-                                                    <t t-esc="'{0:,.0f}'.format(ratio_propose_net_ttl / 1000)"/>
+                                                    <t t-esc="'{0:,.02f}'.format(ratio_propose_net_ttl / 1000)"/>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -844,55 +844,55 @@
                                                    t-value="actuel_brut_global + sum(doc.facilite_ids.mapped('actuel_brut'))"/>
                                                 <t t-set="actuel_brut_ttl"
                                                    t-value="sum(doc.facilite_ids.mapped('actuel_brut'))"/>
-                                                <t t-esc="'{0:,.0f}'.format(actuel_brut_ttl / 1000)"/>
+                                                <t t-esc="'{0:,.02f}'.format(actuel_brut_ttl / 1000)"/>
                                             </td>
                                             <td>
                                                 <t t-set="assurance_global"
                                                    t-value="assurance_global + sum(doc.facilite_ids.mapped('assurance'))"/>
                                                 <t t-set="assurance_ttl"
                                                    t-value="sum(doc.facilite_ids.mapped('assurance'))"/>
-                                                <t t-esc="'{0:,.0f}'.format(assurance_ttl / 1000)"/>
+                                                <t t-esc="'{0:,.02f}'.format(assurance_ttl / 1000)"/>
                                             </td>
                                             <td>
                                                 <t t-set="actuel_net_global"
                                                    t-value="actuel_net_global + sum(doc.facilite_ids.mapped('actuel_net'))"/>
                                                 <t t-set="actuel_net_ttl"
                                                    t-value="sum(doc.facilite_ids.mapped('actuel_net'))"/>
-                                                <t t-esc="'{0:,.0f}'.format(actuel_net_ttl / 1000)"/>
+                                                <t t-esc="'{0:,.02f}'.format(actuel_net_ttl / 1000)"/>
                                             </td>
                                             <td>
                                                 <t t-set="bilan_global"
                                                    t-value="bilan_global + sum(doc.facilite_ids.mapped('bilan'))"/>
                                                 <t t-set="bilan_ttl" t-value="sum(doc.facilite_ids.mapped('bilan'))"/>
-                                                <t t-esc="'{0:,.0f}'.format(bilan_ttl / 1000)"/>
+                                                <t t-esc="'{0:,.02f}'.format(bilan_ttl / 1000)"/>
                                             </td>
                                             <td>
                                                 <t t-set="request_net_global"
                                                    t-value="request_net_global + sum(doc.facilite_ids.mapped('request_net'))"/>
                                                 <t t-set="request_net_ttl"
                                                    t-value="sum(doc.facilite_ids.mapped('request_net'))"/>
-                                                <t t-esc="'{0:,.0f}'.format(request_net_ttl / 1000)"/>
+                                                <t t-esc="'{0:,.02f}'.format(request_net_ttl / 1000)"/>
                                             </td>
                                             <td>
                                                 <t t-set="proposed_net_global"
                                                    t-value="proposed_net_global + sum(doc.facilite_ids.mapped('proposed_net'))"/>
                                                 <t t-set="proposed_net_ttl"
                                                    t-value="sum(doc.facilite_ids.mapped('proposed_net'))"/>
-                                                <t t-esc="'{0:,.0f}'.format(proposed_net_ttl / 1000)"/>
+                                                <t t-esc="'{0:,.02f}'.format(proposed_net_ttl / 1000)"/>
                                             </td>
                                             <td>
                                                 <t t-set="ratio_request_net_global"
                                                    t-value="ratio_request_net_global + sum(doc.facilite_ids.mapped('ratio_request_net'))"/>
                                                 <t t-set="ratio_request_net_ttl"
                                                    t-value="sum(doc.facilite_ids.mapped('ratio_request_net'))"/>
-                                                <t t-esc="'{0:,.0f}'.format(ratio_request_net_ttl / 1000)"/>
+                                                <t t-esc="'{0:,.02f}'.format(ratio_request_net_ttl / 1000)"/>
                                             </td>
                                             <td>
                                                 <t t-set="ratio_propose_net_global"
                                                    t-value="ratio_propose_net_global + sum(doc.facilite_ids.mapped('ratio_propose_net'))"/>
                                                 <t t-set="ratio_propose_net_ttl"
                                                    t-value="sum(doc.facilite_ids.mapped('ratio_propose_net'))"/>
-                                                <t t-esc="'{0:,.0f}'.format(ratio_propose_net_ttl / 1000)"/>
+                                                <t t-esc="'{0:,.02f}'.format(ratio_propose_net_ttl / 1000)"/>
                                             </td>
                                         </tr>
                                         <t t-foreach="doc.scoring_group_ids" t-as="company">
@@ -907,42 +907,42 @@
                                                        t-value="actuel_brut_global + sum(company.facilite_ids.mapped('actuel_brut'))"/>
                                                     <t t-set="actuel_brut_ttl"
                                                        t-value="sum(company.facilite_ids.mapped('actuel_brut'))"/>
-                                                    <t t-esc="'{0:,.0f}'.format(actuel_brut_ttl / 1000)"/>
+                                                    <t t-esc="'{0:,.02f}'.format(actuel_brut_ttl / 1000)"/>
                                                 </td>
                                                 <td>
                                                     <t t-set="assurance_global"
                                                        t-value="assurance_global + sum(company.facilite_ids.mapped('assurance'))"/>
                                                     <t t-set="assurance_ttl"
                                                        t-value="sum(company.facilite_ids.mapped('assurance'))"/>
-                                                    <t t-esc="'{0:,.0f}'.format(assurance_ttl / 1000)"/>
+                                                    <t t-esc="'{0:,.02f}'.format(assurance_ttl / 1000)"/>
                                                 </td>
                                                 <td>
                                                     <t t-set="actuel_net_global"
                                                        t-value="actuel_net_global + sum(company.facilite_ids.mapped('actuel_net'))"/>
                                                     <t t-set="actuel_net_ttl"
                                                        t-value="sum(company.facilite_ids.mapped('actuel_net'))"/>
-                                                    <t t-esc="'{0:,.0f}'.format(actuel_net_ttl / 1000)"/>
+                                                    <t t-esc="'{0:,.02f}'.format(actuel_net_ttl / 1000)"/>
                                                 </td>
                                                 <td>
                                                     <t t-set="bilan_global"
                                                        t-value="bilan_global + sum(company.facilite_ids.mapped('bilan'))"/>
                                                     <t t-set="bilan_ttl"
                                                        t-value="sum(company.facilite_ids.mapped('bilan'))"/>
-                                                    <t t-esc="'{0:,.0f}'.format(bilan_ttl / 1000)"/>
+                                                    <t t-esc="'{0:,.02f}'.format(bilan_ttl / 1000)"/>
                                                 </td>
                                                 <td>
                                                     <t t-set="request_net_global"
                                                        t-value="request_net_global + sum(company.facilite_ids.mapped('request_net'))"/>
                                                     <t t-set="request_net_ttl"
                                                        t-value="sum(company.facilite_ids.mapped('request_net'))"/>
-                                                    <t t-esc="'{0:,.0f}'.format(request_net_ttl / 1000)"/>
+                                                    <t t-esc="'{0:,.02f}'.format(request_net_ttl / 1000)"/>
                                                 </td>
                                                 <td>
                                                     <t t-set="proposed_net_global"
                                                        t-value="proposed_net_global + sum(company.facilite_ids.mapped('proposed_net'))"/>
                                                     <t t-set="proposed_net_ttl"
                                                        t-value="sum(company.facilite_ids.mapped('proposed_net'))"/>
-                                                    <t t-esc="'{0:,.0f}'.format(proposed_net_ttl / 1000)"/>
+                                                    <t t-esc="'{0:,.02f}'.format(proposed_net_ttl / 1000)"/>
                                                 </td>
                                                 <td>
                                                     <t t-set="ratio_request_net_global"
@@ -950,14 +950,14 @@
 
                                                     <t t-set="ratio_request_net_ttl"
                                                        t-value="sum(company.facilite_ids.mapped('ratio_request_net'))"/>
-                                                    <t t-esc="'{0:,.0f}'.format(ratio_request_net_ttl / 1000)"/>
+                                                    <t t-esc="'{0:,.02f}'.format(ratio_request_net_ttl / 1000)"/>
                                                 </td>
                                                 <td>
                                                     <t t-set="ratio_propose_net_global"
                                                        t-value="ratio_propose_net_global + sum(company.facilite_ids.mapped('ratio_propose_net'))"/>
                                                     <t t-set="ratio_propose_net_ttl"
                                                        t-value="sum(company.facilite_ids.mapped('ratio_propose_net'))"/>
-                                                    <t t-esc="'{0:,.0f}'.format(ratio_propose_net_ttl / 1000)"/>
+                                                    <t t-esc="'{0:,.02f}'.format(ratio_propose_net_ttl / 1000)"/>
                                                 </td>
                                             </tr>
                                         </t>
@@ -966,28 +966,28 @@
                                                 المجموع
                                             </td>
                                             <td>
-                                                <t t-esc="'{0:,.0f}'.format(actuel_brut_global / 1000)"/>
+                                                <t t-esc="'{0:,.02f}'.format(actuel_brut_global / 1000)"/>
                                             </td>
                                             <td>
-                                                <t t-esc="'{0:,.0f}'.format(assurance_global / 1000)"/>
+                                                <t t-esc="'{0:,.02f}'.format(assurance_global / 1000)"/>
                                             </td>
                                             <td>
-                                                <t t-esc="'{0:,.0f}'.format(actuel_net_global / 1000)"/>
+                                                <t t-esc="'{0:,.02f}'.format(actuel_net_global / 1000)"/>
                                             </td>
                                             <td>
-                                                <t t-esc="'{0:,.0f}'.format(bilan_global / 1000)"/>
+                                                <t t-esc="'{0:,.02f}'.format(bilan_global / 1000)"/>
                                             </td>
                                             <td>
-                                                <t t-esc="'{0:,.0f}'.format(request_net_global / 1000)"/>
+                                                <t t-esc="'{0:,.02f}'.format(request_net_global / 1000)"/>
                                             </td>
                                             <td>
-                                                <t t-esc="'{0:,.0f}'.format(proposed_net_global / 1000)"/>
+                                                <t t-esc="'{0:,.02f}'.format(proposed_net_global / 1000)"/>
                                             </td>
                                             <td>
-                                                <t t-esc="'{0:,.0f}'.format(ratio_request_net_global / 1000)"/>
+                                                <t t-esc="'{0:,.02f}'.format(ratio_request_net_global / 1000)"/>
                                             </td>
                                             <td>
-                                                <t t-esc="'{0:,.0f}'.format(ratio_propose_net_global / 1000)"/>
+                                                <t t-esc="'{0:,.02f}'.format(ratio_propose_net_global / 1000)"/>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -1019,17 +1019,17 @@
                                                 </td>
                                                 <td>
                                                     <t t-set="limit_total" t-value="limit_total + line.limit / 1000"/>
-                                                    <t t-esc="'{0:,.0f}'.format(line.limit / 1000)"/>
+                                                    <t t-esc="'{0:,.02f}'.format(line.limit / 1000)"/>
                                                 </td>
                                                 <td>
                                                     <t t-set="request_net_total"
                                                        t-value="line.ratio_request_net / 1000"/>
-                                                    <t t-esc="'{0:,.0f}'.format(line.ratio_request_net / 1000)"/>
+                                                    <t t-esc="'{0:,.02f}'.format(line.ratio_request_net / 1000)"/>
                                                 </td>
                                                 <td>
                                                     <t t-set="propose_net_total"
                                                        t-value="(line.ratio_propose_net / 1000)"/>
-                                                    <t t-esc="'{0:,.0f}'.format(line.ratio_propose_net / 1000)"/>
+                                                    <t t-esc="'{0:,.02f}'.format(line.ratio_propose_net / 1000)"/>
                                                 </td>
                                             </tr>
                                         </t>
@@ -1042,17 +1042,17 @@
                                                     <td>
                                                         <t t-set="limit_total"
                                                            t-value="limit_total + (line.limit / 1000)"/>
-                                                        <t t-esc="'{0:,.0f}'.format(line.limit / 1000)"/>
+                                                        <t t-esc="'{0:,.02f}'.format(line.limit / 1000)"/>
                                                     </td>
                                                     <td>
                                                         <t t-set="request_net_total"
                                                            t-value="request_net_total + (line.ratio_request_net / 1000)"/>
-                                                        <t t-esc="'{0:,.0f}'.format(line.ratio_request_net / 1000)"/>
+                                                        <t t-esc="'{0:,.02f}'.format(line.ratio_request_net / 1000)"/>
                                                     </td>
                                                     <td>
                                                         <t t-set="propose_net_total"
                                                            t-value="propose_net_total + (line.ratio_propose_net / 1000)"/>
-                                                        <t t-esc="'{0:,.0f}'.format(line.ratio_propose_net / 1000)"/>
+                                                        <t t-esc="'{0:,.02f}'.format(line.ratio_propose_net / 1000)"/>
                                                     </td>
                                                 </tr>
                                             </t>
@@ -1062,13 +1062,13 @@
                                                 المجموع
                                             </td>
                                             <td>
-                                                <t t-esc="'{0:,.0f}'.format(limit_total)"/>
+                                                <t t-esc="'{0:,.02f}'.format(limit_total)"/>
                                             </td>
                                             <td>
-                                                <t t-esc="'{0:,.0f}'.format(request_net_total)"/>
+                                                <t t-esc="'{0:,.02f}'.format(request_net_total)"/>
                                             </td>
                                             <td>
-                                                <t t-esc="'{0:,.0f}'.format(propose_net_total)"/>
+                                                <t t-esc="'{0:,.02f}'.format(propose_net_total)"/>
                                             </td>
                                         </tr>
                                         <tr>
@@ -1076,15 +1076,15 @@
                                                 المجموع
                                             </td>
                                             <td>
-                                                <t t-esc="'{0:,.0f}'.format((limit_total / (doc.ca_banque / 1000))* 100)"/>
+                                                <t t-esc="'{0:,.02f}'.format((limit_total / (doc.ca_banque / 1000))* 100)"/>
                                                 %
                                             </td>
                                             <td>
-                                                <t t-esc="'{0:,.0f}'.format((request_net_total / (doc.ca_banque / 1000))* 100)"/>
+                                                <t t-esc="'{0:,.02f}'.format((request_net_total / (doc.ca_banque / 1000))* 100)"/>
                                                 %
                                             </td>
                                             <td>
-                                                <t t-esc="'{0:,.0f}'.format((propose_net_total / (doc.ca_banque / 1000))* 100)"/>
+                                                <t t-esc="'{0:,.02f}'.format((propose_net_total / (doc.ca_banque / 1000))* 100)"/>
                                                 %
                                             </td>
                                         </tr>

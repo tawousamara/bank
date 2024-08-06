@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="wk_workflow_dashboard_action" model="ir.actions.act_window">
+        <field name="name">طلب التمويل</field>
+        <field name="res_model">wk.workflow.dashboard</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_filter_creation_date': 1}</field>
+    </record>
+    <record id="view_wk_workflow_dashboard_tree" model="ir.ui.view">
+        <field name="name">wk.workflow.dashboard.tree</field>
+        <field name="model">wk.workflow.dashboard</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="date"/>
+                <field name="date_fin"/>
+                <field name="branche"/>
+                <field name="demande"/>
+                <field name="nom_client"/>
+                <field name="chiffre_affaire"/>
+                <field name="assigned_to_agence"/>
+                <field name="assigned_to_finance"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_wk_workflow_dashboard_search" model="ir.ui.view">
+        <field name="name">wk.workflow.dashboard.search</field>
+        <field name="model">wk.workflow.dashboard</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="branche"/>
+                <field name="demande"/>
+                <field name="nom_client"/>
+                <field name="assigned_to_finance"/>
+                <field name="state"/>
+                <filter string="تاريخ البدء" name="filter_creation_date" date="date" default_period="this_year,this_month"/>
+                <filter string="تاريخ الانتهاء" name="filter_fin_date" date="date_fin" default_period="this_year,this_month"/>
+                <group expand="1" string="Group By">
+                    <filter string="الفرع" name="group_by_branch"
+                            context="{'group_by': 'branche'}"/>
+                    <filter string="نوع الطلب" name="group_by_demande" context="{'group_by': 'demande'}"/>
+                    <filter string="المحلل المالي" name="group_by_assigned_to"
+                            context="{'group_by': 'assigned_to_finance'}"/>
+                    <filter string="المتعامل" name="group_by_client" context="{'group_by': 'nom_client'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_wk_workflow_dashboard_form" model="ir.ui.view">
+        <field name="name">wk.workflow.dashboard.form</field>
+        <field name="model">wk.workflow.dashboard</field>
+        <field name="arch" type="xml">
+            <form create="0">
+                <header>
+                    <button type="action" name="%(dept_wk.global_report)d" class="btn-primary" string="التقرير النهائي"
+                                     width="10%"/>
+
+                    <field name="state" widget="statusbar" statusbar_visible="1,2,3,4,5,6,7"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="open_tracking"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-history">
+                        </button>
+                        <button name="open_messages"
+                                type="object"
+                                icon="fa-regular fa-envelope"/>
+                    </div>
+                    <div class="oe_title content">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <div>
+                        <group col="1">
+                            <group>
+                                <field name="date"/>
+                                <field name="nom_client" readonly="state != '1'" context="{'default_is_client':True}"
+                                       domain="[('is_client', '=', True)]"/>
+                                <field name="num_compte" readonly="1"/>
+                                <field name="branche" readonly="1"/>
+                                <field name="demande" readonly="state != '1'"
+                                       options="{'no_create': True, 'no_open': True}"/>
+                                <field name="lanced" invisible="1"/>
+                                <field name="workflow_old" invisible="demande == 1"
+                                       domain="[('nom_client', '=', nom_client)]"/>
+                                <field name="explanation" invisible="demande == 1"/>
+                            </group>
+                            <button type="object" name="action_start" class="btn-primary" string="بدء دراسة الملف"
+                                    invisible="lanced == True" width="10%"/>
+                        </group>
+                    </div>
+                    <field name="states" invisible="lanced == False" widget="kanban">
+                        <kanban create="0">
+                            <field name="etape"/>
+                            <field name="user_id"/>
+                            <templates>
+                                <t t-name="kanban-box">
+                                    <div t-att-class="oe_kanban_global_click"
+                                         style="border: 2px solid rgb(24, 110, 100, 0.5); border-radius: 5px;">
+                                        <div t-attf-class="o_kanban_card_header">
+                                            <div class="o_kanban_card_header_title">
+                                                <div class="o_primary" style="font-size:16px; font-weight: bold;">
+                                                    <field name="name"/>
+                                                </div>
+                                            </div>
+                                            <div style="position: absolute; top: 5px; right: 5px;">
+                                                <field name="state_compute" widget="percentage"
+                                                       style="color: #4CAF50; font-weight: bold"/>
+                                            </div>
+                                        </div>
+                                        <div t-attf-class="o_kanban_card_content">
+                                            <div style="margin-top: 5px;">
+                                                <span>المكلف بالملف:</span>
+                                                <field name="user_id"/>
+                                            </div>
+                                            <div style="margin-top: 5px; position: absolute; bottom: 5px; right: 5px;">
+                                                <button type="object" name="action_get_view" string="انظر مزيد"
+                                                        class="btn-primary"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </t>
+                            </templates>
+                        </kanban>
+                    </field>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+</odoo>

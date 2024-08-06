@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record model="ir.ui.view" id="purchase_order_wk">
+        <field name="name">res.partner.new.client</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='vat']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//div[@class='o_address_format']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//span[@class='o_form_label o_td_label']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='category_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//page[@name='sales_purchases']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//button[@name='%(payment.action_payment_token)d']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//page[@name='internal_notes']" position="before">
+                <page string="تفاصيل التمويلات">
+                    <field name="demandes">
+                        <tree create="0" edit="0" delete="0">
+                            <field name="type"/>
+                            <field name="date"/>
+                            <field name="date_fin"/>
+                            <field name="montant"/>
+                            <field name="garanties"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+            <xpath expr="//sheet/group" position="inside">
+                <group>
+                    <field name="adress_siege"/>
+                    <field name="is_client"/>
+                    <field name="branche"/>
+                    <field name="wilaya"/>
+                    <field name="nif"/>
+                    <field name="rc"/>
+                    <field name="date_inscription"/>
+                    <field name="activity_code"/>
+                    <field name="activity_description"/>
+                    <field name="groupe"/>
+                </group>
+                <group>
+                    <field name="activite"/>
+                    <field name="date_debut_activite"/>
+                    <field name="num_compte"/>
+                    <field name="date_ouverture_compte"/>
+                    <field name="classification"/>
+                    <field name="forme_jur"/>
+                    <field name="chiffre_affaire" widget="monetary"/>
+                </group>
+            </xpath>
+        </field>
+
+    </record>
+</odoo>

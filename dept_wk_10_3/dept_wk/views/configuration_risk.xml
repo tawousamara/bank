@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="risk_original_capital_action" model="ir.actions.act_window">
+        <field name="name">Original du capital</field>
+        <field name="res_model">risk.original.capital</field>
+        <field name="view_mode">tree</field>
+    </record>
+    <record id="view_original_capital_tree" model="ir.ui.view">
+        <field name="name">risk.original.capital.tree</field>
+        <field name="model">risk.original.capital</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="risk_configuration_risque_action" model="ir.actions.act_window">
+        <field name="name">Configuration de chiffre d'affaire</field>
+        <field name="res_model">configuration.risque</field>
+        <field name="view_mode">tree</field>
+    </record>
+    <record id="view_configuration_risque_tree" model="ir.ui.view">
+        <field name="name">configuration.risque.tree</field>
+        <field name="model">configuration.risque</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="montant"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="risk_critere_qualitatif_action" model="ir.actions.act_window">
+        <field name="name">Critères Qualitatifs</field>
+        <field name="res_model">risk.critere.qualitatif</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record id="view_critere_qualitatif_tree" model="ir.ui.view">
+        <field name="name">risk.critere.qualitatif.tree</field>
+        <field name="model">risk.critere.qualitatif</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+    <record id="view_critere_qualitatif_form" model="ir.ui.view">
+        <field name="name">risk.critere.qualitatif.form</field>
+        <field name="model">risk.critere.qualitatif</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="date"/>
+                    </group>
+                    <group>
+                        <field name="original_capital">
+                            <tree editable="bottom">
+                                <field name="name"/>
+                                <field name="ponderation"/>
+                            </tree>
+                        </field>
+                        <field name="actionnariat">
+                            <tree editable="bottom">
+                                <field name="name"/>
+                                <field name="ponderation"/>
+                            </tree>
+                        </field>
+                        <field name="forme_jur">
+                            <tree editable="bottom">
+                                <field name="name"/>
+                                <field name="ponderation"/>
+                            </tree>
+                        </field>
+                        <field name="remp_succession">
+                            <tree editable="bottom">
+                                <field name="name"/>
+                                <field name="ponderation"/>
+                            </tree>
+                        </field>
+                        <field name="remp_succession">
+                            <tree editable="bottom">
+                                <field name="name"/>
+                                <field name="ponderation"/>
+                            </tree>
+                        </field>
+                        <field name="competence">
+                            <tree editable="bottom">
+                                <field name="name"/>
+                                <field name="ponderation"/>
+                            </tree>
+                        </field>
+                        <field name="experience">
+                            <tree editable="bottom">
+                                <field name="name"/>
+                                <field name="ponderation"/>
+                            </tree>
+                        </field>
+                        <field name="soutien_etatic">
+                            <tree editable="bottom">
+                                <field name="name"/>
+                                <field name="ponderation"/>
+                            </tree>
+                        </field>
+                        <field name="activite">
+                            <tree editable="bottom">
+                                <field name="name"/>
+                                <field name="ponderation"/>
+                            </tree>
+                        </field>
+                        <field name="influence_tech">
+                            <tree editable="bottom">
+                                <field name="name"/>
+                                <field name="ponderation"/>
+                            </tree>
+                        </field>
+                        <field name="anciennete">
+                            <tree editable="bottom">
+                                <field name="name"/>
+                                <field name="ponderation"/>
+                            </tree>
+                        </field>
+                        <field name="concurrence">
+                            <tree editable="bottom">
+                                <field name="name"/>
+                                <field name="ponderation"/>
+                            </tree>
+                        </field>
+                        <field name="source_appro">
+                            <tree editable="bottom">
+                                <field name="name"/>
+                                <field name="ponderation"/>
+                            </tree>
+                        </field>
+                        <field name="produit">
+                            <tree editable="bottom">
+                                <field name="name"/>
+                                <field name="ponderation"/>
+                            </tree>
+                        </field>
+                        <field name="produit">
+                            <tree editable="bottom">
+                                <field name="name"/>
+                                <field name="ponderation"/>
+                            </tree>
+                        </field>
+                        <field name="flexibilite">
+                            <tree editable="bottom">
+                                <field name="name"/>
+                                <field name="ponderation"/>
+                            </tree>
+                        </field>
+                        <field name="sollicitude">
+                            <tree editable="bottom">
+                                <field name="name"/>
+                                <field name="ponderation"/>
+                            </tree>
+                        </field>
+                        <field name="situation">
+                            <tree editable="bottom">
+                                <field name="name"/>
+                                <field name="ponderation"/>
+                            </tree>
+                        </field>
+                        <field name="mouvement">
+                            <tree editable="bottom">
+                                <field name="name"/>
+                                <field name="ponderation"/>
+                            </tree>
+                        </field>
+                        <field name="garanties">
+                            <tree editable="bottom">
+                                <field name="name"/>
+                                <field name="ponderation"/>
+                            </tree>
+                        </field>
+                        <field name="incident">
+                            <tree editable="bottom">
+                                <field name="name"/>
+                                <field name="ponderation"/>
+                            </tree>
+                        </field>
+                        <field name="conduite">
+                            <tree editable="bottom">
+                                <field name="name"/>
+                                <field name="ponderation"/>
+                            </tree>
+                        </field>
+                        <field name="dette_fisc">
+                            <tree editable="bottom">
+                                <field name="name"/>
+                                <field name="ponderation"/>
+                            </tree>
+                        </field>
+                        <field name="dette_parafisc">
+                            <tree editable="bottom">
+                                <field name="name"/>
+                                <field name="ponderation"/>
+                            </tree>
+                        </field>
+                        <field name="position_admin">
+                            <tree editable="bottom">
+                                <field name="name"/>
+                                <field name="ponderation"/>
+                            </tree>
+                        </field>
+                        <field name="source_remb">
+                            <tree editable="bottom">
+                                <field name="name"/>
+                                <field name="ponderation"/>
+                            </tree>
+                        </field>
+                        <field name="part_profil">
+                            <tree editable="bottom">
+                                <field name="name"/>
+                                <field name="ponderation"/>
+                            </tree>
+                        </field>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="risk_critere_quantitatif_action" model="ir.actions.act_window">
+        <field name="name">Critères Quantitatifs</field>
+        <field name="res_model">risk.critere.quantitatif</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record id="view_critere_quantitatif_tree" model="ir.ui.view">
+        <field name="name">risk.critere.quantitatif.tree</field>
+        <field name="model">risk.critere.quantitatif</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+    <record id="view_critere_quantitatif_form" model="ir.ui.view">
+        <field name="name">risk.critere.quantitatif.form</field>
+        <field name="model">risk.critere.quantitatif</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="date"/>
+                    </group>
+                    <group>
+                        <field name="quant_1">
+                            <tree editable="bottom">
+                                <field name="name" readonly="1"/>
+                                <field name="du"/>
+                                <field name="au"/>
+                                <field name="ponderation"/>
+                            </tree>
+                        </field>
+                        <field name="quant_2">
+                            <tree editable="bottom">
+                                <field name="name" readonly="1"/>
+                                <field name="du"/>
+                                <field name="au"/>
+                                <field name="ponderation"/>
+                            </tree>
+                        </field>
+                        <field name="quant_3">
+                            <tree editable="bottom">
+                                <field name="name" readonly="1"/>
+                                <field name="du"/>
+                                <field name="au"/>
+                                <field name="ponderation"/>
+                            </tree>
+                        </field>
+                        <field name="quant_4">
+                            <tree editable="bottom">
+                                <field name="name" readonly="1"/>
+                                <field name="du"/>
+                                <field name="au"/>
+                                <field name="ponderation"/>
+                            </tree>
+                        </field>
+                        <field name="quant_5">
+                            <tree editable="bottom">
+                                <field name="name" readonly="1"/>
+                                <field name="du"/>
+                                <field name="au"/>
+                                <field name="ponderation"/>
+                            </tree>
+                        </field>
+                        <field name="quant_6">
+                            <tree editable="bottom">
+                                <field name="name" readonly="1"/>
+                                <field name="du"/>
+                                <field name="au"/>
+                                <field name="ponderation"/>
+                            </tree>
+                        </field>
+                        <field name="quant_7">
+                            <tree editable="bottom">
+                                <field name="name" readonly="1"/>
+                                <field name="du"/>
+                                <field name="au"/>
+                                <field name="ponderation"/>
+                            </tree>
+                        </field>
+                        <field name="quant_8">
+                            <tree editable="bottom">
+                                <field name="name" readonly="1"/>
+                                <field name="du"/>
+                                <field name="au"/>
+                                <field name="ponderation"/>
+                            </tree>
+                        </field>
+                        <field name="quant_9">
+                            <tree editable="bottom">
+                                <field name="name" readonly="1"/>
+                                <field name="du"/>
+                                <field name="au"/>
+                                <field name="ponderation"/>
+                            </tree>
+                        </field>
+                        <field name="quant_10">
+                            <tree editable="bottom">
+                                <field name="name" readonly="1"/>
+                                <field name="du"/>
+                                <field name="au"/>
+                                <field name="ponderation"/>
+                            </tree>
+                        </field>
+                        <field name="quant_11">
+                            <tree editable="bottom">
+                                <field name="name" readonly="1"/>
+                                <field name="du"/>
+                                <field name="au"/>
+                                <field name="ponderation"/>
+                            </tree>
+                        </field>
+                        <field name="quant_12">
+                            <tree editable="bottom">
+                                <field name="name" readonly="1"/>
+                                <field name="du"/>
+                                <field name="au"/>
+                                <field name="ponderation"/>
+                            </tree>
+                        </field>
+                        <field name="quant_13">
+                            <tree editable="bottom">
+                                <field name="name" readonly="1"/>
+                                <field name="du"/>
+                                <field name="au"/>
+                                <field name="ponderation"/>
+                            </tree>
+                        </field>
+                        <field name="quant_14">
+                            <tree editable="bottom">
+                                <field name="name" readonly="1"/>
+                                <field name="du"/>
+                                <field name="au"/>
+                                <field name="ponderation"/>
+                            </tree>
+                        </field>
+
+                        <field name="quant_15">
+                            <tree editable="bottom">
+                                <field name="name" readonly="1"/>
+                                <field name="du"/>
+                                <field name="au"/>
+                                <field name="ponderation"/>
+                            </tree>
+                        </field>
+
+                        <field name="quant_16">
+                            <tree editable="bottom">
+                                <field name="name" readonly="1"/>
+                                <field name="du"/>
+                                <field name="au"/>
+                                <field name="ponderation"/>
+                            </tree>
+                        </field>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!--<record id="view_wk_inherit_tree" model="ir.ui.view">
+            <field name="name">wk.workflow.tree</field>
+            <field name="model">wk.workflow</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="nom_client"/>
+                    <field name="name"/>
+                    <field name="plafond"/>
+                    <field name="resultat_scoring"/>
+                    <field name="date"/>
+                </tree>
+            </field>
+        </record>-->
+    <record id="historic_action" model="ir.actions.act_window">
+        <field name="name">Historique</field>
+        <field name="res_model">wk.hist</field>
+        <field name="view_mode">tree</field>
+    </record>
+    <record id="view_historic_tree" model="ir.ui.view">
+        <field name="name">wk.hist.tree</field>
+        <field name="model">wk.hist</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="nom_client"/>
+                <field name="name"/>
+                <field name="plafond"/>
+                <field name="resultat_scoring"/>
+                <field name="date"/>
+            </tree>
+        </field>
+    </record>
+    <record id="view_historic_search" model="ir.ui.view">
+        <field name="name">wk.hist.search</field>
+        <field name="model">wk.hist</field>
+        <field name="arch" type="xml">
+            <search>
+                <group expand="0" string="Group By" colspan="4">
+                    <filter string="Client" name="client" domain="[]" context="{'group_by': 'nom_client' }"/>
+                    <filter string="Date" name="date" domain="[]" context="{'group_by': 'date' }"/>
+                    </group>
+            </search>
+        </field>
+    </record>
+</odoo>

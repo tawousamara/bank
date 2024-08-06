@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Liste des wilayas -->
+        <record id="wilaya_1" model="wk.wilaya">
+            <field name="name">01</field>
+            <field name="domaine">ADRAR</field>
+            <field name="description">ADRAR</field>
+        </record>
+        <record id="wilaya_2" model="wk.wilaya">
+            <field name="name">02</field>
+            <field name="domaine">CHLEF</field>
+            <field name="description">CHLEF</field>
+        </record>
+        <record id="wilaya_3" model="wk.wilaya">
+            <field name="name">03</field>
+            <field name="domaine">LAGHOUAT</field>
+            <field name="description">LAGHOUAT</field>
+        </record>
+        <record id="wilaya_4" model="wk.wilaya">
+            <field name="name">04</field>
+            <field name="domaine">OUM ELBOUAGHI</field>
+            <field name="description">OUM ELBOUAGHI</field>
+        </record>
+        <record id="wilaya_5" model="wk.wilaya">
+            <field name="name">05</field>
+            <field name="domaine">BATNA</field>
+            <field name="description">BATNA</field>
+        </record>
+        <record id="wilaya_6" model="wk.wilaya">
+            <field name="name">06</field>
+            <field name="domaine">BEJAIA</field>
+            <field name="description">BEJAIA</field>
+        </record>
+        <record id="wilaya_7" model="wk.wilaya">
+            <field name="name">07</field>
+            <field name="domaine">BISKRA</field>
+            <field name="description">BISKRA</field>
+        </record>
+        <record id="wilaya_8" model="wk.wilaya">
+            <field name="name">08</field>
+            <field name="domaine">BECHAR</field>
+            <field name="description">BECHAR</field>
+        </record>
+        <record id="wilaya_9" model="wk.wilaya">
+            <field name="name">09</field>
+            <field name="domaine">BLIDA</field>
+            <field name="description">BLIDA</field>
+        </record>
+        <record id="wilaya_10" model="wk.wilaya">
+            <field name="name">10</field>
+            <field name="domaine">BOUIRA</field>
+            <field name="description">BOUIRA</field>
+        </record>
+        <record id="wilaya_11" model="wk.wilaya">
+            <field name="name">11</field>
+            <field name="domaine">TAMANGHASSET</field>
+            <field name="description">TAMANGHASSET</field>
+        </record>
+        <record id="wilaya_12" model="wk.wilaya">
+            <field name="name">12</field>
+            <field name="domaine">TEBESSA</field>
+            <field name="description">TEBESSA</field>
+        </record>
+        <record id="wilaya_13" model="wk.wilaya">
+            <field name="name">13</field>
+            <field name="domaine">TLEMCEN</field>
+            <field name="description">TLEMCEN</field>
+        </record>
+        <record id="wilaya_14" model="wk.wilaya">
+            <field name="name">14</field>
+            <field name="domaine">TIARET</field>
+            <field name="description">TIARET</field>
+        </record>
+        <record id="wilaya_15" model="wk.wilaya">
+            <field name="name">15</field>
+            <field name="domaine">TIZI.OUZOU</field>
+            <field name="description">TIZI.OUZOU</field>
+        </record>
+        <record id="wilaya_16" model="wk.wilaya">
+            <field name="name">16</field>
+            <field name="domaine">ALGER</field>
+            <field name="description">ALGER</field>
+        </record>
+        <record id="wilaya_17" model="wk.wilaya">
+            <field name="name">17</field>
+            <field name="domaine">DJELFA</field>
+            <field name="description">DJELFA</field>
+        </record>
+        <record id="wilaya_18" model="wk.wilaya">
+            <field name="name">18</field>
+            <field name="domaine">JIJEL</field>
+            <field name="description">JIJEL</field>
+        </record>
+        <record id="wilaya_19" model="wk.wilaya">
+            <field name="name">19</field>
+            <field name="domaine">SETIF</field>
+            <field name="description">SETIF</field>
+        </record>
+        <record id="wilaya_20" model="wk.wilaya">
+            <field name="name">20</field>
+            <field name="domaine">SAIDA</field>
+            <field name="description">SAIDA</field>
+        </record>
+        <record id="wilaya_21" model="wk.wilaya">
+            <field name="name">21</field>
+            <field name="domaine">SKIKDA</field>
+            <field name="description">SKIKDA</field>
+        </record>
+        <record id="wilaya_22" model="wk.wilaya">
+            <field name="name">22</field>
+            <field name="domaine">SIDI BEL ABBES</field>
+            <field name="description">SIDI BEL ABBES</field>
+        </record>
+        <record id="wilaya_23" model="wk.wilaya">
+            <field name="name">23</field>
+            <field name="domaine">ANNABA</field>
+            <field name="description">ANNABA</field>
+        </record>
+        <record id="wilaya_24" model="wk.wilaya">
+            <field name="name">24</field>
+            <field name="domaine">GUELMA</field>
+            <field name="description">GUELMA</field>
+        </record>
+        <record id="wilaya_25" model="wk.wilaya">
+            <field name="name">25</field>
+            <field name="domaine">CONSTANTINE</field>
+            <field name="description">CONSTANTINE</field>
+        </record>
+        <record id="wilaya_26" model="wk.wilaya">
+            <field name="name">26</field>
+            <field name="domaine">MEDEA</field>
+            <field name="description">MEDEA</field>
+        </record>
+        <record id="wilaya_27" model="wk.wilaya">
+            <field name="name">27</field>
+            <field name="domaine">MOSTAGANEM</field>
+            <field name="description">MOSTAGANEM</field>
+        </record>
+        <record id="wilaya_28" model="wk.wilaya">
+            <field name="name">28</field>
+            <field name="domaine">M'SILA</field>
+            <field name="description">M'SILA</field>
+        </record>
+        <record id="wilaya_29" model="wk.wilaya">
+            <field name="name">29</field>
+            <field name="domaine">MASCARA</field>
+            <field name="description">MASCARA</field>
+        </record>
+        <record id="wilaya_30" model="wk.wilaya">
+            <field name="name">30</field>
+            <field name="domaine">OUARGLA</field>
+            <field name="description">OUARGLA</field>
+        </record>
+        <record id="wilaya_31" model="wk.wilaya">
+            <field name="name">31</field>
+            <field name="domaine">ORAN</field>
+            <field name="description">ORAN</field>
+        </record>
+        <record id="wilaya_32" model="wk.wilaya">
+            <field name="name">32</field>
+            <field name="domaine">EL BAYADH</field>
+            <field name="description">EL BAYADH</field>
+        </record>
+        <record id="wilaya_33" model="wk.wilaya">
+            <field name="name">33</field>
+            <field name="domaine">ILLIZI</field>
+            <field name="description">ILLIZI</field>
+        </record>
+        <record id="wilaya_34" model="wk.wilaya">
+            <field name="name">34</field>
+            <field name="domaine">B.B.ARRERIDJ</field>
+            <field name="description">B.B.ARRERIDJ</field>
+        </record>
+        <record id="wilaya_35" model="wk.wilaya">
+            <field name="name">35</field>
+            <field name="domaine">BOUMERDES</field>
+            <field name="description">BOUMERDES</field>
+        </record>
+        <record id="wilaya_36" model="wk.wilaya">
+            <field name="name">36</field>
+            <field name="domaine">AL TARF</field>
+            <field name="description">AL TARF</field>
+        </record>
+        <record id="wilaya_37" model="wk.wilaya">
+            <field name="name">37</field>
+            <field name="domaine">TINDOUF</field>
+            <field name="description">TINDOUF</field>
+        </record>
+        <record id="wilaya_38" model="wk.wilaya">
+            <field name="name">38</field>
+            <field name="domaine">TISSEMSILT</field>
+            <field name="description">TISSEMSILT</field>
+        </record>
+        <record id="wilaya_39" model="wk.wilaya">
+            <field name="name">39</field>
+            <field name="domaine">EL OUED</field>
+            <field name="description">EL OUED</field>
+        </record>
+        <record id="wilaya_40" model="wk.wilaya">
+            <field name="name">40</field>
+            <field name="domaine">KHENCHELA</field>
+            <field name="description">KHENCHELA</field>
+        </record>
+        <record id="wilaya_41" model="wk.wilaya">
+            <field name="name">41</field>
+            <field name="domaine">SOUKAHRAS</field>
+            <field name="description">SOUKAHRAS</field>
+        </record>
+        <record id="wilaya_42" model="wk.wilaya">
+            <field name="name">42</field>
+            <field name="domaine">TIPAZA</field>
+            <field name="description">TIPAZA</field>
+        </record>
+        <record id="wilaya_43" model="wk.wilaya">
+            <field name="name">43</field>
+            <field name="domaine">MILA</field>
+            <field name="description">MILA</field>
+        </record>
+        <record id="wilaya_44" model="wk.wilaya">
+            <field name="name">44</field>
+            <field name="domaine">AIN DEFLA</field>
+            <field name="description">AIN DEFLA</field>
+        </record>
+        <record id="wilaya_45" model="wk.wilaya">
+            <field name="name">45</field>
+            <field name="domaine">NAAMA</field>
+            <field name="description">NAAMA</field>
+        </record>
+        <record id="wilaya_46" model="wk.wilaya">
+            <field name="name">46</field>
+            <field name="domaine">AIN TEMOUCHENT</field>
+            <field name="description">AIN TEMOUCHENT</field>
+        </record>
+        <record id="wilaya_47" model="wk.wilaya">
+            <field name="name">47</field>
+            <field name="domaine">GHARDAIA</field>
+            <field name="description">GHARDAIA</field>
+        </record>
+        <record id="wilaya_48" model="wk.wilaya">
+            <field name="name">48</field>
+            <field name="domaine">RELIZANE</field>
+            <field name="description">RELIZANE</field>
+        </record>
+
+    </data>
+</odoo>

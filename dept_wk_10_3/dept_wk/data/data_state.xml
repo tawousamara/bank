@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- List type credit -->
+        <record id="1" model="wk.state">
+            <field name="name">الفرع</field>
+            <field name="sequence">1</field>
+        </record>
+        <record id="2" model="wk.state">
+            <field name="name">مدير الفرع</field>
+            <field name="sequence">2</field>
+        </record>
+        <record id="3" model="wk.state">
+            <field name="name">مديرية التمويلات</field>
+            <field name="sequence">3</field>
+        </record>
+        <record id="4" model="wk.state">
+            <field name="name">مديرية الاعمال التجارية</field>
+            <field name="sequence">4</field>
+        </record>
+        <record id="5" model="wk.state">
+            <field name="name">ادارة المخاطر</field>
+            <field name="sequence">5</field>
+        </record>
+        <record id="6" model="wk.state">
+            <field name="name">نائب المدير العام</field>
+            <field name="sequence">6</field>
+        </record>
+        <record id="7" model="wk.state">
+            <field name="name">لجنة التسهيلات</field>
+            <field name="sequence">7</field>
+        </record>
+        <record id="8" model="wk.state">
+            <field name="name">انتهاء التحليل</field>
+            <field name="sequence">8</field>
+        </record>
+        <record id="princip_1" model="wk.state.principal">
+            <field name="name">الفرع</field>
+            <field name="sequence">1</field>
+        </record>
+        <record id="princip_2" model="wk.state.principal">
+            <field name="name">مديرية التمويلات</field>
+            <field name="sequence">2</field>
+        </record>
+        <record id="princip_3" model="wk.state.principal">
+            <field name="name">مديرية الاعمال التجارية</field>
+            <field name="sequence">3</field>
+        </record>
+        <record id="princip_4" model="wk.state.principal">
+            <field name="name">ادارة المخاطر</field>
+            <field name="sequence">4</field>
+        </record>
+        <record id="princip_5" model="wk.state.principal">
+            <field name="name">نائب المدير العام</field>
+            <field name="sequence">5</field>
+        </record>
+        <record id="princip_6" model="wk.state.principal">
+            <field name="name">لجنة التسهيلات</field>
+            <field name="sequence">6</field>
+        </record>
+        <record id="princip_7" model="wk.state.principal">
+            <field name="name">انتهاء التحليل</field>
+            <field name="sequence">7</field>
+        </record>
+        <record id="princip_8" model="wk.state.principal">
+            <field name="name">مراجعة بيانات الفرع</field>
+            <field name="sequence">8</field>
+        </record>
+        <record id="time_1" model="wk.time">
+            <field name="name">الفرع</field>
+            <field name="state">branch_1</field>
+            <field name="etape">1</field>
+        </record>
+        <record id="time_2" model="wk.time">
+            <field name="name">مدير الفرع</field>
+            <field name="state">branch_2</field>
+            <field name="etape">1</field>
+        </record>
+        <record id="time_3" model="wk.time">
+            <field name="name">الفرع</field>
+            <field name="state">branch_3</field>
+            <field name="etape">1</field>
+        </record>
+        <record id="time_4" model="wk.time">
+            <field name="name">مدير الفرع</field>
+            <field name="state">branch_4</field>
+            <field name="etape">1</field>
+        </record>
+        <record id="time_5" model="wk.time">
+            <field name="name">مدير التمويلات</field>
+            <field name="state">finance_1</field>
+            <field name="etape">2</field>
+        </record>
+        <record id="time_6" model="wk.time">
+            <field name="name">المحلل المالي</field>
+            <field name="state">finance_2</field>
+            <field name="etape">2</field>
+        </record>
+        <record id="time_7" model="wk.time">
+            <field name="name">مدير التمويلات</field>
+            <field name="state">finance_3</field>
+            <field name="etape">2</field>
+        </record>
+        <record id="time_8" model="wk.time">
+            <field name="name">مدير الاعمال التجارية</field>
+            <field name="state">commercial_1</field>
+            <field name="etape">3</field>
+        </record>
+        <record id="time_9" model="wk.time">
+            <field name="name">مديرية الاعمال التجارية</field>
+            <field name="state">commercial_2</field>
+            <field name="etape">3</field>
+        </record>
+        <record id="time_10" model="wk.time">
+            <field name="name">مدير الاعمال التجارية</field>
+            <field name="state">commercial_3</field>
+            <field name="etape">3</field>
+        </record>
+        <record id="time_11" model="wk.time">
+            <field name="name">ادارة المخاطر</field>
+            <field name="state">risque_1</field>
+            <field name="etape">4</field>
+        </record>
+    </data>
+</odoo>

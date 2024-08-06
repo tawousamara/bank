@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="mail_message_search_faq">
+            <field name="name">mail.message.search.faq</field>
+            <field name="model">mail.message</field>
+            <field name="arch" type="xml">
+                <search>
+                    <filter string="Email from" name="user_email" context="{'email_from': uid.login}"/>
+                </search>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="mail_message_form_faq">
+            <field name="name">mail.message.form.faq</field>
+            <field name="model">mail.message</field>
+            <field name="inherit_id" ref="mail.mail_message_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='email_from']" position="after">
+                    <field name="parent_res_id" />
+                    <field name="parent_res_model" />
+                </xpath>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="mail_message_list_faq">
+            <field name="name">mail.message.list.faq</field>
+            <field name="model">mail.message</field>
+            <field name="inherit_id" ref="mail.view_message_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='author_id']" position="after">
+                    <field name="body"/>
+                </xpath>
+                <xpath expr="//field[@name='subject']" position="attributes">
+                    <attribute name="column_invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='model']" position="attributes">
+                    <attribute name="column_invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='res_id']" position="attributes">
+                    <attribute name="column_invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="confirmation_etape_wizard_form">
+            <field name="name">etape.wizard.form</field>
+            <field name="model">etape.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    Pour effectuer l'opération, vous devriez cliquez par Confirmer
+                    <footer>
+                        <button name="confirm" type="object" string="Confirmer" class="btn-primary"/>
+                        <button name="cancel" type="object" string="Annuler" class="btn-secondary"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="wizard_path_form">
+            <field name="name">wizard_path_form</field>
+            <field name="model">wk.wizard.path</field>
+            <field name="arch" type="xml">
+                <form>
+                    اختر الوجهة
+                    <field name="state" options="{'no_create': True, 'no_open': True}"/>
+                    <field name="commentaire"/>
+                    <footer>
+                        <button name="send" type="object" string="Envoyer" class="btn-primary"/>
+                        <button name="cancel" type="object" string="Annuler" class="btn-primary"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="wizard_path_choice_form">
+            <field name="name">wizard_path_choice_form</field>
+            <field name="model">wk.wizard.path.choice</field>
+            <field name="arch" type="xml">
+                <form>
+                    Choose the destination
+                    <field name="state" widget="many2many_tags" options="{'no_create': True, 'no_open': True}"/>
+                    <br/>
+                    Choose the branch
+                    <field name="branche" options="{'no_create': True, 'no_open': True}"/>
+                    <field name="commentaire"/>
+                    <footer>
+                        <button name="send" type="object" string="Envoyer" class="btn-primary"/>
+                        <button name="cancel" type="object" string="Annuler" class="btn-primary"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="retour_wizard_form">
+            <field name="name">retour_wizard_form</field>
+            <field name="model">wk.wizard.retour</field>
+            <field name="arch" type="xml">
+                <form>
+                    سبب طلب المراجعة
+                    <field name="raison"/>
+                    <footer>
+                        <button name="send" type="object" string="Envoyer" class="btn-primary"/>
+                        <button name="cancel" type="object" string="Annuler" class="btn-primary"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- List type credit -->
+        <record id="garantie_1" model="wk.garanties">
+            <field name="name">رهن حيازي على القاعدة التجارية</field>
+        </record>
+        <record id="garantie_2" model="wk.garanties">
+            <field name="name">امضاء شهادة التنازل في تمويل الذمم المدنية للعقد (LCAC Lettre de Cession d'Antériotité des Créances) في حدود التسهيلات الممنوحة</field>
+        </record>
+        <record id="garantie_3" model="wk.garanties">
+            <field name="name">الكفالة التضامنية للشركاء</field>
+        </record>
+        <record id="garantie_4" model="wk.garanties">
+            <field name="name">امضاء سفتجة باجمالي التسهيلات</field>
+        </record>
+        <record id="garantie_5" model="wk.garanties">
+            <field name="name">تجبير بوليصة التامين الشامل لصالح المصرف</field>
+        </record>
+        <record id="garantie_6" model="wk.garanties">
+            <field name="name">رهن عقاري من الدرجة الاولى يغطي 100% من صافي التسهيلات</field>
+        </record>
+        <record id="garantie_7" model="wk.garanties">
+            <field name="name">تقديم الحسابات المدققة للسنة الماضية في الاجال</field>
+        </record>
+        <record id="garantie_8" model="wk.garanties">
+            <field name="name">توطين الصفقات لدى المصرف</field>
+        </record>
+        <record id="exception_1" model="wk.exception">
+            <field name="name">رهن عقاري من الدرجة الأولى لا يغطي 120%  من صافي التسهيلات</field>
+        </record>
+        <record id="exception_2" model="wk.exception">
+            <field name="name">غياب رهن عقاري من الدرجة الأولى</field>
+        </record>
+        <record id="exception_3" model="wk.exception">
+            <field name="name">رهن عقاري من الدرجة الثانية أو الثالثة</field>
+        </record>
+        <record id="exception_4" model="wk.exception">
+            <field name="name">السقف الممنوح يتعدى الحد الائتماني المحتسب من طرف خلية المخاطر</field>
+        </record>
+        <record id="exception_5" model="wk.exception">
+            <field name="name">السقف الممنوح يتعدى 15% من الأموال الخاصة للمصرف</field>
+        </record>
+        <record id="exception_6" model="wk.exception">
+            <field name="name">تدهور الوضعية المالية للشركة</field>
+        </record>
+        <record id="exception_7" model="wk.exception">
+            <field name="name">تعديل هامش الربح</field>
+        </record>
+        <record id="exception_8" model="wk.exception">
+            <field name="name">مدة التمويل تتعدى 7 سنوات</field>
+        </record>
+        <record id="exception_9" model="wk.exception">
+            <field name="name">عمر البيانات المالية للشركة  لا يزيد عن 6 أشهر</field>
+        </record>
+        <record id="exception_10" model="wk.exception">
+            <field name="name">مع إمكانية إضافة استثناءات أخرى</field>
+        </record>
+    </data>
+</odoo>

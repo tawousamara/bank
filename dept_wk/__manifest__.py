@@ -40,7 +40,9 @@
             'views/etape.xml',
             'views/analytic_views.xml',
             'views/res_config.xml',
-            'views/menu_item.xml'],
+            'views/menu_item.xml',
+            'views/workflow_dashboard.xml'
+            ],
     # data files containing optionally loaded demonstration data
     'demo': [],
     'installable': True,

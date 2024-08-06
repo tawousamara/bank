@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data >
+        <!-- Liste des formes juridiques -->
+        <record id="forme_jur_1" model="wk.forme.jur">
+            <field name="name">شركة ذات مسؤولية محدودة لشخص واحد (EURL)</field>
+        </record>
+        <record id="forme_jur_2" model="wk.forme.jur">
+            <field name="name">شركة ذات المسؤولية المحدودة (SARL)</field>
+        </record>
+        <record id="forme_jur_3" model="wk.forme.jur">
+            <field name="name">شركة المساهمة (SPA)</field>
+        </record>
+        <record id="forme_jur_4" model="wk.forme.jur">
+            <field name="name">الشراكة العامة (SNC)</field>
+        </record>
+        <record id="forme_jur_5" model="wk.forme.jur">
+            <field name="name">مؤسسة فردية</field>
+        </record>
+        <record id="forme_jur_6" model="wk.forme.jur">
+            <field name="name">مجموعة الشركات (Groupement)</field>
+        </record>
+        <record id="forme_jur_7" model="wk.forme.jur">
+            <field name="name">شركة مساهمة مبسطة (SPAS)</field>
+        </record>
+        <record id="forme_jur_8" model="wk.forme.jur">
+            <field name="name">Autres</field>
+        </record>
+        <record id="forme_jur_9" model="wk.forme.jur">
+            <field name="name">مقاول ذاتي Auto entrepreneur</field>
+        </record>
+        <record id="forme_jur_10" model="wk.forme.jur">
+            <field name="name">Start up</field>
+        </record>
+        <record id="pouvoir_1" model="wk.comite">
+            <field name="name">لجنة التسهيلات المصغرة</field>
+            <field name="pouvoir">أقل من 50 مليون دج ، مغطي برهن عقاري من الدرجة الأولى أو ملف تجديد أقل من 3 مليون
+                دولار
+                سقف اعتمادات مستنديه/عند ورود المستندات في حدود 100 مليون دج
+            </field>
+        </record>
+        <record id="pouvoir_2" model="wk.comite">
+            <field name="name">لجنة التسهيلات</field>
+            <field name="pouvoir">≥ 3مليون دولار</field>
+        </record>
+        <record id="pouvoir_3" model="wk.comite">
+            <field name="name">لجنة التمويلات</field>
+            <field name="pouvoir">من 3 مليون دولار  > x >  10  مليون دولار</field>
+        </record>
+        <record id="pouvoir_4" model="wk.comite">
+            <field name="name">مجلس إدارة</field>
+            <field name="pouvoir">المبلغ ≥10 مليون دولار</field>
+        </record>
+        <record id="payment_1" model="wk.type.payment">
+            <field name="name">شيك</field>
+        </record>
+        <record id="payment_2" model="wk.type.payment">
+            <field name="name">حوالات</field>
+        </record>
+        <record id="payment_3" model="wk.type.payment">
+            <field name="name">نقداً</field>
+        </record>
+        <record id="payment_4" model="wk.type.payment">
+            <field name="name">اعتمادات مستندية</field>
+        </record>
+        <record id="payment_5" model="wk.type.payment">
+            <field name="name">بوالص تحصيل</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_wk_etape_tree" model="ir.ui.view">
+        <field name="name">wk.etape.tree</field>
+        <field name="model">wk.etape</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="reference"/>
+                <field name="assigned_to_agence"/>
+                <field name="assigned_to_finance"/>
+                <field name="montant_demande"/>
+                <field name="state_finance"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_wk_etape_form_stat_tree" model="ir.ui.view">
+        <field name="name">wk.analyse.performence.tree</field>
+        <field name="model">wk.analyse.performence</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="date_debut"/>
+                <field name="date_fin"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_wk_etape_form_stat" model="ir.ui.view">
+        <field name="name">wk.analyse.performence.form.stat</field>
+        <field name="model">wk.analyse.performence</field>
+        <field name="arch" type="xml">
+            <form create="0" delete="0">
+                <sheet>
+                    <group>
+                        <field name="date_debut"/>
+                        <field name="date_fin"/>
+                    </group>
+                    <button name="action_get_detail" class="btn-primary" type="object" string="Voir les dossiers"/>
+
+                    <field name="line_ids" readonly="1">
+                        <tree>
+                            <field name="analyste"/>
+                            <field name="montant_demande"/>
+                            <field name="montant_propose"/>
+                            <field name="total_demande"/>
+                            <field name="actual_demande"/>
+                            <field name="avg_traitement"/>
+                            <field name="time"/>
+                        </tree>
+                    </field>
+
+                    <field name="line_prod_ids" readonly="1">
+                        <tree>
+                            <field name="product"/>
+                            <field name="montant_demande"/>
+                            <field name="agence"/>
+                        </tree>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_wk_etape_bar_chart" model="ir.ui.view">
+        <field name="name">Bar Chart View for wk.etape</field>
+        <field name="model">wk.etape</field>
+        <field name="arch" type="xml">
+            <graph string="Montant Demandé par Année Fiscale (Bar Chart)" type="bar">
+                <field name="assigned_to_finance" type="row"/>
+                <field name="taux_change" invisible="1"/>
+                <field name="auto_financement" invisible="1"/>
+                <field name="financement_demande" invisible="1"/>
+                <field name="duree_financement" invisible="1"/>
+                <field name="annee_fiscal" invisible="1"/>
+                <field name="valeur_total" invisible="1"/>
+                <field name="montant_propose" invisible="1"/>
+                <field name="montant_demande" invisible="1"/>
+                <field name="ampleur_benefice" invisible="1"/>
+                <field name="nbr_banque" invisible="1"/>
+            </graph>
+        </field>
+    </record>
+    <record id="view_wk_etape_line_chart" model="ir.ui.view">
+        <field name="name">Line Chart View for wk.etape</field>
+        <field name="model">wk.etape</field>
+        <field name="arch" type="xml">
+            <graph string="Tendance du Montant Demandé par Année Fiscale (Line Chart)" type="line">
+                <field name="annee_fiscal" type="category"/>
+                <field name="montant_demande" type="measure"/>
+
+                <field name="taux_change" invisible="1"/>
+                <field name="auto_financement" invisible="1"/>
+                <field name="financement_demande" invisible="1"/>
+                <field name="duree_financement" invisible="1"/>
+                <field name="annee_fiscal" invisible="1"/>
+                <field name="valeur_total" invisible="1"/>
+                <field name="montant_propose" invisible="1"/>
+                <field name="montant_demande" invisible="1"/>
+                <field name="ampleur_benefice" invisible="1"/>
+                <field name="nbr_banque" invisible="1"/>
+            </graph>
+        </field>
+    </record>
+    <record id="view_wk_etape_pie_chart" model="ir.ui.view">
+        <field name="name">Pie Chart View for wk.etape</field>
+        <field name="model">wk.etape</field>
+        <field name="arch" type="xml">
+            <graph string="Répartition du Montant Demandé par Année Fiscale (Pie Chart)" type="pie">
+                <field name="state_finance"/>
+
+                <field name="taux_change" invisible="1"/>
+                <field name="auto_financement" invisible="1"/>
+                <field name="financement_demande" invisible="1"/>
+                <field name="duree_financement" invisible="1"/>
+                <field name="annee_fiscal" invisible="1"/>
+                <field name="valeur_total" invisible="1"/>
+                <field name="montant_propose" invisible="1"/>
+                <field name="montant_demande" invisible="1"/>
+                <field name="ampleur_benefice" invisible="1"/>
+                <field name="nbr_banque" invisible="1"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_wk_workflow_pie_chart" model="ir.ui.view">
+        <field name="name">Pie Chart View for wk.workflow</field>
+        <field name="model">wk.workflow.dashboard</field>
+        <field name="arch" type="xml">
+            <graph string="Répartition par Produit bancaire demandé (Pie Chart)" type="pie">
+                <field name="demande"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_wk_etape_search" model="ir.ui.view">
+        <field name="name">model.search</field>
+        <field name="model">wk.etape</field>
+        <field name="arch" type="xml">
+            <search>
+                <filter string="Sequence not 8" name="sequence_not_8" domain="[('sequence', '=', 8)]"/>
+                <filter string="Sequence 2" name="sequence_2" domain="[('sequence', '=', 2), ('state', '=', '2')]"/>
+                <filter string="State 2" name="finance_2"
+                        domain="[('sequence', '=', 2),('state_finance', '=', 'finance_2')]"/>
+            </search>
+        </field>
+    </record>
+    <record id="wk_financial_step_action" model="ir.actions.act_window">
+        <field name="name">مديرية التمويلات</field>
+        <field name="res_model">wk.etape</field>
+        <field name="view_mode">tree</field>
+        <field name="domain">[('sequence', '=', 2),('etape', '=', 2)]</field>
+        <field name="context">{'search_default_sequence_2': 1}</field>
+        <field name="view_id" ref="dept_wk.view_wk_etape_tree"/>
+    </record>
+    <record id="wk_financial_step_graph" model="ir.actions.act_window">
+        <field name="name">Graph</field>
+        <field name="res_model">wk.etape</field>
+        <field name="view_mode">graph</field>
+        <field name="domain">[('sequence', '=', 2), ('state_finance', '=', 'finance_2')]</field>
+        <field name="view_id" ref="dept_wk.view_wk_etape_bar_chart"/>
+    </record>
+    <record id="wk_financial_step_pie" model="ir.actions.act_window">
+        <field name="name">Graph</field>
+        <field name="res_model">wk.etape</field>
+        <field name="view_mode">graph</field>
+        <field name="domain">[('sequence', '=', 2)]</field>
+        <field name="view_id" ref="dept_wk.view_wk_etape_pie_chart"/>
+    </record>
+    <record id="wk_workflow_step_pie" model="ir.actions.act_window">
+        <field name="name">Graph</field>
+        <field name="res_model">wk.workflow.dashboard</field>
+        <field name="view_mode">graph</field>
+        <field name="view_id" ref="dept_wk.view_wk_workflow_pie_chart"/>
+    </record>
+    <record id="wk_analyse_performence_action" model="ir.actions.act_window">
+        <field name="name">Analyse de perfomance</field>
+        <field name="res_model">wk.analyse.performence</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record model="ir.ui.view" id="simple_dashboard_view">
+        <field name="name">Simple Dashboard</field>
+        <field name="model">board.board</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="My Dashboard">
+                <board style="2-1">
+                    <column>
+                        <action name="%(dept_wk.wk_financial_step_graph)d" string="عدد الملفات لكل محلل في الوقت الحالي"
+                                context="{'search_default_finance_2': 1}"/>
+                        <action name="%(dept_wk.wk_financial_step_action)d" string="الملفات"
+                                context="{'search_default_sequence_2': 1}"/>
+                    </column>
+                    <column>
+                        <action name="%(dept_wk.wk_financial_step_pie)d" string="عدد الملفات حسب وضعية التحليل المالي"
+                                context="{'search_default_sequence_2': 1}"/>
+                        <action name="%(dept_wk.wk_workflow_step_pie)d" string="عدد الملفات حسب الطلب"
+                                context="{'search_default_sequence_2': 1}"/>
+
+                    </column>
+                </board>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="open_simple_dashboard_action">
+        <field name="name">My Dashboard</field>
+        <field name="res_model">board.board</field>
+        <field name="view_mode">form</field>
+        <field name="usage">menu</field>
+        <field name="view_id" ref="simple_dashboard_view"/>
+    </record>
+</odoo>

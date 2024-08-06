@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_wk_tcr_ocr_inherit_form" model="ir.ui.view">
+        <field name="name">wk.tcr.ocr.form</field>
+        <field name="model">import.ocr.tcr</field>
+        <field name="inherit_id" ref="financial_modeling.import_ocr_tcr_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//p[@name='confirmation_lines']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//p[@name='confirmation_lines']" position="after">
+                <p name="confirmation_lines_wk">
+                    Vous devriez confirmer les valeurs et rubriques suivantes:
+                    <br/>
+                    - Chiffre d'affaires net des rabais, Remises, Ristournes
+                    <br/>
+                    - Achats de marchandises vendues
+                    <br/>
+                    - Matières premieres
+                    <br/>
+                    - Excédent brut de l'exploitation
+                    <br/>
+                    - Résultat net de l'exercice
+                    <br/>
+                    - Dotations aux amortissements
+                    <br/>
+                </p>
+            </xpath>
+            <xpath expr="//button[@name='action_validation']" position="attributes">
+                <attribute name="name">action_validation_wk</attribute>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_wk_actif_ocr_inherit_form" model="ir.ui.view">
+        <field name="name">wk.actif.ocr.form</field>
+        <field name="model">import.ocr.actif</field>
+        <field name="inherit_id" ref="financial_modeling.import_ocr_actif_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//p[@name='confirmation_lines']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//p[@name='confirmation_lines']" position="after">
+                <p name="confirmation_lines_wk">
+                    Vous devriez confirmer les valeurs suivantes:
+                    <br/>
+                    - Immobilisations corporelles
+                    <br/>
+                    - Autres immobilisations corporelles
+                    <br/>
+                    - Total actif non courant
+                    <br/>
+                    - Total Actif courant
+                    <br/>
+                    - Stocks et encours
+                    <br/>
+                    - Créances et emplois assimilés
+                    <br/>
+                    - Disponibilité et assimilés
+                    <br/>
+                    - Trésorerie
+                    <br/>
+                    - Clients
+                    <br/>
+                </p>
+            </xpath>
+            <xpath expr="//button[@name='action_validation']" position="attributes">
+                <attribute name="name">action_validation_wk</attribute>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_wk_passif_ocr_inherit_form" model="ir.ui.view">
+        <field name="name">wk.passif.ocr.form</field>
+        <field name="model">import.ocr.passif</field>
+        <field name="inherit_id" ref="financial_modeling.import_ocr_passif_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//p[@name='confirmation_lines']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//p[@name='confirmation_lines']" position="after">
+                <p name="confirmation_lines_wk">
+                    Vous devriez confirmer les valeurs suivantes:
+                    <br/>
+                    - Capital émis
+                    <br/>
+                    - Total I
+                    <br/>
+                    - Autres capitaux propres - Report à nouveau
+                    <br/>
+                    - Total II
+                    <br/>
+                    - Primes et reserves
+                    <br/>
+                    - Emprunts et dettes financières
+                    <br/>
+                    - Fournisseurs et comptes rattachés
+                    <br/>
+                    - Impots
+                    <br/>
+                    - Autres dettes
+                    <br/>
+                    - Trésorerie passifs
+                    <br/>
+                    - Total III
+                    <br/>
+                    - Total General Passif (I+II+III)
+                    <br/>
+                </p>
+            </xpath>
+            <xpath expr="//button[@name='action_validation']" position="attributes">
+                <attribute name="name">action_validation_wk</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Liste des activites -->
+        <record id="activite_1" model="wk.activite">
+            <field name="name">01</field>
+            <field name="domaine">Agriculture, Chasse, Services Annexes</field>
+            <field name="description">Agriculture, Chasse, Services Annexes</field>
+        </record>
+        <record id="activite_2" model="wk.activite">
+            <field name="name">02</field>
+            <field name="domaine">Sylvicultures, Exploitation Forestière, Services Annexes</field>
+            <field name="description">Sylvicultures, Exploitation Forestière, Services Annexes</field>
+        </record>
+        <record id="activite_3" model="wk.activite">
+            <field name="name">05</field>
+            <field name="domaine">Pêche, Aquaculture</field>
+            <field name="description">Pêche, Aquaculture</field>
+        </record>
+        <record id="activite_4" model="wk.activite">
+            <field name="name">10</field>
+            <field name="domaine">Extraction de Houille, de Lignite et de Tourbe</field>
+            <field name="description">Extraction de Houille, de Lignite et de Tourbe</field>
+        </record>
+        <record id="activite_5" model="wk.activite">
+            <field name="name">11</field>
+            <field name="domaine">Extraction d'Hydrocarbures ; Services Annexes</field>
+            <field name="description">Extraction d'Hydrocarbures ; Services Annexes</field>
+        </record>
+        <record id="activite_6" model="wk.activite">
+            <field name="name">12</field>
+            <field name="domaine">Extraction de Minerais d'Uranium</field>
+            <field name="description">Extraction de Minerais d'Uranium</field>
+        </record>
+        <record id="activite_7" model="wk.activite">
+            <field name="name">13</field>
+            <field name="domaine">Extraction de Minerais Métalliques</field>
+            <field name="description">Extraction de Minerais Métalliques</field>
+        </record>
+        <record id="activite_8" model="wk.activite">
+            <field name="name">14</field>
+            <field name="domaine">Autres Industries Extractives</field>
+            <field name="description">Autres Industries Extractives</field>
+        </record>
+        <record id="activite_9" model="wk.activite">
+            <field name="name">15</field>
+            <field name="domaine">Industries Alimentaires</field>
+            <field name="description">Industries Alimentaires</field>
+        </record>
+        <record id="activite_10" model="wk.activite">
+            <field name="name">16</field>
+            <field name="domaine">Industrie du Tabac</field>
+            <field name="description">Industrie du Tabac</field>
+        </record>
+        <record id="activite_11" model="wk.activite">
+            <field name="name">17</field>
+            <field name="domaine">Industrie Textile</field>
+            <field name="description">Industrie Textile</field>
+        </record>
+        <record id="activite_12" model="wk.activite">
+            <field name="name">18</field>
+            <field name="domaine">Industrie de l'Habillement et des Fourrures</field>
+            <field name="description">Industrie de l'Habillement et des
+                Fourrures
+            </field>
+        </record>
+        <record id="activite_13" model="wk.activite">
+            <field name="name">19</field>
+            <field name="domaine">Industrie du Cuir et de la Chaussure</field>
+            <field name="description">Industrie du Cuir et de la Chaussure</field>
+        </record>
+        <record id="activite_14" model="wk.activite">
+            <field name="name">20</field>
+            <field name="domaine">Travail du Bois et Fabrication d'Articles
+                en Bois
+            </field>
+            <field name="description">Travail du Bois et Fabrication d'Articles
+                en Bois
+            </field>
+        </record>
+        <record id="activite_15" model="wk.activite">
+            <field name="name">21</field>
+            <field name="domaine">Industrie du Papier et du Carton</field>
+            <field name="description">Industrie du Papier et du Carton</field>
+        </record>
+        <record id="activite_16" model="wk.activite">
+            <field name="name">22</field>
+            <field name="domaine">Édition, Imprimerie, Reproduction</field>
+            <field name="description">Édition, Imprimerie, Reproduction</field>
+        </record>
+        <record id="activite_17" model="wk.activite">
+            <field name="name">23</field>
+            <field name="domaine">Cokéfaction, Raffinage, Industries
+                Nucléaires
+            </field>
+            <field name="description">Cokéfaction, Raffinage, Industries
+                Nucléaires
+            </field>
+        </record>
+        <record id="activite_18" model="wk.activite">
+            <field name="name">24</field>
+            <field name="domaine">Industrie Chimique</field>
+            <field name="description">Industrie Chimique</field>
+        </record>
+        <record id="activite_19" model="wk.activite">
+            <field name="name">25</field>
+            <field name="domaine">Industrie du Caoutchouc et des
+                Plastiques
+            </field>
+            <field name="description">Industrie du Caoutchouc et des
+                Plastiques
+            </field>
+        </record>
+        <record id="activite_20" model="wk.activite">
+            <field name="name">26</field>
+            <field name="domaine">Fabrication d'autres Produits Minéraux
+                non Métallique
+            </field>
+            <field name="description">Fabrication d'autres Produits Minéraux
+                non Métallique
+            </field>
+        </record>
+        <record id="activite_21" model="wk.activite">
+            <field name="name">27</field>
+            <field name="domaine">Métallurgie</field>
+            <field name="description">Métallurgie</field>
+        </record>
+        <record id="activite_22" model="wk.activite">
+            <field name="name">28</field>
+            <field name="domaine">Travail des Métaux</field>
+            <field name="description">Travail des Métaux</field>
+        </record>
+        <record id="activite_23" model="wk.activite">
+            <field name="name">29</field>
+            <field name="domaine">Fabrication de Machines et Équipements</field>
+            <field name="description">Fabrication de Machines et Équipements</field>
+        </record>
+        <record id="activite_24" model="wk.activite">
+            <field name="name">30</field>
+            <field name="domaine">Fabrication de Machines de Bureau et de
+                Matériel Informatique
+            </field>
+            <field name="description">Fabrication de Machines de Bureau et de
+                Matériel Informatique
+            </field>
+        </record>
+        <record id="activite_25" model="wk.activite">
+            <field name="name">31</field>
+            <field name="domaine">Fabrication de Machines et Appareils
+                Électriques
+            </field>
+            <field name="description">Fabrication de Machines et Appareils
+                Électriques
+            </field>
+        </record>
+        <record id="activite_26" model="wk.activite">
+            <field name="name">32</field>
+            <field name="domaine">Fabrication d'Équipements de Radio,
+                Télévision et Communication
+            </field>
+            <field name="description">Fabrication d'Équipements de Radio,
+                Télévision et Communication
+            </field>
+        </record>
+        <record id="activite_27" model="wk.activite">
+            <field name="name">33</field>
+            <field name="domaine">Fabrication d'Instruments Médicaux,
+                Précision, Optique, d'Horlogerie
+            </field>
+            <field name="description">Fabrication d'Instruments Médicaux,
+                Précision, Optique, d'Horlogerie
+            </field>
+        </record>
+        <record id="activite_28" model="wk.activite">
+            <field name="name">34</field>
+            <field name="domaine">Industrie Automobile</field>
+            <field name="description">Industrie Automobile</field>
+        </record>
+        <record id="activite_29" model="wk.activite">
+            <field name="name">35</field>
+            <field name="domaine">Fabrication d'Autres Matériels de
+                Transport
+            </field>
+            <field name="description">Fabrication d'Autres Matériels de
+                Transport
+            </field>
+        </record>
+        <record id="activite_30" model="wk.activite">
+            <field name="name">36</field>
+            <field name="domaine">Fabrication de Meubles ; Industries
+                Diverses
+            </field>
+            <field name="description">Fabrication de Meubles ; Industries
+                Diverses
+            </field>
+        </record>
+        <record id="activite_31" model="wk.activite">
+            <field name="name">37</field>
+            <field name="domaine">Récupération</field>
+            <field name="description">Récupération</field>
+        </record>
+        <record id="activite_32" model="wk.activite">
+            <field name="name">40</field>
+            <field name="domaine">Production et Distribution d'Électricité, de
+                Gaz et de Chaleur
+            </field>
+            <field name="description">Production et Distribution d'Électricité, de Gaz et de Chaleur</field>
+        </record>
+        <record id="activite_33" model="wk.activite">
+            <field name="name">41</field>
+            <field name="domaine">Captage, Traitement et Distribution d'Eau</field>
+            <field name="description">Captage, Traitement et Distribution d'Eau</field>
+        </record>
+        <record id="activite_34" model="wk.activite">
+            <field name="name">45</field>
+            <field name="domaine">Construction</field>
+            <field name="description">Construction</field>
+        </record>
+        <record id="activite_35" model="wk.activite">
+            <field name="name">50</field>
+            <field name="domaine">Commerce et Réparation Automobile</field>
+            <field name="description">Commerce et Réparation Automobile</field>
+        </record>
+        <record id="activite_36" model="wk.activite">
+            <field name="name">51</field>
+            <field name="domaine">Commerce de Gros et Intermédiaires du
+                Commerce
+            </field>
+            <field name="description">Commerce de Gros et Intermédiaires du
+                Commerce
+            </field>
+        </record>
+        <record id="activite_37" model="wk.activite">
+            <field name="name">52</field>
+            <field name="domaine">Commerce de détail et réparation
+                d’articles domestiques
+            </field>
+            <field name="description">Commerce de détail et réparation
+                d’articles domestiques
+            </field>
+        </record>
+        <record id="activite_38" model="wk.activite">
+            <field name="name">55</field>
+            <field name="domaine">Hôtels et Restaurants</field>
+            <field name="description">Hôtels et Restaurants</field>
+        </record>
+        <record id="activite_39" model="wk.activite">
+            <field name="name">60</field>
+            <field name="domaine">Transports Terrestres</field>
+            <field name="description">Transports Terrestres</field>
+        </record>
+        <record id="activite_40" model="wk.activite">
+            <field name="name">61</field>
+            <field name="domaine">Transports Par Eau</field>
+            <field name="description">Transports Par Eau</field>
+        </record>
+        <record id="activite_41" model="wk.activite">
+            <field name="name">62</field>
+            <field name="domaine">Transports Aériens</field>
+            <field name="description">Transports Aériens</field>
+        </record>
+        <record id="activite_42" model="wk.activite">
+            <field name="name">63</field>
+            <field name="domaine">Services Auxiliaires des Transports</field>
+            <field name="description">Services Auxiliaires des Transports</field>
+        </record>
+        <record id="activite_43" model="wk.activite">
+            <field name="name">64</field>
+            <field name="domaine">Postes et Télécommunications</field>
+            <field name="description">Postes et Télécommunications</field>
+        </record>
+        <record id="activite_44" model="wk.activite">
+            <field name="name">65</field>
+            <field name="domaine">Intermédiation Financière</field>
+            <field name="description">Intermédiation Financière</field>
+        </record>
+        <record id="activite_45" model="wk.activite">
+            <field name="name">66</field>
+            <field name="domaine">Assurance</field>
+            <field name="description">Assurance</field>
+        </record>
+        <record id="activite_46" model="wk.activite">
+            <field name="name">67</field>
+            <field name="domaine">Auxiliaires Financiers et d'Assurance</field>
+            <field name="description">Auxiliaires Financiers et d'Assurance</field>
+        </record>
+        <record id="activite_47" model="wk.activite">
+            <field name="name">70</field>
+            <field name="domaine">Activités Immobilières</field>
+            <field name="description">Activités Immobilières</field>
+        </record>
+        <record id="activite_48" model="wk.activite">
+            <field name="name">71</field>
+            <field name="domaine">Location sans Opérateur</field>
+            <field name="description">Location sans Opérateur</field>
+        </record>
+        <record id="activite_49" model="wk.activite">
+            <field name="name">72</field>
+            <field name="domaine">Activités Informatiques</field>
+            <field name="description">Activités Informatiques</field>
+        </record>
+        <record id="activite_50" model="wk.activite">
+            <field name="name">73</field>
+            <field name="domaine">Recherche et Développement</field>
+            <field name="description">Recherche et Développement</field>
+        </record>
+        <record id="activite_51" model="wk.activite">
+            <field name="name">74</field>
+            <field name="domaine">Services Fournis Principalement aux
+                Entreprises
+            </field>
+            <field name="description">Services Fournis Principalement aux
+                Entreprises
+            </field>
+        </record>
+        <record id="activite_52" model="wk.activite">
+            <field name="name">75</field>
+            <field name="domaine">Administration Publique</field>
+            <field name="description">Administration Publique</field>
+        </record>
+        <record id="activite_53" model="wk.activite">
+            <field name="name">80</field>
+            <field name="domaine">Éducation</field>
+            <field name="description">Éducation</field>
+        </record>
+        <record id="activite_54" model="wk.activite">
+            <field name="name">85</field>
+            <field name="domaine">Santé et Action Sociale</field>
+            <field name="description">Santé et Action Sociale</field>
+        </record>
+        <record id="activite_55" model="wk.activite">
+            <field name="name">90</field>
+            <field name="domaine">Assainissement, Voirie et Gestion des
+                Déchets
+            </field>
+            <field name="description">Assainissement, Voirie et Gestion des
+                Déchets
+            </field>
+        </record>
+        <record id="activite_56" model="wk.activite">
+            <field name="name">91</field>
+            <field name="domaine">Activités Associatives</field>
+            <field name="description">Activités Associatives</field>
+        </record>
+        <record id="activite_57" model="wk.activite">
+            <field name="name">92</field>
+            <field name="domaine">Activités Récréatives, Culturelles et
+                Sportives
+            </field>
+            <field name="description">Activités Récréatives, Culturelles et
+                Sportives
+            </field>
+        </record>
+        <record id="activite_58" model="wk.activite">
+            <field name="name">93</field>
+            <field name="domaine">Services Personnels</field>
+            <field name="description">Services Personnels</field>
+        </record>
+        <record id="activite_59" model="wk.activite">
+            <field name="name">95</field>
+            <field name="domaine">Services Domestiques</field>
+            <field name="description">Services Domestiques</field>
+        </record>
+        <record id="activite_60" model="wk.activite">
+            <field name="name">99</field>
+            <field name="domaine">Activités Extraterritoriales</field>
+            <field name="description">Activités Extraterritoriales</field>
+        </record>
+        <record id="activite_61" model="wk.activite">
+            <field name="name">00</field>
+            <field name="domaine">Sans information</field>
+            <field name="description">Sans information</field>
+        </record>
+    </data>
+</odoo>

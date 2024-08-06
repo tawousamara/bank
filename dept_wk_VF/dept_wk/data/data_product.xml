@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- List type credit -->
+        <record id="product_1" model="wk.product">
+            <field name="name">بيع اجل/ مرابحة محلية</field>
+        </record>
+        <record id="product_2" model="wk.product">
+            <field name="name">استصناع متوسط المدى</field>
+        </record>
+        <record id="product_3" model="wk.product">
+            <field name="name">سلم</field>
+        </record>
+        <record id="product_4" model="wk.product">
+            <field name="name">بيع وكالة</field>
+        </record>
+        <record id="product_5" model="wk.product">
+            <field name="name">استصناع</field>
+        </record>
+        <record id="product_6" model="wk.product">
+            <field name="name">مضاربة</field>
+        </record>
+        <record id="product_7" model="wk.product">
+            <field name="name">مساقاة</field>
+        </record>
+        <record id="product_8" model="wk.product">
+            <field name="name">مشاركة</field>
+        </record>
+        <record id="product_9" model="wk.product">
+            <field name="name">تمويل ايجاري</field>
+        </record>
+        <record id="product_10" model="wk.product">
+            <field name="name">سقف اعتمادات مستندية / بوالص تحصيل موصول ببيع اجل</field>
+        </record>
+    </data>
+</odoo>
