@@ -2,11 +2,11 @@
 <odoo>
     <data>
     
-        <record id="view_wk_workflow_dashboard_tree_filtered" model="ir.ui.view">
+        <record id="view_wk_workflow_dashboard_tree_filtered_one" model="ir.ui.view">
             <field name="name">wk.workflow.dashboard.tree.filtered</field>
             <field name="model">wk.workflow.dashboard</field>
             <field name="arch" type="xml">
-                <tree string="Workflow Dashboard Filtered">
+                <tree string="Workflow Dashboard Filtered one">
                     <field name="name"/>
                     <field name="date"/>
                     <field name="date_fin"/>
@@ -18,11 +18,11 @@
             </field>
         </record>
 
-        <record id="action_wk_workflow_dashboard_filtered" model="ir.actions.act_window">
+        <record id="action_wk_workflow_dashboard_filtered_one" model="ir.actions.act_window">
             <field name="name">Filtered Workflows</field>
             <field name="res_model">wk.workflow.dashboard</field>
             <field name="view_mode">tree</field>
-            <field name="view_id" ref="view_wk_workflow_dashboard_tree_filtered"/>
+            <field name="view_id" ref="view_wk_workflow_dashboard_tree_filtered_one"/>
             <field name="domain">[
                 ('state', '=', '2'),
                 ('states.sequence', '=', 2),

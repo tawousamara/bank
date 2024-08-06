@@ -41,7 +41,8 @@
             'views/analytic_views.xml',
             'views/res_config.xml',
             'views/menu_item.xml',
-            'views/workflow_dashboard.xml'
+            'views/filtered_workflow_dashboard_one.xml',
+            'views/filtered_workflow_dashboard_two.xml',
             ],
     # data files containing optionally loaded demonstration data
     'demo': [],

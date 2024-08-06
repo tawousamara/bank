@@ -109,10 +109,14 @@
                                 type="object"
                                 icon="fa-regular fa-envelope"/>
                     </div>
-                    <div class="oe_title content">
-                        <h1>
-                            <field name="name" readonly="1"/>
-                        </h1>
+                    <div>
+                        <h1 style="display:inline-block; margin: 0 20px;vertical-align: middle; ">
+                            <field name="name" readonly="1" />  
+                        </h1>   
+                        <h2 style="display:inline-block; margin: 0 50px;vertical-align: middle; ">
+                            <field name="nom_client" readonly="state != '1'" context="{'default_is_client':True}"
+                                domain="[('is_client', '=', True)]" options="{'no_create': True}"/> 
+                        </h2> 
                     </div>
                     <div invisible="raison_refus == False" style="border: 2px solid;
                                 border-radius: 12px;
@@ -128,8 +132,6 @@
                         <group col="1">
                             <group>
                                 <field name="date"/>
-                                <field name="nom_client" readonly="state != '1'" context="{'default_is_client':True}"
-                                       domain="[('is_client', '=', True)]" options="{'no_create': True}"/>
                                 <field name="num_compte" readonly="1"/>
                                 <field name="branche" readonly="1"/>
                                 <field name="demande" readonly="state != '1'"
