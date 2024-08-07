@@ -249,6 +249,41 @@ class RecommLeasing(models.Model):
 class Partner(models.Model):
     _inherit = 'res.partner'
 
+    company_type = fields.Selection(string='Company Type',
+        selection=[('person', 'فرد'),('company', 'الشركة'),('group', 'مجموعة')],
+        compute='_compute_company_type', inverse='_write_company_type')
+    
+    is_group = fields.Boolean(string='Is a Group' , default=False)
+    is_company = fields.Boolean(string='Is a Company' , default=False)
+    
+    @api.depends('is_group','is_company')
+    def _compute_company_type(self):
+        for partner in self:  
+            partner.company_type = 'person'
+            if partner.is_company:
+                partner.company_type = 'company' 
+            if partner.is_group:
+                partner.company_type = 'group'  
+
+    def _write_company_type(self):
+        for partner in self:
+            partner.is_company = partner.company_type == 'company'
+            partner.is_group = partner.company_type == 'group'
+            partner.is_user = partner.company_type == 'person'
+
+    @api.onchange('company_type')
+    def _onchange_company_type(self):
+        for rec in self:
+            if rec.company_type == 'person':
+                rec.is_group = False
+                rec.is_company = False
+            if rec.company_type == 'group':
+                rec.is_group = True
+                rec.is_company = False
+            elif rec.company_type == 'company':
+                rec.is_group = False
+                rec.is_company = True
+            
     is_super = fields.Boolean(string='مستخدم خاص')
     is_client = fields.Boolean(string='هل هو عميل؟', compute='_compute_is_client', store=True)
     nif = fields.Char(string='NIF')
