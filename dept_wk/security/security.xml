@@ -147,7 +147,7 @@
     <record id="workflow_dossier_visibility_admin" model="ir.rule">
         <field name="name">User can all demands</field>
         <field name="model_id" ref="model_wk_workflow_dashboard"/>
-        <field name="groups" eval="[(4, ref ('dept_wk_group_administration'))]"/>
+        <field name="groups" eval="[(4, ref ('dept_wk_group_all_users'))]"/>
         <field name="domain_force">[(1, '=', 1)]</field>
     </record>
     <record id="workflow_branch_visibility_user" model="ir.rule">

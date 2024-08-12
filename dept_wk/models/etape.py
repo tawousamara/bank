@@ -3583,7 +3583,7 @@ class Etape(models.Model):
                     user_ids = self.env.ref('dept_wk.dept_wk_group_responsable_risque').users.filtered(
                         lambda l: admin_group not in l.groups_id).mapped('partner_id')
                     partner_ids = user_ids.mapped('email')
-                    list_final = partner_ids
+                    list_final = ', '.join(partner_ids)
             if rec.sequence == 3:
                 if rec.state_commercial == 'commercial_2':
                     partner_ids = rec.assigned_to_commercial.partner_id.email
@@ -3591,8 +3591,8 @@ class Etape(models.Model):
                 elif rec.state_commercial in ['commercial_3']:
                     user_ids = self.env.ref('dept_wk.dept_wk_group_responsable_commercial').users.filtered(
                         lambda l: admin_group not in l.groups_id).mapped('partner_id')
-                    partner_ids.append(user_ids.mapped('email'))
-                    list_final = ', '.join(str(id) for id in partner_ids)
+                    partner_ids = user_ids.mapped('email')
+                    list_final = ', '.join(partner_ids)
                 else:
                     user_ids = self.env.ref('dept_wk.dept_wk_group_responsable_analyste').users.filtered(
                         lambda l: admin_group not in l.groups_id).mapped('partner_id')
