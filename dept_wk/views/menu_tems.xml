@@ -14,14 +14,14 @@
                   action="risk_scoring_action"
                   sequence="2"/>
 
-        <!--<menuitem id="risk_critere_qualitatif_menu"
+        <menuitem id="risk_critere_qualitatif_menu"
                   name="Critères qualitatifs"
                   action="risk_critere_qualitatif_action"
                   sequence="3"/>
         <menuitem id="risk_critere_quantitatif_menu"
                   name="Critères quantitatifs"
                   action="risk_critere_quantitatif_action"
-                  sequence="4"/>-->
+                  sequence="4"/>
         <menuitem id="risk_configuration_risque_menu"
                   name="Configuration"
                   action="risk_configuration_risque_action"
