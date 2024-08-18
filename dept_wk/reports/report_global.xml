@@ -333,10 +333,10 @@
                                             </tr>
                                             <tr>
                                                 <td class="title-cell">
-                                                    تاريخ القيد في السجل التجاري
+                                                    تاريخ تاسيس الشركة
                                                 </td>
                                                 <td colspan="2">
-                                                    <t t-esc="etape1.date_inscription"/>
+                                                    <t t-esc="etape1.nom_client.date_debut"/>
                                                 </td>
                                                 <td class="title-cell">
                                                     تاريخ بداية النشاط
@@ -430,6 +430,23 @@
                                                                     </td>
                                                                 </tr>
                                                             </t>
+                                                            <tr>
+                                                                <td>
+                                                                    الاجمالي
+                                                                </td>
+                                                                <td style="text-align: right; direction: ltr;">
+                                                                    <t t-esc="'{0:,.0f}'.format(sum(etape1.tailles.mapped('montant')) / 1000)"/>
+                                                                </td>
+                                                                <td>
+
+                                                                </td>
+                                                                <td>
+
+                                                                </td>
+                                                                <td>
+
+                                                                </td>
+                                                            </tr>
                                                         </tbody>
                                                     </table>
                                                 </td>
@@ -771,6 +788,43 @@
                                                     </td>
                                                 </tr>
                                             </t>
+                                            <tr>
+                                                <td colspan="3">
+                                                    الاجمالي
+                                                </td>
+                                                <td style="text-align: right; direction: ltr;">
+                                                    <!-- Calculer le total de montant_da_actuel -->
+                                                    <t t-set="total_actuel" t-value="0"/>
+                                                    <t t-foreach="etape2.facilite_accorde" t-as="line">
+                                                        <t t-set="total_actuel"
+                                                           t-value="total_actuel + line.montant_da_actuel"/>
+                                                    </t>
+                                                    <t t-esc="'{0:,.0f}'.format(total_actuel / 1000)"/>
+                                                </td>
+                                                <td style="text-align: right; direction: ltr;">
+                                                    <!-- Calculer le total de montant_da_demande -->
+                                                    <t t-set="total_demande" t-value="0"/>
+                                                    <t t-foreach="etape2.facilite_accorde" t-as="line">
+                                                        <t t-set="total_demande"
+                                                           t-value="total_demande + line.montant_da_demande"/>
+                                                    </t>
+                                                    <t t-esc="'{0:,.0f}'.format(total_demande / 1000)"/>
+                                                </td>
+                                                <td style="text-align: right; direction: ltr;">
+                                                    <!-- Calculer le total de montant_da_total -->
+                                                    <t t-set="total_total" t-value="0"/>
+                                                    <t t-foreach="etape2.facilite_accorde" t-as="line">
+                                                        <t t-set="total_total"
+                                                           t-value="total_total + line.montant_da_total"/>
+                                                    </t>
+                                                    <t t-esc="'{0:,.0f}'.format(total_total / 1000)"/>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                            </tr>
+
                                         </tbody>
                                     </table>
                                 </div>
@@ -2989,107 +3043,98 @@
                                    t-value="doc.states.filtered(lambda l: l.sequence == 2).invest_id"/>
                                 <t t-if="invest">
                                     <div class="table_deco">
-                                        <table class="reversed-table" t-if="invest.line_ids">
-                                            <thead>
-                                                <tr>
-                                                    <th class="title-cell" colspan="6">بيانات العميل</th>
-                                                </tr>
-                                                <tr>
-                                                    <th class="title-cell">البيان</th>
-                                                    <th class="title-cell">N+1</th>
-                                                    <th class="title-cell">N+2</th>
-                                                    <th class="title-cell">N+3</th>
-                                                    <th class="title-cell">N+4</th>
-                                                    <th class="title-cell">N+5</th>
-                                                </tr>
-                                            </thead>
+                                        <table class="reversed-table">
                                             <tbody>
-                                                <t t-foreach="invest.line_ids" t-as="line">
-                                                    <tr>
-                                                        <td class="title-cell">
-                                                            <t t-esc="line.poste_arabe"/>
-                                                        </td>
-                                                        <td style="text-align: right; direction: ltr;">
-                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n)"/>
-                                                        </td>
-                                                        <td style="text-align: right; direction: ltr;">
-                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n1)"/>
-                                                        </td>
-                                                        <td style="text-align: right; direction: ltr;">
-                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n2)"/>
-                                                        </td>
-                                                        <td style="text-align: right; direction: ltr;">
-                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n3)"/>
-                                                        </td>
-                                                        <td style="text-align: right; direction: ltr;">
-                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n4)"/>
-                                                        </td>
-                                                    </tr>
-                                                </t>
+                                                <tr>
+                                                    <td class="title-cell" width="25%">
+                                                        وصف المشروع الاستثماري
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="etape2.description_prjt_invest"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="title-cell" width="25%">
+                                                        الاصول المراد الاستثمار بها
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="etape2.actif_invest"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="title-cell" width="25%">
+                                                        بلد المنشأ
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="title-cell" width="25%">
+                                                        القيمة الإجمالية للاستثمار
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="etape2.valeur_total"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="title-cell" width="25%">
+                                                        التمويل الذاتي
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="etape2.auto_financement"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="title-cell" width="25%">
+                                                        التمويل المطلوب
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="etape2.financement_demande"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="title-cell" width="25%">
+                                                        مدة التمويل
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="etape2.duree_financement"/>
+                                                    </td>
+                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>
-                                    <br/>
-                                    <img t-if="invest.graph_historical_bar"
-                                         t-att-src="image_data_uri(invest.graph_historical_bar)" height="500"
-                                         border="1" width="500"/>
-                                    <br/>
-                                    <img t-if="invest.graph_historical_bar_emp"
-                                         t-att-src="image_data_uri(invest.graph_historical_bar_emp)" height="500"
-                                         border="1" width="500"/>
-                                    <br/>
                                     <div class="table_deco">
-                                        <table class="reversed-table" t-if="invest.tcr_prev_ids">
+                                        <table class="reversed-table" t-if="invest.cashflow_ids">
                                             <thead>
                                                 <tr>
-                                                    <th class="title-cell" colspan="11">اختبار فرضيات التحمل</th>
+                                                    <th class="title-cell" colspan="6">التدفقات المالية</th>
                                                 </tr>
                                                 <tr>
-                                                    <th class="title-cell">البيان</th>
-                                                    <th class="title-cell">فرضية N+1</th>
+                                                    <th class="title-cell"></th>
                                                     <th class="title-cell">N+1</th>
-                                                    <th class="title-cell">فرضية N+2</th>
                                                     <th class="title-cell">N+2</th>
-                                                    <th class="title-cell">فرضية N+3</th>
                                                     <th class="title-cell">N+3</th>
-                                                    <th class="title-cell">فرضية N+4</th>
                                                     <th class="title-cell">N+4</th>
-                                                    <th class="title-cell">فرضية N+5</th>
                                                     <th class="title-cell">N+5</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <t t-foreach="invest.tcr_prev_ids" t-as="line">
+                                                <t t-foreach="invest.cashflow_ids" t-as="line">
                                                     <tr>
                                                         <td class="title-cell">
-                                                            <t t-esc="line.poste_arabe"/>
-                                                        </td>
-                                                        <td style="text-align: right; direction: ltr;">
-                                                            <t t-esc="'{0:,.0f}'.format(line.augment_hypothesis_n1)"/>
+                                                            <t t-esc="line.name"/>
                                                         </td>
                                                         <td style="text-align: right; direction: ltr;">
                                                             <t t-esc="'{0:,.0f}'.format(line.amount_n)"/>
                                                         </td>
                                                         <td style="text-align: right; direction: ltr;">
-                                                            <t t-esc="'{0:,.0f}'.format(line.augment_hypothesis_n2)"/>
-                                                        </td>
-                                                        <td style="text-align: right; direction: ltr;">
                                                             <t t-esc="'{0:,.0f}'.format(line.amount_n1)"/>
-                                                        </td>
-                                                        <td style="text-align: right; direction: ltr;">
-                                                            <t t-esc="'{0:,.0f}'.format(line.augment_hypothesis_n3)"/>
                                                         </td>
                                                         <td style="text-align: right; direction: ltr;">
                                                             <t t-esc="'{0:,.0f}'.format(line.amount_n2)"/>
                                                         </td>
                                                         <td style="text-align: right; direction: ltr;">
-                                                            <t t-esc="'{0:,.0f}'.format(line.augment_hypothesis_n4)"/>
-                                                        </td>
-                                                        <td style="text-align: right; direction: ltr;">
                                                             <t t-esc="'{0:,.0f}'.format(line.amount_n3)"/>
-                                                        </td>
-                                                        <td style="text-align: right; direction: ltr;">
-                                                            <t t-esc="'{0:,.0f}'.format(line.augment_hypothesis_n5)"/>
                                                         </td>
                                                         <td style="text-align: right; direction: ltr;">
                                                             <t t-esc="'{0:,.0f}'.format(line.amount_n4)"/>
@@ -3142,89 +3187,6 @@
                                         </table>
                                     </div>
                                     <br/>
-                                    <div class="table_deco">
-                                        <table class="reversed-table" t-if="invest.cashflow_ids">
-                                            <thead>
-                                                <tr>
-                                                    <th class="title-cell" colspan="6">التدفقات المالية</th>
-                                                </tr>
-                                                <tr>
-                                                    <th class="title-cell"></th>
-                                                    <th class="title-cell">N+1</th>
-                                                    <th class="title-cell">N+2</th>
-                                                    <th class="title-cell">N+3</th>
-                                                    <th class="title-cell">N+4</th>
-                                                    <th class="title-cell">N+5</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <t t-foreach="invest.cashflow_ids" t-as="line">
-                                                    <tr>
-                                                        <td class="title-cell">
-                                                            <t t-esc="line.name"/>
-                                                        </td>
-                                                        <td style="text-align: right; direction: ltr;">
-                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n)"/>
-                                                        </td>
-                                                        <td style="text-align: right; direction: ltr;">
-                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n1)"/>
-                                                        </td>
-                                                        <td style="text-align: right; direction: ltr;">
-                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n2)"/>
-                                                        </td>
-                                                        <td style="text-align: right; direction: ltr;">
-                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n3)"/>
-                                                        </td>
-                                                        <td style="text-align: right; direction: ltr;">
-                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n4)"/>
-                                                        </td>
-                                                    </tr>
-                                                </t>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <br/>
-                                    <div class="table_deco">
-                                        <table class="reversed-table" t-if="invest.evaluation_line_ids">
-                                            <thead>
-                                                <tr>
-                                                    <th class="title-cell" colspan="6">تقييم المشروع</th>
-                                                </tr>
-                                                <tr>
-                                                    <th class="title-cell"></th>
-                                                    <th class="title-cell">N+1</th>
-                                                    <th class="title-cell">N+2</th>
-                                                    <th class="title-cell">N+3</th>
-                                                    <th class="title-cell">N+4</th>
-                                                    <th class="title-cell">N+5</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <t t-foreach="invest.evaluation_line_ids" t-as="line">
-                                                    <tr>
-                                                        <td class="title-cell">
-                                                            <t t-esc="line.name"/>
-                                                        </td>
-                                                        <td style="text-align: right; direction: ltr;">
-                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n1)"/>
-                                                        </td>
-                                                        <td style="text-align: right; direction: ltr;">
-                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n2)"/>
-                                                        </td>
-                                                        <td style="text-align: right; direction: ltr;">
-                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n3)"/>
-                                                        </td>
-                                                        <td style="text-align: right; direction: ltr;">
-                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n4)"/>
-                                                        </td>
-                                                        <td style="text-align: right; direction: ltr;">
-                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n5)"/>
-                                                        </td>
-                                                    </tr>
-                                                </t>
-                                            </tbody>
-                                        </table>
-                                    </div>
                                     <div class="table_deco" t-if="etape2.avis_invest">
                                         <table class="table_content">
                                             <tbody>
@@ -3358,6 +3320,23 @@
                                                     </td>
                                                 </tr>
                                             </t>
+                                            <tr>
+                                                <td>
+                                                    الاجمالي
+                                                </td>
+                                                <td>
+                                                    <t t-esc="'{0:,.0f}'.format(sum(etape2.facilite_propose.mapped('montant_dz')) / 1000)"/>
+                                                </td>
+                                                <td>
+
+                                                </td>
+                                                <td>
+
+                                                </td>
+                                                <td>
+
+                                                </td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
