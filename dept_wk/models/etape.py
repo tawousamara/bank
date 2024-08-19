@@ -2409,26 +2409,32 @@ class Etape(models.Model):
                 etape = rec.workflow.states.filtered(lambda l: l.etape.sequence == 1)
                 etape.state_branch = 'branch_4'
                 etape.raison_a_revoir = raison
+                etape.workflow.state = '1'
             if etat == '2':
                 etape = rec.workflow.states.filtered(lambda l: l.etape.sequence == 2)
                 etape.state_finance = 'finance_3'
                 etape.raison_a_revoir = raison
+                etape.workflow.state = '2'
             if etat == '3':
                 etape = rec.workflow.states.filtered(lambda l: l.etape.sequence == 3)
                 etape.state_commercial = 'commercial_3'
                 etape.raison_a_revoir = raison
+                etape.workflow.state = '3'
             if etat == '4':
                 etape = rec.workflow.states.filtered(lambda l: l.etape.sequence == 4)
                 etape.state_risque = 'risque_4'
                 etape.raison_a_revoir = raison
+                etape.workflow.state = '4'
             if etat == '5':
                 etape = rec.workflow.states.filtered(lambda l: l.etape.sequence == 5)
                 etape.state_vice = 'vice_1'
                 etape.raison_a_revoir = raison
+                etape.workflow.state = '5'
             if etat == '10':
                 etape = rec.workflow.states.filtered(lambda l: l.etape.sequence == 10)
                 etape.state_tres = 'tres_1'
                 etape.raison_a_revoir = raison
+                etape.workflow.state = '10'
 
     def revoir_action(self):
         for rec in self:
