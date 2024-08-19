@@ -20,66 +20,68 @@ class RevoirState(models.TransientModel):
         return {'type': 'ir.actions.act_window_close'}
 
     def send(self):
-        for rec in self:
-            print("send")
-            print(self.env.context)
-            demande = self.env['wk.etape'].search([('id', 'in', self.env.context.get('active_ids'))])
-            print(demande._fields['state_branch'])
-            if self.env.context.get('refus') and self.raison:
-                demande.workflow.raison_refus = self.raison
-                demande.reject_request_function()
-            elif self.raison:
-                if not self.etat:
-                    demande.a_revoir(self.one_step)
-                else:
-                    if int(demande.workflow.state) <= int(self.etat):
-                        demande.a_revoir_2(self.etat, self.raison)
-                if demande.etape.sequence == 2 and demande.state_finance == 'finance_1':
-                    step_1 = demande.workflow.states.filtered(lambda l: l.etape.sequence == 1)
-                    if step_1.state_branch == 'branch_4':
-                        step_1.write({'raison_a_revoir': self.raison})
-                elif demande.etape.sequence == 5 and demande.state_vice == 'vice_1':
-                    step_1 = demande.workflow.states.filtered(lambda l: l.etape.sequence == 2)
-                    if step_1.state_finance == 'finance_3':
-                        step_1.write({'raison_a_revoir': self.raison})
-                elif demande.etape.sequence == 4 and demande.state_risque == 'risque_1':
-                    step_1 = demande.workflow.states.filtered(lambda l: l.etape.sequence == 2)
-                    if step_1.state_finance == 'finance_3':
-                        step_1.write({'raison_a_revoir': self.raison})
-                else:
-                    demande.write({'raison_a_revoir': self.raison})
-                try:
-                    email_template = self.env.ref('dept_wk.notification_revoir_mail_template')
-                    email_values = {
-                        'email_to': demande.get_mail_to_revoir(),
-                    }
-                    email_template.send_mail(demande.id, force_send=True, email_values=email_values)
-                except:
-                    print('hi')
-                '''last_track = self.env['wk.tracking'].search([('workflow_id', '=', demande.workflow.id)])
-                last_track[-1].write({'date_fin': datetime.today()})
-                state = dict(demande._fields['state_branch'].selection).get(demande.state_branch)
-                if demande.etape.sequence == 1:
-                    state = dict(demande._fields['state_branch'].selection).get(demande.state_branch)
-                elif demande.etape.sequence == 2:
-                    state = dict(demande._fields['state_finance'].selection).get(demande.state_finance)
-                elif demande.etape.sequence == 3:
-                    state = dict(demande._fields['state_commercial'].selection).get(demande.state_commercial)
-                elif demande.etape.sequence == 4:
-                    state = dict(demande._fields['state_risque'].selection).get(demande.state_risque)
-                elif demande.etape.sequence == 5:
-                    state = dict(demande._fields['state_vice'].selection).get(demande.state_vice)
-                elif demande.etape.sequence == 6:
-                    state = dict(demande._fields['state_comite'].selection).get(demande.state_comite)
-                print(state)
-                self.env['wk.tracking'].create({'workflow_id': demande.workflow.id,
-                                                'date_debut': datetime.today(),
-                                                'state1': state,
-                                                'is_revision': True,
-                                                'comment': self.raison})'''
-                return {'type': 'ir.actions.act_window_close'}
+        self.ensure_one()
+        demande = self.env['wk.etape'].search([('id', 'in', self.env.context.get('active_ids'))])
+        print(demande._fields['state_branch'])
+        if self.env.context.get('refus') and self.raison:
+            demande.workflow.raison_refus = self.raison
+            demande.reject_request_function()
+        elif self.raison:
+            if not self.etat:
+                demande.a_revoir(self.one_step)
             else:
-                raise UserError("Vous devriez saisir la raison")
+                print(int(demande.workflow.state))
+                print(int(self.etat))
+                if int(demande.sequence) >= int(self.etat):
+                    demande.a_revoir_2(self.etat, self.raison)
+                else:
+                    raise UserError('يجب اختيار وجهة اخرى')
+            if demande.etape.sequence == 2 and demande.state_finance == 'finance_1':
+                step_1 = demande.workflow.states.filtered(lambda l: l.etape.sequence == 1)
+                if step_1.state_branch == 'branch_4':
+                    step_1.write({'raison_a_revoir': self.raison})
+            elif demande.etape.sequence == 5 and demande.state_vice == 'vice_1':
+                step_1 = demande.workflow.states.filtered(lambda l: l.etape.sequence == 2)
+                if step_1.state_finance == 'finance_3':
+                    step_1.write({'raison_a_revoir': self.raison})
+            elif demande.etape.sequence == 4 and demande.state_risque == 'risque_1':
+                step_1 = demande.workflow.states.filtered(lambda l: l.etape.sequence == 2)
+                if step_1.state_finance == 'finance_3':
+                    step_1.write({'raison_a_revoir': self.raison})
+            else:
+                demande.write({'raison_a_revoir': self.raison})
+            try:
+                email_template = self.env.ref('dept_wk.notification_revoir_mail_template')
+                email_values = {
+                    'email_to': demande.get_mail_to_revoir(),
+                }
+                email_template.send_mail(demande.id, force_send=True, email_values=email_values)
+            except:
+                print('hi')
+            '''last_track = self.env['wk.tracking'].search([('workflow_id', '=', demande.workflow.id)])
+            last_track[-1].write({'date_fin': datetime.today()})
+            state = dict(demande._fields['state_branch'].selection).get(demande.state_branch)
+            if demande.etape.sequence == 1:
+                state = dict(demande._fields['state_branch'].selection).get(demande.state_branch)
+            elif demande.etape.sequence == 2:
+                state = dict(demande._fields['state_finance'].selection).get(demande.state_finance)
+            elif demande.etape.sequence == 3:
+                state = dict(demande._fields['state_commercial'].selection).get(demande.state_commercial)
+            elif demande.etape.sequence == 4:
+                state = dict(demande._fields['state_risque'].selection).get(demande.state_risque)
+            elif demande.etape.sequence == 5:
+                state = dict(demande._fields['state_vice'].selection).get(demande.state_vice)
+            elif demande.etape.sequence == 6:
+                state = dict(demande._fields['state_comite'].selection).get(demande.state_comite)
+            print(state)
+            self.env['wk.tracking'].create({'workflow_id': demande.workflow.id,
+                                            'date_debut': datetime.today(),
+                                            'state1': state,
+                                            'is_revision': True,
+                                            'comment': self.raison})'''
+            return {'type': 'ir.actions.act_window_close'}
+        else:
+            raise UserError("Vous devriez saisir la raison")
 
 
 class AvanceState(models.TransientModel):
