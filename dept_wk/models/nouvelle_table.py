@@ -282,6 +282,27 @@ class Partner(models.Model):
     is_user = fields.Boolean(string='مستخدم', compute='compute_user')
     is_not_user = fields.Boolean(string='مستخدم')
 
+    @api.model
+    def default_get(self, fields_list):
+        # print('Call the super method to get the default values')
+        defaults = super(Partner, self).default_get(fields_list)
+        
+        user = self.env.user
+        user_groups = user.groups_id.mapped('name')
+
+        if user.has_group('dept_wk.dept_wk_group_agent_agence'):
+            defaults['branche'] = user.partner_id.branche.id if user.partner_id.branche else False
+            # print("Agent Agence")
+            self = self.with_context(branche_readonly=True)
+            # print('Passing context')
+        elif user.has_group('dept_wk.dept_wk_group_charge_commercial'):
+            print("User is allowed to choose branche manually (Commercial Group)")
+        else:
+            defaults['branche'] = self.env.ref('dept_wk.agence_99').id
+
+        return defaults
+
+
     def compute_current_user(self):
         for rec in self:
             rec.current_user = self.env.user or False
