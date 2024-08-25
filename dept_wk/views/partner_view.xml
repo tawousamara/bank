@@ -75,7 +75,7 @@
                     <field name="is_super" invisible="is_user != True"/>
                     <field name="is_user" invisible="1"/>
                     <field name="current_user" invisible="1"/>
-                    <field name="branche" options="{'no_create': True, 'no_open': True}" readonly="is_client"/>
+                    <field name="branche" options="{'no_create': True, 'no_edit': True, 'no_open': True}" readonly="context.get('branche_readonly', True) or is_client"/>
                     <field name="wilaya"/>
                     <field name="nif" invisible="is_user == True"/>
                     <field name="rc" invisible="is_user == True"/>
