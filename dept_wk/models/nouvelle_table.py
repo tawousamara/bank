@@ -296,9 +296,7 @@ class Partner(models.Model):
             self = self.with_context(branche_readonly=True)
             # print('Passing context')
         else:
-            self = self.with_context(branche_readonly=False)
             defaults['branche'] = self.env.ref('dept_wk.agence_99').id
-
         return defaults
 
 
