@@ -290,14 +290,13 @@ class Partner(models.Model):
         user = self.env.user
         user_groups = user.groups_id.mapped('name')
 
-        if user.has_group('dept_wk.dept_wk_group_agent_agence'):
+        if user.has_group('dept_wk.dept_wk_group_agent_agence') and not user.has_group('dept_wk.dept_wk_group_charge_commercial'):
             defaults['branche'] = user.partner_id.branche.id if user.partner_id.branche else False
             # print("Agent Agence")
             self = self.with_context(branche_readonly=True)
             # print('Passing context')
-        elif user.has_group('dept_wk.dept_wk_group_charge_commercial'):
-            print("User is allowed to choose branche manually (Commercial Group)")
         else:
+            self = self.with_context(branche_readonly=False)
             defaults['branche'] = self.env.ref('dept_wk.agence_99').id
 
         return defaults
