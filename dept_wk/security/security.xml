@@ -154,7 +154,7 @@
         <field name="name">User can only see his / her demands</field>
         <field name="model_id" ref="model_wk_workflow_dashboard"/>
         <field name="groups" eval="[(4, ref ('dept_wk_group_agent_agence'))]"/>
-        <field name="domain_force">[('branche', '=', user.partner_id.branche.id),('branche', 'in', [False, 26])]</field>
+        <field name="domain_force">[('branche', '=', user.partner_id.branche.id)]</field>
     </record>
     <!--<record id="workflow_comm_visibility_user" model="ir.rule">
         <field name="name">User can only see his / her demands</field>
