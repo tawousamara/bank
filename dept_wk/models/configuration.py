@@ -25,18 +25,17 @@ class Agence(models.Model):
     wilaya = fields.Char(string='الولاية')
     ref = fields.Char(string='الولاية', )
     commune = fields.Char(string="المجلس الشعبي البلدي")
-    wilaya_id = fields.Many2one('wk.wilaya',compute='compute_ref')
-
+    wilaya_id = fields.Many2one('wk.wilaya',compute='compute_ref', store=True)
+    @api.depends('wilaya')
     def compute_ref(self):
         for rec in self:
-            wilaya = self.env['wk.wilaya'].search([('name', '=', rec.wilaya)])
+            wilaya = self.env['wk.wilaya'].search([('name', '=', rec.wilaya)], limit=1)
             commune = self.env['wk.commune'].search([('name', '=', rec.commune),
                                                      ('domaine', '=', rec.wilaya)])
             print(wilaya)
             print(commune)
             print(commune.description)
             if wilaya:
-
                 rec.wilaya_id = wilaya.id
             else:
                 rec.wilaya_id = False
