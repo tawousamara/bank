@@ -40,7 +40,9 @@
             'views/etape.xml',
             'views/analytic_views.xml',
             'views/res_config.xml',
-            'views/menu_item.xml'],
+            'views/menu_item.xml',
+            'data/data_assign_users.xml'
+            ],
     # data files containing optionally loaded demonstration data
     'demo': [],
     'installable': True,

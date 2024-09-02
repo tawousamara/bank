@@ -13,6 +13,7 @@ from . import workflow_new
 from . import etape
 from . import analytics
 from . import res_config
+from . import res_users
 
 
 
