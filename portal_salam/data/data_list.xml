@@ -1,0 +1,474 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="branch_0" model="crm.branch">
+            <field name="name">Aucune</field>
+        </record>
+        <record id="branch_1" model="crm.branch">
+            <field name="name">Sidi Yahia</field>
+        </record>
+        <record id="branch_2" model="crm.branch">
+            <field name="name">Ouled Fayet</field>
+        </record>
+        <record id="branch_3" model="crm.branch">
+            <field name="name">Blida</field>
+        </record>
+        <record id="branch_4" model="crm.branch">
+            <field name="name">Bab Ezzouar</field>
+        </record>
+        <record id="branch_5" model="crm.branch">
+            <field name="name">Kouba</field>
+        </record>
+        <record id="branch_6" model="crm.branch">
+            <field name="name">Baba Hassen</field>
+        </record>
+        <record id="branch_7" model="crm.branch">
+            <field name="name">Rouiba</field>
+        </record>
+        <record id="branch_8" model="crm.branch">
+            <field name="name">Tizi Ouzou</field>
+        </record>
+        <record id="branch_9" model="crm.branch">
+            <field name="name">Alger Centre</field>
+        </record>
+        <record id="branch_10" model="crm.branch">
+            <field name="name">Garden City</field>
+        </record>
+        <record id="branch_11" model="crm.branch">
+            <field name="name">Zeralda</field>
+        </record>
+        <record id="branch_12" model="crm.branch">
+            <field name="name">Dely Ibrahim</field>
+        </record>
+        <record id="secteur_1" model="crm.secteur">
+            <field name="name">Service</field>
+        </record>
+        <record id="secteur_2" model="crm.secteur">
+            <field name="name">Industrie</field>
+        </record>
+        <record id="secteur_3" model="crm.secteur">
+            <field name="name">Négoce - Importation</field>
+        </record>
+        <record id="secteur_4" model="crm.secteur">
+            <field name="name">Négoce (sans importation)</field>
+        </record>
+        <record id="secteur_5" model="crm.secteur">
+            <field name="name">BTPH</field>
+        </record>
+        
+        <record id="act_1_secteur_1" model="crm.activity">
+            <field name="name">Conseil aux entreprises</field>
+            <field name="secteur">1</field>
+        </record>
+        <record id="act_2_secteur_1" model="crm.activity">
+            <field name="name">Conseil aux particuliers</field>
+            <field name="secteur">1</field>
+        </record>
+        <record id="act_3_secteur_1" model="crm.activity">
+            <field name="name">Ingenierie informatique</field>
+            <field name="secteur">1</field>
+        </record>
+        <record id="act_4_secteur_1" model="crm.activity">
+            <field name="name">Services aux entreprises</field>
+            <field name="secteur">1</field>
+        </record>
+        <record id="act_5_secteur_1" model="crm.activity">
+            <field name="name">Services aux particuliers</field>
+            <field name="secteur">1</field>
+        </record>
+        <record id="act_6_secteur_1" model="crm.activity">
+            <field name="name">Location des bureaux</field>
+            <field name="secteur">1</field>
+        </record>
+        <record id="act_7_secteur_1" model="crm.activity">
+            <field name="name">Location des véhicules</field>
+            <field name="secteur">1</field>
+        </record>
+        <record id="act_8_secteur_1" model="crm.activity">
+            <field name="name">Location matériels informatiques</field>
+            <field name="secteur">1</field>
+        </record>
+        <record id="act_9_secteur_1" model="crm.activity">
+            <field name="name">Location mobiliers de bureaux</field>
+            <field name="secteur">1</field>
+        </record>
+        <record id="act_10_secteur_1" model="crm.activity">
+            <field name="name">Maintenance</field>
+            <field name="secteur">1</field>
+        </record>
+        <record id="act_11_secteur_1" model="crm.activity">
+            <field name="name">Maintenance industrielle</field>
+            <field name="secteur">1</field>
+        </record>
+        <record id="act_12_secteur_1" model="crm.activity">
+            <field name="name">Nettoyage professionnel</field>
+            <field name="secteur">1</field>
+        </record>
+        <record id="act_13_secteur_1" model="crm.activity">
+            <field name="name">Agence de communication</field>
+            <field name="secteur">1</field>
+        </record>
+        <record id="act_14_secteur_1" model="crm.activity">
+            <field name="name">Agence de développement web</field>
+            <field name="secteur">1</field>
+        </record>
+        <record id="act_15_secteur_1" model="crm.activity">
+            <field name="name">Agence de marketing digital</field>
+            <field name="secteur">1</field>
+        </record>
+        <record id="act_16_secteur_1" model="crm.activity">
+            <field name="name">Installation industrielle - Électriques</field>
+            <field name="secteur">1</field>
+        </record>
+        <record id="act_17_secteur_1" model="crm.activity">
+            <field name="name">Cliniques toutes spécialialités</field>
+            <field name="secteur">1</field>
+        </record>
+        <record id="act_18_secteur_1" model="crm.activity">
+            <field name="name">Service santé a domicile</field>
+            <field name="secteur">1</field>
+        </record>
+        <record id="act_19_secteur_1" model="crm.activity">
+            <field name="name">Service ambulance</field>
+            <field name="secteur">1</field>
+        </record>
+        <record id="act_20_secteur_1" model="crm.activity">
+            <field name="name">Service de transport des marchandises</field>
+            <field name="secteur">1</field>
+        </record>
+        <record id="act_21_secteur_1" model="crm.activity">
+            <field name="name">Service de transports de personnel</field>
+            <field name="secteur">1</field>
+        </record>
+        <record id="act_22_secteur_1" model="crm.activity">
+            <field name="name">Service logistique</field>
+            <field name="secteur">1</field>
+        </record>
+        <record id="act_23_secteur_1" model="crm.activity">
+            <field name="name">Agence de tourisme</field>
+            <field name="secteur">1</field>
+        </record>
+        <record id="act_24_secteur_1" model="crm.activity">
+            <field name="name">Hotellerie</field>
+            <field name="secteur">1</field>
+        </record>
+        <record id="act_25_secteur_1" model="crm.activity">
+            <field name="name">Restauration</field>
+            <field name="secteur">1</field>
+        </record>
+        <record id="act_26_secteur_1" model="crm.activity">
+            <field name="name">Ingenierie industrielle</field>
+            <field name="secteur">1</field>
+        </record>
+        <record id="act_27_secteur_1" model="crm.activity">
+            <field name="name">Installation et maintenance des équipements médicaux</field>
+            <field name="secteur">1</field>
+        </record>
+        <record id="act_28_secteur_1" model="crm.activity">
+            <field name="name">Maintenance véhicules, engins</field>
+            <field name="secteur">1</field>
+        </record>
+
+        <record id="act_1_secteur_2" model="crm.activity">
+            <field name="name">Fabrication des biens de consommation</field>
+            <field name="secteur">2</field>
+        </record>
+        <record id="act_2_secteur_2" model="crm.activity">
+            <field name="name">Fabrication des produits semi-fini a usage industriel</field>
+            <field name="secteur">2</field>
+        </record>
+        <record id="act_3_secteur_2" model="crm.activity">
+            <field name="name">Fabrication des matieres premiers a usage industriel</field>
+            <field name="secteur">2</field>
+        </record>
+        <record id="act_4_secteur_2" model="crm.activity">
+            <field name="name">Fabrication des produits électromenagers</field>
+            <field name="secteur">2</field>
+        </record>
+        <record id="act_5_secteur_2" model="crm.activity">
+            <field name="name">Fabrication des produits électroniques - électriques</field>
+            <field name="secteur">2</field>
+        </record>
+        <record id="act_6_secteur_2" model="crm.activity">
+            <field name="name">Fabrication des produits informatiques</field>
+            <field name="secteur">2</field>
+        </record>
+        <record id="act_7_secteur_2" model="crm.activity">
+            <field name="name">Fabrication des produits métalliques a usage professionnel</field>
+            <field name="secteur">2</field>
+        </record>
+        <record id="act_8_secteur_2" model="crm.activity">
+            <field name="name">Transformation de bois</field>
+            <field name="secteur">2</field>
+        </record>
+        <record id="act_9_secteur_2" model="crm.activity">
+            <field name="name">Transformation de plastique</field>
+            <field name="secteur">2</field>
+        </record>
+        <record id="act_10_secteur_2" model="crm.activity">
+            <field name="name">Recyclage</field>
+            <field name="secteur">2</field>
+        </record>
+        <record id="act_11_secteur_2" model="crm.activity">
+            <field name="name">Transformation de papiers</field>
+            <field name="secteur">2</field>
+        </record>
+        <record id="act_12_secteur_2" model="crm.activity">
+            <field name="name">Fabrication des matériels industriels</field>
+            <field name="secteur">2</field>
+        </record>
+        <record id="act_13_secteur_2" model="crm.activity">
+            <field name="name">Fabrication et montage des engins</field>
+            <field name="secteur">2</field>
+        </record>
+        <record id="act_14_secteur_2" model="crm.activity">
+            <field name="name">Fabrication et montage des véhicules</field>
+            <field name="secteur">2</field>
+        </record>
+        <record id="act_15_secteur_2" model="crm.activity">
+            <field name="name">Fabrication des produits agroalimentaires</field>
+            <field name="secteur">2</field>
+        </record>
+        <record id="act_16_secteur_2" model="crm.activity">
+            <field name="name">Fabrication des articles de décoration</field>
+            <field name="secteur">2</field>
+        </record>
+        <record id="act_17_secteur_2" model="crm.activity">
+            <field name="name">Fabrication des équipements hydrauliques</field>
+            <field name="secteur">2</field>
+        </record>
+        <record id="act_18_secteur_2" model="crm.activity">
+            <field name="name">Fabrication des dispositifs médicaux</field>
+            <field name="secteur">2</field>
+        </record>
+        <record id="act_19_secteur_2" model="crm.activity">
+            <field name="name">Fabrication des équipements médicaux</field>
+            <field name="secteur">2</field>
+        </record>
+        <record id="act_20_secteur_2" model="crm.activity">
+            <field name="name">Fabrication des produits pharmaceutiques</field>
+            <field name="secteur">2</field>
+        </record>
+        <record id="act_21_secteur_2" model="crm.activity">
+            <field name="name">Fabrication des produits parapharmaceutiques</field>
+            <field name="secteur">2</field>
+        </record>
+        <record id="act_22_secteur_2" model="crm.activity">
+            <field name="name">Fabrication des PDR véhicules, engins</field>
+            <field name="secteur">2</field>
+        </record>
+        <record id="act_23_secteur_2" model="crm.activity">
+            <field name="name">Fabrication des PDR machines industrielles</field>
+            <field name="secteur">2</field>
+        </record>
+        <record id="act_24_secteur_2" model="crm.activity">
+            <field name="name">Impremerie</field>
+            <field name="secteur">2</field>
+        </record>
+        <record id="act_25_secteur_2" model="crm.activity">
+            <field name="name">Maintenance véhicules, engins</field>
+            <field name="secteur">2</field>
+        </record>
+
+        <record id="act_1_secteur_3" model="crm.activity">
+            <field name="name">Importation des biens de consommation</field>
+            <field name="secteur">3</field>
+        </record>
+        <record id="act_2_secteur_3" model="crm.activity">
+            <field name="name">Importation des produits semi-fini a usage industriel</field>
+            <field name="secteur">3</field>
+        </record>
+        <record id="act_3_secteur_3" model="crm.activity">
+            <field name="name">Importation des matieres premiers a usage industriel</field>
+            <field name="secteur">3</field>
+        </record>
+        <record id="act_4_secteur_3" model="crm.activity">
+            <field name="name">Importation des produits électromenagers</field>
+            <field name="secteur">3</field>
+        </record>
+        <record id="act_5_secteur_3" model="crm.activity">
+            <field name="name">Importation des produits électroniques - électriques</field>
+            <field name="secteur">3</field>
+        </record>
+        <record id="act_6_secteur_3" model="crm.activity">
+            <field name="name">Importation des produits informatiques</field>
+            <field name="secteur">3</field>
+        </record>
+        <record id="act_7_secteur_3" model="crm.activity">
+            <field name="name">Importation des produits métalliques a usage professionnel</field>
+            <field name="secteur">3</field>
+        </record>
+        <record id="act_8_secteur_3" model="crm.activity">
+            <field name="name">Importation de bois</field>
+            <field name="secteur">3</field>
+        </record>
+        <record id="act_9_secteur_3" model="crm.activity">
+            <field name="name">Importation de plastique</field>
+            <field name="secteur">3</field>
+        </record>
+        <record id="act_10_secteur_3" model="crm.activity">
+            <field name="name">Importation de papiers</field>
+            <field name="secteur">3</field>
+        </record>
+        <record id="act_11_secteur_3" model="crm.activity">
+            <field name="name">Importation des matériels industriels</field>
+            <field name="secteur">3</field>
+        </record>
+        <record id="act_12_secteur_3" model="crm.activity">
+            <field name="name">Importation des engins</field>
+            <field name="secteur">3</field>
+        </record>
+        <record id="act_13_secteur_3" model="crm.activity">
+            <field name="name">Importation des véhicules</field>
+            <field name="secteur">3</field>
+        </record>
+        <record id="act_14_secteur_3" model="crm.activity">
+            <field name="name">Importation des produits agroalimentaires</field>
+            <field name="secteur">3</field>
+        </record>
+        <record id="act_15_secteur_3" model="crm.activity">
+            <field name="name">Importation des articles de décoration</field>
+            <field name="secteur">3</field>
+        </record>
+        <record id="act_16_secteur_3" model="crm.activity">
+            <field name="name">Importation des dispositif médicaux</field>
+            <field name="secteur">3</field>
+        </record>
+        <record id="act_17_secteur_3" model="crm.activity">
+            <field name="name">Importations des équipements médicaux</field>
+            <field name="secteur">3</field>
+        </record>
+        <record id="act_18_secteur_3" model="crm.activity">
+            <field name="name">Importation des produits pharmaceutiques</field>
+            <field name="secteur">3</field>
+        </record>
+        <record id="act_19_secteur_3" model="crm.activity">
+            <field name="name">Importation des produits parapharmaceutiques</field>
+            <field name="secteur">3</field>
+        </record>
+        <record id="act_20_secteur_3" model="crm.activity">
+            <field name="name">Importation des PDR véhicules, engins</field>
+            <field name="secteur">3</field>
+        </record>
+        <record id="act_21_secteur_3" model="crm.activity">
+            <field name="name">Importation des PDR machines industrielles</field>
+            <field name="secteur">3</field>
+        </record>
+
+        <record id="act_1_secteur_4" model="crm.activity">
+            <field name="name">Vente des biens de consommation</field>
+            <field name="secteur">4</field>
+        </record>
+        <record id="act_2_secteur_4" model="crm.activity">
+            <field name="name">Vente des produits semi-fini a usage industriel</field>
+            <field name="secteur">4</field>
+        </record>
+        <record id="act_3_secteur_4" model="crm.activity">
+            <field name="name">Vente des matieres premiers a usage industriel</field>
+            <field name="secteur">4</field>
+        </record>
+        <record id="act_4_secteur_4" model="crm.activity">
+            <field name="name">Vente des produits électromenagers</field>
+            <field name="secteur">4</field>
+        </record>
+        <record id="act_5_secteur_4" model="crm.activity">
+            <field name="name">Vente des produits électroniques - électriques</field>
+            <field name="secteur">4</field>
+        </record>
+        <record id="act_6_secteur_4" model="crm.activity">
+            <field name="name">Vente des produits informatiques</field>
+            <field name="secteur">4</field>
+        </record>
+        <record id="act_7_secteur_4" model="crm.activity">
+            <field name="name">Vente des produits métalliques a usage professionnel</field>
+            <field name="secteur">4</field>
+        </record>
+        <record id="act_8_secteur_4" model="crm.activity">
+            <field name="name">Vente de bois</field>
+            <field name="secteur">4</field>
+        </record>
+        <record id="act_9_secteur_4" model="crm.activity">
+            <field name="name">Vente des matériels industriels</field>
+            <field name="secteur">4</field>
+        </record>
+        <record id="act_10_secteur_4" model="crm.activity">
+            <field name="name">Vente des engins</field>
+            <field name="secteur">4</field>
+        </record>
+        <record id="act_11_secteur_4" model="crm.activity">
+            <field name="name">Vente des véhicules</field>
+            <field name="secteur">4</field>
+        </record>
+        <record id="act_12_secteur_4" model="crm.activity">
+            <field name="name">Vente des produits agroalimentaires</field>
+            <field name="secteur">4</field>
+        </record>
+        <record id="act_13_secteur_4" model="crm.activity">
+            <field name="name">Vente des articles de décoration</field>
+            <field name="secteur">4</field>
+        </record>
+        <record id="act_14_secteur_4" model="crm.activity">
+            <field name="name">Plateforme E-Commerce</field>
+            <field name="secteur">4</field>
+        </record>
+        <record id="act_15_secteur_4" model="crm.activity">
+            <field name="name">Vente des dispositif médicaux</field>
+            <field name="secteur">4</field>
+        </record>
+        <record id="act_16_secteur_4" model="crm.activity">
+            <field name="name">Vente des équipements médicaux</field>
+            <field name="secteur">4</field>
+        </record>
+        <record id="act_17_secteur_4" model="crm.activity">
+            <field name="name">Vente des produits pharmaceutiques</field>
+            <field name="secteur">4</field>
+        </record>
+        <record id="act_18_secteur_4" model="crm.activity">
+            <field name="name">Vente des produits parapharmaceutiques</field>
+            <field name="secteur">4</field>
+        </record>
+        <record id="act_19_secteur_4" model="crm.activity">
+            <field name="name">Vente des PDR véhicules, engins</field>
+            <field name="secteur">4</field>
+        </record>
+        <record id="act_20_secteur_4" model="crm.activity">
+            <field name="name">Vente des PDR machines industrielles</field>
+            <field name="secteur">4</field>
+        </record>
+
+        <record id="act_1_secteur_5" model="crm.activity">
+            <field name="name">Travaux publics</field>
+            <field name="secteur">5</field>
+        </record>
+        <record id="act_2_secteur_5" model="crm.activity">
+            <field name="name">Travaux de batiments</field>
+            <field name="secteur">5</field>
+        </record>
+        <record id="act_3_secteur_5" model="crm.activity">
+            <field name="name">Travaux hydrauliques</field>
+            <field name="secteur">5</field>
+        </record>
+        <record id="act_4_secteur_5" model="crm.activity">
+            <field name="name">Construction métallique</field>
+            <field name="secteur">5</field>
+        </record>
+        <record id="product_1" model="crm.product">
+            <field name="name">Découvert</field>
+        </record>
+        <record id="product_2" model="crm.product">
+            <field name="name">ASF</field>
+        </record>
+        <record id="product_4" model="crm.product">
+            <field name="name">Financement Douane</field>
+        </record>
+        <record id="product_5" model="crm.product">
+            <field name="name">LC</field>
+        </record>
+        <record id="product_6" model="crm.product">
+            <field name="name">Caution</field>
+        </record>
+        <record id="product_7" model="crm.product">
+            <field name="name">CMT</field>
+        </record>
+    </data>
+</odoo>

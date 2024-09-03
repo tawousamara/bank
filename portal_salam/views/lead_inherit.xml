@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record model="ir.ui.view" id="crm_lead_new_client">
+        <field name="name">crm.lead.new.client</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='expected_revenue']" position="attributes">
+                <attribute name="string">PNB espéré</attribute>
+            </xpath>
+            <xpath expr="//header" position="inside">
+                <button name="convert_dossier" string="Lancer le dossier" type="object" class="oe_highlight"
+                        invisible="type != 'opportunity' or is_won_stage"/>
+            </xpath>
+            <xpath expr="//page[@name='internal_notes']" position="before">
+                <page name="details_dossier" string="معلومات حول العميل">
+                    <group>
+                        <group>
+                            <field name="is_won_stage" invisible="1"/>
+                            <field name="demande"/>
+                            <field name="explanation"/>
+                        </group>
+                        <group>
+                            <field name="nom_arabe"/>
+                            <field name="date_debut_activite"/>
+                            <field name="activite" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="date_inscription"/>
+                        </group>
+                        <group>
+                            <field name="adress_siege"/>
+                            <field name="branche" options="{'no_create': True, 'no_open': True}"
+                                   readonly="1"/>
+                            <field name="wilaya"/>
+                            <field name="nif"/>
+                            <field name="rc"/>
+                        </group>
+                        <group>
+                            <field name="activite_salam"
+                                   options="{'no_create': True, 'no_open': True}"/>
+                            <field name="activity_code"/>
+                            <field name="activity_description"/>
+                            <field name="activite_sec"/>
+                        </group>
+                        <group>
+                            <field name="groupe" domain="[('is_company', '=', True)]"
+                                   options="{'no_create': True, 'no_open': True}"
+                            />
+                            <field name="num_compte"/>
+                            <field name="date_ouverture_compte"/>
+                            <field name="date_debut"/>
+                        </group>
+                        <group>
+                            <field name="classification" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="forme_jur" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="chiffre_affaire" widget="monetary"/>
+                            <field name="chiffre_affaire_creation" widget="monetary"/>
+                            <field name="description_company"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="apropos" width="100%"
+                               readonly="1">
+                            <tree editable="bottom">
+                                <field name="nom_partenaire" width="20%"/>
+                                <field name="age" width="20%"/>
+                                <field name="statut_partenaire" width="20%"/>
+                                <field name="nationalite" width="20%"/>
+                                <field name="pourcentage" sum="Total" widget="percentage" width="20%"/>
+                            </tree>
+                        </field>
+                        <field name="kyc"
+                               readonly="1">
+                            <tree create="0" delete="0" editable="bottom">
+                                <field name="info" style="text-align: center" readonly="1"/>
+                                <field name="answer"/>
+                                <field name="detail"/>
+                            </tree>
+                        </field>
+                        <field name="gestion" width="100%"
+                               readonly="1">
+                            <tree editable="bottom">
+                                <field name="name" width="20%"/>
+                                <field name="job" width="20%"/>
+                                <field name="niveau_etude" width="20%"/>
+                                <field name="age" width="20%"/>
+                                <field name="experience" width="20%"/>
+                            </tree>
+                        </field>
+                        <field name="fournisseurs">
+                            <tree editable="bottom">
+                                <field name="name"/>
+                                <field name="country" domain="[('to_show', '=', False)]"/>
+                                <field name="type_payment" widget="many2many_tags"/>
+                            </tree>
+                        </field>
+                        <field name="clients">
+                            <tree editable="bottom">
+                                <field name="name"/>
+                                <field name="country" domain="[('to_show', '=', False)]"/>
+                                <field name="type_payment" widget="many2many_tags"/>
+                            </tree>
+                        </field>
+                    </group>
+                </page>
+                <page  string="Données Financieres">
+                    <group>
+                        <field name="tailles"
+                               readonly="1">
+                            <tree editable="bottom">
+                                <field name="type_demande" options="{'no_create': True, 'no_open': True}"
+                                       domain="[('for_branch', '=', True)]"
+                                       width="20%"/>
+                                <field name="montant" sum="Total" width="20%"/>
+                                <field name="raison" width="20%"/>
+                                <field name="preg" widget="percentage" width="20%"/>
+                                <field name="duree" width="20%"/>
+                                <field name="garanties" column_invisible="1"/>
+                                <field name="compute_exist" column_invisible="1"/>
+                            </tree>
+                        </field>
+                        <field name="situations" width="100%"
+                               readonly="1">
+                            <tree editable="bottom">
+                                <field name="banque" width="20%"/>
+                                <field name="type_fin" width="20%"/>
+                                <field name="montant" width="20%"/>
+                                <field name="encours" width="20%"/>
+                                <field name="garanties" width="20%"/>
+                            </tree>
+                        </field>
+                        <field name="situations_fin">
+                            <tree editable="bottom" delete="0" create="0">
+                                <field name="type" readonly="1"
+                                       decoration-bf="sequence == 0"/>
+                                <field name="year1" readonly="sequence == 0"
+                                       decoration-bf="sequence == 0"/>
+                                <field name="year2" readonly="sequence == 0"
+                                       decoration-bf="sequence == 0"/>
+                                <field name="year3" readonly="sequence == 0"
+                                       decoration-bf="sequence == 0"/>
+                                <field name="sequence" column_invisible="True"/>
+                            </tree>
+                        </field>
+                        <field name="companies"
+                               readonly="1">
+                            <tree editable="bottom">
+                                <field name="name" width="10%"/>
+                                <field name="date_creation" width="10%"/>
+                                <field name="activite" options="{'no_create': True}" width="20%"/>
+                                <field name="chiffre_affaire" width="20%"/>
+                                <field name="n1_num_affaire" width="20%"/>
+                                <field name="n_num_affaire" width="20%"/>
+                            </tree>
+                        </field>
+                    </group>
+                </page>
+                <page name="docs" string="Documents">
+                    <group>
+                       <field name="documents"
+                               readonly="1">
+                            <tree editable="bottom" delete="0">
+                                <field name="list_doc"
+                                       decoration-info="list_document in ['1', '2', '7', '8', '12', '13', '15', '16']"/>
+                                <field name="document" widget="binary" filename="filename"
+                                       readonly="checked == True"/>
+                                <field name="answer" readonly="checked != True"/>
+                                <field name="note" readonly="checked != True"/>
+                                <field name="checked" column_invisible="True"/>
+                                <field name="list_document" column_invisible="True"/>
+                                <button name="open_document" string="" icon="fa-eye" type="object"
+                                        style="display: inline-block;color: #808080; background-color: white"/>
+
+                            </tree>
+                        </field>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
