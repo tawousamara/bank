@@ -1523,10 +1523,13 @@ class Etape(models.Model):
                             if not folder_branch:
                                 folder_branch = self.env['documents.folders'].create({'branch': rec.branche.id,
                                                                                       'name': rec.branche.ref})
-                            folder = self.env['documents.folders'].create({'branch': rec.branche.id,
+                            if rec.num_compte:
+                                folder = self.env['documents.folders'].create({'branch': rec.branche.id,
                                                                           'name': rec.num_compte,
                                                                           'parent_folder_id': folder_branch.id,
                                                                           'client': rec.nom_client.id})
+                            else:
+                                raise UserError('يجب تعيين رقم حساب العميل')
                         etape_created = rec.workflow.states.filtered(lambda l: l.etape.sequence == 2)
                         if not etape_created:
                             etape = self.env['wk.etape'].create({'workflow': rec.workflow.id,
