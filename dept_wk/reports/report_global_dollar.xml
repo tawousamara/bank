@@ -1992,25 +1992,25 @@
                                                 <th class="title-cell" t-if="len(has_year_1_2) != 0">
                                                     <t t-esc="int(bilan1_year.year_1)"/>
                                                 </th>
-                                                <th>
+                                                <th class="title-cell">
                                                     $
                                                 </th>
                                                 <th class="title-cell" t-if="len(has_year_1_2) != 0" >
                                                     <t t-esc="int(bilan1_year.year_2)"/>
                                                 </th>
-                                                <th>
+                                                <th class="title-cell">
                                                     $
                                                 </th>
                                                 <th class="title-cell" t-if="len(has_year_3_4) != 0" >
                                                     <t t-esc="int(bilan1_year.year_3)"/>
                                                 </th>
-                                                <th>
+                                                <th class="title-cell">
                                                     $
                                                 </th>
                                                 <th class="title-cell" t-if="len(has_year_3_4) != 0" >
                                                     <t t-esc="int(bilan1_year.year_4)"/>
                                                 </th>
-                                                <th>
+                                                <th class="title-cell">
                                                     $
                                                 </th>
                                                 <th class="title-cell">التغير</th>
