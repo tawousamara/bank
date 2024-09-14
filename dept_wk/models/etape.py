@@ -274,7 +274,6 @@ class Etape(models.Model):
                                      ('branch_5', 'انتهاء التحليل'),
                                      ('branch_rejected', 'طلب مرفوض'),
                                      ], track_visibility='always', string='وضعية الملف')
-
     # fields of branch
     nom_client = fields.Many2one('res.partner', string='اسم المتعامل', domain=lambda self: [('branche', '=', self.env.user.partner_id.branche.id), ('is_client', '=', True)], related='workflow.nom_client')
     branche = fields.Many2one('wk.agence', string='الفرع', related='nom_client.branche')
@@ -344,15 +343,16 @@ class Etape(models.Model):
     client = fields.One2many('wk.client', 'etape_id', string='الزبائن')
 
     # Financial fields
-    state_finance = fields.Selection([('finance_1', 'مدير التمويلات'),
-                                     ('finance_2', 'المحلل المالي'),
-                                     ('finance_3', 'مدير التمويلات'),
-                                     ('finance_5', 'في انتظار مديرية الاعمال التجارية و المخاطر'),
-                                     ('finance_6', 'في انتظار مديرية الاعمال التجارية'),
-                                     ('finance_7', 'في انتظار ادارة المخاطر'),
-                                     ('finance_4', 'انتهاء التحليل'),
-                                     ('finance_rejected', 'طلب مرفوض'),
-                                     ], track_visibility='always', string='وضعية الملف')
+    state_finance = fields.Selection([
+                                    ('finance_1', 'مدير التمويلات'),
+                                    ('finance_2', 'المحلل المالي'),
+                                    ('finance_3', 'مدير التمويلات'),
+                                    ('finance_5', 'في انتظار مديرية الاعمال التجارية و المخاطر'),
+                                    ('finance_6', 'في انتظار مديرية الاعمال التجارية'),
+                                    ('finance_7', 'في انتظار ادارة المخاطر'),
+                                    ('finance_4', 'انتهاء التحليل'),
+                                    ('finance_rejected', 'طلب مرفوض'),
+                                    ], track_visibility='always', string='وضعية الملف')
 
     assigned_to_finance = fields.Many2one('res.users', string='المحلل المالي',
                                 domain=lambda self: [('groups_id', 'in', self.env.ref('dept_wk.dept_wk_group_analyste').id)],

@@ -13,8 +13,8 @@ from . import workflow_new
 from . import etape
 from . import analytics
 from . import res_config
-
-
+from . import wk_report_one
+from . import wk_report_two
 
 
 
