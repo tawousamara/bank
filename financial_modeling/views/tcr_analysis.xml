@@ -231,9 +231,9 @@
                                 <field name="nbr_echeance"/>
                                 <field name="amort" readonly="1"/>
                                 <field name="differe"/>
-                                <field name="duree_differe"/>
+                                <field name="duree_differe" invisible="differe == 'non'" />
                                 <field name="date_debut"/>
-                                <field name="date_differe"/>
+                                <field name="date_differe" invisible="differe == 'non'" />
                                 <field name="date_fin"/>
                             </group>
                             <button id="button_echeance" name="calcul_echeance_action" string="Calcul Echeance"

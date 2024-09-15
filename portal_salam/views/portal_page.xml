@@ -1,0 +1,1563 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <record id="menu_opportunity_form" model="website.menu">
+        <field name="name">طلب التمويل</field>
+        <field name="url">/opportunity/form</field>
+        <field name="parent_id" ref="website.main_menu"/>
+        <field name="sequence" type="int">1</field>
+    </record>
+    <template id="opportunity_form" name="Opportunity Form">
+        <t t-call="website.layout">
+            <div class="container mt16 mb16">
+                <style>
+                    .comment-box {
+                    width: 100%;
+                    max-width: 500px;
+                    height: 150px;
+                    padding: 10px;
+                    border: 1px solid #ccc;
+                    border-radius: 5px;
+                    font-size: 14px;
+                    resize: vertical; /* Permet de redimensionner verticalement */
+                    }
+                    .stepper-wrapper {
+                    display: flex;
+                    width: 100%;
+                    margin-left: auto;
+                    margin-right: auto;
+                    }
+
+                    .stepper-item {
+                    position: relative;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    flex: 1;
+                    }
+                    .step-counter {
+                    z-index: 5;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%;
+                    background: #ccc;
+                    margin-bottom: 10px;
+                    }
+                    .step-name.active{
+                    color: blue;
+                    }
+                    .stepper-item::after {
+                    position: absolute;
+                    content: "";
+                    border-bottom: 6px solid #ccc;
+                    width: 100%;
+                    top: 15px;
+                    left: 50%;
+                    }
+                    .stepper-item.active {
+                    font-weight: bold;
+                    }
+                    .stepper-item.active .step-counter {
+                    background-color: blue;
+                    }
+                    .stepper-item.active::after {
+                    position: absolute;
+                    border-bottom: 6px solid #ccc;
+                    content: "";
+                    width: 100%;
+                    top: 15px;
+                    left: 50%;
+                    }
+                    .stepper-item.completed {
+                    font-weight: bold;
+                    }
+                    .stepper-item.completed .step-counter {
+                    background-color: blue;
+                    color: white;
+                    }
+                    .stepper-item.completed::after {
+                    position: absolute;
+                    border-bottom: 6px solid blue;
+                    content: "";
+                    width: 100%;
+                    top: 15px;
+                    left: 50%;
+                    }
+
+
+                    .stepper-item:first-child::before {
+                    content: none;
+                    }
+                    .stepper-item:last-child::after {
+                    content: none;
+                    }
+                </style>
+                <t t-if="step == 'step1'">
+                    <div class="text-center mt32 mb32">
+                        <div class="stepper-wrapper">
+                            <div class="stepper-item active">
+                                <div class="step-counter" style="color: #ccc; background-color: #ccc;">
+                                    <strong style="color: #045444;font-size: 25px">1</strong>
+                                </div>
+                            </div>
+                            <div class="stepper-item">
+                                <div class="step-counter">2</div>
+                            </div>
+                            <div class="stepper-item">
+                                <div class="step-counter">3</div>
+                            </div>
+                            <div class="stepper-item">
+                                <div class="step-counter">4</div>
+                            </div>
+                            <div class="stepper-item">
+                                <div class="step-counter">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                         viewBox="0 0 576 512" width="25px"
+                                         height="25px"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                        <path d="M400 0L176 0c-26.5 0-48.1 21.8-47.1 48.2c.2 5.3 .4 10.6 .7 15.8L24 64C10.7 64 0 74.7 0 88c0 92.6 33.5 157 78.5 200.7c44.3 43.1 98.3 64.8 138.1 75.8c23.4 6.5 39.4 26 39.4 45.6c0 20.9-17 37.9-37.9 37.9L192 448c-17.7 0-32 14.3-32 32s14.3 32 32 32l192 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-26.1 0C337 448 320 431 320 410.1c0-19.6 15.9-39.2 39.4-45.6c39.9-11 93.9-32.7 138.2-75.8C542.5 245 576 180.6 576 88c0-13.3-10.7-24-24-24L446.4 64c.3-5.2 .5-10.4 .7-15.8C448.1 21.8 426.5 0 400 0zM48.9 112l84.4 0c9.1 90.1 29.2 150.3 51.9 190.6c-24.9-11-50.8-26.5-73.2-48.3c-32-31.1-58-76-63-142.3zM464.1 254.3c-22.4 21.8-48.3 37.3-73.2 48.3c22.7-40.3 42.8-100.5 51.9-190.6l84.4 0c-5.1 66.3-31.1 111.2-63 142.3z"/>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h5>املاء البيانات التالية</h5>
+                    <form action="/opportunity/submit" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <input type="hidden" name="opportunity_id"
+                               t-att-value="opportunity_id"/>
+                        <input type="hidden" name="step" t-att-value="step"/>
+                        <div class="form-group">
+                            <label for="name">اسم المتعامل</label>
+                            <input type="text" name="name" t-att-value="name" class="form-control" required="required"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">رقم الهاتف</label>
+                            <input type="text" name="phone" t-att-value="phone" class="form-control"
+                                   required="required"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="email_from">البريد الإلكتروني</label>
+                            <input type="text" name="email_from" t-att-value="email_from" class="form-control"
+                                   required="required"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="website">الموقع الإلكتروني</label>
+                            <input type="text" name="website" t-att-value="siteweb" class="form-control"
+                                   placeholder="مثال: www.example.com"
+                                   required="required"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="adress_siege">عنوان المقر الاجتماعي</label>
+                            <input type="text" name="adress_siege" t-att-value="adress_siege" class="form-control"
+                                   required="required"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="nif">NIF</label>
+                            <input type="text" name="nif" t-att-value="nif" class="form-control" required="required"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="rc">RC</label>
+                            <input type="text" name="rc" t-att-value="rc" class="form-control" required="required"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="num_compte">رقم الحساب</label>
+                            <input type="text" name="num_compte" t-att-value="num_compte" class="form-control"
+                                   required="required"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="date_ouverture_compte">تاريخ فتح الحساب</label>
+                            <input type="date" name="date_ouverture_compte" t-att-value="date_ouverture_compte"
+                                   class="form-control" required="required"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="date_debut">تاريخ تأسيس الشركة</label>
+                            <input type="date" name="date_debut" t-att-value="date_debut" class="form-control"
+                                   required="required"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="nom_arabe">الاسم بالاحرف العربية</label>
+                            <input type="text" name="nom_arabe" t-att-value="nom_arabe" class="form-control"
+                                   required="required"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="date_debut_activite">تاريخ بداية النشاط</label>
+                            <input type="date" name="date_debut_activite" t-att-value="date_debut_activite"
+                                   class="form-control" required="required"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="activite">النشاط الرئيسي حسب بنك الجزائر</label>
+                            <select name="activite" id="activite" class="form-control link-style">
+                                <t t-foreach="activities" t-as="activite">
+                                    <option t-att-value="activite.id">
+                                        <t t-esc="activite.domaine" t-att-value="activite.id"/>
+                                    </option>
+                                </t>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="date_inscription">تاريخ القيد في السجل التجاري</label>
+                            <input type="date" name="date_inscription" t-att-value="date_inscription"
+                                   class="form-control" required="required"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="activity_code">رمز النشاط حسب السجل التجاري</label>
+                            <input type="text" name="activity_code" t-att-value="activity_code"
+                                   class="form-control" required="required"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="activity_description">النشاط حسب السجل التجاري</label>
+                            <input type="text" name="activity_description" t-att-value="activity_description"
+                                   class="form-control" required="required"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="activite_sec">رمز النشاط الثانوي في السجل التجاري</label>
+                            <input type="text" name="activite_sec" t-att-value="activite_sec"
+                                   class="form-control" required="required"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="classification">تصنيف الشركة</label>
+                            <select name="classification" id="classification" class="form-control link-style">
+                                <t t-foreach="classifications" t-as="classification">
+                                    <option t-att-value="classification.id">
+                                        <t t-esc="classification.name" t-att-value="classification.id"/>
+                                    </option>
+                                </t>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="forme_jur">الشكل القانوني</label>
+                            <select name="forme_jur" id="forme_jur" class="form-control link-style">
+                                <t t-foreach="forme_jurs" t-as="forme_jur">
+                                    <option t-att-value="forme_jur.id">
+                                        <t t-esc="forme_jur.name" t-att-value="forme_jur.id"/>
+                                    </option>
+                                </t>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="chiffre_affaire">راس المال الحالي KDA</label>
+                            <input type="number" name="chiffre_affaire" t-att-value="chiffre_affaire"
+                                   class="form-control" required="required"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="chiffre_affaire_creation">راس المال التاسيسي KDA</label>
+                            <input type="number" name="chiffre_affaire_creation" t-att-value="chiffre_affaire_creation"
+                                   class="form-control" required="required"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="demande">الطلب</label>
+                            <select name="demande" id="demande" class="form-control link-style">
+                                <t t-foreach="demandes" t-as="demande">
+                                    <option t-att-value="demande.id">
+                                        <t t-esc="demande.name" t-att-value="demande.id"/>
+                                    </option>
+                                </t>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="explanation">الغرض من الطلب</label>
+                            <br/>
+                            <textarea id="explanation" name="explanation" class="comment-box" rows="5"
+                                      required="required"></textarea>
+
+                        </div>
+                        <div class="form-group">
+                            <label for="description_company">تعريف الشركة</label>
+                            <br/>
+                            <textarea id="description_company" name="description_company" class="comment-box" rows="5"
+                                      placeholder="Écrivez votre description ici..." required="required"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">التالي</button>
+                    </form>
+                </t>
+                <t t-if="step == 'step2'">
+                    <div class="text-center mt32 mb32">
+                        <div class="stepper-wrapper">
+                            <div class="stepper-item">
+                                <div class="step-counter">1</div>
+                            </div>
+                            <div class="stepper-item active">
+                                <div class="step-counter" style="color: #ccc; background-color: #ccc;">
+                                    <strong style="color: #045444;font-size: 25px">2</strong>
+                                </div>
+                            </div>
+                            <div class="stepper-item">
+                                <div class="step-counter">3</div>
+                            </div>
+                            <div class="stepper-item">
+                                <div class="step-counter">4</div>
+                            </div>
+                            <div class="stepper-item">
+                                <div class="step-counter">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                         viewBox="0 0 576 512" width="25px"
+                                         height="25px"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                        <path d="M400 0L176 0c-26.5 0-48.1 21.8-47.1 48.2c.2 5.3 .4 10.6 .7 15.8L24 64C10.7 64 0 74.7 0 88c0 92.6 33.5 157 78.5 200.7c44.3 43.1 98.3 64.8 138.1 75.8c23.4 6.5 39.4 26 39.4 45.6c0 20.9-17 37.9-37.9 37.9L192 448c-17.7 0-32 14.3-32 32s14.3 32 32 32l192 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-26.1 0C337 448 320 431 320 410.1c0-19.6 15.9-39.2 39.4-45.6c39.9-11 93.9-32.7 138.2-75.8C542.5 245 576 180.6 576 88c0-13.3-10.7-24-24-24L446.4 64c.3-5.2 .5-10.4 .7-15.8C448.1 21.8 426.5 0 400 0zM48.9 112l84.4 0c9.1 90.1 29.2 150.3 51.9 190.6c-24.9-11-50.8-26.5-73.2-48.3c-32-31.1-58-76-63-142.3zM464.1 254.3c-22.4 21.8-48.3 37.3-73.2 48.3c22.7-40.3 42.8-100.5 51.9-190.6l84.4 0c-5.1 66.3-31.1 111.2-63 142.3z"/>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <h5>املاء البيانات التالية</h5>
+                    <form action="/opportunity/submit" method="post">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <input type="hidden" name="opportunity_id"
+                               t-att-value="opportunity_id"/>
+                        <input type="hidden" name="step" t-att-value="step"/>
+                        <label for="apropos" style="font-size: 16px; font-weight:bold; color: #045444;">توزيع راس مال
+                            الشركة
+                        </label>
+                        <div class="text-end mb-3">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#createAproposModal">اضف شريك
+                            </button>
+                        </div>
+                        <table id="apropos_table" class="table">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        اسم الشريك/المالك
+                                    </th>
+                                    <th>
+                                        تاريخ التاسيس/الميلاد
+                                    </th>
+                                    <th>
+                                        نسبة الحصة
+                                    </th>
+                                    <th>
+                                        صفة الشريك
+                                    </th>
+                                    <th>
+                                        الجنسية
+                                    </th>
+                                    <th>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="apropos">
+                                <t t-set="apropos_ids" t-value="apropos_ids"/>
+                                <t t-foreach="apropos_ids" t-as="apropos_id">
+                                    <tr>
+                                        <td>
+                                            <span>
+                                                <t t-esc="apropos_id.nom_partenaire"/>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <t t-esc="apropos_id.age"/>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <t t-esc="apropos_id.pourcentage"/>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <t t-esc="apropos_id.statut_partenaire"/>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <t t-esc="apropos_id.nationalite.name"/>
+                                            </span>
+                                        </td>
+                                        <td>
+    <button type="button" class="btn btn-danger"
+            t-att-data-apropos-id="apropos_id.id"
+            onclick="deleteRow(this) ">
+        <i class="fa fa-trash"></i>
+    </button>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                        <label for="kyc" style="font-size: 16px; font-weight:bold; color: #045444;">
+                            اعرف عميلك KYC
+                        </label>
+                        <p>اجب على الأسئلة</p>
+                        <table id="kyc_table" class="table">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        معلومات إضافية عن العميل
+                                    </th>
+                                    <th>
+                                        نعم/ لا
+                                    </th>
+                                    <th>
+                                        التفاصيل
+                                    </th>
+                                    <th>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="kyc">
+                                <t t-set="kyc_ids" t-value="kyc_ids"/>
+                                <t t-foreach="kyc_ids" t-as="kyc_id">
+                                    <tr>
+                                        <td>
+                                            <span>
+                                                <t t-esc="kyc_id[1]"/>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <select t-att-id="'answer_' + str(kyc_id[0])"
+                                                    t-att-name="'answer_' + str(kyc_id[0])"
+                                                    class="form-control link-style">
+                                                <t t-foreach="answers" t-as="answer">
+                                                    <option t-att-value="answer[0]">
+                                                        <t t-esc="answer[1]" t-att-value="answer[0]"/>
+                                                    </option>
+                                                </t>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input type="text" t-attf-class="form-control form-control-sm"
+                                                   t-att-id="'detail_' + str(kyc_id[0])"
+                                                   t-att-name="'detail_' + str(kyc_id[0])"
+                                                   t-att-value=""/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                        <label for="gestion" style="font-size: 16px; font-weight:bold; color: #045444;">فريق التسيير
+                        </label>
+                        <div class="text-end mb-3">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#createGestionModal">اضف مسير
+                            </button>
+                        </div>
+                        <table id="gestion_table" class="table">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        السيد(ة)
+                                    </th>
+                                    <th>
+                                        المهنة
+                                    </th>
+                                    <th>
+                                        المستوى الدراسي
+                                    </th>
+                                    <th>
+                                        السن
+                                    </th>
+                                    <th>
+                                        الخبرة المهنية
+                                    </th>
+                                    <th>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="gestion">
+                                <t t-set="gestion_ids" t-value="gestion_ids"/>
+                                <t t-foreach="gestion_ids" t-as="gestion_id">
+                                    <tr>
+                                        <td>
+                                            <span>
+                                                <t t-esc="gestion_id.name"/>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <t t-esc="gestion_id.job"/>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <t t-esc="gestion_id.niveau_etude"/>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <t t-esc="gestion_id.age"/>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <t t-esc="gestion_id.experience"/>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                        <label for="tailles" style="font-size: 16px; font-weight:bold; color: #045444;">حجم و هيكل
+                            التمويلات المطلوبة
+                        </label>
+                        <div class="text-end mb-3">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#createTailleModal">اضف طلب
+                            </button>
+                        </div>
+                        <table id="tailles_table" class="table">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        نوع التسهيلات
+                                    </th>
+                                    <th>
+                                        المبلغ المطلوب
+                                    </th>
+                                    <th>
+                                        الغرض من التمويل
+                                    </th>
+                                    <th>
+                                        الضمانات المقترحة
+                                    </th>
+                                    <th>
+                                        هامش الجدية
+                                    </th>
+                                    <th>المدة (الايام)
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="taille">
+                                <t t-set="taille_ids" t-value="taille_ids"/>
+                                <t t-foreach="taille_ids" t-as="taille_id">
+                                    <tr>
+                                        <td>
+                                            <span>
+                                                <t t-esc="taille_id.type_demande.name"/>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <t t-esc="taille_id.montant"/>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <t t-esc="taille_id.raison"/>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <ul>
+                                                    <t t-foreach="taille_id.garanties" t-as="garantie">
+                                                        <li>
+                                                            <t t-esc="garantie.name"/>
+                                                        </li>
+                                                    </t>
+                                                </ul>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <t t-esc="taille_id.preg"/>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <t t-esc="taille_id.duree"/>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                        <button type="submit" class="btn btn-primary">التالي</button>
+                    </form>
+                </t>
+                <t t-if="step == 'step3'">
+                    <div class="text-center mt32 mb32">
+                        <div class="stepper-wrapper">
+                            <div class="stepper-item">
+                                <div class="step-counter">1</div>
+                            </div>
+                            <div class="stepper-item">
+                                <div class="step-counter">2</div>
+                            </div>
+                            <div class="stepper-item active">
+                                <div class="step-counter" style="color: #ccc; background-color: #ccc;">
+                                    <strong style="color: #045444;font-size: 25px">3</strong>
+                                </div>
+                            </div>
+                            <div class="stepper-item">
+                                <div class="step-counter">4</div>
+                            </div>
+                            <div class="stepper-item">
+                                <div class="step-counter">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                         viewBox="0 0 576 512" width="25px"
+                                         height="25px"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                        <path d="M400 0L176 0c-26.5 0-48.1 21.8-47.1 48.2c.2 5.3 .4 10.6 .7 15.8L24 64C10.7 64 0 74.7 0 88c0 92.6 33.5 157 78.5 200.7c44.3 43.1 98.3 64.8 138.1 75.8c23.4 6.5 39.4 26 39.4 45.6c0 20.9-17 37.9-37.9 37.9L192 448c-17.7 0-32 14.3-32 32s14.3 32 32 32l192 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-26.1 0C337 448 320 431 320 410.1c0-19.6 15.9-39.2 39.4-45.6c39.9-11 93.9-32.7 138.2-75.8C542.5 245 576 180.6 576 88c0-13.3-10.7-24-24-24L446.4 64c.3-5.2 .5-10.4 .7-15.8C448.1 21.8 426.5 0 400 0zM48.9 112l84.4 0c9.1 90.1 29.2 150.3 51.9 190.6c-24.9-11-50.8-26.5-73.2-48.3c-32-31.1-58-76-63-142.3zM464.1 254.3c-22.4 21.8-48.3 37.3-73.2 48.3c22.7-40.3 42.8-100.5 51.9-190.6l84.4 0c-5.1 66.3-31.1 111.2-63 142.3z"/>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h5>املاء البيانات التالية</h5>
+                    <form action="/opportunity/submit" method="post">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <input type="hidden" name="opportunity_id"
+                               t-att-value="opportunity_id"/>
+                        <input type="hidden" name="step" t-att-value="step"/>
+                        <label for="situations" style="font-size: 16px; font-weight:bold; color: #045444;">
+                            الوضعية المالية
+                        </label>
+                        <div class="text-end mb-3">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#createSituationModal">اضف طلب
+                            </button>
+                        </div>
+                        <table id="situations_table" class="table">
+                            <thead>
+                                <tr>
+                                    <th>البنك
+                                    </th>
+                                    <th>نوع التمويل
+                                    </th>
+                                    <th>المبلغ KDA
+                                    </th>
+                                    <th>المبلغ المستغل KDA
+                                    </th>
+                                    <th>الضمانات الممنوحة
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="situation">
+                                <t t-set="situation_ids" t-value="situation_ids"/>
+                                <t t-foreach="situation_ids" t-as="situation_id">
+                                    <tr>
+                                        <td>
+                                            <span>
+                                                <t t-esc="situation_id.banque.name"/>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <t t-esc="situation_id.type_fin.name"/>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <t t-esc="situation_id.montant"/>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <t t-esc="situation_id.encours"/>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <t t-esc="situation_id.garanties"/>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                        <label for="situations_fin" style="font-size: 16px; font-weight:bold; color: #045444;">
+                            الوضعية المالية
+                        </label>
+                        <table id="situations_table" class="table">
+                            <thead>
+                                <tr>
+                                    <th>السنة
+                                    </th>
+                                    <th>N
+                                    </th>
+                                    <th>N-1
+                                    </th>
+                                    <th>N-2
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="situation_fin">
+                                <tr>
+                                    <td>
+                                        <span>
+                                            حقوق الملكية
+                                        </span>
+                                        <input type="hidden" name="description_1" value="حقوق الملكية"/>
+                                    </td>
+                                    <td>
+                                        <input type="number" class="form-control form-control-sm" id="fin1_1"
+                                               t-att-value="fin1_1" name="fin1_1" required="required"/>
+                                    </td>
+                                    <td>
+                                        <input type="number" class="form-control form-control-sm" id="fin1_2"
+                                               t-att-value="fin1_2" name="fin1_2" required="required"/>
+                                    </td>
+                                    <td>
+                                        <input type="number" class="form-control form-control-sm" id="fin1_3"
+                                               t-att-value="fin1_3" name="fin1_3" required="required"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>
+                                            مجموع الميزانية
+                                        </span>
+                                        <input type="hidden" name="description_2" value="مجموع الميزانية"/>
+                                    </td>
+                                    <td>
+                                        <input type="number" class="form-control form-control-sm" id="fin2_1"
+                                               t-att-value="fin2_1" name="fin2_1" required="required"/>
+                                    </td>
+                                    <td>
+                                        <input type="number" class="form-control form-control-sm" id="fin2_2"
+                                               t-att-value="fin2_2" name="fin2_2" required="required"/>
+                                    </td>
+                                    <td>
+                                        <input type="number" class="form-control form-control-sm" id="fin2_3"
+                                               t-att-value="fin2_3" name="fin2_3" required="required"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>
+                                            رقم الأعمال
+                                        </span>
+                                        <input type="hidden" name="description_3" value="رقم الأعمال"/>
+                                    </td>
+                                    <td>
+                                        <input type="number" class="form-control form-control-sm" id="fin3_1"
+                                               t-att-value="fin3_1" name="fin3_1" required="required"/>
+                                    </td>
+                                    <td>
+                                        <input type="number" class="form-control form-control-sm" id="fin3_2"
+                                               t-att-value="fin3_2" name="fin3_2" required="required"/>
+                                    </td>
+                                    <td>
+                                        <input type="number" class="form-control form-control-sm" id="fin3_3"
+                                               t-att-value="fin3_3" name="fin3_3" required="required"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>
+                                            صافي الارباح
+                                        </span>
+                                        <input type="hidden" name="description_4" value="صافي الارباح"/>
+                                    </td>
+                                    <td>
+                                        <input type="number" class="form-control form-control-sm" id="fin4_1"
+                                               t-att-value="fin4_1" name="fin4_1" required="required"/>
+                                    </td>
+                                    <td>
+                                        <input type="number" class="form-control form-control-sm" id="fin4_2"
+                                               t-att-value="fin4_2" name="fin4_2" required="required"/>
+                                    </td>
+                                    <td>
+                                        <input type="number" class="form-control form-control-sm" id="fin4_3"
+                                               t-att-value="fin4_3" name="fin4_3" required="required"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <label for="fournisseurs" style="font-size: 16px; font-weight:bold; color: #045444;">
+                            الموردون
+                        </label>
+                        <div class="text-end mb-3">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#createFournisseurModal">اضف مورد
+                            </button>
+                        </div>
+                        <table id="fournisseurs_table" class="table">
+                            <thead>
+                                <tr>
+                                    <th>الاسم
+                                    </th>
+                                    <th>البلد
+                                    </th>
+                                    <th>طريقة السداد
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="fournisseur">
+                                <t t-set="fournisseur_ids" t-value="fournisseur_ids"/>
+                                <t t-foreach="fournisseur_ids" t-as="fournisseur_id">
+                                    <tr>
+                                        <td>
+                                            <span>
+                                                <t t-esc="fournisseur_id.name"/>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <t t-esc="fournisseur_id.country.name"/>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <ul>
+                                                    <t t-foreach="fournisseur_id.type_payment" t-as="type">
+                                                        <li>
+                                                            <t t-esc="type.name"/>
+                                                        </li>
+                                                    </t>
+                                                </ul>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                        <label for="clients" style="font-size: 16px; font-weight:bold; color: #045444;">
+                            الزبائن
+                        </label>
+                        <div class="text-end mb-3">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#createClientModal">اضف زبون
+                            </button>
+                        </div>
+                        <table id="clients_table" class="table">
+                            <thead>
+                                <tr>
+                                    <th>الاسم
+                                    </th>
+                                    <th>البلد
+                                    </th>
+                                    <th>طريقة السداد
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="client">
+                                <t t-set="client_ids" t-value="client_ids"/>
+                                <t t-foreach="client_ids" t-as="client_id">
+                                    <tr>
+                                        <td>
+                                            <span>
+                                                <t t-esc="client_id.name"/>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <t t-esc="client_id.country.name"/>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <ul>
+                                                    <t t-foreach="client_id.type_payment" t-as="type">
+                                                        <li>
+                                                            <t t-esc="type.name"/>
+                                                        </li>
+                                                    </t>
+                                                </ul>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                        <label for="companies" style="font-size: 16px; font-weight:bold; color: #045444;">
+                            معلومات حول الشركات ذات الصلة (KDA)
+                        </label>
+                        <div class="text-end mb-3">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#createCompaniesModal">اضف شركة
+                            </button>
+                        </div>
+                        <table id="companies_table" class="table">
+                            <thead>
+                                <tr>
+                                    <th>الشركة
+                                    </th>
+                                    <th>سنة التاسيس
+                                    </th>
+                                    <th>النشاط الرئيسي
+                                    </th>
+                                    <th>راس المال
+                                    </th>
+                                    <th>رقم الاعمال N-1
+                                    </th>
+                                    <th>رقم الاعمال N
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="company">
+                                <t t-set="company_ids" t-value="company_ids"/>
+                                <t t-foreach="company_ids" t-as="company_id">
+                                    <tr>
+                                        <td>
+                                            <span>
+                                                <t t-esc="company_id.name"/>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <t t-esc="company_id.date_creation"/>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <t t-esc="company_id.activite.name"/>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <t t-esc="company_id.chiffre_affaire"/>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <t t-esc="company_id.n1_num_affaire"/>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <t t-esc="company_id.n_num_affaire"/>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                        <button type="submit" class="btn btn-primary">التالي</button>
+                    </form>
+                </t>
+                <t t-if="step == 'step4'">
+                    <div class="text-center mt32 mb32">
+                        <div class="stepper-wrapper">
+                            <div class="stepper-item">
+                                <div class="step-counter">1</div>
+                            </div>
+                            <div class="stepper-item">
+                                <div class="step-counter">2</div>
+                            </div>
+                            <div class="stepper-item">
+                                <div class="step-counter">3</div>
+                            </div>
+                            <div class="stepper-item active">
+                                <div class="step-counter" style="color: #ccc; background-color: #ccc;">
+                                    <strong style="color: #045444;font-size: 25px">4</strong>
+                                </div>
+                            </div>
+                            <div class="stepper-item">
+                                <div class="step-counter">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                         viewBox="0 0 576 512" width="25px"
+                                         height="25px"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                        <path d="M400 0L176 0c-26.5 0-48.1 21.8-47.1 48.2c.2 5.3 .4 10.6 .7 15.8L24 64C10.7 64 0 74.7 0 88c0 92.6 33.5 157 78.5 200.7c44.3 43.1 98.3 64.8 138.1 75.8c23.4 6.5 39.4 26 39.4 45.6c0 20.9-17 37.9-37.9 37.9L192 448c-17.7 0-32 14.3-32 32s14.3 32 32 32l192 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-26.1 0C337 448 320 431 320 410.1c0-19.6 15.9-39.2 39.4-45.6c39.9-11 93.9-32.7 138.2-75.8C542.5 245 576 180.6 576 88c0-13.3-10.7-24-24-24L446.4 64c.3-5.2 .5-10.4 .7-15.8C448.1 21.8 426.5 0 400 0zM48.9 112l84.4 0c9.1 90.1 29.2 150.3 51.9 190.6c-24.9-11-50.8-26.5-73.2-48.3c-32-31.1-58-76-63-142.3zM464.1 254.3c-22.4 21.8-48.3 37.3-73.2 48.3c22.7-40.3 42.8-100.5 51.9-190.6l84.4 0c-5.1 66.3-31.1 111.2-63 142.3z"/>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h5>املاء البيانات التالية</h5>
+                    <form action="/opportunity/submit" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <input type="hidden" name="opportunity_id"
+                               t-att-value="opportunity_id"/>
+                        <input type="hidden" name="step" t-att-value="step"/>
+                        <label for="documents" style="font-size: 16px; font-weight:bold; color: #045444;">
+                            اضف المستندات التالية
+                        </label>
+
+                        <table id="documents_table" class="table">
+                            <tbody id="documents">
+                                <tr>
+                                    <td>
+                                        <span>
+                                            طلب التسهيلات ممضي من طرف المفوض القانوني عن الشركة *
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <input type="file" t-attf-class="form-control form-control-sm"
+                                               id="document_1" name="document_1" t-att-value="document_1"
+                                               required="required"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>
+                                            الميزانيات لثلاث سنوات السابقة مصادق عليها من طرف المدقق المحاس *
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <input type="file" t-attf-class="form-control form-control-sm"
+                                               id="document_2" name="document_2" t-att-value="document_2"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>
+                                            الميزانية الافتتاحية و الميزانية المتوقعة للسنة المراد تمويلها موقعة من طرف
+                                            الشركة (حديثة النشأة)
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <input type="file" t-attf-class="form-control form-control-sm"
+                                               id="document_3" name="document_3" t-att-value="document_3"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>
+                                            مخطط تمويل الاستغلال مقسم الى أرباع السنة للسنة المراد تمويلها
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <input type="file" t-attf-class="form-control form-control-sm"
+                                               id="document_4" name="document_4" t-att-value="document_4"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>
+                                            المستندات و الوثائق المتعلقة بنشاط الشركة ( عقود، صفقات ، طلبيات ، ... )
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <input type="file" t-attf-class="form-control form-control-sm"
+                                               id="document_5" name="document_5" t-att-value="document_5"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>
+                                            محاضر الجمعيات العادية و الغير العادية للأشخاص المعنويين
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <input type="file" t-attf-class="form-control form-control-sm"
+                                               id="document_6" name="document_6" t-att-value="document_6"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>
+                                            نسخة مصادق عليها من السجل التجاري *
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <input type="file" t-attf-class="form-control form-control-sm"
+                                               id="document_7" name="document_7" t-att-value="document_7"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>نسخة مصادق عليها من القانون الأساسي للشركة *</span>
+                                    </td>
+                                    <td>
+                                        <input type="file" t-attf-class="form-control form-control-sm"
+                                               id="document_8" name="document_8" t-att-value="document_8"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>مداولة الشركاء أو مجلس الإدارة لتفويض المسير لطلب القروض البنكية</span>
+                                    </td>
+                                    <td>
+                                        <input type="file" t-attf-class="form-control form-control-sm"
+                                               id="document_9" name="document_9" t-att-value="document_9"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>نسخة مصادق عليها من النشرة الرسمية للإعلانات القانونية</span>
+                                    </td>
+                                    <td>
+                                        <input type="file" t-attf-class="form-control form-control-sm"
+                                               id="document_10" name="document_10" t-att-value="document_10"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>نسخة طبق الأصل لعقد ملكية أو استئجار المحلات ذات الاستعمال المهني</span>
+                                    </td>
+                                    <td>
+                                        <input type="file" t-attf-class="form-control form-control-sm"
+                                               id="document_11" name="document_11" t-att-value="document_11"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>نسخة طبق الأصل للشهادات الضريبية و شبه الضريبية حديثة (أقل من ثلاثة
+                                            أشهر) *
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <input type="file" t-attf-class="form-control form-control-sm"
+                                               id="document_12" name="document_12" t-att-value="document_12"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>استمارة كشف مركزية المخاطر ممضية من طرف ممثل الشركة (نموذج مرفق) *</span>
+                                    </td>
+                                    <td>
+                                        <input type="file" t-attf-class="form-control form-control-sm"
+                                               id="document_13" name="document_13" t-att-value="document_13"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>آخر تقرير مدقق الحسابات</span>
+                                    </td>
+                                    <td>
+                                        <input type="file" t-attf-class="form-control form-control-sm"
+                                               id="document_14" name="document_14" t-att-value="document_14"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>Actif, Passif, TCR (N, N-1) *</span>
+                                    </td>
+                                    <td>
+                                        <input type="file" t-attf-class="form-control form-control-sm"
+                                               id="document_15" name="document_15" t-att-value="document_15"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>Actif, Passif, TCR (N-2, N-3) *</span>
+                                    </td>
+                                    <td>
+                                        <input type="file" t-attf-class="form-control form-control-sm"
+                                               id="document_16" name="document_16" t-att-value="document_16"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <button type="submit" class="btn btn-primary">تاكيد</button>
+                    </form>
+                </t>
+                <t t-if="step == 'step5'">
+                    <div class="text-center mt32 mb32">
+                        <div class="stepper-wrapper">
+                            <div class="stepper-item">
+                                <div class="step-counter">1</div>
+                            </div>
+                            <div class="stepper-item">
+                                <div class="step-counter">2</div>
+                            </div>
+                            <div class="stepper-item">
+                                <div class="step-counter">3</div>
+                            </div>
+                            <div class="stepper-item">
+                                <div class="step-counter">4</div>
+                            </div>
+                            <div class="stepper-item active">
+                                <div class="step-counter" style="color: #ccc; background-color: #ccc;">
+                                    <strong style="color: #045444;font-size: 15px">
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                             viewBox="0 0 576 512" width="25px"
+                                             height="25px"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                            <path fill="#045444"
+                                                  d="M400 0L176 0c-26.5 0-48.1 21.8-47.1 48.2c.2 5.3 .4 10.6 .7 15.8L24 64C10.7 64 0 74.7 0 88c0 92.6 33.5 157 78.5 200.7c44.3 43.1 98.3 64.8 138.1 75.8c23.4 6.5 39.4 26 39.4 45.6c0 20.9-17 37.9-37.9 37.9L192 448c-17.7 0-32 14.3-32 32s14.3 32 32 32l192 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-26.1 0C337 448 320 431 320 410.1c0-19.6 15.9-39.2 39.4-45.6c39.9-11 93.9-32.7 138.2-75.8C542.5 245 576 180.6 576 88c0-13.3-10.7-24-24-24L446.4 64c.3-5.2 .5-10.4 .7-15.8C448.1 21.8 426.5 0 400 0zM48.9 112l84.4 0c9.1 90.1 29.2 150.3 51.9 190.6c-24.9-11-50.8-26.5-73.2-48.3c-32-31.1-58-76-63-142.3zM464.1 254.3c-22.4 21.8-48.3 37.3-73.2 48.3c22.7-40.3 42.8-100.5 51.9-190.6l84.4 0c-5.1 66.3-31.1 111.2-63 142.3z"/>
+                                        </svg>
+                                    </strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <center>
+                        <p>
+                            لقد تم تسجيل طلبكم بنجاح
+                        </p>
+                    </center>
+                </t>
+            </div>
+        </t>
+        <div class="modal fade" id="createAproposModal" tabindex="-1" aria-labelledby="createAproposModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="createAproposModalLabel">اضف شريك</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form role="form" action="/create/apropos" method="POST" enctype="multipart/form-data"
+                              style="padding: 10px">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <input type="hidden" name="opportunity_id" t-att-value="opportunity_id"/>
+                            <input type="hidden" name="step" value="step2"/>
+                            <div class="mb-3">
+                                <label for="nom_partenaire">اسم الشريك/المالك</label>
+                                <input type="text" t-attf-class="form-control form-control-sm"
+                                       id="nom_partenaire" name="nom_partenaire" required="required"/>
+                            </div>
+                            <div class="mb-3">
+                                <label for="age">تاريخ التاسيس/الميلاد</label>
+                                <input type="date" t-attf-class="form-control form-control-sm"
+                                       id="age" name="age" required="required"/>
+                            </div>
+                            <div class="mb-3">
+                                <label for="pourcentage">نسبة الحصة</label>
+                                <input type="number" t-attf-class="form-control form-control-sm"
+                                       id="pourcentage" name="pourcentage" required="required"/>
+                            </div>
+                            <div class="mb-3">
+                                <label for="statut_partenaire">صفة الشريك</label>
+                                <input type="text" t-attf-class="form-control form-control-sm"
+                                       id="statut_partenaire" name="statut_partenaire"/>
+                            </div>
+                            <div class="mb-3">
+                                <label for="nationalite">الجنسية</label>
+                                <select name="nationalite" id="nationalite" class="form-control link-style">
+                                    <t t-foreach="nationalites" t-as="nationalite">
+                                        <option t-att-value="nationalite.id">
+                                            <t t-esc="nationalite.name" t-att-value="nationalite.id"/>
+                                        </option>
+                                    </t>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-secondary">اضف</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <!-- Add any additional buttons or actions here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="createGestionModal" tabindex="-1" aria-labelledby="createGestionModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="createGestionModalLabel">اضف مسير</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form role="form" action="/create/gestion" method="POST" enctype="multipart/form-data"
+                              style="padding: 10px">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <input type="hidden" name="opportunity_id" t-att-value="opportunity_id"/>
+                            <input type="hidden" name="step" value="step2"/>
+                            <div class="mb-3">
+                                <label for="name">السيد(ة)</label>
+                                <input type="text" t-attf-class="form-control form-control-sm"
+                                       id="name" name="name" required="required"/>
+                            </div>
+                            <div class="mb-3">
+                                <label for="job">المهنة</label>
+                                <input type="text" t-attf-class="form-control form-control-sm"
+                                       id="job" name="job" required="required"/>
+                            </div>
+                            <div class="mb-3">
+                                <label for="niveau_etude">المستوى الدراسي</label>
+                                <input type="text" t-attf-class="form-control form-control-sm"
+                                       id="niveau_etude" name="niveau_etude" required="required"/>
+                            </div>
+                            <div class="mb-3">
+                                <label for="age">السن</label>
+                                <input type="number" t-attf-class="form-control form-control-sm"
+                                       id="age" name="age"/>
+                            </div>
+                            <div class="mb-3">
+                                <label for="experience">الخبرة المهنية</label>
+                                <input type="number" t-attf-class="form-control form-control-sm"
+                                       id="experience" name="experience"/>
+                            </div>
+                            <button type="submit" class="btn btn-secondary">اضف</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <!-- Add any additional buttons or actions here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="createTailleModal" tabindex="-1" aria-labelledby="createTailleModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="createTailleModalLabel">اضف طلب</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form role="form" action="/create/taille" method="POST" enctype="multipart/form-data"
+                              style="padding: 10px">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <input type="hidden" name="opportunity_id" t-att-value="opportunity_id"/>
+                            <input type="hidden" name="step" value="step2"/>
+                            <div class="mb-3">
+                                <label for="type_demande">نوع التسهيلات</label>
+                                <select name="type_demande" id="type_demande" class="form-control link-style">
+                                    <t t-foreach="type_demande_ids" t-as="type_demande">
+                                        <option t-att-value="type_demande.id">
+                                            <t t-esc="type_demande.name" t-att-value="type_demande.id"/>
+                                        </option>
+                                    </t>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="montant">المبلغ المطلوب</label>
+                                <input type="number" t-attf-class="form-control form-control-sm"
+                                       id="montant" name="montant" required="required"/>
+                            </div>
+                            <div class="mb-3">
+                                <label for="raison">الغرض من التمويل</label>
+                                <input type="text" t-attf-class="form-control form-control-sm"
+                                       id="raison" name="raison" required="required"/>
+                            </div>
+                            <div class="mb-3">
+                                <label for="garanties">الضمانات المقترحة</label>
+                                <t t-foreach="garanties" t-as="garantie">
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input"
+                                               t-att-id="'garantie_' + str(garantie.id)"
+                                               t-att-name="'garantie_' + str(garantie.id)"
+                                               t-att-value="garantie.id"/>
+                                        <label class="form-check-label" t-att-for="'garantie_' + str(garantie.id)">
+                                            <t t-esc="garantie.name"/>
+                                        </label>
+                                    </div>
+                                </t>
+                            </div>
+                            <div class="mb-3">
+                                <label for="preg">هامش الجدية</label>
+                                <input type="number" t-attf-class="form-control form-control-sm"
+                                       id="preg" name="preg"/>
+                            </div>
+                            <div class="mb-3">
+                                <label for="duree">المدة (الايام)</label>
+                                <input type="number" t-attf-class="form-control form-control-sm"
+                                       id="duree" name="duree"/>
+                            </div>
+                            <button type="submit" class="btn btn-secondary">اضف</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <!-- Add any additional buttons or actions here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="createSituationModal" tabindex="-1" aria-labelledby="createSituationModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="createSituationModalLabel">اضف طلب</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form role="form" action="/create/situation" method="POST" enctype="multipart/form-data"
+                              style="padding: 10px">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <input type="hidden" name="opportunity_id" t-att-value="opportunity_id"/>
+                            <input type="hidden" name="step" value="step2"/>
+                            <div class="mb-3">
+                                <label for="banque">البنك</label>
+                                <select name="banque" id="banque" class="form-control link-style">
+                                    <t t-foreach="banque_ids" t-as="banque">
+                                        <option t-att-value="banque.id">
+                                            <t t-esc="banque.name" t-att-value="banque.id"/>
+                                        </option>
+                                    </t>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="type_fin">نوع التمويل</label>
+                                <select name="type_fin" id="type_fin" class="form-control link-style">
+                                    <t t-foreach="type_fin_ids" t-as="type_fin">
+                                        <option t-att-value="type_fin.id">
+                                            <t t-esc="type_fin.name" t-att-value="type_fin.id"/>
+                                        </option>
+                                    </t>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="montant">المبلغ KDA</label>
+                                <input type="number" t-attf-class="form-control form-control-sm"
+                                       id="montant" name="montant" required="required"/>
+                            </div>
+                            <div class="mb-3">
+                                <label for="encours">المبلغ المستغل KDA</label>
+                                <input type="number" t-attf-class="form-control form-control-sm"
+                                       id="encours" name="encours" required="required"/>
+                            </div>
+                            <div class="mb-3">
+                                <label for="garanties">الضمانات الممنوحة</label>
+                                <input type="text" t-attf-class="form-control form-control-sm"
+                                       id="garanties" name="garanties"/>
+                            </div>
+                            <button type="submit" class="btn btn-secondary">اضف</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <!-- Add any additional buttons or actions here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="createFournisseurModal" tabindex="-1" aria-labelledby="createFournisseurModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="createFournisseurModalLabel">اضف مورد</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form role="form" action="/create/fournisseur" method="POST" enctype="multipart/form-data"
+                              style="padding: 10px">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <input type="hidden" name="opportunity_id" t-att-value="opportunity_id"/>
+                            <input type="hidden" name="step" value="step2"/>
+                            <div class="mb-3">
+                                <label for="name">الاسم</label>
+                                <input type="text" t-attf-class="form-control form-control-sm"
+                                       id="name" name="name" required="required"/>
+                            </div>
+                            <div class="mb-3">
+                                <label for="country">البلد</label>
+                                <select name="country" id="country" class="form-control link-style">
+                                    <t t-foreach="nationalites" t-as="country">
+                                        <option t-att-value="country.id">
+                                            <t t-esc="country.name" t-att-value="country.id"/>
+                                        </option>
+                                    </t>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="type_payment">طريقة السداد</label>
+                                <t t-foreach="type_payment_ids" t-as="type_payment">
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input"
+                                               t-att-id="'payment_' + str(type_payment.id)"
+                                               t-att-name="'payment_' + str(type_payment.id)"
+                                               t-att-value="type_payment.id"/>
+                                        <label class="form-check-label" t-att-for="'payment_' + str(type_payment.id)">
+                                            <t t-esc="type_payment.name"/>
+                                        </label>
+                                    </div>
+                                </t>
+                            </div>
+                            <button type="submit" class="btn btn-secondary">اضف</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <!-- Add any additional buttons or actions here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="createClientModal" tabindex="-1" aria-labelledby="createClientModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="createClientModalLabel">اضف زبون</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form role="form" action="/create/client" method="POST" enctype="multipart/form-data"
+                              style="padding: 10px">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <input type="hidden" name="opportunity_id" t-att-value="opportunity_id"/>
+                            <input type="hidden" name="step" value="step2"/>
+                            <div class="mb-3">
+                                <label for="name">الاسم</label>
+                                <input type="text" t-attf-class="form-control form-control-sm"
+                                       id="name" name="name" required="required"/>
+                            </div>
+                            <div class="mb-3">
+                                <label for="country">البلد</label>
+                                <select name="country" id="country" class="form-control link-style">
+                                    <t t-foreach="nationalites" t-as="country">
+                                        <option t-att-value="country.id">
+                                            <t t-esc="country.name" t-att-value="country.id"/>
+                                        </option>
+                                    </t>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="type_payment">طريقة السداد</label>
+                                <t t-foreach="type_payment_ids" t-as="type_payment">
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input"
+                                               t-att-id="'payment_' + str(type_payment.id)"
+                                               t-att-name="'payment_' + str(type_payment.id)"
+                                               t-att-value="type_payment.id"/>
+                                        <label class="form-check-label" t-att-for="'payment_' + str(type_payment.id)">
+                                            <t t-esc="type_payment.name"/>
+                                        </label>
+                                    </div>
+                                </t>
+                            </div>
+                            <button type="submit" class="btn btn-secondary">اضف</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <!-- Add any additional buttons or actions here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="createCompaniesModal" tabindex="-1" aria-labelledby="createCompaniesModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="createCompaniesModalLabel">اضف الشركة</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form role="form" action="/create/company" method="POST" enctype="multipart/form-data"
+                              style="padding: 10px">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <input type="hidden" name="opportunity_id" t-att-value="opportunity_id"/>
+                            <input type="hidden" name="step" value="step2"/>
+                            <div class="mb-3">
+                                <label for="name">الشركة</label>
+                                <input type="text" t-attf-class="form-control form-control-sm"
+                                       id="name" name="name" required="required"/>
+                            </div>
+                            <div class="mb-3">
+                                <label for="date_creation">سنة التاسيس</label>
+                                <input type="text" t-attf-class="form-control form-control-sm"
+                                       id="date_creation" name="date_creation" required="required"/>
+                            </div>
+                            <div class="mb-3">
+                                <label for="activite">النشاط الرئيسي</label>
+                                <select name="activite" id="activite" class="form-control link-style">
+                                    <t t-foreach="activities" t-as="activite">
+                                        <option t-att-value="activite.id">
+                                            <t t-esc="activite.name" t-att-value="activite.id"/>
+                                        </option>
+                                    </t>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="chiffre_affaire">راس المال</label>
+                                <input type="number" t-attf-class="form-control form-control-sm"
+                                       id="chiffre_affaire" name="chiffre_affaire" required="required"/>
+                            </div>
+                            <div class="mb-3">
+                                <label for="n1_num_affaire">رقم الاعمال N-1</label>
+                                <input type="number" t-attf-class="form-control form-control-sm"
+                                       id="n1_num_affaire" name="n1_num_affaire"/>
+                            </div>
+                            <div class="mb-3">
+                                <label for="n_num_affaire">رقم الاعمال N</label>
+                                <input type="number" t-attf-class="form-control form-control-sm"
+                                       id="n_num_affaire" name="n_num_affaire"/>
+                            </div>
+                            <button type="submit" class="btn btn-secondary">اضف</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <!-- Add any additional buttons or actions here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+</odoo>
