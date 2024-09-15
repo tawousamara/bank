@@ -58,23 +58,20 @@ class ReportTwo(models.Model):
                     # Finance processing logic
                     if state.state_finance in ['finance_1', 'finance_2', 'finance_3', 'finance_5', 'finance_6', 'finance_7', 'finance_4']:
                         if workflow.assigned_to_finance == user:
-                            tracking_records = self._get_tracking_records(workflow, state, state.state_finance)
+                            tracking_records = self._get_tracking_records_finance(workflow, state)
                             print('"""""""""""""""""""""""""""""""""""""')
                             print(workflow.id)
-                            print(state)
-                            print(state.state_finance)
                             print(tracking_records.ids)
                             if state.state_compute < 1:
                                 processed_finance_prg += 1
                             else:
                                 processed_finance_num += 1
                                 finance_duration += sum(tracking.difference for tracking in tracking_records)
-                                # print(finance_duration)
 
                     # Branch processing logic
                     if state.state_branch in ['branch_1', 'branch_2', 'branch_3', 'branch_4', 'branch_5']:
                         if workflow.assigned_to_agence == user:
-                            tracking_records = self._get_tracking_records(workflow, state, state.state_branch)
+                            tracking_records = self._get_tracking_records_branch(workflow, state)
                             if state.state_compute < 1:
                                 processed_agence_prg += 1
                             else:
@@ -84,7 +81,7 @@ class ReportTwo(models.Model):
                     # Commercial processing logic
                     if state.state_commercial in ['commercial_1', 'commercial_2', 'commercial_3', 'commercial_4']:
                         if workflow.assigned_to_commercial == user:
-                            tracking_records = self._get_tracking_records(workflow, state, state.state_commercial)
+                            tracking_records = self._get_tracking_records_commercial(workflow, state)
                             if state.state_compute < 1:
                                 processed_commercial_prg += 1
                             else:
@@ -94,7 +91,7 @@ class ReportTwo(models.Model):
                     # Risk processing logic
                     if state.state_risque in ['risque_1', 'risque_2', 'risque_3', 'risque_4']:
                         if workflow.assigned_to_risque == user:
-                            tracking_records = self._get_tracking_records(workflow, state, state.state_risque)
+                            tracking_records = self._get_tracking_records_risque(workflow, state)
                             if state.state_compute < 1:
                                 processed_risque_prg += 1
                             else:
@@ -141,11 +138,32 @@ class ReportTwo(models.Model):
 
         self.write({'line_ids': report_lines})
 
-    def _get_tracking_records(self, workflow, state, exact_state):
+    def _get_tracking_records_finance(self, workflow, state):
         return self.env['wk.tracking'].search([
             ('workflow_id', '=', workflow.id),
             ('etape_id', '=', state.id),
-            ('state', '=', exact_state)
+            ('state', 'in', ['finance_1', 'finance_2', 'finance_3', 'finance_5', 'finance_6', 'finance_7']) 
+        ])
+        
+    def _get_tracking_records_branch(self, workflow, state):
+        return self.env['wk.tracking'].search([
+            ('workflow_id', '=', workflow.id),
+            ('etape_id', '=', state.id),
+            ('state', 'in', ['branch_1', 'branch_2', 'branch_3', 'branch_4']) 
+        ])
+    
+    def _get_tracking_records_commercial(self, workflow, state):
+        return self.env['wk.tracking'].search([
+            ('workflow_id', '=', workflow.id),
+            ('etape_id', '=', state.id),
+            ('state', 'in', ['commercial_1', 'commercial_2', 'commercial_3']) 
+        ])
+    
+    def _get_tracking_records_risque(self, workflow, state):
+        return self.env['wk.tracking'].search([
+            ('workflow_id', '=', workflow.id),
+            ('etape_id', '=', state.id),
+            ('state', 'in', ['risque_1', 'risque_3', 'risque_4']) 
         ])
         
 class Table(models.Model):
