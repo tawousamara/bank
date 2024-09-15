@@ -607,12 +607,13 @@ class Etape(models.Model):
 
             for record in ws.iter_rows(min_row=2, values_only=True):
                 count += 1
+                age = datetime.datetime.strptime(record[1], '%d-%m-%Y').strftime('%Y-%m-%d')
                 try:
                     print(f'Processing record {count}: {record}')
                     self.env['wk.partenaire'].create({
                         'etape_id': self.id,
                         'nom_partenaire': record[0],
-                        'age': record[1],
+                        'age': age,
                         'statut_partenaire': record[2],
                         'nationalite': self.env['res.country'].search([('name', '=', record[3])], limit=1).id,
                         'pourcentage': record[4],
