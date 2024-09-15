@@ -37,9 +37,9 @@ class ReportTwo(models.Model):
             self._compute_line_ids()
         return res
 
+
     def _compute_line_ids(self):
         self.line_ids = [(5, 0, 0)]
-
         workflows = self.env['wk.workflow.dashboard'].search([
             ('date', '>=', self.date_debut),
             ('date', '<=', self.date_fin)
@@ -49,82 +49,105 @@ class ReportTwo(models.Model):
         report_lines = []
 
         for user in users:
-            processed_finance_num = 0
-            processed_agence_num = 0
-            processed_commercial_num = 0
-            processed_risque_num = 0
-
-            processed_finance_prg = 0
-            processed_agence_prg = 0
-            processed_commercial_prg = 0
-            processed_risque_prg = 0
+            processed_finance_num = processed_agence_num = processed_commercial_num = processed_risque_num = 0
+            processed_finance_prg = processed_agence_prg = processed_commercial_prg = processed_risque_prg = 0
+            finance_duration = agence_duration = commercial_duration = risque_duration = 0
 
             for workflow in workflows:
                 for state in workflow.states:
                     # Finance processing logic
-                    if state.state_finance in ['finance_1','finance_2','finance_3','finance_5','finance_6','finance_7','finance_4']:  
+                    if state.state_finance in ['finance_1', 'finance_2', 'finance_3', 'finance_5', 'finance_6', 'finance_7', 'finance_4']:
                         if workflow.assigned_to_finance == user:
-                            if state.state_compute < 1:  
+                            tracking_records = self._get_tracking_records(workflow, state, state.state_finance)
+                            print('"""""""""""""""""""""""""""""""""""""')
+                            print(workflow.id)
+                            print(state)
+                            print(state.state_finance)
+                            print(tracking_records.ids)
+                            if state.state_compute < 1:
                                 processed_finance_prg += 1
                             else:
                                 processed_finance_num += 1
+                                finance_duration += sum(tracking.difference for tracking in tracking_records)
+                                # print(finance_duration)
 
                     # Branch processing logic
-                    if state.state_branch in ['branch_1', 'branch_2', 'branch_3', 'branch_4','branch_5']:  
+                    if state.state_branch in ['branch_1', 'branch_2', 'branch_3', 'branch_4', 'branch_5']:
                         if workflow.assigned_to_agence == user:
-                            if state.state_compute < 1:  
+                            tracking_records = self._get_tracking_records(workflow, state, state.state_branch)
+                            if state.state_compute < 1:
                                 processed_agence_prg += 1
                             else:
                                 processed_agence_num += 1
+                                agence_duration += sum(tracking.difference for tracking in tracking_records)
 
                     # Commercial processing logic
-                    if state.state_commercial in ['commercial_1', 'commercial_2', 'commercial_3', 'commercial_4']:  
+                    if state.state_commercial in ['commercial_1', 'commercial_2', 'commercial_3', 'commercial_4']:
                         if workflow.assigned_to_commercial == user:
+                            tracking_records = self._get_tracking_records(workflow, state, state.state_commercial)
                             if state.state_compute < 1:
                                 processed_commercial_prg += 1
                             else:
                                 processed_commercial_num += 1
-                    
+                                commercial_duration += sum(tracking.difference for tracking in tracking_records)
+
                     # Risk processing logic
-                    if state.state_risque in ['risque_1', 'risque_2', 'risque_3', 'risque_4']:              
+                    if state.state_risque in ['risque_1', 'risque_2', 'risque_3', 'risque_4']:
                         if workflow.assigned_to_risque == user:
+                            tracking_records = self._get_tracking_records(workflow, state, state.state_risque)
                             if state.state_compute < 1:
                                 processed_risque_prg += 1
                             else:
                                 processed_risque_num += 1
+                                risque_duration += sum(tracking.difference for tracking in tracking_records)
 
+            # Add report lines
             if processed_finance_num > 0 or processed_finance_prg > 0:
+                avg_duration = finance_duration / processed_finance_num if processed_finance_num > 0 else 0
                 report_lines.append((0, 0, {
                     'employee_name': user.id,
                     'management': 'مديرية التمويلات',
                     'processed_file_num': processed_finance_num,
                     'processed_file_prg': processed_finance_prg,
+                    'processed_file_avrg': avg_duration
                 }))
             if processed_agence_num > 0 or processed_agence_prg > 0:
+                avg_duration = agence_duration / processed_agence_num if processed_agence_num > 0 else 0
                 report_lines.append((0, 0, {
                     'employee_name': user.id,
                     'management': 'الفرع',
                     'processed_file_num': processed_agence_num,
                     'processed_file_prg': processed_agence_prg,
+                    'processed_file_avrg': avg_duration
                 }))
             if processed_commercial_num > 0 or processed_commercial_prg > 0:
+                avg_duration = commercial_duration / processed_commercial_num if processed_commercial_num > 0 else 0
                 report_lines.append((0, 0, {
                     'employee_name': user.id,
                     'management': 'مديرية الاعمال التجارية',
                     'processed_file_num': processed_commercial_num,
                     'processed_file_prg': processed_commercial_prg,
+                    'processed_file_avrg': avg_duration
                 }))
             if processed_risque_num > 0 or processed_risque_prg > 0:
+                avg_duration = risque_duration / processed_risque_num if processed_risque_num > 0 else 0
                 report_lines.append((0, 0, {
                     'employee_name': user.id,
                     'management': 'ادارة المخاطر',
                     'processed_file_num': processed_risque_num,
                     'processed_file_prg': processed_risque_prg,
+                    'processed_file_avrg': avg_duration
                 }))
 
         self.write({'line_ids': report_lines})
 
-
+    def _get_tracking_records(self, workflow, state, exact_state):
+        return self.env['wk.tracking'].search([
+            ('workflow_id', '=', workflow.id),
+            ('etape_id', '=', state.id),
+            ('state', '=', exact_state)
+        ])
+        
 class Table(models.Model):
     _name = 'wk.report2.table'
 
