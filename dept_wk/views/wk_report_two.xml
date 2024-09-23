@@ -15,6 +15,7 @@
                     <field name="line_ids" readonly="1">
                         <tree>
                             <field name="management" />
+                            <field name="code" />
                             <field name="employee_name" />
                             <field name="processed_file_num" />
                             <field name="processed_file_avrg" />

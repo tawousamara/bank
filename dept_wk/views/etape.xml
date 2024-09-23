@@ -1257,7 +1257,7 @@
                             </page>
                             <page string="الوضعية التقديرية">
                                 <group>
-                                    <field name="file_tcr_estim" filename="file_tcr_name"
+                                    <field name="file_tcr_estim" filename="file_tcr_name_estim"
                                            readonly="not can_edit or state_finance != 'finance_2'"/>
                                     <field name="file_tcr_name_estim" invisible="1"/>
                                     <!--<field name="template_situation" filename="template_name"

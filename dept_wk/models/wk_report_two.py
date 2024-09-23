@@ -1,14 +1,15 @@
 from odoo import models, fields, api, _
 from odoo.tools import format_date
 
+
 class ReportTwo(models.Model):
     _name = 'wk.report.two'
-    
+
     name = fields.Char(string='الاسم', compute='_compute_name', store=True)
     date_debut = fields.Date(string='من')
     date_fin = fields.Date(string='الى')
     line_ids = fields.One2many('wk.report2.table', 'line', string='Les lignes')
-    
+
     @api.depends('date_debut', 'date_fin')
     def _compute_name(self):
         for record in self:
@@ -37,7 +38,6 @@ class ReportTwo(models.Model):
             self._compute_line_ids()
         return res
 
-
     def _compute_line_ids(self):
         self.line_ids = [(5, 0, 0)]
         workflows = self.env['wk.workflow.dashboard'].search([
@@ -59,9 +59,6 @@ class ReportTwo(models.Model):
                     if state.state_finance in ['finance_1', 'finance_2', 'finance_3', 'finance_5', 'finance_6', 'finance_7', 'finance_4']:
                         if workflow.assigned_to_finance == user:
                             tracking_records = self._get_tracking_records_finance(workflow, state)
-                            print('"""""""""""""""""""""""""""""""""""""')
-                            print(workflow.id)
-                            print(tracking_records.ids)
                             if state.state_compute < 1:
                                 processed_finance_prg += 1
                             else:
@@ -98,7 +95,6 @@ class ReportTwo(models.Model):
                                 processed_risque_num += 1
                                 risque_duration += sum(tracking.difference for tracking in tracking_records)
 
-            # Add report lines
             if processed_finance_num > 0 or processed_finance_prg > 0:
                 avg_duration = finance_duration / processed_finance_num if processed_finance_num > 0 else 0
                 report_lines.append((0, 0, {
@@ -110,12 +106,14 @@ class ReportTwo(models.Model):
                 }))
             if processed_agence_num > 0 or processed_agence_prg > 0:
                 avg_duration = agence_duration / processed_agence_num if processed_agence_num > 0 else 0
+                code_value = self._get_branche_code(user, self.date_debut, self.date_fin)
                 report_lines.append((0, 0, {
                     'employee_name': user.id,
                     'management': 'الفرع',
+                    'code': code_value,
                     'processed_file_num': processed_agence_num,
                     'processed_file_prg': processed_agence_prg,
-                    'processed_file_avrg': avg_duration
+                    'processed_file_avrg': avg_duration,
                 }))
             if processed_commercial_num > 0 or processed_commercial_prg > 0:
                 avg_duration = commercial_duration / processed_commercial_num if processed_commercial_num > 0 else 0
@@ -138,34 +136,45 @@ class ReportTwo(models.Model):
 
         self.write({'line_ids': report_lines})
 
+    def _get_branche_code(self, user, date_debut, date_fin):
+        workflows = self.env['wk.workflow.dashboard'].search([
+            ('assigned_to_agence', '=', user.id),
+            ('date', '>=', date_debut),
+            ('date', '<=', date_fin)
+        ])
+        branch_codes = {workflow.branche.name for workflow in workflows if workflow.branche}
+
+        return ', '.join(branch_codes) if branch_codes else False  
+
+    
     def _get_tracking_records_finance(self, workflow, state):
         return self.env['wk.tracking'].search([
             ('workflow_id', '=', workflow.id),
             ('etape_id', '=', state.id),
-            ('state', 'in', ['finance_1', 'finance_2', 'finance_3', 'finance_5', 'finance_6', 'finance_7']) 
+            ('state', 'in', ['finance_1', 'finance_2', 'finance_3', 'finance_5', 'finance_6', 'finance_7'])
         ])
-        
+
     def _get_tracking_records_branch(self, workflow, state):
         return self.env['wk.tracking'].search([
             ('workflow_id', '=', workflow.id),
             ('etape_id', '=', state.id),
-            ('state', 'in', ['branch_1', 'branch_2', 'branch_3', 'branch_4']) 
+            ('state', 'in', ['branch_1', 'branch_2', 'branch_3', 'branch_4'])
         ])
-    
+
     def _get_tracking_records_commercial(self, workflow, state):
         return self.env['wk.tracking'].search([
             ('workflow_id', '=', workflow.id),
             ('etape_id', '=', state.id),
-            ('state', 'in', ['commercial_1', 'commercial_2', 'commercial_3']) 
+            ('state', 'in', ['commercial_1', 'commercial_2', 'commercial_3'])
         ])
-    
+
     def _get_tracking_records_risque(self, workflow, state):
         return self.env['wk.tracking'].search([
             ('workflow_id', '=', workflow.id),
             ('etape_id', '=', state.id),
-            ('state', 'in', ['risque_1', 'risque_3', 'risque_4']) 
+            ('state', 'in', ['risque_1', 'risque_3', 'risque_4'])
         ])
-        
+
 class Table(models.Model):
     _name = 'wk.report2.table'
 
@@ -174,5 +183,6 @@ class Table(models.Model):
     processed_file_num = fields.Integer(string='عدد الملفات المعالجة')
     processed_file_avrg = fields.Integer(string='متوسط مدة المعالجة')
     processed_file_prg = fields.Integer(string='عدد الملفات جاري المعالجة ')
+    code = fields.Char(string='رمز الفرع') 
 
     line = fields.Many2one('wk.report.two', ondelete="cascade")
