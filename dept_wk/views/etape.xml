@@ -152,7 +152,17 @@
                         <notebook string="معرفة عميلك"
                                   invisible="state_branch not in ['branch_3', 'branch_4','branch_rejected','branch_5'] and sequence not in [3,5,10,8]">
                             <page string="توزيع راس مال الشركة">
-                                <field name="apropos" width="100%" readonly="not can_edit or state_branch != 'branch_3' and sequence not in [1, 8]">
+                                <group>
+                                    <field name="company_distribution_file"/>
+                                </group>
+                                <button name="upload_company_distribution" string="تحميل البيانات"
+                                        invisible="company_distribution_file == False" type="object"
+                                        class="oe_highlight"/>
+                                <span style="margin-left:15px"/>
+                                <button name="download_company_distribution" string="تنزيل البيانات"
+                                        invisible="apropos == False" type="object" class="oe_highlight"/>
+                                <field name="apropos" width="100%"
+                                       readonly="not can_edit or state_branch != 'branch_3' and sequence not in [1, 8]">
                                     <tree editable="bottom">
                                         <field name="nom_partenaire" width="20%"/>
                                         <field name="age" width="20%"/>
@@ -173,26 +183,44 @@
                                 </field>
                             </page>
                             <page string="فريق التسيير">
-                                    <field name="gestion" width="100%"
-                                        readonly="not can_edit or state_branch != 'branch_3' and sequence not in [1, 8]">
-                                        <tree editable="bottom">
-                                            <field name="name" width="20%"/>
-                                            <field name="job" width="20%"/>
-                                            <field name="niveau_etude" width="20%"/>
-                                            <field name="age" width="20%"/>
-                                            <field name="experience" width="20%"/>
-                                        </tree>
-                                    </field>
-                                    <field name="employees" readonly="not can_edit or state_branch != 'branch_3' and sequence not in [1, 8]" >
-                                        <tree create="0" delete="0" editable="bottom">
-                                            <field name="name" readonly="1"/>
-                                            <field name="poste_permanent"/>
-                                            <field name="poste_non_permanent"/>
-                                        </tree>
-                                    </field>
+                                <group>
+                                    <field name="management_team_file1"/>
+                                </group>
+                                <button name="upload_management_team_file1" string="تحميل البيانات"
+                                        invisible="management_team_file1 == False" type="object" class="oe_highlight"/>
+                                <span style="margin-left:15px"/>
+                                <button name="download_management_team_file1" string="تنزيل البيانات"
+                                        invisible="gestion == False" type="object" class="oe_highlight"/>
+                                <field name="gestion" width="100%"
+                                       readonly="not can_edit or state_branch != 'branch_3' and sequence not in [1, 8]">
+                                    <tree editable="bottom">
+                                        <field name="name" width="20%"/>
+                                        <field name="job" width="20%"/>
+                                        <field name="niveau_etude" width="20%"/>
+                                        <field name="age" width="20%"/>
+                                        <field name="experience" width="20%"/>
+                                    </tree>
+                                </field>
+                                <field name="employees"
+                                       readonly="not can_edit or state_branch != 'branch_3' and sequence not in [1, 8]">
+                                    <tree create="0" delete="0" editable="bottom">
+                                        <field name="name" readonly="1"/>
+                                        <field name="poste_permanent"/>
+                                        <field name="poste_non_permanent"/>
+                                    </tree>
+                                </field>
                             </page>
                             <page string="مقرات تابعة للشركة">
-                                <field name="sieges" readonly="not can_edit or state_branch != 'branch_3' and sequence not in [1, 8]">
+                                <group>
+                                    <field name="headquarter"/>
+                                </group>
+                                <button name="upload_headquarter" string="تحميل البيانات"
+                                        invisible="headquarter == False" type="object" class="oe_highlight"/>
+                                <span style="margin-left:15px"/>
+                                <button name="download_headquarter" string="تنزيل البيانات" invisible="sieges == False"
+                                        type="object" class="oe_highlight"/>
+                                <field name="sieges"
+                                       readonly="not can_edit or state_branch != 'branch_3' and sequence not in [1, 8]">
                                     <tree create="0" delete="0" editable="bottom">
                                         <field name="name" readonly="1"/>
                                         <field name="adresse"/>
@@ -201,11 +229,19 @@
                                 </field>
                             </page>
                             <page string="حجم و هيكل التمويلات المطلوبة">
-                                <field name="tailles" readonly="not can_edit or state_branch != 'branch_3' and sequence not in [1, 8]">
+                                <group>
+                                    <field name="required_funds"/>
+                                </group>
+                                <button name="upload_required_funds" string="تحميل البيانات"
+                                        invisible="required_funds == False" type="object" class="oe_highlight"/>
+                                <span style="margin-left:15px"/>
+                                <button name="download_required_funds" string="تنزيل البيانات"
+                                        invisible="tailles == False" type="object" class="oe_highlight"/>
+                                <field name="tailles"
+                                       readonly="not can_edit or state_branch != 'branch_3' and sequence not in [1, 8]">
                                     <tree editable="bottom">
                                         <field name="type_demande" options="{'no_create': True, 'no_open': True}"
-                                               domain="[('for_branch', '=', True)]"
-                                               width="20%"/>
+                                               domain="[('for_branch', '=', True)]" width="20%"/>
                                         <field name="montant" sum="Total" width="20%"/>
                                         <field name="montant_usd" sum="Total" width="20%" optional="hide"/>
                                         <field name="raison" width="20%"/>
@@ -220,52 +256,86 @@
                                 </group>
                             </page>
                             <page string="الوضعية المالية">
-                                    <field name="situations" width="100%" readonly="not can_edit or state_branch != 'branch_3' and sequence not in [1, 8]">
-                                        <tree editable="bottom">
-                                            <field name="banque" width="20%"/>
-                                            <field name="type_fin" width="20%"/>
-                                            <field name="montant" width="20%"/>
-                                            <field name="encours" width="20%"/>
-                                            <field name="garanties" width="20%"/>
-                                        </tree>
-                                    </field>
-                                    <group>
-                                        <field name="annee_fiscal_list" options="{'no_create': True,'no_open': True}"/>
-                                    </group>
-                                    
-                                    <field name="situations_fin"
-                                           readonly="not can_edit or state_branch != 'branch_3' and sequence not in [1, 8]">
-                                        <tree editable="bottom" delete="0" create="0">
-                                            <field name="type" readonly="1"
-                                                   decoration-bf="sequence == 0"/>
-                                            <field name="year1" readonly="sequence == 0"
-                                                   decoration-bf="sequence == 0"/>
-                                            <field name="year2" readonly="sequence == 0"
-                                                   decoration-bf="sequence == 0"/>
-                                            <field name="year3" readonly="sequence == 0"
-                                                   decoration-bf="sequence == 0"/>
-                                            <field name="sequence" column_invisible="True"/>
-                                        </tree>
-                                    </field>
+                                <group>
+                                    <field name="financial_situation_file1"/>
+                                </group>
+                                <button name="upload_financial_situation_file1" string="تحميل البيانات"
+                                        invisible="financial_situation_file1 == False" type="object"
+                                        class="oe_highlight"/>
+                                <span style="margin-left:15px"/>
+                                <button name="download_financial_situation_file1" string="تنزيل البيانات"
+                                        invisible="situations == False" type="object" class="oe_highlight"/>
+                                <field name="situations" width="100%"
+                                       readonly="not can_edit or state_branch != 'branch_3' and sequence not in [1, 8]">
+                                    <tree editable="bottom">
+                                        <field name="banque" width="20%"/>
+                                        <field name="type_fin" width="20%"/>
+                                        <field name="montant" width="20%"/>
+                                        <field name="encours" width="20%"/>
+                                        <field name="garanties" width="20%"/>
+                                    </tree>
+                                </field>
+                                <group>
+                                    <field name="annee_fiscal_list" options="{'no_create': True,'no_open': True}"/>
+                                </group>
+                                <field name="situations_fin"
+                                       readonly="not can_edit or state_branch != 'branch_3' and sequence not in [1, 8]">
+                                    <tree editable="bottom" delete="0" create="0">
+                                        <field name="type" readonly="1" decoration-bf="sequence == 0"/>
+                                        <field name="year1" readonly="sequence == 0" decoration-bf="sequence == 0"/>
+                                        <field name="year2" readonly="sequence == 0" decoration-bf="sequence == 0"/>
+                                        <field name="year3" readonly="sequence == 0" decoration-bf="sequence == 0"/>
+                                        <field name="sequence" column_invisible="True"/>
+                                    </tree>
+                                </field>
                             </page>
                             <page string="الموردون و الزبائن">
-                                    <field name="fournisseur" readonly="not can_edit or state_branch != 'branch_3' and sequence not in [1, 8]">
-                                        <tree editable="bottom">
-                                            <field name="name"/>
-                                            <field name="country" domain="[('to_show', '=', False)]"/>
-                                            <field name="type_payment" widget="many2many_tags"/>
-                                        </tree>
-                                    </field>
-                                    <field name="client" readonly="not can_edit or state_branch != 'branch_3' and sequence not in [1, 8]">
-                                        <tree editable="bottom">
-                                            <field name="name"/>
-                                            <field name="country" domain="[('to_show', '=', False)]"/>
-                                            <field name="type_payment" widget="many2many_tags"/>
-                                        </tree>
-                                    </field>
+                                <group>
+                                    <field name="suppliers_clients_file1"/>
+                                </group>
+                                <button name="upload_suppliers_clients_file1" string="تحميل البيانات"
+                                        invisible="suppliers_clients_file1 == False" type="object"
+                                        class="oe_highlight"/>
+                                <span style="margin-left:15px"/>
+                                <button name="download_suppliers_clients_file1" string="تنزيل البيانات"
+                                        invisible="fournisseur == False" type="object" class="oe_highlight"/>
+                                <field name="fournisseur"
+                                       readonly="not can_edit or state_branch != 'branch_3' and sequence not in [1, 8]">
+                                    <tree editable="bottom">
+                                        <field name="name"/>
+                                        <field name="country" domain="[('to_show', '=', False)]"/>
+                                        <field name="type_payment" widget="many2many_tags"/>
+                                    </tree>
+                                </field>
+                                <group>
+                                    <field name="suppliers_clients_file2"/>
+                                </group>
+                                <button name="upload_suppliers_clients_file2" string="تحميل البيانات"
+                                        invisible="suppliers_clients_file2 == False" type="object"
+                                        class="oe_highlight"/>
+                                <span style="margin-left:15px"/>
+                                <button name="download_suppliers_clients_file2" string="تنزيل البيانات"
+                                        invisible="client == False" type="object" class="oe_highlight"/>
+                                <field name="client"
+                                       readonly="not can_edit or state_branch != 'branch_3' and sequence not in [1, 8]">
+                                    <tree editable="bottom">
+                                        <field name="name"/>
+                                        <field name="country" domain="[('to_show', '=', False)]"/>
+                                        <field name="type_payment" widget="many2many_tags"/>
+                                    </tree>
+                                </field>
                             </page>
                             <page string="معلومات حول الشركات ذات الصلة (KDA)" invisible="sequence == 8">
-                                <field name="companies" readonly="not can_edit or state_branch != 'branch_3' and sequence not in [1, 8]">
+                                <group>
+                                    <field name="kda"/>
+                                </group>
+                                <button name="upload_kda" string="تحميل البيانات" invisible="kda == False" type="object"
+                                        class="oe_highlight"/>
+                                <span style="margin-left:15px"/>
+                                <button name="download_kda" string="تنزيل البيانات" invisible="companies == False"
+                                        type="object" class="oe_highlight"/>
+                                <field name="companies"
+                                       readonly="not can_edit or state_branch != 'branch_3' and sequence not in [1, 8]">
                                     <tree editable="bottom">
                                         <field name="name" width="10%"/>
                                         <field name="date_creation" width="10%"/>
@@ -613,7 +683,7 @@
                                                         </tree>
                                                     </field>
                                                 </page>
-                                                <page string="المعايير النوعية" >
+                                                <page string="المعايير النوعية">
                                                     <group>
                                                         <field name="scoring_qualitatif" invisible="is_branch"
                                                                readonly="1"/>

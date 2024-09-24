@@ -590,7 +590,7 @@ class Etape(models.Model):
             file_base64 = base64.b64encode(buffer.read()).decode('utf-8')
             rec.template_situation = file_base64'''
 
-    '''company_distribution_file = fields.Binary(string="البيانات")
+    company_distribution_file = fields.Binary(string="البيانات")
     
     
     def upload_company_distribution(self):
@@ -1105,7 +1105,7 @@ class Etape(models.Model):
             "type": "ir.actions.act_url",
             "url": str(base_url) + str(download_url),
             "target": "new",
-        }  '''
+        }
     
     
     
@@ -2064,7 +2064,7 @@ class Etape(models.Model):
                                 folder_branch = self.env['documents.folders'].create({'branch': rec.branche.id,
                                                                                       'name': rec.branche.ref})
                             folder = self.env['documents.folders'].create({'branch': rec.branche.id,
-                                                                          'name': rec.num_compte,
+                                                                          'name': rec.num_compte or 'غير معين',
                                                                           'parent_folder_id': folder_branch.id,
                                                                           'client': rec.nom_client.id})
                         etape_created = rec.workflow.states.filtered(lambda l: l.etape.sequence == 2)
