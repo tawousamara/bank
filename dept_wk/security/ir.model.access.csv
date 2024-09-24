@@ -68,6 +68,16 @@ access_wk_time_financial,access.wk.time,model_wk_time,,1,1,1,1
 access_wk_analyse_performence_user,access.wk.analyse.performence,model_wk_analyse_performence,,1,1,1,1
 access_wk_analyse_performence_financial,access.wk.analyse.performence,model_wk_analyse_performence,,1,1,1,1
 
+access_wk_report_one_user,access.wk.report.one,model_wk_report_one,,1,1,1,1
+access_wk_report_one_financial,access.wk.report.one,model_wk_report_one,,1,1,1,1
+access_wk_report_two_user,access.wk.report.two,model_wk_report_two,,1,1,1,1
+access_wk_report_two_financial,access.wk.report.two,model_wk_report_two,,1,1,1,1
+
+access_wk_report1_table_user,access.wk.report1.table,model_wk_report1_table,,1,1,1,1
+access_wk_report1_table_financial,access.wk.report1.table,model_wk_report1_table,,1,1,1,1
+access_wk_report2_table_user,access.wk.report2.table,model_wk_report2_table,,1,1,1,1
+access_wk_report2_table_financial,access.wk.report2.table,model_wk_report2_table,,1,1,1,1
+
 access_wk_line_stat_user,access.wk.line.stat,model_wk_line_stat,,1,1,1,1
 access_wk_line_stat_financial,access.wk.line.stat,model_wk_line_stat,,1,1,1,1
 

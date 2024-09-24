@@ -152,8 +152,7 @@
                         <notebook string="معرفة عميلك"
                                   invisible="state_branch not in ['branch_3', 'branch_4','branch_rejected','branch_5'] and sequence not in [3,5,10,8]">
                             <page string="توزيع راس مال الشركة">
-                                <field name="apropos" width="100%"
-                                       readonly="not can_edit or state_branch != 'branch_3' and sequence not in [1, 8]">
+                                <field name="apropos" width="100%" readonly="not can_edit or state_branch != 'branch_3' and sequence not in [1, 8]">
                                     <tree editable="bottom">
                                         <field name="nom_partenaire" width="20%"/>
                                         <field name="age" width="20%"/>
@@ -174,9 +173,8 @@
                                 </field>
                             </page>
                             <page string="فريق التسيير">
-                                <group>
                                     <field name="gestion" width="100%"
-                                           readonly="not can_edit or state_branch != 'branch_3' and sequence not in [1, 8]">
+                                        readonly="not can_edit or state_branch != 'branch_3' and sequence not in [1, 8]">
                                         <tree editable="bottom">
                                             <field name="name" width="20%"/>
                                             <field name="job" width="20%"/>
@@ -185,19 +183,16 @@
                                             <field name="experience" width="20%"/>
                                         </tree>
                                     </field>
-                                    <field name="employees"
-                                           readonly="not can_edit or state_branch != 'branch_3' and sequence not in [1, 8]">
+                                    <field name="employees" readonly="not can_edit or state_branch != 'branch_3' and sequence not in [1, 8]" >
                                         <tree create="0" delete="0" editable="bottom">
                                             <field name="name" readonly="1"/>
                                             <field name="poste_permanent"/>
                                             <field name="poste_non_permanent"/>
                                         </tree>
                                     </field>
-                                </group>
                             </page>
                             <page string="مقرات تابعة للشركة">
-                                <field name="sieges"
-                                       readonly="not can_edit or state_branch != 'branch_3' and sequence not in [1, 8]">
+                                <field name="sieges" readonly="not can_edit or state_branch != 'branch_3' and sequence not in [1, 8]">
                                     <tree create="0" delete="0" editable="bottom">
                                         <field name="name" readonly="1"/>
                                         <field name="adresse"/>
@@ -206,8 +201,7 @@
                                 </field>
                             </page>
                             <page string="حجم و هيكل التمويلات المطلوبة">
-                                <field name="tailles"
-                                       readonly="not can_edit or state_branch != 'branch_3' and sequence not in [1, 8]">
+                                <field name="tailles" readonly="not can_edit or state_branch != 'branch_3' and sequence not in [1, 8]">
                                     <tree editable="bottom">
                                         <field name="type_demande" options="{'no_create': True, 'no_open': True}"
                                                domain="[('for_branch', '=', True)]"
@@ -226,9 +220,7 @@
                                 </group>
                             </page>
                             <page string="الوضعية المالية">
-                                <group>
-                                    <field name="situations" width="100%"
-                                           readonly="not can_edit or state_branch != 'branch_3' and sequence not in [1, 8]">
+                                    <field name="situations" width="100%" readonly="not can_edit or state_branch != 'branch_3' and sequence not in [1, 8]">
                                         <tree editable="bottom">
                                             <field name="banque" width="20%"/>
                                             <field name="type_fin" width="20%"/>
@@ -240,6 +232,7 @@
                                     <group>
                                         <field name="annee_fiscal_list" options="{'no_create': True,'no_open': True}"/>
                                     </group>
+                                    
                                     <field name="situations_fin"
                                            readonly="not can_edit or state_branch != 'branch_3' and sequence not in [1, 8]">
                                         <tree editable="bottom" delete="0" create="0">
@@ -254,31 +247,25 @@
                                             <field name="sequence" column_invisible="True"/>
                                         </tree>
                                     </field>
-                                </group>
                             </page>
                             <page string="الموردون و الزبائن">
-                                <group>
-                                    <field name="fournisseur"
-                                           readonly="not can_edit or state_branch != 'branch_3' and sequence not in [1, 8]">
+                                    <field name="fournisseur" readonly="not can_edit or state_branch != 'branch_3' and sequence not in [1, 8]">
                                         <tree editable="bottom">
                                             <field name="name"/>
                                             <field name="country" domain="[('to_show', '=', False)]"/>
                                             <field name="type_payment" widget="many2many_tags"/>
                                         </tree>
                                     </field>
-                                    <field name="client"
-                                           readonly="not can_edit or state_branch != 'branch_3' and sequence not in [1, 8]">
+                                    <field name="client" readonly="not can_edit or state_branch != 'branch_3' and sequence not in [1, 8]">
                                         <tree editable="bottom">
                                             <field name="name"/>
                                             <field name="country" domain="[('to_show', '=', False)]"/>
                                             <field name="type_payment" widget="many2many_tags"/>
                                         </tree>
                                     </field>
-                                </group>
                             </page>
                             <page string="معلومات حول الشركات ذات الصلة (KDA)" invisible="sequence == 8">
-                                <field name="companies"
-                                       readonly="not can_edit or state_branch != 'branch_3' and sequence not in [1, 8]">
+                                <field name="companies" readonly="not can_edit or state_branch != 'branch_3' and sequence not in [1, 8]">
                                     <tree editable="bottom">
                                         <field name="name" width="10%"/>
                                         <field name="date_creation" width="10%"/>
@@ -553,7 +540,7 @@
                                         <header>
                                             <button name="action_archive" string="Archiver"
                                                     class="btn-primary" type="object"
-                                                    groups="dept_wk.dept_wk_group_administration"/>
+                                                    groups="dept_wk.dept_wk_group_analyste"/>
                                         </header>
                                         <sheet>
                                             <group>
@@ -626,7 +613,7 @@
                                                         </tree>
                                                     </field>
                                                 </page>
-                                                <page string="المعايير النوعية">
+                                                <page string="المعايير النوعية" >
                                                     <group>
                                                         <field name="scoring_qualitatif" invisible="is_branch"
                                                                readonly="1"/>

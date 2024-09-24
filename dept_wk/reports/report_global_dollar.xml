@@ -1989,29 +1989,17 @@
                                             </tr>
                                             <tr>
                                                 <th class="title-cell" colspan="2">البيان</th>
-                                                <th class="title-cell" t-if="len(has_year_1_2) != 0">
+                                                <th class="title-cell" t-if="len(has_year_1_2) != 0" colspan="2">
                                                     <t t-esc="int(bilan1_year.year_1)"/>
                                                 </th>
-                                                <th class="title-cell">
-                                                    $
-                                                </th>
-                                                <th class="title-cell" t-if="len(has_year_1_2) != 0" >
+                                                <th class="title-cell" t-if="len(has_year_1_2) != 0" colspan="2">
                                                     <t t-esc="int(bilan1_year.year_2)"/>
                                                 </th>
-                                                <th class="title-cell">
-                                                    $
-                                                </th>
-                                                <th class="title-cell" t-if="len(has_year_3_4) != 0" >
+                                                <th class="title-cell" t-if="len(has_year_3_4) != 0" colspan="2">
                                                     <t t-esc="int(bilan1_year.year_3)"/>
                                                 </th>
-                                                <th class="title-cell">
-                                                    $
-                                                </th>
-                                                <th class="title-cell" t-if="len(has_year_3_4) != 0" >
+                                                <th class="title-cell" t-if="len(has_year_3_4) != 0" colspan="2">
                                                     <t t-esc="int(bilan1_year.year_4)"/>
-                                                </th>
-                                                <th class="title-cell">
-                                                    $
                                                 </th>
                                                 <th class="title-cell">التغير</th>
                                             </tr>
@@ -3823,7 +3811,7 @@
                                             </tr>
                                             <tr>
                                                 <t t-set="ratio_3"
-                                                   t-value="etape2.tcr_situation.filtered(lambda l:l.sequence == 1)"/>
+                                                   t-value="etape2.tcr_situation.filtered(lambda l:l.sequence == 2)"/>
                                                 <td>
                                                     (المبيعات، الإيرادات)
                                                 </td>
@@ -3836,7 +3824,7 @@
                                             </tr>
                                             <tr>
                                                 <t t-set="ratio_4"
-                                                   t-value="etape2.tcr_situation.filtered(lambda l:l.sequence == 20)"/>
+                                                   t-value="etape2.passif_situation.filtered(lambda l:l.sequence == 19)"/>
                                                 <td>
                                                     صافي الأرباح
                                                 </td>
@@ -3872,6 +3860,7 @@
                                                     حقوق الملكية
                                                 </td>
                                                 <td style="text-align: right; direction: ltr;">
+
                                                     <t t-esc="'{0:,.2f}'.format(ratio_1.valeur / 1000)"/>
                                                 </td>
                                                 <td style="text-align: right; direction: ltr;">
@@ -3899,7 +3888,7 @@
                                             </tr>
                                             <tr>
                                                 <t t-set="ratio_3"
-                                                   t-value="etape2.tcr_situation_estim.filtered(lambda l:l.sequence == 1)"/>
+                                                   t-value="etape2.tcr_situation_estim.filtered(lambda l:l.sequence == 2)"/>
                                                 <td>
                                                     (المبيعات، الإيرادات)
                                                 </td>
@@ -3912,7 +3901,7 @@
                                             </tr>
                                             <tr>
                                                 <t t-set="ratio_4"
-                                                   t-value="etape2.tcr_situation_estim.filtered(lambda l:l.sequence == 20)"/>
+                                                   t-value="etape2.passif_situation_estim.filtered(lambda l:l.sequence == 19)"/>
                                                 <td>
                                                     صافي الأرباح
                                                 </td>

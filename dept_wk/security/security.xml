@@ -145,7 +145,7 @@
                (4, ref('base.group_user'))]"/>
     </record>
     <record id="workflow_dossier_visibility_admin" model="ir.rule">
-        <field name="name">User can all demands</field>
+        <field name="name">User can see all demands</field>
         <field name="model_id" ref="model_wk_workflow_dashboard"/>
         <field name="groups" eval="[(4, ref ('dept_wk_group_all_users'))]"/>
         <field name="domain_force">[(1, '=', 1)]</field>
@@ -156,21 +156,15 @@
         <field name="groups" eval="[(4, ref ('dept_wk_group_agent_agence'))]"/>
         <field name="domain_force">[('branche', '=', user.partner_id.branche.id)]</field>
     </record>
-    <!--<record id="workflow_comm_visibility_user" model="ir.rule">
-        <field name="name">User can only see his / her demands</field>
-        <field name="model_id" ref="model_wk_workflow_dashboard"/>
-        <field name="groups" eval="[(4, ref ('dept_wk_group_charge_commercial'))]"/>
-        <field name="domain_force">[('branche', '=', user.partner_id.branche.id),('branche', 'in', [False, 26])]</field>
-    </record>-->
     <record id="contact_branch_visibility_user" model="ir.rule">
         <field name="name">User can only see his / her contacts</field>
         <field name="model_id" ref="base.model_res_partner"/>
         <field name="groups" eval="[(4, ref ('dept_wk_group_agent_agence')),
                                     (4, ref ('dept_wk_group_responsable_agence'))]"/>
-        <field name="domain_force">['|',('branche', '=', user.partner_id.branche.id),('branche', 'in', [False, 26])]</field>
+        <field name="domain_force">['|',('branche', '=', user.partner_id.branche.id),('branche', 'in',[False, 25])]</field>
     </record>
     <record id="contact_admin_visibility_user" model="ir.rule">
-        <field name="name">User can only see his / her contacts</field>
+        <field name="name">User can see all contacts</field>
         <field name="model_id" ref="base.model_res_partner"/>
         <field name="groups" eval="[(4, ref ('dept_wk_group_all_users'))]"/>
         <field name="domain_force">[(1, '=', 1)]</field>

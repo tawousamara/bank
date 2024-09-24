@@ -249,7 +249,7 @@ class RecommLeasing(models.Model):
 class Partner(models.Model):
     _inherit = 'res.partner'
 
-    is_super = fields.Boolean(string='مستخدم خاص', compute='_compute_is_client' )
+    is_super = fields.Boolean(string='مستخدم خاص', )
     is_client = fields.Boolean(string='هل هو عميل؟', compute='_compute_is_client', store=True)
     nif = fields.Char(string='NIF')
     rc = fields.Char(string='RC')
@@ -282,24 +282,6 @@ class Partner(models.Model):
     is_user = fields.Boolean(string='مستخدم', compute='compute_user')
     is_not_user = fields.Boolean(string='مستخدم')
 
-    @api.model
-    def default_get(self, fields_list):
-        # print('Call the super method to get the default values')
-        defaults = super(Partner, self).default_get(fields_list)
-        
-        user = self.env.user
-        user_groups = user.groups_id.mapped('name')
-
-        if user.has_group('dept_wk.dept_wk_group_agent_agence') and not user.has_group('dept_wk.dept_wk_group_charge_commercial'):
-            defaults['branche'] = user.partner_id.branche.id if user.partner_id.branche else False
-            # print("Agent Agence")
-            self = self.with_context(branche_readonly=True)
-            # print('Passing context')
-        else:
-            defaults['branche'] = self.env.ref('dept_wk.agence_99').id
-        return defaults
-
-
     def compute_current_user(self):
         for rec in self:
             rec.current_user = self.env.user or False
@@ -311,6 +293,7 @@ class Partner(models.Model):
         if res.parent_id:
             res.display_name = res.name
         return res
+
 
     @api.depends('num_compte')
     def open_contact_view(self):
@@ -337,10 +320,6 @@ class Partner(models.Model):
                 rec.is_client = False
             else:
                 rec.is_client = True
-            if self.env.user.has_group('dept_wk.dept_wk_group_agent_agence'):
-                rec.is_super = False
-            else:
-                rec.is_super = True
 
     def compute_user(self):
         for rec in self:

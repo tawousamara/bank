@@ -4,12 +4,13 @@ import datetime
 from io import BytesIO
 import numpy as np
 import matplotlib
-
+import openpyxl
 matplotlib.use('Agg')
 from matplotlib import pyplot as plt
 from odoo.exceptions import ValidationError, UserError
 import magic
 import xlrd
+import xlsxwriter
 #import pandas as pd
 
 
@@ -274,7 +275,6 @@ class Etape(models.Model):
                                      ('branch_5', 'انتهاء التحليل'),
                                      ('branch_rejected', 'طلب مرفوض'),
                                      ], track_visibility='always', string='وضعية الملف')
-
     # fields of branch
     nom_client = fields.Many2one('res.partner', string='اسم المتعامل', domain=lambda self: [('branche', '=', self.env.user.partner_id.branche.id), ('is_client', '=', True)], related='workflow.nom_client')
     branche = fields.Many2one('wk.agence', string='الفرع', related='nom_client.branche')
@@ -344,15 +344,16 @@ class Etape(models.Model):
     client = fields.One2many('wk.client', 'etape_id', string='الزبائن')
 
     # Financial fields
-    state_finance = fields.Selection([('finance_1', 'مدير التمويلات'),
-                                     ('finance_2', 'المحلل المالي'),
-                                     ('finance_3', 'مدير التمويلات'),
-                                     ('finance_5', 'في انتظار مديرية الاعمال التجارية و المخاطر'),
-                                     ('finance_6', 'في انتظار مديرية الاعمال التجارية'),
-                                     ('finance_7', 'في انتظار ادارة المخاطر'),
-                                     ('finance_4', 'انتهاء التحليل'),
-                                     ('finance_rejected', 'طلب مرفوض'),
-                                     ], track_visibility='always', string='وضعية الملف')
+    state_finance = fields.Selection([
+                                    ('finance_1', 'مدير التمويلات'),
+                                    ('finance_2', 'المحلل المالي'),
+                                    ('finance_3', 'مدير التمويلات'),
+                                    ('finance_5', 'في انتظار مديرية الاعمال التجارية و المخاطر'),
+                                    ('finance_6', 'في انتظار مديرية الاعمال التجارية'),
+                                    ('finance_7', 'في انتظار ادارة المخاطر'),
+                                    ('finance_4', 'انتهاء التحليل'),
+                                    ('finance_rejected', 'طلب مرفوض'),
+                                    ], track_visibility='always', string='وضعية الملف')
 
     assigned_to_finance = fields.Many2one('res.users', string='المحلل المالي',
                                 domain=lambda self: [('groups_id', 'in', self.env.ref('dept_wk.dept_wk_group_analyste').id)],
@@ -523,7 +524,7 @@ class Etape(models.Model):
                                      ('vice_rejected', 'طلب مرفوض'),
                                      ], track_visibility='always',default='vice_1', string='وضعية الملف')
     assigned_to_vice = fields.Many2one('res.users', string='نائب المدير العام', track_visibility='always')
-    recommandation_tresorerie = fields.Html(string='رأي مسؤول الخزينة', )
+    recommandation_tresorerie = fields.Html(string='رأي مسؤول الخزينة', track_visibility='always',)
     recommandation_vice_dir_fin = fields.Html(string='توصية/قرار نائب المدير العام', )
     state_dg = fields.Selection([('dg_1', 'المدير العام'),
                                    ('dg_2', 'انتهاء التحليل'),
@@ -589,6 +590,526 @@ class Etape(models.Model):
             file_base64 = base64.b64encode(buffer.read()).decode('utf-8')
             rec.template_situation = file_base64'''
 
+    '''company_distribution_file = fields.Binary(string="البيانات")
+    
+    
+    def upload_company_distribution(self):
+        print('######### Starting Upload company_distribution #########')
+        self.ensure_one()
+
+        try:
+            file_content = base64.b64decode(self.company_distribution_file)
+            wb = openpyxl.load_workbook(filename=BytesIO(file_content), read_only=True)
+            ws = wb.active
+            
+            self.apropos.unlink()
+            count = 0
+
+            for record in ws.iter_rows(min_row=2, values_only=True):
+                count += 1
+                age = datetime.datetime.strptime(record[1], '%d-%m-%Y').strftime('%Y-%m-%d')
+                try:
+                    print(f'Processing record {count}: {record}')
+                    self.env['wk.partenaire'].create({
+                        'etape_id': self.id,
+                        'nom_partenaire': record[0],
+                        'age': age,
+                        'statut_partenaire': record[2],
+                        'nationalite': self.env['res.country'].search([('name', '=', record[3])], limit=1).id,
+                        'pourcentage': record[4],
+                    })
+                    print('************************* Creation done *************************')
+                except Exception as e:
+                    print(f'Error in record {count}: {e}')
+                    raise UserError('Veuillez verifier le fichier attaché')
+        except Exception as e:
+            print(f'Failed to load or process file: {e}')
+            raise UserError('Failed to process the file. Please ensure it is correctly formatted.')
+
+        
+    def download_company_distribution(self):
+        self.ensure_one()
+
+        # Générer le fichier Excel
+        output = BytesIO()
+        workbook = xlsxwriter.Workbook(output, {'in_memory': True})
+        worksheet = workbook.add_worksheet()
+
+        # Ajout des en-têtes des colonnes
+        headers = ['اسم الشريك/المالك', 'تاريخ التاسيس/الميلاد', 'صفة الشريك', 'الجنسية','نسبة الحصة']
+        for i, header in enumerate(headers):
+            worksheet.write(0, i, header)
+
+        # Ajout des données du champ one2many
+        row = 1
+        for line in self.apropos:
+            worksheet.write(row, 0, line.nom_partenaire)
+            worksheet.write(row, 1, line.age.strftime('%d-%m-%Y'))
+            worksheet.write(row, 2, line.statut_partenaire)
+            worksheet.write(row, 3, line.nationalite.name)
+            worksheet.write(row, 4, line.pourcentage)
+            row += 1
+
+        # Clôture du fichier Excel
+        workbook.close()
+        output.seek(0)
+
+        # Encoder le fichier en base64
+        result = base64.b64encode(output.read())
+
+        # Obtenir l'URL de base
+        base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+
+        # Créer une pièce jointe
+        attachment_obj = self.env['ir.attachment']
+        attachment_id = attachment_obj.create({
+            'name': "توزيع راس مال الشركة.xlsx",
+            'datas': result,
+            'res_model': self._name,
+            'res_id': self.id,
+            'type': 'binary',
+        })
+
+        # Préparer l'URL de téléchargement
+        download_url = '/web/content/' + str(attachment_id.id) + '?download=true'
+
+        # Retourner l'action pour télécharger le fichier
+        return {
+            "type": "ir.actions.act_url",
+            "url": str(base_url) + str(download_url),
+            "target": "new",
+        }  
+    
+    management_team_file1 = fields.Binary(string="البيانات")
+
+    def upload_management_team_file1(self):
+        self.ensure_one()
+        try:
+            file_content = base64.b64decode(self.management_team_file1)
+            wb = openpyxl.load_workbook(filename=BytesIO(file_content), read_only=True)
+            ws = wb.active
+            self.gestion.unlink()
+            count = 0
+            for record in ws.iter_rows(min_row=2, values_only=True):
+                count += 1
+                try:
+                    self.env['wk.gestion'].create({
+                        'etape_id': self.id,
+                        'name': record[0],
+                        'job': record[1],
+                        'niveau_etude': record[2],
+                        'age': record[3],
+                        'experience': record[4],
+                    })
+                except Exception as e:
+                    raise UserError('Veuillez verifier le fichier attaché')
+        except Exception as e:
+            raise UserError('Failed to process the file. Please ensure it is correctly formatted.')
+
+        
+    def download_management_team_file1(self):
+        self.ensure_one()
+        output = BytesIO()
+        workbook = xlsxwriter.Workbook(output, {'in_memory': True})
+        worksheet = workbook.add_worksheet()
+        headers = ['السيد(ة)', 'المهنة', 'المستوى الدراسي', 'السن','الخبرة المهنية']
+        for i, header in enumerate(headers):
+            worksheet.write(0, i, header)
+        row = 1
+        for line in self.gestion:
+            worksheet.write(row, 0, line.name)
+            worksheet.write(row, 1, line.job)
+            worksheet.write(row, 2, line.niveau_etude)
+            worksheet.write(row, 3, line.age)
+            worksheet.write(row, 4, line.experience)
+            row += 1
+        workbook.close()
+        output.seek(0)
+        result = base64.b64encode(output.read())
+        base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+        attachment_obj = self.env['ir.attachment']
+        attachment_id = attachment_obj.create({
+            'name': "فريق التسيير1.xlsx",
+            'datas': result,
+            'res_model': self._name,
+            'res_id': self.id,
+            'type': 'binary',
+        })
+        download_url = '/web/content/' + str(attachment_id.id) + '?download=true'
+        return {
+            "type": "ir.actions.act_url",
+            "url": str(base_url) + str(download_url),
+            "target": "new",
+        }  
+        
+    
+    required_funds = fields.Binary(string="البيانات")
+    
+    def upload_required_funds(self):
+        self.ensure_one()
+        try:
+            file_content = base64.b64decode(self.required_funds)
+            wb = openpyxl.load_workbook(filename=BytesIO(file_content), read_only=True)
+            ws = wb.active
+            self.tailles.unlink()
+            count = 0
+            for record in ws.iter_rows(min_row=2, values_only=True):
+                count += 1
+                try:
+                    self.env['wk.taille'].create({
+                        'etape_id': self.id,
+                        'type_demande': self.env['wk.product'].search([('name', '=', record[0])], limit=1).id,
+                        'montant': record[1],
+                        'raison': record[2],
+                        'preg': record[3],
+                        'duree': record[4],
+                    })
+                except Exception as e:
+                    raise UserError('Veuillez verifier le fichier attaché')
+        except Exception as e:
+            raise UserError('Failed to process the file. Please ensure it is correctly formatted.')
+
+    def download_required_funds(self):
+        self.ensure_one()
+        output = BytesIO()
+        workbook = xlsxwriter.Workbook(output, {'in_memory': True})
+        worksheet = workbook.add_worksheet()
+        headers = ['نوع التسهيلات', 'المبلغ المطلوب', 'الغرض من التمويل', 'هامش الجدية','المدة (الايام)']
+        for i, header in enumerate(headers):
+            worksheet.write(0, i, header)
+        row = 1
+        for line in self.tailles:
+            worksheet.write(row, 0, line.type_demande.name)
+            worksheet.write(row, 1, line.montant)
+            worksheet.write(row, 2, line.raison)
+            worksheet.write(row, 3, line.preg)
+            worksheet.write(row, 4, line.duree)
+            row += 1
+        workbook.close()
+        output.seek(0)
+        result = base64.b64encode(output.read())
+        base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+        attachment_obj = self.env['ir.attachment']
+        attachment_id = attachment_obj.create({
+            'name': "حجم و هيكل التمويلات المطلوبة.xlsx",
+            'datas': result,
+            'res_model': self._name,
+            'res_id': self.id,
+            'type': 'binary',
+        })
+        download_url = '/web/content/' + str(attachment_id.id) + '?download=true'
+        return {
+            "type": "ir.actions.act_url",
+            "url": str(base_url) + str(download_url),
+            "target": "new",
+        }  
+
+    headquarter = fields.Binary(string="البيانات")
+    
+    def upload_headquarter(self):
+        self.ensure_one()
+        try:
+            file_content = base64.b64decode(self.headquarter)
+            wb = openpyxl.load_workbook(filename=BytesIO(file_content), read_only=True)
+            ws = wb.active
+            self.sieges.unlink()
+            count = 0
+            for record in ws.iter_rows(min_row=2, values_only=True):
+                count += 1
+                try:
+                    self.env['wk.siege'].create({
+                        'etape_id': self.id,
+                        'name': record[0],
+                        'adresse': record[1],
+                        'nature': self.env['wk.nature.juridique'].search([('name', '=', record[2])], limit=1).id,
+                    })
+                except Exception as e:
+                    raise UserError('Veuillez verifier le fichier attaché')
+        except Exception as e:
+            raise UserError('Failed to process the file. Please ensure it is correctly formatted.')
+
+    def download_headquarter(self):
+        self.ensure_one()
+        output = BytesIO()
+        workbook = xlsxwriter.Workbook(output, {'in_memory': True})
+        worksheet = workbook.add_worksheet()
+        headers = ['', 'العنوان', 'الطبيعة القانونية']
+        for i, header in enumerate(headers):
+            worksheet.write(0, i, header)
+        row = 1
+        for line in self.sieges:
+            worksheet.write(row, 0, line.name)
+            worksheet.write(row, 1, line.adresse)
+            worksheet.write(row, 2, line.nature.name)
+            row += 1
+        workbook.close()
+        output.seek(0)
+        result = base64.b64encode(output.read())
+        base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+        attachment_obj = self.env['ir.attachment']
+        attachment_id = attachment_obj.create({
+            'name': "مقرات تابعة للشركة.xlsx",
+            'datas': result,
+            'res_model': self._name,
+            'res_id': self.id,
+            'type': 'binary',
+        })
+        download_url = '/web/content/' + str(attachment_id.id) + '?download=true'
+        return {
+            "type": "ir.actions.act_url",
+            "url": str(base_url) + str(download_url),
+            "target": "new",
+        }  
+    
+    financial_situation_file1 = fields.Binary(string="البيانات")
+    
+    def upload_financial_situation_file1(self):
+        self.ensure_one()
+        try:
+            file_content = base64.b64decode(self.financial_situation_file1)
+            wb = openpyxl.load_workbook(filename=BytesIO(file_content), read_only=True)
+            ws = wb.active
+            self.situations.unlink()
+            count = 0
+            for record in ws.iter_rows(min_row=2, values_only=True):
+                count += 1
+                try:
+                    self.env['wk.situation'].create({
+                        'etape_id': self.id,
+                        'banque': self.env['wk.banque'].search([('name', '=', record[0])], limit=1).id,
+                        'type_fin': self.env['wk.fin.banque'].search([('name', '=', record[1])], limit=1).id,
+                        'montant': record[2],
+                        'encours': record[3],
+                        'garanties': record[4],
+                    })
+                except Exception as e:
+                    raise UserError('Veuillez verifier le fichier attaché')
+        except Exception as e:
+            raise UserError('Failed to process the file. Please ensure it is correctly formatted.')
+
+        
+    def download_financial_situation_file1(self):
+        self.ensure_one()
+        output = BytesIO()
+        workbook = xlsxwriter.Workbook(output, {'in_memory': True})
+        worksheet = workbook.add_worksheet()
+        headers = ['البنك', 'نوع التمويل', 'المبلغ KDA', 'المبلغ المستغل KDA','الضمانات الممنوحة']
+        for i, header in enumerate(headers):
+            worksheet.write(0, i, header)
+        row = 1
+        for line in self.situations:
+            worksheet.write(row, 0, line.banque.name)
+            worksheet.write(row, 1, line.type_fin.name)
+            worksheet.write(row, 2, line.montant)
+            worksheet.write(row, 3, line.encours)
+            worksheet.write(row, 4, line.garanties)
+            row += 1
+        workbook.close()
+        output.seek(0)
+        result = base64.b64encode(output.read())
+        base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+        attachment_obj = self.env['ir.attachment']
+        attachment_id = attachment_obj.create({
+            'name': "الوضعية المالية1.xlsx",
+            'datas': result,
+            'res_model': self._name,
+            'res_id': self.id,
+            'type': 'binary',
+        })
+        download_url = '/web/content/' + str(attachment_id.id) + '?download=true'
+        return {
+            "type": "ir.actions.act_url",
+            "url": str(base_url) + str(download_url),
+            "target": "new",
+        }  
+    
+    suppliers_clients_file1 = fields.Binary(string="الموردون ")
+    suppliers_clients_file2 = fields.Binary(string=" الزبائن")
+    
+    def upload_suppliers_clients_file1(self):
+        print('*********************************************************************')
+        self.ensure_one()
+        try:
+            file_content = base64.b64decode(self.suppliers_clients_file1)
+            wb = openpyxl.load_workbook(filename=BytesIO(file_content), read_only=True)
+            ws = wb.active
+            self.fournisseur.unlink()
+            count = 0
+            for record in ws.iter_rows(min_row=2, values_only=True):
+                count += 1
+                try:
+                    type_payment_ids = self.env['wk.type.payment'].search([('name', 'in', record[2].split(', '))]).ids
+                    self.env['wk.fournisseur'].create({
+                        'etape_id': self.id,
+                        'name': record[0],
+                        'country': self.env['res.country'].search([('name', '=', record[1])], limit=1).id,
+                        'type_payment': [(6, 0, type_payment_ids)], 
+                    })
+                except Exception as e:
+                    raise UserError('Veuillez verifier le fichier attaché')
+        except Exception as e: 
+            raise UserError('Failed to process the file. Please ensure it is correctly formatted.')
+
+        
+    def download_suppliers_clients_file1(self):
+        self.ensure_one()
+        output = BytesIO()
+        workbook = xlsxwriter.Workbook(output, {'in_memory': True})
+        worksheet = workbook.add_worksheet()
+        headers = ['الاسم', 'البلد', 'طريقة السداد']
+        for i, header in enumerate(headers):
+            worksheet.write(0, i, header)
+        row = 1
+        for line in self.fournisseur:
+            payment_types = ', '.join(line.type_payment.mapped('name'))
+            worksheet.write(row, 0, line.name)
+            worksheet.write(row, 1, line.country.name)
+            worksheet.write(row, 2, payment_types)
+            row += 1
+        workbook.close()
+        output.seek(0)
+        result = base64.b64encode(output.read())
+        base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+        attachment_obj = self.env['ir.attachment']
+        attachment_id = attachment_obj.create({
+            'name': "الموردون.xlsx",
+            'datas': result,
+            'res_model': self._name,
+            'res_id': self.id,
+            'type': 'binary',
+        })
+        download_url = '/web/content/' + str(attachment_id.id) + '?download=true'
+        return {
+            "type": "ir.actions.act_url",
+            "url": str(base_url) + str(download_url),
+            "target": "new",
+        }  
+    
+    def upload_suppliers_clients_file2(self):
+        self.ensure_one()
+        try:
+            file_content = base64.b64decode(self.suppliers_clients_file2)
+            wb = openpyxl.load_workbook(filename=BytesIO(file_content), read_only=True)
+            ws = wb.active
+            self.client.unlink()
+            count = 0
+            for record in ws.iter_rows(min_row=2, values_only=True):
+                count += 1
+                try:
+                    type_payment_ids = self.env['wk.type.payment'].search([('name', 'in', record[2].split(', '))]).ids
+                    self.env['wk.client'].create({
+                        'etape_id': self.id,
+                        'name': record[0],
+                        'country': self.env['res.country'].search([('name', '=', record[1])], limit=1).id,
+                        'type_payment': type_payment_ids
+                    })
+                except Exception as e:
+                    raise UserError('Veuillez verifier le fichier attaché')
+        except Exception as e:
+            raise UserError('Failed to process the file. Please ensure it is correctly formatted.')
+
+        
+    def download_suppliers_clients_file2(self):
+        self.ensure_one()
+        output = BytesIO()
+        workbook = xlsxwriter.Workbook(output, {'in_memory': True})
+        worksheet = workbook.add_worksheet()
+        headers = ['الاسم', 'البلد', 'طريقة السداد']
+        for i, header in enumerate(headers):
+            worksheet.write(0, i, header)
+        row = 1
+        for line in self.client:
+            payment_types = ', '.join(line.type_payment.mapped('name'))
+            worksheet.write(row, 0, line.name)
+            worksheet.write(row, 1, line.country.name)
+            worksheet.write(row, 2, payment_types)
+            row += 1
+        workbook.close()
+        output.seek(0)
+        result = base64.b64encode(output.read())
+        base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+        attachment_obj = self.env['ir.attachment']
+        attachment_id = attachment_obj.create({
+            'name': "الزبائن.xlsx",
+            'datas': result,
+            'res_model': self._name,
+            'res_id': self.id,
+            'type': 'binary',
+        })
+        download_url = '/web/content/' + str(attachment_id.id) + '?download=true'
+        return {
+            "type": "ir.actions.act_url",
+            "url": str(base_url) + str(download_url),
+            "target": "new",
+        }  
+    
+    kda = fields.Binary(string="البيانات")
+    
+    def upload_kda(self):
+        self.ensure_one()
+        try:
+            file_content = base64.b64decode(self.kda)
+            wb = openpyxl.load_workbook(filename=BytesIO(file_content), read_only=True)
+            ws = wb.active
+            self.companies.unlink()
+            count = 0
+            for record in ws.iter_rows(min_row=2, values_only=True):
+                count += 1
+                try:
+                    self.env['wk.companies'].create({
+                        'etape_id': self.id,
+                        'name': record[0],
+                        'date_creation': record[1],
+                        'activite': self.env['wk.activite'].search([('name', '=', record[2])], limit=1).id,
+                        'chiffre_affaire': record[3],
+                        'n1_num_affaire': record[4],
+                        'n_num_affaire': record[5],
+                    })
+                except Exception as e:
+                    raise UserError('Veuillez verifier le fichier attaché')
+        except Exception as e:
+            raise UserError('Failed to process the file. Please ensure it is correctly formatted.')
+
+        
+    def download_kda(self):
+        self.ensure_one()
+        output = BytesIO()
+        workbook = xlsxwriter.Workbook(output, {'in_memory': True})
+        worksheet = workbook.add_worksheet()
+        headers = ['الشركة', 'سنة التاسيس', 'النشاط الرئيسي', 'راس المال', 'رقم الاعمال N-1', 'رقم الاعمال N']
+        for i, header in enumerate(headers):
+            worksheet.write(0, i, header)
+        row = 1
+        for line in self.companies:
+            worksheet.write(row, 0, line.name)
+            worksheet.write(row, 1, line.date_creation)
+            worksheet.write(row, 2, line.activite.name)
+            worksheet.write(row, 3, line.chiffre_affaire)
+            worksheet.write(row, 4, line.n1_num_affaire)
+            worksheet.write(row, 5, line.n_num_affaire)
+            row += 1
+        workbook.close()
+        output.seek(0)
+        result = base64.b64encode(output.read())
+        base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+        attachment_obj = self.env['ir.attachment']
+        attachment_id = attachment_obj.create({
+            'name': "معلومات حول الشركات ذات الصلة (KDA).xlsx",
+            'datas': result,
+            'res_model': self._name,
+            'res_id': self.id,
+            'type': 'binary',
+        })
+        download_url = '/web/content/' + str(attachment_id.id) + '?download=true'
+        return {
+            "type": "ir.actions.act_url",
+            "url": str(base_url) + str(download_url),
+            "target": "new",
+        }  '''
+    
+    
+    
+    
     @api.depends('risque_ids')
     def _compute_company_fisc(self):
         for rec in self:
@@ -606,6 +1127,25 @@ class Etape(models.Model):
                         company.is_initial = True
             else:
                 rec.company_ids = 0
+
+    @api.depends('risque_ids')
+    def _compute_company_fisc(self):
+        for rec in self:
+            if rec.sequence == 2:
+                rec.company_ids = len(rec.risque_ids)
+                etape1 = rec.workflow.states.filtered(lambda l:l.sequence == 1)
+                scoring = etape1.risk_scoring
+                for company in rec.risque_ids:
+                    if company != scoring:
+                        company.scoring_id = scoring.id
+                        company.parent_id = rec.workflow.id
+                    else:
+                        company.scoring_id = False
+                        company.etape_id = False
+                        company.is_initial = True
+            else:
+                rec.company_ids = 0
+
 
     @api.model
     def create(self, vals):
@@ -1081,7 +1621,7 @@ class Etape(models.Model):
             elif not check_if_xls_file(rec.file_tcr):
                 raise UserError(_('Attacher un fichier excel'))
             else:
-                if not rec.tcr_situation:
+                if not rec.tcr_situation and len(rec.tcr_situation) == 0:
                     for index, item1, item2 in tcr_list:
                         self.env['wk.tcr'].create({'name': item1,
                                                    'name_ar': item2,
@@ -1523,13 +2063,10 @@ class Etape(models.Model):
                             if not folder_branch:
                                 folder_branch = self.env['documents.folders'].create({'branch': rec.branche.id,
                                                                                       'name': rec.branche.ref})
-                            if rec.num_compte:
-                                folder = self.env['documents.folders'].create({'branch': rec.branche.id,
+                            folder = self.env['documents.folders'].create({'branch': rec.branche.id,
                                                                           'name': rec.num_compte,
                                                                           'parent_folder_id': folder_branch.id,
                                                                           'client': rec.nom_client.id})
-                            else:
-                                raise UserError('يجب تعيين رقم حساب العميل')
                         etape_created = rec.workflow.states.filtered(lambda l: l.etape.sequence == 2)
                         if not etape_created:
                             etape = self.env['wk.etape'].create({'workflow': rec.workflow.id,
