@@ -30,21 +30,6 @@
                     name="Reporting"
                     sequence="6"
                     groups="dept_wk.dept_wk_group_analyste">
-                <menuitem
-                        id="wk_reporting_menu_one"
-                        name="Analyse de performance"
-                        action="wk_analyse_performence_action"
-                        sequence="1" />
-                <menuitem
-                        id="wk_reporting_menu_two"
-                        name="التقرير 1"
-                        action="wk_report_one"
-                        sequence="2" />     
-                <menuitem
-                        id="wk_reporting_menu_three"
-                        name="التقرير 2"
-                        action="wk_report_two"
-                        sequence="3" />              
             </menuitem>
                 
             <menuitem id="wk_configuration_menu"
