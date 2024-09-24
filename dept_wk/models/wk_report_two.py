@@ -8,33 +8,37 @@ class ReportTwo(models.Model):
     name = fields.Char(string='الاسم', compute='_compute_name', store=True)
     date_debut = fields.Date(string='من')
     date_fin = fields.Date(string='الى')
+    code = fields.Many2one('wk.agence', string='الفرع')
+
     line_ids = fields.One2many('wk.report2.table', 'line', string='Les lignes')
 
-    @api.depends('date_debut', 'date_fin')
+    @api.depends('date_debut', 'date_fin', 'code')
     def _compute_name(self):
         for record in self:
             if record.date_debut and record.date_fin:
                 date_debut_str = format_date(self.env, record.date_debut, date_format='dd-MM-yyyy')
                 date_fin_str = format_date(self.env, record.date_fin, date_format='dd-MM-yyyy')
-                record.name = f'{date_fin_str} الى {date_debut_str} التقرير من'
+                code_str = record.code.name if record.code else _('Unknown Code')
+                record.name = f'تقرير الفرع {code_str} من {date_debut_str} الى {date_fin_str}'
             else:
                 record.name = _('Test')
 
-    @api.onchange('date_debut', 'date_fin')
+
+    @api.onchange('date_debut', 'date_fin', 'code')
     def _onchange_date_range(self):
-        if self.date_debut and self.date_fin:
+        if self.date_debut and self.date_fin and self.code:
             self._compute_line_ids()
 
     @api.model
     def create(self, vals):
         record = super(ReportTwo, self).create(vals)
-        if record.date_debut and record.date_fin:
+        if record.date_debut and record.date_fin and record.code:
             record._compute_line_ids()
         return record
 
     def write(self, vals):
         res = super(ReportTwo, self).write(vals)
-        if 'date_debut' in vals or 'date_fin' in vals:
+        if 'date_debut' in vals or 'date_fin' in vals or 'code' in vals:
             self._compute_line_ids()
         return res
 
@@ -42,7 +46,8 @@ class ReportTwo(models.Model):
         self.line_ids = [(5, 0, 0)]
         workflows = self.env['wk.workflow.dashboard'].search([
             ('date', '>=', self.date_debut),
-            ('date', '<=', self.date_fin)
+            ('date', '<=', self.date_fin),
+            ('branche', '=', self.code.id) 
         ])
         users = self.env['res.users'].search([])
 
@@ -106,11 +111,10 @@ class ReportTwo(models.Model):
                 }))
             if processed_agence_num > 0 or processed_agence_prg > 0:
                 avg_duration = agence_duration / processed_agence_num if processed_agence_num > 0 else 0
-                code_value = self._get_branche_code(user, self.date_debut, self.date_fin)
                 report_lines.append((0, 0, {
                     'employee_name': user.id,
                     'management': 'الفرع',
-                    'code': code_value,
+                    'code': self.code.name,
                     'processed_file_num': processed_agence_num,
                     'processed_file_prg': processed_agence_prg,
                     'processed_file_avrg': avg_duration,
@@ -135,16 +139,6 @@ class ReportTwo(models.Model):
                 }))
 
         self.write({'line_ids': report_lines})
-
-    def _get_branche_code(self, user, date_debut, date_fin):
-        workflows = self.env['wk.workflow.dashboard'].search([
-            ('assigned_to_agence', '=', user.id),
-            ('date', '>=', date_debut),
-            ('date', '<=', date_fin)
-        ])
-        branch_codes = {workflow.branche.name for workflow in workflows if workflow.branche}
-
-        return ', '.join(branch_codes) if branch_codes else False  
 
     
     def _get_tracking_records_finance(self, workflow, state):

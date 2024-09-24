@@ -9,6 +9,7 @@
                 <sheet>
                     <group>
                         <field name="name" />
+                        <field name="code" />
                         <field name="date_debut" />
                         <field name="date_fin" />
                     </group>
@@ -33,6 +34,7 @@
         <field name="arch" type="xml">
             <tree>
                 <field name="name" />
+                <field name="code" />
                 <field name="date_debut" />
                 <field name="date_fin" />
             </tree>
