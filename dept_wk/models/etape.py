@@ -3869,19 +3869,27 @@ class Etape(models.Model):
 
                 if (passif_5.montant_n + passif_20.montant_n) == 0:
                     bilan_28.is_null_4 = True
+                    bilan_29.is_null_4 = True
                 else:
+                    bilan_28.is_null_4 = False
                     bilan_29.is_null_4 = False
                 if (passif_5.montant_n1 + passif_20.montant_n1) == 0:
                     bilan_28.is_null_3 = True
+                    bilan_29.is_null_3 = True
                 else:
+                    bilan_28.is_null_3 = False
                     bilan_29.is_null_3 = False
                 if (passif1_5.montant_n + passif1_20.montant_n) == 0:
                     bilan_28.is_null_2 = True
+                    bilan_29.is_null_2 = True
                 else:
+                    bilan_28.is_null_2 = False
                     bilan_29.is_null_2 = False
                 if (passif1_5.montant_n1 + passif1_20.montant_n1) == 0:
                     bilan_28.is_null_1 = True
+                    bilan_29.is_null_1 = True
                 else:
+                    bilan_28.is_null_1 = False
                     bilan_29.is_null_1 = False
                 #حقوق عند الزبائن
                 bilan_30 = rec.bilan_id.filtered(lambda r: r.sequence == 26)
