@@ -3513,12 +3513,20 @@ class Etape(models.Model):
                                'year_1': (passif1_1.montant_n1 / passif1_12.montant_n1) * 100 if passif1_12.montant_n1 != 0 else 0})
                 if passif_12.montant_n == 0:
                     bilan_5.is_null_4 = True
+                else:
+                    bilan_5.is_null_4 = False
                 if passif_12.montant_n1 == 0:
                     bilan_5.is_null_3 = True
+                else:
+                    bilan_5.is_null_3 = False
                 if passif1_12.montant_n == 0:
                     bilan_5.is_null_2 = True
+                else:
+                    bilan_5.is_null_2 = False
                 if passif1_12.montant_n1 == 0:
                     bilan_5.is_null_1 = True
+                else:
+                    bilan_5.is_null_1 = False
                 '''# Actif net immobilisé corporel
                 bilan_6 = rec.bilan_id.filtered(lambda r: r.sequence == 6)
                 actif_1 = rec.actif_id.actif_lines.filtered(lambda r: r.rubrique.sequence == 4)
@@ -3712,12 +3720,20 @@ class Etape(models.Model):
 
                 if passif_1.montant_n == 0:
                     bilan_19.is_null_4 = True
+                else:
+                    bilan_19.is_null_4 = False
                 if passif_1.montant_n1 == 0:
                     bilan_19.is_null_3 = True
+                else:
+                    bilan_19.is_null_3 = False
                 if passif1_1.montant_n == 0:
                     bilan_19.is_null_2 = True
+                else:
+                    bilan_19.is_null_2 = False
                 if passif1_1.montant_n1 == 0:
                     bilan_19.is_null_1 = True
+                else:
+                    bilan_19.is_null_1 = False
 
                 # مجموع الميزانية
                 bilan_20 = rec.bilan_id.filtered(lambda r: r.sequence == 16)
@@ -3764,12 +3780,20 @@ class Etape(models.Model):
 
                 if tcr_1.montant_n == 0:
                     bilan_24.is_null_4 = True
+                else:
+                    bilan_24.is_null_4 = False
                 if tcr_1.montant_n1 == 0:
                     bilan_24.is_null_3 = True
+                else:
+                    bilan_24.is_null_3 = False
                 if tcr1_1.montant_n == 0:
                     bilan_24.is_null_2 = True
+                else:
+                    bilan_24.is_null_2 = False
                 if tcr1_1.montant_n1 == 0:
                     bilan_24.is_null_1 = True
+                else:
+                    bilan_24.is_null_1 = False
                 # معدل العائد على الموجودات ROA
                 bilan_25 = rec.bilan_id.filtered(lambda r: r.sequence == 21)
                 bilan_25.write({'year_4': (tcr_3.montant_n / actif_2.montant_n) * 100 if actif_2.montant_n != 0 else 0,
@@ -3779,12 +3803,20 @@ class Etape(models.Model):
 
                 if actif_2.montant_n == 0:
                     bilan_25.is_null_4 = True
+                else:
+                    bilan_25.is_null_4 = False
                 if actif_2.montant_n1 == 0:
                     bilan_25.is_null_3 = True
+                else:
+                    bilan_25.is_null_3 = False
                 if actif1_2.montant_n == 0:
                     bilan_25.is_null_2 = True
+                else:
+                    bilan_25.is_null_2 = False
                 if actif1_2.montant_n1 == 0:
                     bilan_25.is_null_1 = True
+                else:
+                    bilan_25.is_null_1 = False
                 # معدل العائد على حقوق الملكية ROE
                 bilan_26 = rec.bilan_id.filtered(lambda r: r.sequence == 22)
                 bilan_26.write({'year_4': (tcr_3.montant_n / passif_1.montant_n) * 100 if passif_1.montant_n != 0 else 0,
@@ -3794,12 +3826,20 @@ class Etape(models.Model):
 
                 if passif_1.montant_n == 0:
                     bilan_26.is_null_4 = True
+                else:
+                    bilan_26.is_null_4 = False
                 if passif_1.montant_n1 == 0:
                     bilan_26.is_null_3 = True
+                else:
+                    bilan_26.is_null_3 = False
                 if passif1_1.montant_n == 0:
                     bilan_26.is_null_2 = True
+                else:
+                    bilan_26.is_null_2 = False
                 if passif1_1.montant_n1 == 0:
                     bilan_26.is_null_1 = True
+                else:
+                    bilan_26.is_null_1 = False
                 # التدفقات النقدية التشغيلية
                 bilan_27 = rec.bilan_id.filtered(lambda r: r.sequence == 23)
                 tcr_36 = rec.tcr_id.tcr_lines.filtered(lambda r: r.rubrique.sequence == 36)
@@ -3829,16 +3869,20 @@ class Etape(models.Model):
 
                 if (passif_5.montant_n + passif_20.montant_n) == 0:
                     bilan_28.is_null_4 = True
-                    bilan_29.is_null_4 = True
+                else:
+                    bilan_29.is_null_4 = False
                 if (passif_5.montant_n1 + passif_20.montant_n1) == 0:
                     bilan_28.is_null_3 = True
-                    bilan_29.is_null_3 = True
+                else:
+                    bilan_29.is_null_3 = False
                 if (passif1_5.montant_n + passif1_20.montant_n) == 0:
                     bilan_28.is_null_2 = True
-                    bilan_29.is_null_2 = True
+                else:
+                    bilan_29.is_null_2 = False
                 if (passif1_5.montant_n1 + passif1_20.montant_n1) == 0:
                     bilan_28.is_null_1 = True
-                    bilan_29.is_null_1 = True
+                else:
+                    bilan_29.is_null_1 = False
                 #حقوق عند الزبائن
                 bilan_30 = rec.bilan_id.filtered(lambda r: r.sequence == 26)
                 actif_5 = rec.actif_id.actif_lines.filtered(lambda r: r.rubrique.sequence == 20)
@@ -3878,12 +3922,20 @@ class Etape(models.Model):
 
                 if (tcr_5.montant_n + tcr_6.montant_n + tcr_14.montant_n) == 0:
                     bilan_32.is_null_4 = True
+                else:
+                    bilan_32.is_null_4 = False
                 if (tcr_5.montant_n1 + tcr_6.montant_n1 + tcr_14.montant_n1) == 0:
                     bilan_32.is_null_3 = True
+                else:
+                    bilan_32.is_null_3 = False
                 if (tcr1_5.montant_n + tcr1_6.montant_n + tcr1_14.montant_n) == 0:
                     bilan_32.is_null_2 = True
+                else:
+                    bilan_32.is_null_2 = False
                 if (tcr1_5.montant_n1 + tcr1_6.montant_n1 + tcr1_14.montant_n1) == 0:
                     bilan_32.is_null_1 = True
+                else:
+                    bilan_32.is_null_1 = False
 
                 var_2.write({'montant': (tcr_5.montant_n + tcr_6.montant_n)})
                 recap_2 = rec.recap_ids.filtered(lambda r: r.sequence == 2)
@@ -3897,12 +3949,20 @@ class Etape(models.Model):
                                 'year_1': (actif1_5.montant_n1 * 360) / tcr1_1.montant_n1 if tcr1_1.montant_n1 != 0 else 0})
                 if tcr_1.montant_n == 0:
                     bilan_33.is_null_4 = True
+                else:
+                    bilan_33.is_null_4 = False
                 if tcr_1.montant_n1 == 0:
                     bilan_33.is_null_3 = True
+                else:
+                    bilan_33.is_null_3 = False
                 if tcr1_1.montant_n == 0:
                     bilan_33.is_null_2 = True
+                else:
+                    bilan_33.is_null_2 = False
                 if tcr1_1.montant_n1 == 0:
                     bilan_33.is_null_1 = True
+                else:
+                    bilan_33.is_null_1 = False
                 recap_1 = rec.recap_ids.filtered(lambda r: r.sequence == 1)
                 recap_1.write({'montant': bilan_33.year_4})
 
@@ -3915,12 +3975,20 @@ class Etape(models.Model):
                                 })
                 if (tcr_5.montant_n + tcr_6.montant_n) == 0:
                     bilan_34.is_null_4 = True
+                else:
+                    bilan_34.is_null_4 = False
                 if (tcr_5.montant_n1 + tcr_6.montant_n1) == 0:
                     bilan_34.is_null_3 = True
+                else:
+                    bilan_34.is_null_3 = False
                 if (tcr1_5.montant_n + tcr1_6.montant_n) == 0:
                     bilan_34.is_null_2 = True
+                else:
+                    bilan_34.is_null_2 = False
                 if (tcr1_5.montant_n1 + tcr1_6.montant_n1) == 0:
                     bilan_34.is_null_1 = True
+                else:
+                    bilan_34.is_null_1 = False
 
                 recap_3 = rec.recap_ids.filtered(lambda r: r.sequence == 3)
                 recap_3.write({'montant': bilan_34.year_4})
