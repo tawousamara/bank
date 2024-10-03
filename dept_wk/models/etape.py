@@ -3687,12 +3687,20 @@ class Etape(models.Model):
                                })
                 if passif_1.montant_n == 0:
                     bilan_18.is_null_4 = True
+                else:
+                    bilan_18.is_null_4 = False
                 if passif_1.montant_n1 == 0:
                     bilan_18.is_null_3 = True
+                else:
+                    bilan_18.is_null_3 = False
                 if passif1_1.montant_n == 0:
                     bilan_18.is_null_2 = True
+                else:
+                    bilan_18.is_null_2 = False
                 if passif1_1.montant_n1 == 0:
                     bilan_18.is_null_1 = True
+                else:
+                    bilan_18.is_null_1 = False
 
                 #الالتزامات اتجاه البنوك / الحقوق
                 bilan_19 = rec.bilan_id.filtered(lambda r: r.sequence == 15)
