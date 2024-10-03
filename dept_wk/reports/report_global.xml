@@ -2937,18 +2937,14 @@
                                             </tr>
                                             <tr>
                                                 <t t-set="ratio_9"
-                                                   t-value="etape2.passif_situation.filtered(lambda l:l.sequence == 9)"/>
+                                                   t-value="etape2.passif_situation.filtered(lambda l:l.sequence == 13)"/>
                                                 <t t-set="ratio_14"
-                                                   t-value="etape2.passif_situation.filtered(lambda l:l.sequence == 14)"/>
-                                                <t t-set="ratio_16"
-                                                   t-value="etape2.passif_situation.filtered(lambda l:l.sequence == 16)"/>
-                                                <t t-set="ratio_17"
-                                                   t-value="etape2.passif_situation.filtered(lambda l:l.sequence == 17)"/>
+                                                   t-value="etape2.passif_situation.filtered(lambda l:l.sequence == 18)"/>
                                                 <td>
                                                     مجموع المطلوبات (الديون)
                                                 </td>
                                                 <td style="text-align: right; direction: ltr;">
-                                                    <t t-esc="'{0:,.2f}'.format((ratio_9.valeur + ratio_14.valeur +ratio_16.valeur +ratio_17.valeur) / 1000)"/>
+                                                    <t t-esc="'{0:,.2f}'.format((ratio_9.valeur + ratio_14.valeur) / 1000)"/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -2963,7 +2959,7 @@
                                             </tr>
                                             <tr>
                                                 <t t-set="ratio_4"
-                                                   t-value="etape2.passif_situation.filtered(lambda l:l.sequence == 19)"/>
+                                                   t-value="etape2.passif_situation.filtered(lambda l:l.sequence == 6)"/>
                                                 <td>
                                                     صافي الأرباح
                                                 </td>
@@ -3026,7 +3022,7 @@
                                             </tr>
                                             <tr>
                                                 <t t-set="ratio_4"
-                                                   t-value="etape2.passif_situation_estim.filtered(lambda l:l.sequence == 19)"/>
+                                                   t-value="etape2.passif_situation_estim.filtered(lambda l:l.sequence == 6)"/>
                                                 <td>
                                                     صافي الأرباح
                                                 </td>
