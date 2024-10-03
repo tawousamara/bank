@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
+    <record id="action_get_dates" model="ir.actions.server">
+        <field name="name">Avoir les dates de debut des phases</field>
+        <field name="model_id" ref="dept_wk.model_wk_workflow_dashboard"/>
+        <field name="binding_model_id" ref="dept_wk.model_wk_workflow_dashboard"/>
+        <field name="binding_view_types">tree,form</field>
+        <field name="state">code</field>
+        <field name="groups_id" eval="[(4, ref('dept_wk.dept_wk_group_administration'))]"/>
+        <field name="code">action = records.get_dates()</field>
+    </record>
     <record id="action_force" model="ir.actions.server">
         <field name="name">Forcer a la phase final</field>
         <field name="model_id" ref="dept_wk.model_wk_workflow_dashboard"/>
@@ -38,7 +47,11 @@
             <tree duplicate="false" delete="0">
                 <field name="name"/>
                 <field name="date"/>
-                <field name="date_fin"/>
+                <field name="date_agence" optional="hide"/>
+                <field name="date_finance" optional="hide"/>
+                <field name="date_comm" optional="hide"/>
+                <field name="date_risk" optional="hide"/>
+                <field name="date_fin" />
                 <field name="branche"/>
                 <field name="demande"/>
                 <field name="nom_client"/>

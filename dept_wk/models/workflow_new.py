@@ -68,6 +68,11 @@ class Workflow(models.Model):
     limit = fields.Float(string='حد التعرض للمجموعة')
     plan_ids = fields.One2many('wk.workflow.charge', 'workflow_id', string='Plan des Charges')
 
+    date_agence = fields.Date(string='تاريخ الاستلام الفرع')
+    date_finance = fields.Date(string='تاريخ الاستلام الائتمان')
+    date_comm = fields.Date(string='تاريخ الاستلام التجارية')
+    date_risk = fields.Date(string='تاريخ الاستلام المخاطر')
+
     def open_report_risk(self):
         for rec in self:
             if rec.risk_scoring:
@@ -195,6 +200,31 @@ class Workflow(models.Model):
                            ('model', 'in', ['wk.etape', 'wk.workflow.dashboard'])],
                 'type': 'ir.actions.act_window',
             }
+
+
+    def get_dates(self):
+        for rec in self:
+            if rec.state == '7':
+                track_agence = self.env['wk.tracking'].search([('workflow_id', '=', rec.id),
+                                                               ('state', '=', 'branch_1')],
+                                                              order='date_debut asc', limit=1)
+                if track_agence:
+                    rec.date_agence = track_agence.date_debut
+                track_finance = self.env['wk.tracking'].search([('workflow_id', '=', rec.id),
+                                                               ('state', '=', 'finance_1')],
+                                                              order='date_debut asc', limit=1)
+                if track_finance:
+                    rec.date_finance = track_finance.date_debut
+                track_comm = self.env['wk.tracking'].search([('workflow_id', '=', rec.id),
+                                                               ('state', '=', 'commercial_1')],
+                                                              order='date_debut asc', limit=1)
+                if track_comm:
+                    rec.date_comm = track_comm.date_debut
+                track_risk = self.env['wk.tracking'].search([('workflow_id', '=', rec.id),
+                                                               ('state', '=', 'risque_1')],
+                                                              order='date_debut asc', limit=1)
+                if track_risk:
+                    rec.date_risk = track_risk.date_debut
 
 
     def force_final(self):
