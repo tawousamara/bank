@@ -1919,7 +1919,7 @@
                                            t-value="etape2.bilan5_id.filtered(lambda l:l.sequence != 0)"/>
                                         <t t-set="bilan5_first" t-value="bilan5_lines[0]"/>
                                         <t t-set="bilan5_all" t-value="bilan5_lines[1:]"/>
-                                        <thead>
+                                        <tbody>
                                             <tr>
                                                 <th class="title-cell" t-att-colspan="col_value + 1">البيانات المالية
                                                     للشركة
@@ -1941,8 +1941,6 @@
                                                 </th>
                                                 <th class="title-cell">التغير</th>
                                             </tr>
-                                        </thead>
-                                        <tbody>
                                             <tr>
                                                 <t t-set="taille" t-value="len(bilan1_all) + 2"/>
                                                 <td class="title-cell" t-att-rowspan="taille"
@@ -2130,7 +2128,7 @@
                                                 <td class="title-cell">
                                                     تعليق
                                                 </td>
-                                                <td t-att-colspan="col_value">
+                                                <td t-att-colspan="col_value" style="max-width: 200px;max-height: 100px;word-wrap: break-word;overflow: hidden;">
                                                     <t t-esc="etape2.comment_cat1"/>
                                                 </td>
                                             </tr>
@@ -2323,8 +2321,8 @@
                                                 <td class="title-cell">
                                                     تعليق
                                                 </td>
-                                                <td t-att-colspan="col_value">
-                                                    <t t-esc="etape2.comment_cat2"/>
+                                                <td t-att-colspan="col_value"  style="max-width: 200px;max-height: 100px;word-wrap: break-word;overflow: hidden;">
+                                                    <t t-raw="etape2.comment_cat2"/>
                                                 </td>
                                             </tr>
 
@@ -2515,7 +2513,7 @@
                                                 <td class="title-cell">
                                                     تعليق
                                                 </td>
-                                                <td t-att-colspan="col_value">
+                                                <td t-att-colspan="col_value"  style="max-width: 200px;max-height: 100px;word-wrap: break-word;overflow: hidden;">
                                                     <t t-esc="etape2.comment_cat3"/>
                                                 </td>
                                             </tr>
