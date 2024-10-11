@@ -1,7 +1,6 @@
 from odoo import models, fields, api, _
 import datetime
 
-
 class Workflow(models.Model):
     _name = 'wk.workflow.dashboard'
     _description = 'Workflow de demande de financement'

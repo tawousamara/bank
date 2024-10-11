@@ -325,7 +325,7 @@
                                     </tree>
                                 </field>
                             </page>
-                            <page string="معلومات حول الشركات ذات الصلة (KDA)" invisible="sequence == 8">
+                            <page string="معلومات حول الشركات ذات الصلة (KDA)">
                                 <group>
                                     <field name="kda"/>
                                 </group>

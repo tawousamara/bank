@@ -1667,7 +1667,7 @@
                                 <br/>
                                 <!-- معلومات حول الشركات ذات الصلة -->
                                 <div class="table_deco">
-                                    <table class="reversed-table" t-if="etape2.companies">
+                                    <table class="reversed-table" t-if="etape1.companies">
                                         <thead>
                                             <tr>
                                                 <th class="title-cell" colspan="6" style="text-align: center">معلومات
@@ -1684,7 +1684,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <t t-foreach="etape2.companies" t-as="line">
+                                            <t t-foreach="etape1.companies" t-as="line">
                                                 <tr>
                                                     <td>
                                                         <t t-esc="line.name"/>
@@ -1775,8 +1775,8 @@
                                             <tr>
                                                 <th class="title-cell">البيان</th>
                                                 <th class="title-cell">نوع التسهيلات</th>
-                                                <th class="title-cell">المدققة N-1</th>
-                                                <th class="title-cell">N</th>
+                                                <th class="title-cell">المبلغ الخام الممنوح</th>
+                                                <th class="title-cell">المبلغ الصافي الممنوح</th>
                                                 <th class="title-cell">التعليق</th>
                                             </tr>
                                         </thead>

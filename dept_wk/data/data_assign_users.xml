@@ -8,6 +8,8 @@
             <field name="code">
                 env['res.users'].assign_arabic_names_from_excel()
             </field>
+            <field name="binding_model_id" ref="base.model_res_users"/>
+            <field name="binding_type">action</field>
         </record>
     </data>    
 </odoo>
