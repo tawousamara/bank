@@ -1127,6 +1127,8 @@
                                                    decoration-bf="sequence == 0" decoration-danger="is_null_4 == True"/>
                                             <field name="year_4_d" readonly="sequence != 0" optional="hide"
                                                    decoration-bf="sequence == 0" decoration-danger="is_null_1 == True"/>
+                                            <field name="variante" readonly="sequence == 0" widget="percentage"
+                                                   decoration-bf="sequence == 0" invisible="sequence == 0"/>       
 
                                             <field name="compute_field" column_invisible="True"/>
                                             <field name="is_null_1" column_invisible="True"/>
