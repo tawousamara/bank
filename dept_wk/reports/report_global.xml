@@ -461,10 +461,49 @@
                                                     <t t-esc="doc.explanation"/>
                                                 </td>
                                             </tr>
+                                            <tr>
+                                                <td class="title-cell">
+                                                    حد التعرض للمجموعة
+                                                </td>
+                                                <td colspan="5">
+                                                    <t t-esc="doc.limit"/>
+                                                </td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
                                 <br/>
+                                <!-- Plan des charges -->
+                                <div class="table_deco">
+                                    <table class="reversed-table" t-if="doc.plan_ids">
+                                        <thead>
+                                            <tr>
+                                                <th class="title-cell" style="text-align: center" colspan="6"> جدول اﻷعباء
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th class="title-cell">حالة الصفقة</th>
+                                                <th class="title-cell">العميل</th>
+                                                <th class="title-cell"> المبلغ H.T KDA</th> 
+                                                <th class="title-cell">تاريخ البدء</th>
+                                                <th class="title-cell"> مستوى الانجاز %</th>
+                                                <th class="title-cell"> الاحتياجات التمويلية</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="doc.plan_ids" t-as="plan">
+                                                <tr>
+                                                    <td><t t-esc="plan.contrat_type"/></td>
+                                                    <td><t t-esc="plan.name"/></td>
+                                                    <td><t t-esc="'{:,.0f}'.format(plan.montant_ht / 1000)"/></td>
+                                                    <td><t t-esc="plan.date_debut"/></td>
+                                                    <td><t t-esc="int(plan.niveau * 100)"/>%</td> 
+                                                    <td><t t-esc="'{:,.0f}'.format(plan.besoin / 1000)"/></td>
+                                                </tr>
+                                            </t>
+                                        </tbody>    
+                                    </table>
+                                </div>    
                                 <!-- فريق التسيير -->
                                 <div class="table_deco">
                                     <table class="reversed-table" t-if="etape1.gestion">
