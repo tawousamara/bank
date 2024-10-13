@@ -704,8 +704,6 @@
                                     </table>
                                 </div>
                                 <br/>
-
-                                <br/>
                                 <!-- 3 ans البيانات المالية المدققة
                                 <div class="table_deco">
                                     <table class="reversed-table" t-if="etape1.situations_fin">
@@ -1310,6 +1308,14 @@
                                                     <t t-esc="etape2.detail_mouvement"/>
                                                 </td>
                                             </tr>
+                                            <tr>
+                                                <td class="title-cell">
+                                                    تعليق
+                                                </td>
+                                                <td t-att-colspan="6" style="max-width: 200px;max-height: 100px;word-wrap: break-word;overflow: hidden;">
+                                                    <t t-esc="etape2.comment_salam_bank"/>
+                                                </td>
+                                            </tr> 
                                         </tbody>
                                     </table>
                                 </div>
@@ -1817,7 +1823,7 @@
                                                 <th class="title-cell">نوع التسهيلات</th>
                                                 <th class="title-cell">المبلغ الخام الممنوح</th>
                                                 <th class="title-cell">المبلغ الصافي الممنوح</th>
-                                                <th class="title-cell">التعليق</th>
+                                                <th class="title-cell">الضمانات</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -1853,6 +1859,14 @@
                                                     </td>
                                                 </tr>
                                             </t>
+                                            <tr>
+                                                <td class="title-cell">
+                                                    تعليق
+                                                </td>
+                                                <td t-att-colspan="5" style="max-width: 200px;max-height: 100px;word-wrap: break-word;overflow: hidden;">
+                                                    <t t-esc="etape2.comment_bank"/>
+                                                </td>
+                                            </tr>   
                                         </tbody>
                                     </table>
                                 </div>

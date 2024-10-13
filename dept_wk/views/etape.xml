@@ -963,6 +963,9 @@
                                                width="20%"/>
                                     </tree>
                                 </field>
+                                <group>
+                                    <field name="comment_bank" readonly="not can_edit or state_finance != 'finance_2'"/>
+                                </group>
                             </page>
                             <page string="الحركة والأعمال الجانبية للمجموعة مع مصرف السلام الجزائر (KDA)">
                                 <field name="mouvement_group" readonly="not can_edit or state_finance != 'finance_2'">
@@ -978,6 +981,9 @@
                                         <field name="sequence" column_invisible="True"/>
                                     </tree>
                                 </field>
+                                <group>
+                                    <field name="comment_salam_bank" readonly="not can_edit or state_finance != 'finance_2'"/>
+                                </group>
                             </page>
                         </notebook>
                         <group col="3" invisible="state_finance == 'finance_1' or sequence != 2">

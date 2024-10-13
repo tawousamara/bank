@@ -406,6 +406,8 @@ class Etape(models.Model):
     actif_group = fields.Many2one('import.ocr.actif', string='Actif')
 
     comment_fisc = fields.Html(string='تعليق')
+    comment_bank = fields.Html(string='تعليق')
+    comment_salam_bank = fields.Html(string='تعليق')
     visualisation2 = fields.Binary(string='visualisation')
 
     facitlite_existante = fields.One2many('wk.facilite.existante', 'etape_id')
