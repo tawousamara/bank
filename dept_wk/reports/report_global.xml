@@ -2911,9 +2911,9 @@
                                     <table class="reversed-table" t-if="etape2.tcr_situation">
                                         <thead>
                                             <tr>
-                                                <th class="title-cell" colspan="2">الوضعية الحسابية لسنة
+                                                <th class="title-cell" colspan="2">الوضعية الحسابية ل
                                                     <t t-if="etape2.date_situation_comptable">
-                                                        <t t-esc="etape2.date_situation_comptable.year"/>
+                                                        <t t-esc="etape2.date_situation_comptable"/>
                                                     </t>
                                                 </th>
                                             </tr>
@@ -2947,13 +2947,21 @@
                                             </tr>
                                             <tr>
                                                 <t t-set="ratio_3"
-                                                   t-value="etape2.tcr_situation.filtered(lambda l:l.sequence == 2)"/>
+                                                    t-value="etape2.tcr_situation.filtered(lambda l:l.sequence == 2)"/>
+                                                <t t-set="ratio_3_1"
+                                                    t-value="etape2.tcr_situation.filtered(lambda l:l.sequence == 3)"/> 
+                                                <!-- <t t-set="ratio_3_2"
+                                                    t-value="etape2.tcr_situation.filtered(lambda l:l.sequence == )"/>       -->
+                                                <t t-set="ratio_3_3"
+                                                    t-value="etape2.tcr_situation.filtered(lambda l:l.sequence == 5)"/>
                                                 <td>
                                                     (المبيعات، الإيرادات)
                                                 </td>
-                                                <td style="text-align: right; direction: ltr;">
-                                                    <t t-esc="'{0:,.2f}'.format(ratio_3.valeur / 1000)"/>
-                                                </td>
+                                                <!-- <td style="text-align: right; direction: ltr;">
+                                                    <t t-esc="'{0:,.2f}'.format((ratio_3.valeur + ratio_3_1.valeur
+                                                        ratio_3_2.valeur + ratio_3_3.valeur
+                                                    ) / 1000)"/>
+                                                </td> -->
                                             </tr>
                                             <tr>
                                                 <t t-set="ratio_4"

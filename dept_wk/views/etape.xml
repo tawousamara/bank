@@ -428,8 +428,8 @@
                                                domain="[('for_branch', '=', False)]"
                                                width="15%" widget="many2many_tags"/>
                                         <field name="date" width="10%"/>
-                                        <field name="credit" width="10%"/>
                                         <field name="montant_da_actuel" width="15%" sum="Total"/>
+                                        <field name="credit" width="10%"/>
                                         <field name="montant_dollar_actuel" optional="hide" sum="Total"/>
                                         <field name="montant_da_demande" width="15%" sum="Total"/>
                                         <field name="montant_dollar_demande" optional="hide" sum="Total"/>
