@@ -47,8 +47,8 @@
             <tree duplicate="false" delete="0">
                 <field name="name"/>
                 <field name="date"/>
+                <field name="date_finance"/>
                 <field name="date_agence" optional="hide"/>
-                <field name="date_finance" optional="hide"/>
                 <field name="date_comm" optional="hide"/>
                 <field name="date_risk" optional="hide"/>
                 <field name="date_fin" />
