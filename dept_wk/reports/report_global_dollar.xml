@@ -40,8 +40,9 @@
                             </td>
                             <td width="30%"
                                 style="font-size: 20px;font-family: 'NotoArabic-Regular';padding: 5px; text-align: right;vertical-align: middle;">
-                                تاريخ الطباعة:
-                                <t t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d')"/>
+                                    تاريخ قرار لجنة التسهيلات: 
+                                <!-- <t t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d')"/> -->
+                                <t t-esc="etape6.date_final"/>
                             </td>
                             <td width="10%" rowspan="3">
                                 <img style="margin-bottom: 10px; width: 150px; height: 100px;"
