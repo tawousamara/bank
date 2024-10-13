@@ -464,94 +464,6 @@
                                     </table>
                                 </div>
                                 <br/>
-                                <!-- نبذة عن المتعامل -->
-                                <div class="table_deco">
-                                    <table class="reversed-table" t-if="etape1.apropos">
-                                        <thead>
-                                            <tr>
-                                                <th style="text-align: center" class="title-cell" colspan="5">
-                                                    نبذة عن المتعامل
-                                                </th>
-                                            </tr>
-                                            <tr>
-                                                <th class="title-cell">اسم الشريك/المالك</th>
-                                                <th class="title-cell">تاريخ التاسيس/الميلاد</th>
-                                                <th class="title-cell">صفة الشريك</th>
-                                                <th class="title-cell">الجنسية</th>
-                                                <th class="title-cell">الحصة</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <t t-foreach="etape1.apropos" t-as="line">
-                                                <tr>
-                                                    <td>
-                                                        <t t-esc="line.nom_partenaire"/>
-                                                    </td>
-                                                    <td>
-                                                        <t t-esc="line.age"/>
-                                                    </td>
-                                                    <td>
-                                                        <t t-esc="line.statut_partenaire"/>
-                                                    </td>
-                                                    <td>
-                                                        <t t-esc="line.nationalite.name"/>
-                                                    </td>
-                                                    <td>
-                                                        <t t-esc="int(line.pourcentage * 100)"/>%
-                                                    </td>
-                                                </tr>
-                                            </t>
-                                            <tr>
-                                                <td colspan="4" class="title-cell">
-                                                    الاجمالي
-                                                </td>
-                                                <td>
-                                                    <t t-esc="int(sum(etape1.apropos.mapped('pourcentage')) * 100)"/>%
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <br/>
-                                <!-- اعرف عميلك KYC -->
-                                <t t-set="has_kyc" t-value="etape1.kyc.filtered(lambda l:l.answer != False)"/>
-                                <div class="table_deco">
-                                    <table class="reversed-table" t-if="len(has_kyc) != 0">
-                                        <thead>
-                                            <tr>
-                                                <th colspan="3" style="text-align: center" class="title-cell">اعرف عميلك
-                                                    KYC
-                                                </th>
-                                            </tr>
-                                            <tr>
-                                                <th class="title-cell">معلومات اضافية عن العميل</th>
-                                                <th class="title-cell">نعم/لا</th>
-                                                <th class="title-cell">التفاصيل</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <t t-foreach="etape1.kyc" t-as="line">
-                                                <tr>
-                                                    <td>
-                                                        <t t-esc="line.info"/>
-                                                    </td>
-                                                    <td>
-                                                        <t t-if="line.answer == 'oui'">
-                                                            نعم
-                                                        </t>
-                                                        <t t-elif="line.answer == 'non'">
-                                                            لا
-                                                        </t>
-                                                    </td>
-                                                    <td>
-                                                        <t t-esc="line.detail"/>
-                                                    </td>
-                                                </tr>
-                                            </t>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <br/>
                                 <!-- فريق التسيير -->
                                 <div class="table_deco">
                                     <table class="reversed-table" t-if="etape1.gestion">
@@ -657,6 +569,94 @@
                                                     </td>
                                                     <td>
                                                         <t t-esc="line.nature.name"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/>
+                                <!-- نبذة عن المتعامل -->
+                                <div class="table_deco">
+                                    <table class="reversed-table" t-if="etape1.apropos">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align: center" class="title-cell" colspan="5">
+                                                    نبذة عن المتعامل
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th class="title-cell">اسم الشريك/المالك</th>
+                                                <th class="title-cell">تاريخ التاسيس/الميلاد</th>
+                                                <th class="title-cell">صفة الشريك</th>
+                                                <th class="title-cell">الجنسية</th>
+                                                <th class="title-cell">الحصة</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="etape1.apropos" t-as="line">
+                                                <tr>
+                                                    <td>
+                                                        <t t-esc="line.nom_partenaire"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.age"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.statut_partenaire"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.nationalite.name"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="int(line.pourcentage * 100)"/>%
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                            <tr>
+                                                <td colspan="4" class="title-cell">
+                                                    الاجمالي
+                                                </td>
+                                                <td>
+                                                    <t t-esc="int(sum(etape1.apropos.mapped('pourcentage')) * 100)"/>%
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/>
+                                <!-- اعرف عميلك KYC -->
+                                <t t-set="has_kyc" t-value="etape1.kyc.filtered(lambda l:l.answer != False)"/>
+                                <div class="table_deco">
+                                    <table class="reversed-table" t-if="len(has_kyc) != 0">
+                                        <thead>
+                                            <tr>
+                                                <th colspan="3" style="text-align: center" class="title-cell">اعرف عميلك
+                                                    KYC
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th class="title-cell">معلومات اضافية عن العميل</th>
+                                                <th class="title-cell">نعم/لا</th>
+                                                <th class="title-cell">التفاصيل</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="etape1.kyc" t-as="line">
+                                                <tr>
+                                                    <td>
+                                                        <t t-esc="line.info"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-if="line.answer == 'oui'">
+                                                            نعم
+                                                        </t>
+                                                        <t t-elif="line.answer == 'non'">
+                                                            لا
+                                                        </t>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.detail"/>
                                                     </td>
                                                 </tr>
                                             </t>
