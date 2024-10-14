@@ -102,5 +102,14 @@
         <record id="product_32" model="wk.product">
             <field name="name">بيع لاجل متوسط المدى</field>
         </record>
+        <record id="product_33" model="wk.product">
+            <field name="name">كفالات جمركية</field>
+        </record>
+        <record id="product_34" model="wk.product">
+            <field name="name">اعتمادات مستنديه / بوالص تحصيل موصول ببيع أجل</field>
+        </record>
+        <record id="product_35" model="wk.product">
+            <field name="name"> اعتمادات مستنديه / بوالص تحصيل موصول بسلم </field>
+        </record>
     </data>
 </odoo>

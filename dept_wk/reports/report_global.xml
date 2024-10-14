@@ -3001,30 +3001,22 @@
                                             </tr>
                                             <tr>
                                                 <t t-set="ratio_3"
-                                                    t-value="etape2.tcr_situation.filtered(lambda l:l.sequence == 2)"/>
-                                                <t t-set="ratio_3_1"
-                                                    t-value="etape2.tcr_situation.filtered(lambda l:l.sequence == 3)"/> 
-                                                <!-- <t t-set="ratio_3_2"
-                                                    t-value="etape2.tcr_situation.filtered(lambda l:l.sequence == )"/>       -->
-                                                <t t-set="ratio_3_3"
-                                                    t-value="etape2.tcr_situation.filtered(lambda l:l.sequence == 5)"/>
+                                                    t-value="etape2.tcr_situation.filtered(lambda l:l.sequence == 1)"/>
                                                 <td>
                                                     (المبيعات، الإيرادات)
                                                 </td>
-                                                <!-- <td style="text-align: right; direction: ltr;">
-                                                    <t t-esc="'{0:,.2f}'.format((ratio_3.valeur + ratio_3_1.valeur
-                                                        ratio_3_2.valeur + ratio_3_3.valeur
-                                                    ) / 1000)"/>
-                                                </td> -->
+                                                <td>
+                                                    <t t-esc="'{0:,.2f}'.format(ratio_3.valeur / 1000)" />
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <t t-set="ratio_4"
-                                                   t-value="etape2.passif_situation.filtered(lambda l:l.sequence == 6)"/>
+                                                t-value="etape2.tcr_situation.filtered(lambda l:l.sequence == 20)"/>
                                                 <td>
                                                     صافي الأرباح
                                                 </td>
                                                 <td style="text-align: right; direction: ltr;">
-                                                    <t t-esc="'{0:,.2f}'.format(ratio_4.valeur / 1000)"/>
+                                                    <t t-esc="'{0:,.2f}'.format(ratio_4.valeur  / 1000)" />
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -3072,17 +3064,17 @@
                                             </tr>
                                             <tr>
                                                 <t t-set="ratio_3"
-                                                   t-value="etape2.tcr_situation_estim.filtered(lambda l:l.sequence == 2)"/>
+                                                    t-value="etape2.tcr_situation.filtered(lambda l:l.sequence == 1)"/>
                                                 <td>
                                                     (المبيعات، الإيرادات)
                                                 </td>
                                                 <td style="text-align: right; direction: ltr;">
-                                                    <t t-esc="'{0:,.2f}'.format(ratio_3.valeur / 1000)"/>
+                                                    <t t-esc="'{0:,.2f}'.format(ratio_3.valeur / 1000)" />
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <t t-set="ratio_4"
-                                                   t-value="etape2.passif_situation_estim.filtered(lambda l:l.sequence == 6)"/>
+                                                   t-value="etape2.tcr_situation.filtered(lambda l:l.sequence == 20)"/>
                                                 <td>
                                                     صافي الأرباح
                                                 </td>
