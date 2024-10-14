@@ -345,9 +345,9 @@ class Etape(models.Model):
 
     # Financial fields
     state_finance = fields.Selection([
-                                    ('finance_1', 'مدير التمويلات'),
-                                    ('finance_2', 'المحلل المالي'),
-                                    ('finance_3', 'مدير التمويلات'),
+                                    ('finance_1', 'طور التوزيع'),
+                                    ('finance_2', 'طور الدراسة و التحليل'),
+                                    ('finance_3', 'طور المراجعة'),
                                     ('finance_5', 'في انتظار مديرية الاعمال التجارية و المخاطر'),
                                     ('finance_6', 'في انتظار مديرية الاعمال التجارية'),
                                     ('finance_7', 'في انتظار ادارة المخاطر'),
