@@ -1775,28 +1775,31 @@
                                 <br/>
                                 <!-- البيانات المالية الموجزة للشركات ذات
                                                     الصلة-->
-                                <!--<t t-set="has_comp_fisc"
-                                   t-value="etape2.companies_fisc.filtered(lambda l: (l.year_3 != 0 or l.year_4 != 0) and l.sequence != 0)"/>
+                                <t t-set="has_comp_fisc" t-value="etape2.companies_fisc.filtered(lambda l: (l.year_3 != 0 or l.year_4 != 0) and l.sequence != 0)"/>
                                 <div class="table_deco">
                                     <table class="reversed-table" t-if="len(has_comp_fisc) != 0">
-                                        <t t-set="comp_fisc_year"
+                                        <t t-set="comp_fisc_years"
                                            t-value="etape2.companies_fisc.filtered(lambda l:l.sequence == 0)"/>
                                         <t t-set="comp_fisc_lines"
                                            t-value="etape2.companies_fisc.filtered(lambda l:l.sequence != 0)"/>
                                         <thead>
                                             <tr>
-                                                <th colspan="3" class="title-cell" style="text-align: center">البيانات
-                                                    المالية الموجزة للشركات ذات
-                                                    الصلة
+                                                <th colspan="3" class="title-cell" style="text-align: center">
+                                                    البيانات المالية الموجزة للشركات ذات الصلة
                                                 </th>
                                             </tr>
                                             <tr>
                                                 <th class="title-cell">البيان</th>
                                                 <th class="title-cell">
-                                                    <t t-esc="int(comp_fisc_year.year_3)"/>
+                                                    <!-- Handling multiple records -->
+                                                    <t t-if="comp_fisc_years">
+                                                        <t t-esc="int(comp_fisc_years[0].year_3)"/>
+                                                    </t>
                                                 </th>
                                                 <th class="title-cell">
-                                                    <t t-esc="int(comp_fisc_year.year_4)"/>
+                                                    <t t-if="comp_fisc_years">
+                                                        <t t-esc="int(comp_fisc_years[0].year_4)"/>
+                                                    </t>
                                                 </th>
                                             </tr>
                                         </thead>
@@ -1826,7 +1829,8 @@
                                             </t>
                                         </tbody>
                                     </table>
-                                </div>-->
+                                </div>
+
                                 <div class="table_deco">
                                     <table class="reversed-table" t-if="etape2.facitlite_existante">
                                         <thead>

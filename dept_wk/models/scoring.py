@@ -633,7 +633,7 @@ class Scoring(models.Model):
             }
 
     def _compute_company_fisc(self):
-        print('hiii')
+        # print('hiii')
         for rec in self:
             rec.company_ids = len(rec.scoring_group_ids)
             print(rec.id)
@@ -641,7 +641,7 @@ class Scoring(models.Model):
             etape2 = rec.parent_id.states.filtered(lambda l: l.sequence == 2)
             scoring = etape1.risk_scoring
             for company in rec.scoring_group_ids:
-                print('company != scoring', company != scoring)
+                # print('company != scoring', company != scoring)
                 if company != scoring:
                     company.etape_id = etape2.id
                     company.parent_id = rec.parent_id.id
@@ -651,16 +651,26 @@ class Scoring(models.Model):
                     company.is_initial = True
 
     def calcul_limit(self):
+        print('ééééééééééééééééééééééééééééééééééé')
         for rec in self:
             rec.limit_expo = rec.pourcentage * rec.ca_banque
             rec.limit_25 = rec.ca_banque * (25 / 100)
+            print('#######################"')
+            # print(rec.resultat_scoring)
             if rec.max_limit >= rec.limit_25:
                 if 300 <= rec.resultat_scoring <= 450:
                     rec.case_25 = rec.ca_banque * (1 / 100)
                 elif 450 <= rec.resultat_scoring <= 550:
                     rec.case_25 = rec.ca_banque * (5 / 100)
                 elif 550 <= rec.resultat_scoring <= 650:
-                    rec.case_25 = rec.ca_banque * (20 / 100)
+                    filt1 = rec.ca_banque * (rec.resultat_scor / 1000)
+                    print('************')
+                    print(filt1)
+                    filt2 = filt1 * (20 / 100)
+                    print('************')
+                    print(filt2)
+                    rec.case_25 = filt2 / 650  
+                    # rec.case_25 = rec.ca_banque * (20 / 100)
                 elif 650 <= rec.resultat_scoring <= 750:
                     rec.case_25 = rec.ca_banque * (22 / 100)
                 elif 750 <= rec.resultat_scoring <= 850:
