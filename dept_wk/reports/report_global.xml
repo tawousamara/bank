@@ -1195,25 +1195,42 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            <t t-set="total_montant" t-value="0"/>
+                                            <t t-set="total_encours" t-value="0"/>
                                             <t t-foreach="etape1.situations" t-as="line">
-                                                <tr>
-                                                    <td>
-                                                        <t t-esc="line.banque.name"/>
-                                                    </td>
-                                                    <td>
-                                                        <t t-esc="line.type_fin.name"/>
-                                                    </td>
-                                                    <td style="text-align: right; direction: ltr;">
-                                                        <t t-esc="'{0:,.0f}'.format(line.montant / 1000)"/>
-                                                    </td>
-                                                    <td style="text-align: right; direction: ltr;">
-                                                        <t t-esc="'{0:,.0f}'.format(line.encours / 1000)"/>
-                                                    </td>
-                                                    <td>
-                                                        <t t-esc="line.garanties"/>
-                                                    </td>
-                                                </tr>
+                                            <tr>
+                                                <td>
+                                                    <t t-esc="line.banque.name"/>
+                                                </td>
+                                                <td>
+                                                    <t t-esc="line.type_fin.name"/>
+                                                </td>
+                                                <td style="text-align: right; direction: ltr;">
+                                                    <t t-esc="'{0:,.0f}'.format(line.montant / 1000)"/>
+                                                </td>
+                                                <td style="text-align: right; direction: ltr;">
+                                                    <t t-esc="'{0:,.0f}'.format(line.encours / 1000)"/>
+                                                </td>
+                                                <td>
+                                                    <t t-esc="line.garanties"/>
+                                                </td>
+                                            </tr>
+                                            <t t-set="total_montant" t-value="total_montant + line.montant"/>
+                                            <t t-set="total_encours" t-value="total_encours + line.encours"/>
                                             </t>
+                                            <!-- Add the total row (مجموع التسهيلات) -->
+                                            <tr>
+                                                <td class="title-cell" colspan="2" style="font-weight: bold; text-align: center;">
+                                                    مجموع التسهيلات
+                                                </td>
+                                                <td style="text-align: right; direction: ltr; font-weight: bold;">
+                                                    <t t-esc="'{0:,.0f}'.format(total_montant / 1000)"/>
+                                                </td>
+                                                <td style="text-align: right; direction: ltr; font-weight: bold;">
+                                                    <t t-esc="'{0:,.0f}'.format(total_encours / 1000)"/>
+                                                </td>
+                                                <td></td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -3173,19 +3190,19 @@
                                                             <t t-esc="line.name"/>
                                                         </td>
                                                         <td style="text-align: right; direction: ltr;">
-                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n)"/>
+                                                            <t t-esc="'{0:,.2f}'.format(line.amount_n)"/>
                                                         </td>
                                                         <td style="text-align: right; direction: ltr;">
-                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n1)"/>
+                                                            <t t-esc="'{0:,.2f}'.format(line.amount_n1)"/>
                                                         </td>
                                                         <td style="text-align: right; direction: ltr;">
-                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n2)"/>
+                                                            <t t-esc="'{0:,.2f}'.format(line.amount_n2)"/>
                                                         </td>
                                                         <td style="text-align: right; direction: ltr;">
-                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n3)"/>
+                                                            <t t-esc="'{0:,.2f}'.format(line.amount_n3)"/>
                                                         </td>
                                                         <td style="text-align: right; direction: ltr;">
-                                                            <t t-esc="'{0:,.0f}'.format(line.amount_n4)"/>
+                                                            <t t-esc="'{0:,.2f}'.format(line.amount_n4)"/>
                                                         </td>
                                                     </tr>
                                                 </t>
