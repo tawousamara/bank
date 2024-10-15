@@ -1775,7 +1775,7 @@
                                 <br/>
                                 <!-- البيانات المالية الموجزة للشركات ذات
                                                     الصلة-->
-                                <t t-set="has_comp_fisc" t-value="etape2.companies_fisc.filtered(lambda l: (l.year_3 != 0 or l.year_4 != 0) and l.sequence != 0)"/>
+                                <!-- <t t-set="has_comp_fisc" t-value="etape2.companies_fisc.filtered(lambda l: (l.year_3 != 0 or l.year_4 != 0) and l.sequence != 0)"/>
                                 <div class="table_deco">
                                     <table class="reversed-table" t-if="len(has_comp_fisc) != 0">
                                         <t t-set="comp_fisc_years"
@@ -1789,9 +1789,17 @@
                                                 </th>
                                             </tr>
                                             <tr>
+                                                <td colspan="" class="title-cell">
+                                                    العميل
+                                                </td>
+                                                <td>
+                                                    <t t-esc="etape2.risque_ids.partner_id" />
+                                                </td>
+                                            </tr>
+                                            <tr>
                                                 <th class="title-cell">البيان</th>
                                                 <th class="title-cell">
-                                                    <!-- Handling multiple records -->
+                                                    Handling multiple records
                                                     <t t-if="comp_fisc_years">
                                                         <t t-esc="int(comp_fisc_years[0].year_3)"/>
                                                     </t>
@@ -1829,7 +1837,7 @@
                                             </t>
                                         </tbody>
                                     </table>
-                                </div>
+                                </div> -->
 
                                 <div class="table_deco">
                                     <table class="reversed-table" t-if="etape2.facitlite_existante">

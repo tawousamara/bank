@@ -3629,16 +3629,22 @@ class Etape(models.Model):
                                 })
                 # مجموع المطلوبات Passif - Total II + Total III
                 bilan_13 = rec.bilan_id.filtered(lambda r: r.sequence == 9)
-                passif_5 = rec.passif_id.passif_lines.filtered(lambda r: r.rubrique.sequence == 23)
-                passif1_5 = rec.passif1_id.passif_lines.filtered(lambda r: r.rubrique.sequence == 23)
-                passif_6 = rec.passif_id.passif_lines.filtered(lambda r: r.rubrique.sequence == 14)
-                passif1_6 = rec.passif1_id.passif_lines.filtered(lambda r: r.rubrique.sequence == 14)
-                passif_22 = rec.passif_id.passif_lines.filtered(lambda r: r.rubrique.sequence == 22)
-                passif1_22 = rec.passif1_id.passif_lines.filtered(lambda r: r.rubrique.sequence == 22)
-                bilan_13.write({'year_4': passif_5.montant_n + passif_6.montant_n + passif_20.montant_n + passif_22.montant_n,
-                                'year_3': passif_5.montant_n1 + passif_6.montant_n1 + passif_20.montant_n1 + passif_22.montant_n1,
-                                'year_2': passif1_5.montant_n + passif1_6.montant_n + passif1_20.montant_n + passif1_22.montant_n,
-                                'year_1': passif1_5.montant_n1 + passif1_6.montant_n1 + passif1_20.montant_n1 + passif1_22.montant_n1,
+                passif_5 = rec.passif_id.passif_lines.filtered(lambda r: r.rubrique.sequence == 18)
+                passif1_5 = rec.passif1_id.passif_lines.filtered(lambda r: r.rubrique.sequence == 18)
+                print('########################################')
+                print(passif_5.montant_n)
+                print(passif_5.montant_n1)
+                passif_6 = rec.passif_id.passif_lines.filtered(lambda r: r.rubrique.sequence == 24)
+                passif1_6 = rec.passif1_id.passif_lines.filtered(lambda r: r.rubrique.sequence == 24)
+                print('******************************************')
+                print(passif_6.montant_n)
+                print(passif_6.montant_n1)
+                # passif_22 = rec.passif_id.passif_lines.filtered(lambda r: r.rubrique.sequence == 22)
+                # passif1_22 = rec.passif1_id.passif_lines.filtered(lambda r: r.rubrique.sequence == 22)
+                bilan_13.write({'year_4': passif_5.montant_n + passif_6.montant_n, 
+                                'year_3': passif_5.montant_n1 + passif_6.montant_n1, 
+                                'year_2': passif1_5.montant_n + passif1_6.montant_n, 
+                                'year_1': passif1_5.montant_n1 + passif1_6.montant_n1, 
                                 })
 
                 # التزامات بنكية
