@@ -1775,6 +1775,57 @@
                                 <br/>
                                 <!-- البيانات المالية الموجزة للشركات ذات
                                                     الصلة-->
+                                <div class="table_deco">
+                                    <t t-set="has_comp_fisc" /> 
+                                    <table class="reversed-table">
+                                        <thead>
+                                            <tr>
+                                                <th colspan="3" class="title-cell" style="text-align: center">
+                                                    البيانات المالية الموجزة للشركات ذات الصلة
+                                                </th>
+                                            </tr>  
+                                            <tr>    
+                                                <td>البيان</td>
+                                                <td>N</td>
+                                            </tr> 
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="etape2.risque_ids" t-as="risk">
+                                            <t t-set="comp_fisc_year"
+                                                t-value="risk.companies_fisc"/>
+                                                <tr colspan="3" class="title-cell">
+                                                    <td>العميل</td>
+                                                    <td> <t t-esc = "risk.id" /> </td>
+                                                    <td> <t t-esc = "risk.partner_id.name" /> </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                    <t t-esc="comp_fisc_year.etape_id" />
+                                                    </td>
+                                                </tr>
+                                            
+                                                <!-- <tr t-if="risk.companies_fisc.sequence == 1">
+                                                    <td>حقوق الملكية</td>
+                                                    <td t-esc="risk.companies_fisc.year_4"/>
+                                                </tr>
+                                                <tr t-if="risk.companies_fisc.sequence == 2">
+                                                    <td>مجموع المطلوبات</td>
+                                                    <td t-esc="risk.companies_fisc.year_4"/>
+                                                </tr>
+                                                <tr t-if="risk.companies_fisc.sequence == 5">
+                                                    <td>رقم الاعمال</td>
+                                                    <td t-esc="risk.companies_fisc.year_4"/>
+                                                </tr>
+                                                <tr t-if="risk.companies_fisc.sequence == 7">
+                                                    <td>الأرباح</td>
+                                                    <td t-esc="risk.companies_fisc.year_4"/>
+                                                </tr> -->
+                                             
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/>                        
                                 <!-- <t t-set="has_comp_fisc" t-value="etape2.companies_fisc.filtered(lambda l: (l.year_3 != 0 or l.year_4 != 0) and l.sequence != 0)"/>
                                 <div class="table_deco">
                                     <table class="reversed-table" t-if="len(has_comp_fisc) != 0">
