@@ -1791,36 +1791,28 @@
                                         </thead>
                                         <tbody>
                                             <t t-foreach="etape2.risque_ids" t-as="risk">
-                                            <t t-set="comp_fisc_year"
-                                                t-value="risk.companies_fisc"/>
-                                                <tr colspan="3" class="title-cell">
-                                                    <td>العميل</td>
-                                                    <td> <t t-esc = "risk.id" /> </td>
-                                                    <td> <t t-esc = "risk.partner_id.name" /> </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                    <t t-esc="comp_fisc_year.etape_id" />
-                                                    </td>
-                                                </tr>
-                                            
-                                                <!-- <tr t-if="risk.companies_fisc.sequence == 1">
+                                            <t t-set="companies_fisc_ids" t-value="doc.env['wk.companies.fisc'].search([('etape_id', '=', risk.id)]) "/>
+                                            <tr class="title-cell">
+                                                <td colspan="2">العميل: <t t-esc = "risk.partner_id.name" /> </td>
+                                            </tr>
+                                            <t t-foreach="companies_fisc_ids" t-as ="cp" >
+                                                <tr t-if="cp.sequence == 1">
                                                     <td>حقوق الملكية</td>
-                                                    <td t-esc="risk.companies_fisc.year_4"/>
+                                                    <td t-esc="cp.year_4"/>
                                                 </tr>
-                                                <tr t-if="risk.companies_fisc.sequence == 2">
+                                                <tr t-if="cp.sequence == 2">
                                                     <td>مجموع المطلوبات</td>
-                                                    <td t-esc="risk.companies_fisc.year_4"/>
+                                                    <td t-esc="cp.year_4"/>
                                                 </tr>
-                                                <tr t-if="risk.companies_fisc.sequence == 5">
+                                                <tr t-if="cp.sequence == 5">
                                                     <td>رقم الاعمال</td>
-                                                    <td t-esc="risk.companies_fisc.year_4"/>
+                                                    <td t-esc="cp.year_4"/>
                                                 </tr>
-                                                <tr t-if="risk.companies_fisc.sequence == 7">
+                                                <tr t-if="cp.sequence == 7">
                                                     <td>الأرباح</td>
-                                                    <td t-esc="risk.companies_fisc.year_4"/>
-                                                </tr> -->
-                                             
+                                                    <td t-esc="cp.year_4"/>
+                                                </tr>
+                                            </t>    
                                             </t>
                                         </tbody>
                                     </table>
