@@ -1776,8 +1776,7 @@
                                 <!-- البيانات المالية الموجزة للشركات ذات
                                                     الصلة-->
                                 <div class="table_deco">
-                                    <t t-set="has_comp_fisc" /> 
-                                    <table class="reversed-table">
+                                    <table class="reversed-table" t-if="etape2.risque_ids.companies_fisc" >
                                         <thead>
                                             <tr>
                                                 <th colspan="3" class="title-cell" style="text-align: center">
@@ -1792,7 +1791,7 @@
                                         <tbody>
                                             <t t-foreach="etape2.risque_ids" t-as="risk">
                                             <!-- <t t-set="companies_fisc_ids" t-value="doc.env['wk.companies.fisc'].search([('etape_id', '=', risk.id)]) "/> -->
-                                            <tr class="title-cell">
+                                            <tr class="title-cell" t-if="risk.companies_fisc">
                                                 <td colspan="2">العميل: <t t-esc = "risk.partner_id.name" /> </td>
                                             </tr>
                                             <t t-foreach="risk.companies_fisc" t-as ="cp" >
