@@ -1791,26 +1791,26 @@
                                         </thead>
                                         <tbody>
                                             <t t-foreach="etape2.risque_ids" t-as="risk">
-                                            <t t-set="companies_fisc_ids" t-value="doc.env['wk.companies.fisc'].search([('etape_id', '=', risk.id)]) "/>
-                                            <tr class="title-cell" t-if="companies_fisc_ids">
+                                            <!-- <t t-set="companies_fisc_ids" t-value="doc.env['wk.companies.fisc'].search([('etape_id', '=', risk.id)]) "/> -->
+                                            <tr class="title-cell">
                                                 <td colspan="2">العميل: <t t-esc = "risk.partner_id.name" /> </td>
                                             </tr>
-                                            <t t-foreach="companies_fisc_ids" t-as ="cp" >
+                                            <t t-foreach="risk.companies_fisc" t-as ="cp" >
                                                 <tr t-if="cp.sequence == 1">
                                                     <td>حقوق الملكية</td>
-                                                    <td t-esc="cp.year_4"/>
+                                                    <td t-esc="'{0:,.0f}'.format(cp.year_4 / 1000)"/>
                                                 </tr>
                                                 <tr t-if="cp.sequence == 2">
                                                     <td>مجموع المطلوبات</td>
-                                                    <td t-esc="cp.year_4"/>
+                                                    <td t-esc="'{0:,.0f}'.format(cp.year_4 / 1000)"/>
                                                 </tr>
                                                 <tr t-if="cp.sequence == 5">
                                                     <td>رقم الاعمال</td>
-                                                    <td t-esc="cp.year_4"/>
+                                                    <td t-esc="'{0:,.0f}'.format(cp.year_4 / 1000)"/>
                                                 </tr>
                                                 <tr t-if="cp.sequence == 7">
                                                     <td>الأرباح</td>
-                                                    <td t-esc="cp.year_4"/>
+                                                    <td t-esc="'{0:,.0f}'.format(cp.year_4 / 1000)"/>
                                                 </tr>
                                             </t>    
                                             </t>
@@ -1823,7 +1823,7 @@
                                         <thead>
                                             <tr>
                                                 <th style="text-align: center" class="title-cell">
-                                                    تعليق
+                                                تعليق البيانات المالية الموجزة للشركات ذات الصلة 
                                                 </th>
                                             </tr>
                                         </thead>
