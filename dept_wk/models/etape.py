@@ -2230,6 +2230,16 @@ class Etape(models.Model):
                                 'type_payment': f.type_payment.ids,
                                 'etape_id': etape_revision.id
                             })
+                        for cpy in rec.companies:
+                            self.env['wk.companies'].create({
+                                'name':cpy.name,
+                                'date_creation':cpy.date_creation,
+                                'activite':cpy.activite,
+                                'chiffre_affaire':cpy.chiffre_affaire,
+                                'n1_num_affaire':cpy.n1_num_affaire,
+                                'n_num_affaire':cpy.n_num_affaire,
+                                'etape_id': cpy.etape_id
+                            })    
 
                             rec.workflow.state = '2'
                     else:

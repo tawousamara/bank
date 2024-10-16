@@ -1792,7 +1792,7 @@
                                         <tbody>
                                             <t t-foreach="etape2.risque_ids" t-as="risk">
                                             <t t-set="companies_fisc_ids" t-value="doc.env['wk.companies.fisc'].search([('etape_id', '=', risk.id)]) "/>
-                                            <tr class="title-cell">
+                                            <tr class="title-cell" t-if="companies_fisc_ids">
                                                 <td colspan="2">العميل: <t t-esc = "risk.partner_id.name" /> </td>
                                             </tr>
                                             <t t-foreach="companies_fisc_ids" t-as ="cp" >
@@ -1817,7 +1817,26 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                <br/>                        
+                                <br/>  
+                                <div class="table_deco" t-if="etape2.comment_fisc">
+                                    <table class="reversed-table" t-if="etape2.comment_fisc">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align: center" class="title-cell">
+                                                    تعليق
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <t t-esc="etape2.comment_fisc"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <br/>
+                                </div>
                                 <!-- <t t-set="has_comp_fisc" t-value="etape2.companies_fisc.filtered(lambda l: (l.year_3 != 0 or l.year_4 != 0) and l.sequence != 0)"/>
                                 <div class="table_deco">
                                     <table class="reversed-table" t-if="len(has_comp_fisc) != 0">
@@ -3184,7 +3203,7 @@
                                                 <tr>
                                                     <td class="title-cell" width="25%">
                                                         بلد المنشأ
-                                                    </td>
+                                                    </td>   
                                                     <td>
                                                     </td>
                                                 </tr>
@@ -3192,7 +3211,7 @@
                                                     <td class="title-cell" width="25%">
                                                         القيمة الإجمالية للاستثمار
                                                     </td>
-                                                    <td>
+                                                    <td>valeur_total
                                                         <t t-esc="etape2.valeur_total"/>
                                                     </td>
                                                 </tr>
