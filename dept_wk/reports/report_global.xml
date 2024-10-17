@@ -361,16 +361,16 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td class="title-cell">
+                                                <!-- <td class="title-cell">
                                                     التنقيط السابق
                                                 </td>
                                                 <td colspan="2">
                                                     <t t-esc="etape4.resultat_scoring"/>
-                                                </td>
+                                                </td> -->
                                                 <td class="title-cell">
                                                     التنقيط الحالي
                                                 </td>
-                                                <td colspan="2">
+                                                <td colspan="5">
                                                     <t t-esc="etape4.resultat_scoring"/>
                                                 </td>
                                             </tr>
