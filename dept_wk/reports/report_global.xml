@@ -312,13 +312,13 @@
                                                     <t t-esc="etape1.activity_description"/>
                                                 </td>
                                                 <td class="title-cell">
-                                                    رمز النشاط
+                                                    رمز النشاط الرئيسي
                                                 </td>
                                                 <td colspan="2">
                                                     <t t-esc="etape1.activity_code"/>
                                                 </td>
                                             </tr>
-                                            <tr>
+                                            <!-- <tr>
                                                 <td class="title-cell">
                                                     النشاط الثانوي
                                                 </td>
@@ -326,12 +326,12 @@
                                                     <t t-esc="etape1.activite_sec"/>
                                                 </td>
                                                 <td class="title-cell">
-                                                    رمز النشاط
+                                                    رمز النشاط الثانوي
                                                 </td>
                                                 <td colspan="2">
-                                                    <t t-esc="etape1.activite.name"/>
+                                                    <t t-esc="etape1.activite_sec"/>
                                                 </td>
-                                            </tr>
+                                            </tr> -->
                                             <tr>
                                                 <td class="title-cell">
                                                     تاريخ تاسيس الشركة
