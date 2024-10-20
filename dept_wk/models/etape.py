@@ -9,9 +9,10 @@ matplotlib.use('Agg')
 from matplotlib import pyplot as plt
 from odoo.exceptions import ValidationError, UserError
 import magic
+import tempfile
 import xlrd
 import xlsxwriter
-#import pandas as pd
+import pandas as pd
 
 
 List_items = ['هل العميل شخص مقرب سياسيا؟',
@@ -385,6 +386,94 @@ class Etape(models.Model):
                                 string='الحركة والأعمال الجانبية للحساب مع مصرف السلام الجزائر (KDA)')
     detail_mouvement = fields.Html(string='التوطين البنكي')
     computed_field = fields.Boolean(compute='compute_ratio', store=True)
+    
+    excel_file = fields.Binary('Upload Excel File')
+    excel_filename = fields.Char('File Name')
+    
+    @api.onchange('excel_file')
+    def process_excel_file(self):
+        if not self.excel_file:
+            return
+        file_content = base64.b64decode(self.excel_file)
+        with tempfile.NamedTemporaryFile(suffix='.xlsx', delete=False) as temp_file:
+            temp_file.write(file_content)
+            temp_file_path = temp_file.name
+        workbook = openpyxl.load_workbook(temp_file_path)
+        sheet = workbook.active
+        tcr_ids = self.tcr()
+        actif_ids = self.actif()
+        passif_ids = self.passif()
+        self.tcr_id = tcr_ids[0]
+        print(tcr_ids[0])
+        self.tcr1_id = tcr_ids[2]
+        print(tcr_ids[2])
+        self.actif_id = actif_ids[0]
+        print(actif_ids[0])
+        self.actif1_id = actif_ids[2]
+        print(actif_ids[2])
+        self.passif_id = passif_ids[0]
+        print(passif_ids[0].passif_lines.filtered(lambda r: r.rubrique.sequence == 12))
+        self.passif1_id = passif_ids[2]
+        print(passif_ids[0].passif_lines)
+        self.import_data()
+
+
+    def tcr(self):
+        if self.excel_file:
+            columns = ['B', 'C', 'D', 'E']
+            year = datetime.now().year
+            tcr_ids = []
+            for idx, column in enumerate(columns):
+                new_tcr = self.env['import.ocr.tcr'].create({
+                    'date': datetime.now().date(),
+                    'annee': str(year),
+                    'company': self.company_id.id,
+                    'file_import': self.excel_file,
+                    'file_import_name': self.excel_filename,
+                    'state': 'valide',
+                })
+                new_tcr.process_import_tcr_file(column)
+                tcr_ids.append(new_tcr)
+                year = year - 1
+            return tcr_ids
+
+    def actif(self):
+        if self.excel_file:
+            columns = ['B', 'C', 'D', 'E']
+            year = datetime.now().year
+            actif_ids = []
+            for idx, column in enumerate(columns):
+                new_actif = self.env['import.ocr.actif'].create({
+                    'date': datetime.now().date(),
+                    'annee': str(year),
+                    'company': self.company_id.id,
+                    'file_import': self.excel_file,
+                    'file_import_name': self.excel_filename,
+                    'state': 'valide',
+                })
+                new_actif.process_import_actif_file(column)
+                actif_ids.append(new_actif)
+                year = year - 1
+            return actif_ids
+
+    def passif(self):
+        if self.excel_file:
+            columns = ['B', 'C', 'D', 'E']
+            year = datetime.now().year
+            passif_ids = []
+            for idx, column in enumerate(columns):
+                new_passif = self.env['import.ocr.passif'].create({
+                    'date': datetime.now().date(),
+                    'annee': str(year),
+                    'company': self.company_id.id,
+                    'file_import': self.excel_file,
+                    'file_import_name': self.excel_filename,
+                    'state': 'valide',
+                })
+                new_passif.process_import_passif_file(column)
+                passif_ids.append(new_passif)
+                year = year - 1
+            return passif_ids
 
     @api.depends('mouvement')
     def compute_ratio(self):

@@ -947,6 +947,7 @@
                                        invisible="visualisation2 == False"/>
 
                             </page>
+
                             <page string="التسهيلات القائمة مع المصرف">
                                 <field name="facitlite_existante" width="100%"
                                        readonly="not can_edit or state_finance != 'finance_2'">
@@ -1035,6 +1036,17 @@
                         <group>
                             <field name="dossier_verouiller" invisible="1"/>
                         </group>
+                        <!-- Marwa ***************************-->
+                            <group>
+                                <div class="oe_title" style="white-space: nowrap;">
+                                    <h2>تحميل البيانات من إكسل</h2>
+                                </div>
+                            </group>
+                            <group>
+                                <field name="excel_file" filename="excel_filename" />
+                                <button name="process_excel_file" string="Process Sheet" type="object" class="oe_highlight"/>
+                            </group>
+                        <!-- Marwa ***************************-->
                         <notebook invisible="state_finance == 'finance_1' or sequence != 2">
                             <page string="البيانات المالية للشركة (KDA)">
                                 <group string="مؤشرات البنية المالية">
