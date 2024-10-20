@@ -9,7 +9,7 @@ import io
 import PyPDF2
 import base64
 from PIL import Image
-import pandas as pd
+import openpyxl
 class ImportTcrOCR(models.Model):
     _name = 'import.ocr.tcr'
     _description = "Import Tcr Data by OCR Functionality"
@@ -43,54 +43,57 @@ class ImportTcrOCR(models.Model):
     def process_import_tcr_file(self, col):
         print("Processing import TCR OCR")
         tcr_lines = []
+
         try:
+
             file_content = base64.b64decode(self.file_import)
             excel_file = io.BytesIO(file_content)
-            df = pd.read_excel(excel_file, header=0)
-            df.columns = df.columns.str.strip()
-            print("DataFrame head:")
-            print(df.head())
-            print("DataFrame info:")
-            print(df.info())
-            column_idx = ord(col.upper()) - ord('A')
-            if column_idx >= len(df.columns):
+            workbook = openpyxl.load_workbook(excel_file)
+            sheet = workbook.active
+
+            column_idx = openpyxl.utils.column_index_from_string(col.upper())
+
+            if column_idx > sheet.max_column:
                 raise UserError(f"Column {col} is out of range in the file.")
-            montant_n_col = df.iloc[:, column_idx]
-            montant_n1_col = None
-            if col.upper() != 'E':
-                montant_n1_col = df.iloc[:, column_idx + 1]
+
             sequences = [7, 33, 50, 36, 13, 14, 12, 30]
-            for position, (row, sequence) in enumerate(zip(df.iloc[2:9].iterrows(), sequences)):
-                _, row = row
-                name = row.iloc[0]
-                montant_n = montant_n_col.iloc[position + 2]
+
+            for position, sequence in enumerate(sequences):
+                row_idx = position + 3
+                name = sheet.cell(row=row_idx, column=1).value
+                montant_n = sheet.cell(row=row_idx, column=column_idx).value
+
                 montant_n1 = None
-                if montant_n1_col is not None:
-                    montant_n1 = montant_n1_col.iloc[position + 2]
-                if pd.isna(montant_n):
+                if col.upper() != 'E':
+                    montant_n1 = sheet.cell(row=row_idx, column=column_idx + 1).value
+
+
+                if montant_n is None:
                     montant_n = 0
-                if montant_n1 is not None and pd.isna(montant_n1):
+                if montant_n1 is None:
                     montant_n1 = 0
-                if isinstance(montant_n, float):
-                    montant_n = int(montant_n)
-                if montant_n1 is not None and isinstance(montant_n1, float):
-                    montant_n1 = int(montant_n1)
+
                 rubrique = self.env['import.ocr.config'].create({
                     'name': name,
                     'type': 'tcr',
                     'sequence': sequence
                 })
+
                 tcr_line_vals = {
                     'name': name,
                     'montant_n': montant_n,
                     'tcr_id': self.id,
                     'rubrique': rubrique.id
                 }
+
                 if montant_n1 is not None:
                     tcr_line_vals['montant_n1'] = montant_n1
+
                 new_line = self.env['import.ocr.tcr.line'].create(tcr_line_vals)
                 tcr_lines.append(new_line)
+
             self.tcr_lines = [(6, 0, [line.id for line in tcr_lines])]
+
         except Exception as e:
             print(f"Error processing file: {e}")
 

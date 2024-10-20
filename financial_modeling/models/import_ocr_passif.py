@@ -1,9 +1,8 @@
 import base64
-import pandas as pd
 from odoo import models, fields, api, _
 from datetime import datetime
 from odoo.exceptions import ValidationError, UserError
-
+import openpyxl
 import re
 import json
 import requests
@@ -42,63 +41,67 @@ class ImportPassifOCR(models.Model):
         try:
             file_content = base64.b64decode(self.file_import)
             excel_file = io.BytesIO(file_content)
-            df = pd.read_excel(excel_file, header=0)
-            # Strip whitespace from headers
-            df.columns = df.columns.str.strip()
-            print("DataFrame head:")
-            print(df.head())
-            print("DataFrame info:")
-            print(df.info())
-            column_idx = ord(col.upper()) - ord('A')
-            if column_idx >= len(df.columns):
+            workbook = openpyxl.load_workbook(excel_file)
+            sheet = workbook.active
+
+            column_idx = openpyxl.utils.column_index_from_string(col.upper())
+
+            if column_idx > sheet.max_column:
                 raise UserError(f"Column {col} is out of range in the file.")
-            montant_n_col = df.iloc[:, column_idx]
-            montant_n1_col = None
-            if col.upper() != 'E':
-                montant_n1_col = df.iloc[:, column_idx + 1]
+
             sequences = [2, 4, 8, 12, 14, 18, 20, 21, 22, 23, 24, 25]
-            for position, (row, sequence) in enumerate(zip(df.iloc[22:34].iterrows(), sequences)):
-                name = row[1].iloc[0]
-                montant_n = montant_n_col.iloc[position + 22]
+
+            for position, sequence in enumerate(sequences):
+                row_idx = position + 23
+                name = sheet.cell(row=row_idx, column=1).value
+                montant_n = sheet.cell(row=row_idx, column=column_idx).value
+
                 montant_n1 = None
-                if montant_n1_col is not None:
-                    montant_n1 = montant_n1_col.iloc[position + 22]
-                print(f"Row: {row[1].to_dict()}, Montant (N): {montant_n}")
-                if montant_n1 is not None:
-                    print(f"Montant (N-1): {montant_n1}")
-                if pd.isna(montant_n):
+                if col.upper() != 'E':
+                    montant_n1 = sheet.cell(row=row_idx, column=column_idx + 1).value
+
+                if montant_n is None:
                     montant_n = 0
-                    print("Montant (N) was NaN, set to 0.")
-                if montant_n1 is not None and pd.isna(montant_n1):
+                    print(f"Montant (N) was None, set to 0 for row {row_idx}.")
+
+                if montant_n1 is None:
                     montant_n1 = 0
-                    print("Montant (N-1) was NaN, set to 0.")
+                    print(f"Montant (N-1) was None, set to 0 for row {row_idx}.")
+
                 if isinstance(montant_n, float):
                     montant_n = int(montant_n)
                     print(f"Converted montant_n to integer: {montant_n}")
+
                 if montant_n1 is not None and isinstance(montant_n1, float):
                     montant_n1 = int(montant_n1)
                     print(f"Converted montant_n1 to integer: {montant_n1}")
+
                 rubrique_vals = {
                     'name': name,
                     'type': 'passif',
                     'sequence': sequence
                 }
                 rubrique = self.env['import.ocr.config'].create(rubrique_vals)
+
                 passif_line_vals = {
                     'name': name,
                     'montant_n': montant_n,
                     'passif_id': self.id,
                     'rubrique': rubrique.id
                 }
+
                 if montant_n1 is not None:
                     passif_line_vals['montant_n1'] = montant_n1
+
                 new_line = self.env['import.ocr.passif.line'].create(passif_line_vals)
                 passif_lines.append(new_line)
+
             self.passif_lines = [(6, 0, [line.id for line in passif_lines])]
             print("here are passif_lines from self")
             print(self.passif_lines)
             print("here are passif_lines")
             print(passif_lines)
+
         except Exception as e:
             print(f"Error processing file: {e}")
 

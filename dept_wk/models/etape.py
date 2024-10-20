@@ -12,8 +12,6 @@ import magic
 import tempfile
 import xlrd
 import xlsxwriter
-import pandas as pd
-
 
 List_items = ['هل العميل شخص مقرب سياسيا؟',
               'هل أحد الشركاء/المساهمين/مسير مقرب سياسيا؟',
