@@ -419,11 +419,11 @@ class Etape(models.Model):
     def tcr(self):
         if self.excel_file:
             columns = ['B', 'C', 'D', 'E']
-            year = datetime.now().year
+            year = datetime.datetime.now().year
             tcr_ids = []
             for idx, column in enumerate(columns):
                 new_tcr = self.env['import.ocr.tcr'].create({
-                    'date': datetime.now().date(),
+                    'date': datetime.datetime.now().date(),
                     'annee': str(year),
                     'company': self.company_id.id,
                     'file_import': self.excel_file,
@@ -438,11 +438,11 @@ class Etape(models.Model):
     def actif(self):
         if self.excel_file:
             columns = ['B', 'C', 'D', 'E']
-            year = datetime.now().year
+            year = datetime.datetime.now().year
             actif_ids = []
             for idx, column in enumerate(columns):
                 new_actif = self.env['import.ocr.actif'].create({
-                    'date': datetime.now().date(),
+                    'date': datetime.datetime.now().date(),
                     'annee': str(year),
                     'company': self.company_id.id,
                     'file_import': self.excel_file,
@@ -457,11 +457,11 @@ class Etape(models.Model):
     def passif(self):
         if self.excel_file:
             columns = ['B', 'C', 'D', 'E']
-            year = datetime.now().year
+            year = datetime.datetime.now().year
             passif_ids = []
             for idx, column in enumerate(columns):
                 new_passif = self.env['import.ocr.passif'].create({
-                    'date': datetime.now().date(),
+                    'date': datetime.datetime.now().date(),
                     'annee': str(year),
                     'company': self.company_id.id,
                     'file_import': self.excel_file,
