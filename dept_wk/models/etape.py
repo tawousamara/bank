@@ -2234,11 +2234,11 @@ class Etape(models.Model):
                             self.env['wk.companies'].create({
                                 'name':cpy.name,
                                 'date_creation':cpy.date_creation,
-                                'activite':cpy.activite,
+                                'activite':cpy.activite.id,
                                 'chiffre_affaire':cpy.chiffre_affaire,
                                 'n1_num_affaire':cpy.n1_num_affaire,
                                 'n_num_affaire':cpy.n_num_affaire,
-                                'etape_id': cpy.etape_id
+                                'etape_id': cpy.etape_id.id
                             })    
 
                             rec.workflow.state = '2'
