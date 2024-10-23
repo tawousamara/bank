@@ -526,7 +526,7 @@ class Etape(models.Model):
                                      ('vice_rejected', 'طلب مرفوض'),
                                      ], track_visibility='always',default='vice_1', string='وضعية الملف')
     assigned_to_vice = fields.Many2one('res.users', string='نائب المدير العام', track_visibility='always')
-    recommandation_tresorerie = fields.Html(string='رأي مسؤول الخزينة', track_visibility='always',)
+    recommandation_tresorerie = fields.Html(string='رأي مسؤول الخزينة')
     recommandation_vice_dir_fin = fields.Html(string='توصية/قرار نائب المدير العام', )
     state_dg = fields.Selection([('dg_1', 'المدير العام'),
                                    ('dg_2', 'انتهاء التحليل'),
